@@ -1,41 +1,50 @@
-import React, { ReactNode } from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
+import React, { ReactElement, ReactNode } from 'react';
+import Head from 'next/head';
+import { createGlobalStyle } from 'styled-components';
+import Header from './Header';
+import Footer from './Footer';
 
 type Props = {
-  children?: ReactNode
-  title?: string
-}
+    children?: ReactNode;
+    title?: string;
+};
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
-  <div>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
-    <header>
-      <nav>
-        <Link href="/">
-          <a>Home</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/about">
-          <a>About</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/users">
-          <a>Users List</a>
-        </Link>{' '}
-        | <a href="/api/users">Users API</a>
-      </nav>
-    </header>
-    {children}
-    <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
-    </footer>
-  </div>
-)
+const Global = createGlobalStyle`
+  html,
+  body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    }
 
-export default Layout
+  #__next {
+    height: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+`;
+
+const Layout = ({ children, title }: Props): ReactElement => (
+    <div style={{ position: 'relative', height: '100%' }}>
+        <Global />
+        <Head>
+            <title>{title}</title>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <Header />
+        {children}
+        <Footer />
+    </div>
+);
+
+export default Layout;
