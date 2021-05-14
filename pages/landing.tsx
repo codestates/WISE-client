@@ -9,7 +9,6 @@ import Layout from '../components/Layout';
 const Global = createGlobalStyle`
   #__next {
     height: 520vh;
-
   }
 
   header {
