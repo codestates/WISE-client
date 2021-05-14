@@ -48,6 +48,7 @@ const LoginBtn = styled.a`
     background-color: #68d480;
     width: 4rem;
     height: 2rem;
+    cursor: pointer;
 `;
 
 export default Header;
