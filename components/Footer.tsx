@@ -23,8 +23,8 @@ const Footer = styled.footer`
     height: 8rem;
     background-color: #222;
     color: #fff;
-    position: absolute;
-    bottom: 0;
+    /* position: absolute;
+    bottom: 0; */
     width: 100%;
 `;
 
