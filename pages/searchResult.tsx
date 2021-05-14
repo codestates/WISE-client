@@ -5,18 +5,17 @@ import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
 
 const Global = createGlobalStyle`
-    .dCaWGQ  {
-        position: static;
-    }
+  .dCaWGQ  {
+    position: static;
+  }
 `;
 
-const Home = (): JSX.Element => (
+const SearchResult = (): JSX.Element => (
     <Layout>
         <Global />
         <Wrapper>
             <SearchBar />
-            <PopularSection />
-            <TotalSection title="전체 어시스턴트" />
+            <TotalSection title="검색 결과" />
         </Wrapper>
     </Layout>
 );
@@ -26,4 +25,4 @@ const Wrapper = styled.div`
     padding: 3rem;
 `;
 
-export default Home;
+export default SearchResult;
