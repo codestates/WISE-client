@@ -1,63 +1,48 @@
-import Link from 'next/link';
 import { ReactElement } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import Section1 from '../components/LandingPage/Section1';
+import Section2 from '../components/LandingPage/Section2';
+import Section3 from '../components/LandingPage/Section3';
+import Section4 from '../components/LandingPage/Section4';
 import Layout from '../components/Layout';
 
 const Global = createGlobalStyle`
   #__next {
-    height: 100%;
-
+    height: 520vh;
   }
 
   header {
     position: sticky;
     top: 0;
+    z-index: 10;
   }
+
+  footer {
+      position: absolute;
+      bottom: 0;
+  }
+
+  .hidden,
+  .visible {
+    transition: all 1.5s ease-in-out 200ms;
+    will-change: opacity;
+    opacity: 0;
+    }
+    
+  .visible {
+      opacity: 1;
+    transform: translateY(-6rem);
+    }
 `;
 
 const LandingPage = (): ReactElement => (
-    <>
-        <Layout>
-            <Global />
-            <FirstWrapper>
-                <CoverImg src="/images/landing-page-img.png" />
-                <Text>
-                    <h1>건강한 시니어 라이프를 위해</h1>
-                    <h3>병원은 저희가 같이 동행해 드릴게요.</h3>
-                    <Link href="/">
-                        <a>시작하기</a>
-                    </Link>
-                </Text>
-            </FirstWrapper>
-            <SecondWrapper>
-                <h1>건강한 시니어 라이프를 위해</h1>
-                <h3>병원은 저희가 같이 동행해 드릴게요.</h3>
-            </SecondWrapper>
-        </Layout>
-    </>
+    <Layout>
+        <Global />
+        <Section1 />
+        <Section2 />
+        <Section3 />
+        <Section4 />
+    </Layout>
 );
-
-const FirstWrapper = styled.div`
-    height: 100%;
-`;
-
-const SecondWrapper = styled.div`
-    height: 100%;
-`;
-
-const CoverImg = styled.img`
-    width: 60rem;
-    height: 40rem;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
-`;
-
-const Text = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 25%;
-`;
 
 export default LandingPage;
