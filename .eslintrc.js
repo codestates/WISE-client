@@ -24,7 +24,7 @@ module.exports = {
         'prettier',
     ],
     rules: {
-        // 'react/react-in-jsx-scope': false,
+        'jsx-a11y/label-has-associated-control': 'off',
         'no-console': 'off',
         'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
         'import/extensions': 'off',

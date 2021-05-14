@@ -1,25 +1,32 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
-const Header = (): ReactElement => (
-    <>
-        <Wrapper>
-            <Link href="/">
-                <a>
-                    <Logo src="/images/WISE.png" alt="WISE logo" />
-                </a>
-            </Link>
-            <Link href="#">
-                <LoginBtn>로그인</LoginBtn>
-            </Link>
-        </Wrapper>
-    </>
-);
+const Header = (): ReactElement => {
+    const router = useRouter();
+    const onClickLogin = () => {
+        router.push('/user/signin');
+    };
+    return (
+        <>
+            <Wrapper>
+                <Link href="/">
+                    <a>
+                        <Logo src="/images/WISE.png" alt="WISE logo" />
+                    </a>
+                </Link>
+                <Link href="#">
+                    <LoginBtn onClick={onClickLogin}>로그인</LoginBtn>
+                </Link>
+            </Wrapper>
+        </>
+    );
+};
 
 const Wrapper = styled.header`
     display: flex;
-    height: 4rem;
+    height: 7%;
     width: 100%;
     padding: 0.5rem 2rem;
     align-items: center;
@@ -38,7 +45,7 @@ const Logo = styled.img`
     width: 4rem;
 `;
 
-const LoginBtn = styled.a`
+const LoginBtn = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;

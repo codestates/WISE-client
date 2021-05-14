@@ -20,7 +20,7 @@ const Footer = styled.footer`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 6rem;
+    height: 8rem;
     background-color: #222;
     color: #fff;
     position: absolute;

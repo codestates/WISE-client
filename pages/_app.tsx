@@ -2,6 +2,7 @@
 import { AppProps /* , AppContext */ } from 'next/app'; // 타입 임포트
 import { ReactElement } from 'react';
 import Head from 'next/head';
+import 'antd/dist/antd.css';
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
     return (
