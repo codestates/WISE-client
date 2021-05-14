@@ -26,7 +26,7 @@ const Header = (): ReactElement => {
 
 const Wrapper = styled.header`
     display: flex;
-    height: 7%;
+    height: 4rem;
     width: 100%;
     padding: 0.5rem 2rem;
     align-items: center;
@@ -56,6 +56,7 @@ const LoginBtn = styled.button`
     width: 4rem;
     height: 2rem;
     cursor: pointer;
+    border: none;
 `;
 
 export default Header;

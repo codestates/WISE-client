@@ -4,7 +4,9 @@ class MyDocument extends Document {
     render(): JSX.Element {
         return (
             <Html lang="ko">
-                <Head />
+                <Head>
+                    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                </Head>
                 <body>
                     <Main />
                     <NextScript />

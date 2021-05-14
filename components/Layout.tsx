@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import Head from 'next/head';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -34,7 +34,7 @@ const Global = createGlobalStyle`
 `;
 
 const Layout = ({ children, title }: Props): ReactElement => (
-    <div style={{ position: 'relative', height: '100%' }}>
+    <Body>
         <Global />
         <Head>
             <title>{title}</title>
@@ -42,9 +42,21 @@ const Layout = ({ children, title }: Props): ReactElement => (
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <Header />
-        {children}
+        <Wrapper>{children}</Wrapper>
         <Footer />
-    </div>
+    </Body>
 );
+
+const Body = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+`;
+
+const Wrapper = styled.div`
+    max-width: 1200px;
+`;
 
 export default Layout;
