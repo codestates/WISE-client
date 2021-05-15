@@ -1,21 +1,18 @@
+import React, { ReactElement } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '../components/Layout';
-import AssistantInfo from '../components/AssistantInfo';
-import OrderItem from '../components/orderItem';
+// import PaymentResult from '../components/PaymentResult';
 
 const Global = createGlobalStyle`
-    /* .dCaWGQ  {
-        position: static;
-    } */
+    footer {
+        padding: 2rem 0;
+    }
 `;
 
-const Order = (): JSX.Element => (
+const Payment = (): ReactElement => (
     <Layout>
         <Global />
-        <Wrapper>
-            <OrderItem />
-            <AssistantInfo />
-        </Wrapper>
+        <Wrapper>{/* <PaymentResult /> */}</Wrapper>
     </Layout>
 );
 
@@ -26,4 +23,4 @@ const Wrapper = styled.div`
     padding: 3rem;
 `;
 
-export default Order;
+export default Payment;
