@@ -2,7 +2,11 @@ import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import Item from './Item';
 
-const TotalSection = ({ title }): JSX.Element => {
+type TitleProps = {
+    title: string;
+};
+
+const TotalSection = ({ title }: TitleProps): JSX.Element => {
     const tmp = [];
     const n = 50;
     for (let i = 0; i < n; i++) {
