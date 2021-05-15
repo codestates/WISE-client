@@ -3,7 +3,6 @@ import { ReactElement } from 'react';
 // import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
-import Checkout from './Checkout';
 
 const CheckoutNoSSR = dynamic(() => import('./Checkout'), { ssr: false });
 
