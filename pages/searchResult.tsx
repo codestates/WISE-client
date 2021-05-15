@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
-import PopularSection from '../components/PopularSection';
+// import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
 
 const Global = createGlobalStyle`
