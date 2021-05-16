@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import Layout from '../components/Layout';
-// import PaymentResult from '../components/PaymentResult';
+import Layout from '../../components/Layout';
+import AssistantInfo from '../../components/AssistantInfo';
+import OrderItem from '../../components/orderItem';
 
 const Global = createGlobalStyle`
     footer {
@@ -12,7 +13,10 @@ const Global = createGlobalStyle`
 const Payment = (): ReactElement => (
     <Layout>
         <Global />
-        <Wrapper>{/* <PaymentResult /> */}</Wrapper>
+        <Wrapper>
+            <OrderItem />
+            <AssistantInfo />
+        </Wrapper>
     </Layout>
 );
 

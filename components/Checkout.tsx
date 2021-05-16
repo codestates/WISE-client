@@ -1,7 +1,9 @@
 /* eslint-disable camelcase */
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 // import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 declare global {
     interface Window {
@@ -10,7 +12,7 @@ declare global {
     }
 }
 
-type Response = {
+export type Response = {
     success: boolean;
     merchant_uid: string;
     error_msg: string;
@@ -29,7 +31,7 @@ const Checkout = (): ReactElement => {
     const BUYER_TEL = '01087659228';
     const BUYER_EMAIL = 'rkgml981105@gmail.com';
 
-    // const router = useRouter();
+    const router = useRouter();
 
     const handleClickPayment = () => {
         // 1. 가맹점 식별
@@ -54,20 +56,14 @@ const Checkout = (): ReactElement => {
 
     // 3. 콜백 함수 정의
     const handleCheckoutRequest = (response: Response) => {
-        const { success, merchant_uid, error_msg } = response;
-
-        console.log(response);
-        if (success) {
-            alert(`결제 성공! 주문번호: ${merchant_uid}`);
-        } else {
-            alert(`결제 실패: ${error_msg}`);
-        }
+        const query = queryString.stringify(response);
+        router.push(`/payment/result?${query}`);
     };
 
-    return <OrderButton onClick={handleClickPayment}>결제하기</OrderButton>;
+    return <ActionButton onClick={handleClickPayment}>결제하기</ActionButton>;
 };
 
-const OrderButton = styled.button`
+const ActionButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +72,7 @@ const OrderButton = styled.button`
     font-weight: 500;
     font-size: 1.4rem;
     background-color: #68d480;
-    border-radius: 0.8rem;
+    border-radius: 0.6rem;
     height: 2.8rem;
     width: 100%;
     box-shadow: 0.1rem 0.1rem 0.3rem #b8b8b8;

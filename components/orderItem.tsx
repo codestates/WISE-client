@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { ReactElement } from 'react';
-// import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 
@@ -27,9 +26,8 @@ const OrderItem = (): ReactElement => (
         </DetailBox>
         <Divide />
         <CheckoutNoSSR />
-        {/* <OrderButton onClick={handleClickPayment}>결제하기</OrderButton> */}
         <Link href="/">
-            <CancelButton>취소하기</CancelButton>
+            <ActionButton>취소하기</ActionButton>
         </Link>
     </Wrapper>
 );
@@ -79,7 +77,7 @@ const DetailBox = styled.div`
     margin-bottom: 2rem;
 `;
 
-const CancelButton = styled.a`
+export const ActionButton = styled.a`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,7 +86,7 @@ const CancelButton = styled.a`
     background: #fff;
     font-size: 1.4rem;
     border: 1px solid #68d480;
-    border-radius: 0.8rem;
+    border-radius: 0.6rem;
     height: 2.8rem;
     width: 100%;
     box-shadow: 0.1rem 0.1rem 0.3rem #b8b8b8;
