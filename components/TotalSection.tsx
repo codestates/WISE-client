@@ -14,10 +14,10 @@ const TotalSection = ({ title }: TitleProps): JSX.Element => {
     }
     return (
         <Wrapper>
-            <h2>{title}</h2>
-            <Row gutter={8}>
+            <Header>{title}</Header>
+            <Row style={{ overflow: 'hidden' }}>
                 {tmp.map((ele) => (
-                    <Col key={ele} xs={24} sm={12} md={8} lg={6} xl={4} xxl={3} span={24}>
+                    <Col style={style} key={ele} xs={24} sm={12} md={8} lg={6} span={24}>
                         <Item />
                     </Col>
                 ))}
@@ -30,11 +30,16 @@ const Wrapper = styled.div`
     // border: 1px solid black;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     margin-bottom: 3rem;
     h2 {
         font-weight: bolder;
     }
 `;
 
+const Header = styled.div`
+    // border: 1px solid black;
+    font-weight: bolder;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+`;
 export default TotalSection;

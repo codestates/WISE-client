@@ -1,37 +1,30 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 
-const Header = (): ReactElement => {
-    const router = useRouter();
-    const onClickLogin = () => {
-        router.push('/user/signin');
-    };
-    return (
-        <>
-            <Wrapper>
+const Header = (): ReactElement => (
+    <>
+        <Wrapper>
+            <Container>
                 <Link href="/">
                     <a>
                         <Logo src="/images/WISE.png" alt="WISE logo" />
                     </a>
                 </Link>
-                <Link href="#">
-                    <LoginBtn onClick={onClickLogin}>로그인</LoginBtn>
+                <Link href="/user/signin">
+                    <LoginBtn>로그인</LoginBtn>
                 </Link>
-            </Wrapper>
-        </>
-    );
-};
+            </Container>
+        </Wrapper>
+    </>
+);
 
 const Wrapper = styled.header`
-    display: flex;
     height: 4rem;
     width: 100%;
-    padding: 0.5rem 2rem;
-    align-items: center;
-    justify-content: space-between;
-
+    padding: 0 2rem;
+    display: flex;
+    justify-content: center;
     /* glassmorphism effect */
     background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(160, 160, 160, 0.37);
@@ -41,22 +34,29 @@ const Wrapper = styled.header`
     border: 1px solid rgba(255, 255, 255, 0.18);
 `;
 
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+`;
+
 const Logo = styled.img`
     width: 4rem;
 `;
 
-const LoginBtn = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const LoginBtn = styled.a`
     color: #fff;
-    font-size: 0.9rem;
+    font-weight: bolder;
+    text-align: center;
+    line-height: 2rem;
+    border: none;
     border-radius: 1rem;
     background-color: #68d480;
     width: 4rem;
     height: 2rem;
     cursor: pointer;
-    border: none;
 `;
 
 export default Header;

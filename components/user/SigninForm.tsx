@@ -1,39 +1,55 @@
-import { Form, Input, Button, Radio } from 'antd';
 import styled from 'styled-components';
 
 const SigninForm = (): JSX.Element => (
     <>
-        <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">일반 유저</Radio.Button>
-            <Radio.Button value="b">어시스턴트</Radio.Button>
-        </Radio.Group>
         <FormWrapper>
+            <TypeSelect>
+                <input type="radio" id="user" name="type" />
+                <label htmlFor="user">일반유저</label>
+                <input type="radio" id="assistant" name="type" />
+                <label htmlFor="assistant">어시스턴트</label>
+            </TypeSelect>
             <InputWrapper>
                 <label htmlFor="user-email">이메일</label>
-                <Input name="user-email" type="email" placeholder="ex) user@mate.com" required />
+                <input name="user-email" type="email" placeholder="ex) user@mate.com" required />
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="user-password">비밀번호</label>
-                <Input name="user-password" type="password" placeholder="********" required />
+                <input name="user-password" type="password" placeholder="********" required />
             </InputWrapper>
-            <Button htmlType="submit">로그인</Button>
+            <SigninBtn type="submit">로그인</SigninBtn>
         </FormWrapper>
     </>
 );
 
-const FormWrapper = styled(Form)`
+const FormWrapper = styled.form`
     // border: 1px solid black;
-    height: 75%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    button {
-        font-weight: 600;
-        width: 100%;
-        height: 50px;
-        background-color: #72cd87;
-        color: white;
-        border-radius: 0.5rem;
+`;
+
+const TypeSelect = styled.div`
+    margin: 2rem 0 3.125rem 0;
+    input[type='radio'] {
+        display: none;
+    }
+    input[type='radio'] + label {
+        display: inline-block;
+        width: 50%;
+        height: 3rem;
+        text-align: center;
+        line-height: 3.125rem;
+        border: 1px solid #e5e5e5;
+        cursor: pointer;
+        border-radius: 0 15px 15px 0;
+    }
+    input[type='radio']:first-child + label {
+        border-radius: 15px 0 0 15px;
+    }
+    input[type='radio']:checked + label {
+        background-color: #68d480;
+        color: #fff;
     }
 `;
 
@@ -43,11 +59,28 @@ const InputWrapper = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     input {
-        height: 2.5rem;
-        margin: 1rem auto 0 auto;
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        height: 3.125rem;
+        margin: 0.8rem auto 0 auto;
         padding: 0.5rem;
         border-radius: 0.5rem;
     }
+    input:focus {
+        outline: none;
+    }
+    margin-bottom: 2.5rem;
+`;
+
+const SigninBtn = styled.button`
+    border: none;
+    font-weight: 600;
+    height: 3.75rem;
+    background-color: #68d480;
+    color: white;
+    border-radius: 0.5rem;
+    margin: 0.625rem 0 1.25rem 0;
+    cursor: pointer;
 `;
 
 export default SigninForm;

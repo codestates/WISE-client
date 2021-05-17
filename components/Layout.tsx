@@ -21,6 +21,9 @@ const Global = createGlobalStyle`
 
   #__next {
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   a {
@@ -34,7 +37,7 @@ const Global = createGlobalStyle`
 `;
 
 const Layout = ({ children, title }: Props): ReactElement => (
-    <Body>
+    <>
         <Global />
         <Head>
             <title>{title}</title>
@@ -42,21 +45,14 @@ const Layout = ({ children, title }: Props): ReactElement => (
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
         <Header />
-        <Wrapper>{children}</Wrapper>
+        <MainComponent>{children}</MainComponent>
         <Footer />
-    </Body>
+    </>
 );
 
-const Body = styled.div`
+const MainComponent = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    height: 100%;
-`;
-
-const Wrapper = styled.div`
-    max-width: 1200px;
+    justify-content: center;
 `;
 
 export default Layout;

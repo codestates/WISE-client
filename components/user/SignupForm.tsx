@@ -1,51 +1,67 @@
-import { Form, Input, Button, Radio } from 'antd';
 import styled from 'styled-components';
 
 const SignupForm = (): JSX.Element => (
     <>
-        <Radio.Group defaultValue="a" buttonStyle="solid">
-            <Radio.Button value="a">일반 유저</Radio.Button>
-            <Radio.Button value="b">어시스턴트</Radio.Button>
-        </Radio.Group>
         <FormWrapper>
+            <TypeSelect>
+                <input type="radio" id="user" name="type" />
+                <label htmlFor="user">일반유저</label>
+                <input type="radio" id="assistant" name="type" />
+                <label htmlFor="assistant">어시스턴트</label>
+            </TypeSelect>
             <InputWrapper>
                 <label htmlFor="user-name">이름</label>
-                <Input name="user-name" type="text" placeholder="홍길동" required />
+                <input name="user-name" type="text" placeholder="홍길동" required />
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="user-email">이메일</label>
-                <Input name="user-email" type="email" placeholder="ex) user@mate.com" required />
+                <input name="user-email" type="email" placeholder="ex) user@mate.com" required />
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="user-password">비밀번호</label>
-                <Input name="user-password" type="password" placeholder="********" required />
+                <input name="user-password" type="password" placeholder="********" required />
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="user-passwordCheck">비밀번호확인</label>
-                <Input name="user-passwordCheck" type="password" placeholder="********" required />
+                <input name="user-passwordCheck" type="password" placeholder="********" required />
             </InputWrapper>
             <InputWrapper>
                 <label htmlFor="user-phonenumber">연락처</label>
-                <Input name="user-phonenumber" type="text" placeholder="********" required />
+                <input name="user-phonenumber" type="text" placeholder="********" required />
             </InputWrapper>
-            <Button htmlType="submit">가입하기</Button>
+            <SignupBtn type="submit">가입하기</SignupBtn>
         </FormWrapper>
     </>
 );
 
-const FormWrapper = styled(Form)`
+const FormWrapper = styled.form`
     // border: 1px solid black;
-    height: 90%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    button {
-        font-weight: 600;
-        width: 100%;
-        height: 50px;
-        background-color: #72cd87;
-        color: white;
-        border-radius: 0.5rem;
+`;
+
+const TypeSelect = styled.div`
+    margin: 1rem 0 1rem 0;
+    input[type='radio'] {
+        display: none;
+    }
+    input[type='radio'] + label {
+        display: inline-block;
+        width: 50%;
+        height: 3rem;
+        text-align: center;
+        line-height: 3.125rem;
+        border: 1px solid #e5e5e5;
+        cursor: pointer;
+        border-radius: 0 15px 15px 0;
+    }
+    input[type='radio']:first-child + label {
+        border-radius: 15px 0 0 15px;
+    }
+    input[type='radio']:checked + label {
+        background-color: #68d480;
+        color: #fff;
     }
 `;
 
@@ -55,11 +71,28 @@ const InputWrapper = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     input {
-        height: 2.5rem;
-        margin: 1rem auto 0 auto;
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        height: 3.125rem;
+        margin: 0.5rem auto 0 auto;
         padding: 0.5rem;
         border-radius: 0.5rem;
     }
+    input:focus {
+        outline: none;
+    }
+    margin-bottom: 1.5rem;
+`;
+
+const SignupBtn = styled.button`
+    border: none;
+    font-weight: 600;
+    height: 3rem;
+    background-color: #68d480;
+    color: white;
+    border-radius: 0.5rem;
+    margin: 0.625rem 0 1.25rem 0;
+    cursor: pointer;
 `;
 
 export default SignupForm;
