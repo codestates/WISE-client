@@ -8,7 +8,6 @@ import Footer from './Footer';
 const Global = createGlobalStyle`
   html,
   body {
-    height: 100%;
     padding: 0;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -16,10 +15,10 @@ const Global = createGlobalStyle`
     }
 
   #__next {
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
   }
 
   a {

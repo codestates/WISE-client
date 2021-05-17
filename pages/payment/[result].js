@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Layout from '../../components/Layout';
 import PaymentResult from '../../components/PaymentResult';
@@ -15,7 +15,7 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Payment = (): ReactElement => {
+const Payment = () => {
     const router = useRouter();
     const result = router.query;
     console.log(result);

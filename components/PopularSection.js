@@ -24,7 +24,7 @@ const PopularSection = () => {
             setMainIndex(mainIndex - 1);
         }
     };
-    console.log(slider.current.style);
+
     return (
         <Wrapper>
             <Header>인기있는 어시스턴트</Header>

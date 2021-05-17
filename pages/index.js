@@ -5,12 +5,12 @@ import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
 
 const Global = createGlobalStyle`
-    .dCaWGQ  {
-        position: static;
-    }
+    // footer {
+    //     position: static;
+    // }
 `;
 
-const Home = (): JSX.Element => (
+const Home = () => (
     <Layout>
         <Global />
         <Wrapper>
@@ -24,6 +24,7 @@ const Home = (): JSX.Element => (
 const Wrapper = styled.div`
     // border: 1px solid black;
     padding: 3rem;
+    max-width: 1200px;
 `;
 
 export default Home;

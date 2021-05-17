@@ -5,7 +5,10 @@ import Item from './Item';
 
 const TotalSection = ({ title }) => {
     const tmp = [];
-
+    const n = 10;
+    for (let i = 0; i < n; i++) {
+        tmp.push(<Item name={i} />);
+    }
     return (
         <Wrapper>
             <Header>{title}</Header>
@@ -24,7 +27,6 @@ const Wrapper = styled.div`
     // border: 1px solid black;
     display: flex;
     flex-direction: column;
-    margin-bottom: 3rem;
     h2 {
         font-weight: bolder;
     }

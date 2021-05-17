@@ -1,12 +1,9 @@
-/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable */
 // import App from 'next/app';
-import { AppProps /* , AppContext */ } from 'next/app'; // 타입 임포트
-import { ReactElement } from 'react';
 import Head from 'next/head';
-import wrapper from '../store/configureStore';
 import 'antd/dist/antd.css';
 
-const WrappedApp = ({ Component, pageProps }: AppProps): ReactElement => (
+const WrappedApp = ({ Component, pageProps }) => (
     <>
         <Head>
             <title>WISE</title>
@@ -27,4 +24,4 @@ const WrappedApp = ({ Component, pageProps }: AppProps): ReactElement => (
 //   return { ...appProps };
 // };
 
-export default wrapper.withRedux(WrappedApp);
+export default WrappedApp;

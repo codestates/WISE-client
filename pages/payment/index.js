@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import Layout from '../../components/Layout';
 import AssistantInfo from '../../components/AssistantInfo';
@@ -10,7 +10,7 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Payment = (): ReactElement => (
+const Payment = () => (
     <Layout>
         <Global />
         <Wrapper>

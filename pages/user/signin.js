@@ -4,81 +4,67 @@ import Layout from '../../components/Layout';
 import SigninForm from '../../components/user/SigninForm';
 
 const Global = createGlobalStyle`
-  footer {
-    visibility:hidden;
-  }
+    footer {
+        position: absolute;
+        visibility:hidden;
+    }
 `;
 
 const Signin = () => {
     return (
         <Layout>
             <Global />
-            <Overlay>
-                <Modal>
-                    <Header>로그인</Header>
-                    <Body>
-                        <SigninForm />
-                    </Body>
-                    <Footer>
-                        <Link href="/user/signup">
-                            <a>
-                                <span>회원가입</span>
-                            </a>
-                        </Link>
-                    </Footer>
-                </Modal>
-            </Overlay>
+            <CoverImg src="/images/wise_bg.png" />
+            <Modal>
+                <Header>로그인</Header>
+                <Body>
+                    <SigninForm />
+                </Body>
+                <Footer>
+                    <Link href="/user/signup">
+                        <a>
+                            <span>회원가입</span>
+                        </a>
+                    </Link>
+                </Footer>
+            </Modal>
         </Layout>
     );
 };
 
-const Overlay = styled.div`
-    position: absolute;
+const CoverImg = styled.img`
     width: 100%;
-    height: 93%;
-    display: flex;
-    background-image: url('/images/wise_bg.png');
-    background-size: 1920px;
-    background-position: center;
-    max-width: 1920px;
-    z-index: 50;
-    &:before {
-        content: '';
-        opacity: 0.3;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        right: 0px;
-        bottom: 0px;
-        background-color: #000;
-    }
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    z-index: -50;
 `;
 
 const Modal = styled.div`
-    // border: 1px solid black;
+    // border: 1px solid gray;
     background: white;
     width: 30rem;
     height: 40rem;
     border-radius: 2rem;
     padding: 3rem 2rem 2rem 2rem;
     z-index: 500;
-    margin: 3rem auto auto auto;
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     font-weight: 600;
+    box-shadow: 0 0.2rem 0.3rem 0.1rem rgba(85, 85, 85, 0.25);
 `;
 
 const Header = styled.div`
     // border: 1px solid black;
-    position: relative;
     font-size: 2rem;
     font-weight: bolder;
 `;
 
 const Body = styled.div`
     // border: 1px solid black;
-    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -100,7 +86,6 @@ const Body = styled.div`
 
 const Footer = styled.div`
     // border: 1px solid black;
-    height: 5%;
     display: flex;
     flex-direction: column;
     justify-content: center;
