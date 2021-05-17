@@ -4,11 +4,7 @@ import styled from 'styled-components';
 import Item from './Item';
 
 const TotalSection = ({ title }) => {
-    const tmp = [];
-    const n = 10;
-    for (let i = 0; i < n; i++) {
-        tmp.push(<Item name={i} />);
-    }
+    const tmp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return (
         <Wrapper>
             <Header>{title}</Header>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const Item = ({ name = '김천사' }) => (
+const Item = ({ name }) => (
     <Wrapper>
         <Container>
             <img src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" alt="샘플이미지" />
@@ -37,7 +37,11 @@ const Container = styled.div`
 `;
 
 Item.propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
+};
+
+Item.defaultProps = {
+    name: '김천사',
 };
 
 export default Item;

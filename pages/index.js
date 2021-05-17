@@ -1,18 +1,11 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
 
-const Global = createGlobalStyle`
-    // footer {
-    //     position: static;
-    // }
-`;
-
 const Home = () => (
-    <Layout>
-        <Global />
+    <Layout title="WISE | HOME">
         <Wrapper>
             <SearchBar />
             <PopularSection />

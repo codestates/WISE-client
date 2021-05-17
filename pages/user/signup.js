@@ -12,7 +12,7 @@ const Global = createGlobalStyle`
 
 const Signin = () => {
     return (
-        <Layout>
+        <Layout title="WISE | SIGNUP">
             <Global />
             <CoverImg src="/images/wise_bg.png" />
             <Modal>

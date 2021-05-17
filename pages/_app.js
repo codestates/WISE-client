@@ -1,9 +1,12 @@
 /* eslint-disable */
 // import App from 'next/app';
-import Head from 'next/head';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.css'
+import Head from 'next/head'
+import PropTypes from 'prop-types'
 
-const WrappedApp = ({ Component, pageProps }) => (
+import wrapper from '../store/configureStore'
+
+const WISE = ({ Component, pageProps }) => (
     <>
         <Head>
             <title>WISE</title>
@@ -24,4 +27,9 @@ const WrappedApp = ({ Component, pageProps }) => (
 //   return { ...appProps };
 // };
 
-export default WrappedApp;
+WISE.prototype = {
+    Component: PropTypes.elementType.isRequired,
+    pageProps: PropTypes.object
+}
+
+export default wrapper.withRedux(WISE)

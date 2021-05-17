@@ -1,18 +1,11 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 // import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
 
-const Global = createGlobalStyle`
-  .dCaWGQ  {
-    position: static;
-  }
-`;
-
-const SearchResult = (): JSX.Element => (
-    <Layout>
-        <Global />
+const SearchResult = () => (
+    <Layout title="WISE | Search">
         <Wrapper>
             <SearchBar />
             <TotalSection title="검색 결과" />
@@ -23,6 +16,7 @@ const SearchResult = (): JSX.Element => (
 const Wrapper = styled.div`
     // border: 1px solid black;
     padding: 3rem;
+    max-width: 1200px;
 `;
 
 export default SearchResult;
