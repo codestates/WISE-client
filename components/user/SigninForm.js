@@ -1,26 +1,32 @@
 import styled from 'styled-components';
 
-const SigninForm = (): JSX.Element => (
-    <>
-        <FormWrapper>
-            <TypeSelect>
-                <input type="radio" id="user" name="type" />
-                <label htmlFor="user">일반유저</label>
-                <input type="radio" id="assistant" name="type" />
-                <label htmlFor="assistant">어시스턴트</label>
-            </TypeSelect>
-            <InputWrapper>
-                <label htmlFor="user-email">이메일</label>
-                <input name="user-email" type="email" placeholder="ex) user@mate.com" required />
-            </InputWrapper>
-            <InputWrapper>
-                <label htmlFor="user-password">비밀번호</label>
-                <input name="user-password" type="password" placeholder="********" required />
-            </InputWrapper>
-            <SigninBtn type="submit">로그인</SigninBtn>
-        </FormWrapper>
-    </>
-);
+const SigninForm = () => {
+    const onsubmit = (e) => {
+        e.preventDefault();
+        console.log('submit');
+    };
+    return (
+        <>
+            <FormWrapper onSubmit={onsubmit}>
+                <TypeSelect>
+                    <input type="radio" id="user" name="type" />
+                    <label htmlFor="user">일반유저</label>
+                    <input type="radio" id="assistant" name="type" />
+                    <label htmlFor="assistant">어시스턴트</label>
+                </TypeSelect>
+                <InputWrapper>
+                    <label htmlFor="user-email">이메일</label>
+                    <input name="user-email" type="email" placeholder="ex) user@mate.com" required />
+                </InputWrapper>
+                <InputWrapper>
+                    <label htmlFor="user-password">비밀번호</label>
+                    <input name="user-password" type="password" placeholder="********" required />
+                </InputWrapper>
+                <SigninBtn type="submit">로그인</SigninBtn>
+            </FormWrapper>
+        </>
+    );
+};
 
 const FormWrapper = styled.form`
     // border: 1px solid black;

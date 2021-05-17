@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 // import App from 'next/app';
 import { AppProps /* , AppContext */ } from 'next/app'; // 타입 임포트
 import { ReactElement } from 'react';

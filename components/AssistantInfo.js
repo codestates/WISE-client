@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
 import styled from 'styled-components';
 
-const AssistantInfo = (): ReactElement => (
+const AssistantInfo = () => (
     <Wrapper>
         <h2>김천사 어시스턴트</h2>
         <img

@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 import SigninForm from '../../components/user/SigninForm';
 
@@ -9,11 +9,7 @@ const Global = createGlobalStyle`
   }
 `;
 
-const Signin = (): JSX.Element => {
-    const router = useRouter();
-    const onClickSignup = () => {
-        router.push('/user/signup');
-    };
+const Signin = () => {
     return (
         <Layout>
             <Global />
@@ -24,7 +20,11 @@ const Signin = (): JSX.Element => {
                         <SigninForm />
                     </Body>
                     <Footer>
-                        <span onClick={onClickSignup}>회원가입</span>
+                        <Link href="/user/signup">
+                            <a>
+                                <span>회원가입</span>
+                            </a>
+                        </Link>
                     </Footer>
                 </Modal>
             </Overlay>

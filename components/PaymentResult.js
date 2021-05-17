@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-import React, { ReactElement, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { CheckCircleTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import { ActionButton } from './orderItem';
 
-const PaymentResult = ({ result }): ReactElement => {
+const PaymentResult = ({ result }) => {
     console.log(result);
     const router = useRouter();
     const { merchant_uid, imp_uid, paid_amount, success, error_msg } = result;
@@ -122,5 +123,9 @@ const Button = styled(ActionButton)`
         color: #7ab387;
     }
 `;
+
+PaymentResult.propTypes = {
+    result: PropTypes.object.isRequired,
+};
 
 export default PaymentResult;

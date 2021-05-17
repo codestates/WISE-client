@@ -1,13 +1,9 @@
-import React, { ReactElement, ReactNode } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-
-type Props = {
-    children?: ReactNode;
-    title?: string;
-};
 
 const Global = createGlobalStyle`
   html,
@@ -36,7 +32,7 @@ const Global = createGlobalStyle`
   }
 `;
 
-const Layout = ({ children, title }: Props): ReactElement => (
+const Layout = ({ children, title }) => (
     <>
         <Global />
         <Head>
@@ -54,5 +50,10 @@ const MainComponent = styled.div`
     display: flex;
     justify-content: center;
 `;
+
+Layout.propTypes = {
+    children: PropTypes.node.isRequired,
+    title: PropTypes.string.isRequired,
+};
 
 export default Layout;

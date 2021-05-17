@@ -1,8 +1,7 @@
-import React, { ReactElement } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-const Header = (): ReactElement => (
+const Header = () => (
     <>
         <Wrapper>
             <Container>

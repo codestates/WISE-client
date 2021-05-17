@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Item = ({ name = '김천사' }) => (
     <Wrapper>
@@ -34,5 +35,9 @@ const Container = styled.div`
         font-size: 0.5rem;
     }
 `;
+
+Item.propTypes = {
+    name: PropTypes.string.isRequired,
+};
 
 export default Item;

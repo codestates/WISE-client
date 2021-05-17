@@ -1,23 +1,17 @@
+import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import Item from './Item';
 
-type TitleProps = {
-    title: string;
-};
-
-const TotalSection = ({ title }: TitleProps): JSX.Element => {
+const TotalSection = ({ title }) => {
     const tmp = [];
-    const n = 50;
-    for (let i = 0; i < n; i++) {
-        tmp.push(i);
-    }
+
     return (
         <Wrapper>
             <Header>{title}</Header>
             <Row style={{ overflow: 'hidden' }}>
                 {tmp.map((ele) => (
-                    <Col style={style} key={ele} xs={24} sm={12} md={8} lg={6} span={24}>
+                    <Col key={ele} xs={24} sm={12} md={8} lg={6} span={24}>
                         <Item />
                     </Col>
                 ))}
@@ -42,4 +36,8 @@ const Header = styled.div`
     font-size: 1.4rem;
     margin-bottom: 1.5rem;
 `;
+
+TotalSection.propTypes = {
+    title: PropTypes.string.isRequired,
+};
 export default TotalSection;

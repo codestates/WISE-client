@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 
-const SearchBar = (): JSX.Element => {
+const SearchBar = () => {
     const router = useRouter();
     const onSearch = () => {
         router.push('/searchResult');

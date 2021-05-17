@@ -1,24 +1,9 @@
-/* eslint-disable camelcase */
 import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
 // import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import queryString from 'query-string';
 
-declare global {
-    interface Window {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        IMP: any;
-    }
-}
-
-export type Response = {
-    success: boolean;
-    merchant_uid: string;
-    error_msg: string;
-};
-
-const Checkout = (): ReactElement => {
+const Checkout = () => {
     // using redux
     // const { price } = useSelector((state) => state.user);
 
@@ -51,6 +36,7 @@ const Checkout = (): ReactElement => {
         };
 
         // 4. 결제 창 호출
+        // eslint-disable-next-line no-use-before-define
         IMP.request_pay(data, handleCheckoutRequest);
     };
 

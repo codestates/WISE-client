@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import Item from './Item';
 
-const PopularSection = (): JSX.Element => {
-    const responsive = {
-        0: { items: 1 },
-        576: { items: 2 },
-        768: { items: 3 },
-        992: { items: 4 },
-    };
-    const items = [<Item key={1} />, <Item key={2} />, <Item key={3} />, <Item key={4} />, <Item key={5} />];
+const PopularSection = () => {
+    // const responsive = {
+    //     0: { items: 1 },
+    //     576: { items: 2 },
+    //     768: { items: 3 },
+    //     992: { items: 4 },
+    // };
+    // const items = [<Item key={1} />, <Item key={2} />, <Item key={3} />, <Item key={4} />, <Item key={5} />];
 
     const slider = useRef();
     const container = useRef();
