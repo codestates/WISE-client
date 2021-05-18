@@ -20,7 +20,7 @@ const SignupAuth = () => {
             <CoverImg src="/images/wise_bg.png" />
             <Modal>
                 {linkToEmail ? (
-                    <div>이메일을 확인해주세요</div>
+                    <div>이메일을 확인해주세요 :)</div>
                 ) : (
                     <>
                         <Header>회원가입</Header>

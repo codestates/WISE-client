@@ -1,7 +1,10 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
-import Layout from '../../components/Layout';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import Router from 'next/router';
 import SignupForm from '../../components/user/SignupForm';
+import Layout from '../../components/Layout';
 
 const Global = createGlobalStyle`
   footer {
@@ -11,6 +14,13 @@ const Global = createGlobalStyle`
 `;
 
 const Signup = () => {
+    const { me } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if (me) {
+            Router.replace('/welcome');
+        }
+    }, [me]);
     return (
         <Layout title="WISE | SIGNUP">
             <Global />

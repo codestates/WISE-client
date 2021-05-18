@@ -62,9 +62,10 @@ export const logIn =
             dispatch({
                 type: LOG_IN_SUCCESS,
                 payload: response.data,
+                token: accessToken,
             });
         } catch (err) {
-            console.error(err);
+            console.log(err.message);
             dispatch({
                 type: LOG_IN_FAILURE,
                 payload: err,
@@ -83,7 +84,7 @@ export const googleLogIn =
             const result = await auth.signInWithPopup(googleAuthProvider);
 
             const accessToken = await result.user.getIdToken();
-
+            console.log('role', role);
             const response = await axios.post(
                 'http://localhost:5000/api/v1/signin',
                 { role },
@@ -176,7 +177,8 @@ export const signUp =
             console.log(response);
             dispatch({
                 type: SIGN_UP_SUCCESS,
-                payload: response.data,
+                payload: response.data.user,
+                token: accessToken,
             });
         } catch (err) {
             console.error(err);
@@ -228,6 +230,8 @@ const reducer = (state = initialState, action) =>
             case SIGN_UP_SUCCESS:
                 draft.signUpLoading = false;
                 draft.signUpDone = true;
+                draft.me = action.payload;
+                draft.accessToken = action.token;
                 break;
             case SIGN_UP_FAILURE:
                 draft.signUpLoading = false;
@@ -236,7 +240,6 @@ const reducer = (state = initialState, action) =>
             case LINK_TO_EMAIL:
                 draft.linkToEmail = true;
                 break;
-
             default:
                 break;
         }
