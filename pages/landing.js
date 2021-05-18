@@ -34,10 +34,7 @@ const LandingPage = () => (
         <Section2 />
         <Section3 />
         <Section4 />
-<<<<<<< HEAD
         {/* </Layout> */}
-=======
->>>>>>> cf58c611a460e5843f7198676fc32e50e7cb851a
         <Footer />
     </Wrapper>
 );
