@@ -75,6 +75,30 @@ const Header = styled.div`
     font-weight: bolder;
 `;
 
+<<<<<<< HEAD
+=======
+const Body = styled.div`
+    // border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .ant-radio-group {
+        margin: 0 auto;
+        height: 2.5rem;
+        width: 100%;
+    }
+    .ant-radio-button-wrapper {
+        height: 2.5rem;
+        width: 50%;
+        text-align: center;
+        line-height: 2.5rem;
+    }
+    .ant-radio-button-checked {
+        background-color: #72cd87;
+    }
+`;
+
+>>>>>>> cf58c611a460e5843f7198676fc32e50e7cb851a
 const Footer = styled.div`
     // border: 1px solid black;
     display: flex;

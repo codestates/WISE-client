@@ -1,20 +1,35 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
+// import { useSelector, useDispatch } from 'react-redux';
 
-const Item = ({ name }) => (
-    <Wrapper>
-        <Container>
-            <img src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" alt="샘플이미지" />
-            <div>
-                <div>
-                    {name} <span>서울시 동작구</span>
-                </div>
-                <div>안전하고 편안하게 동행해드릴게요</div>
-                <h4>17,000원 / 시간</h4>
-            </div>
-        </Container>
-    </Wrapper>
-);
+const Item = ({ name }) => {
+    // const { serviceId } = useSelector((state) => state.service);
+    // const dispatch = useDispatch();
+
+    return (
+        <Wrapper>
+            {/* <Link href="/users/[id]" as={`/users/${serviceId}`}> */}
+            <Link href="/service/detail/id">
+                <a>
+                    <Container>
+                        <img
+                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                            alt="샘플이미지"
+                        />
+                        <div>
+                            <div>
+                                {name} <span>서울시 동작구</span>
+                            </div>
+                            <div>안전하고 편안하게 동행해드릴게요</div>
+                            <h4>17,000원 / 시간</h4>
+                        </div>
+                    </Container>
+                </a>
+            </Link>
+        </Wrapper>
+    );
+};
 
 const Wrapper = styled.div`
     display: inline-block;

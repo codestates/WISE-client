@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { ReactElement } from 'react';
 import styled from 'styled-components';
 import useIsInViewport from 'use-is-in-viewport';
 
-const Section2 = (): ReactElement => {
+const Section2 = () => {
     const [isInViewport, targetRef] = useIsInViewport();
 
     return (
