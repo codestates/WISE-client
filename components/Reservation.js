@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-
-const CheckoutNoSSR = dynamic(() => import('./Checkout'), { ssr: false });
+import { CancelButton, ActionButton } from './button-style';
 
 const OrderItem = () => (
     <Wrapper>
         <Title>
-            <i className="material-icons">chevron_left</i>
-            <h1>결제하기</h1>
+            <Link href="../detail/id">
+                <i className="material-icons">chevron_left</i>
+            </Link>
+
+            <h1>서비스 신청하기</h1>
         </Title>
 
         <h2>상세 정보</h2>
@@ -24,9 +25,9 @@ const OrderItem = () => (
             </Text>
         </DetailBox>
         <Divide />
-        <CheckoutNoSSR />
+        <ActionButton>신청하기</ActionButton>
         <Link href="/">
-            <ActionButton>취소하기</ActionButton>
+            <CancelButton>취소하기</CancelButton>
         </Link>
     </Wrapper>
 );
@@ -74,29 +75,6 @@ const Title = styled.div`
 const DetailBox = styled.div`
     width: 28rem;
     margin-bottom: 2rem;
-`;
-
-export const ActionButton = styled.a`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    color: #aaa;
-    background: #fff;
-    font-size: 1.4rem;
-    border: 1px solid #68d480;
-    border-radius: 0.6rem;
-    height: 2.8rem;
-    width: 100%;
-    box-shadow: 0.1rem 0.1rem 0.3rem #b8b8b8;
-    cursor: pointer;
-    transition: transform 200ms ease-in-out;
-    &:hover {
-        transform: scale(1.01);
-        margin-left: -1%;
-        box-shadow: 0.3rem 0.2rem 0.4rem #cecece;
-        color: #aaa;
-    }
 `;
 
 export default OrderItem;

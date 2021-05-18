@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { ReactElement } from 'react';
 import styled from 'styled-components';
 import useIsInViewport from 'use-is-in-viewport';
 
-const Section2 = (): ReactElement => {
+const Section2 = () => {
     const [isInViewport, targetRef] = useIsInViewport();
     return (
         <>
@@ -116,7 +115,7 @@ const RegisterBtn = styled.a`
     margin-left: -20%;
     height: 3.6rem;
     width: 14rem;
-    color: #777;
+    color: #68d480;
     font-weight: 500;
     font-size: 1.2rem;
     border: 1px solid #68d480;
