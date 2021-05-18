@@ -6,7 +6,7 @@ import { signUp } from '../../reducers/user';
 
 const SignupForm = () => {
     const dispatch = useDispatch();
-    const [role, setRole] = useState('customer');
+    const [role, onChangeRole] = useInput('customer');
     const [name, onChangeName] = useInput('');
     const [email, setEmail] = useState('');
     const [password, onChangePassword] = useInput('');
@@ -26,10 +26,6 @@ const SignupForm = () => {
         },
         [password],
     );
-
-    const onChangeRole = useCallback((e) => {
-        setRole(e.target.value);
-    }, []);
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();

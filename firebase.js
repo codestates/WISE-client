@@ -4,12 +4,12 @@ import 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: 'AIzaSyAMOvQAqwdBVWn942rEY5YID8z9NtvQwlc',
-    authDomain: 'wise-4bb4c.firebaseapp.com',
-    projectId: 'wise-4bb4c',
-    storageBucket: 'wise-4bb4c.appspot.com',
-    messagingSenderId: '1056980953893',
-    appId: '1:1056980953893:web:1f9f1399e37e3650a2c8cc',
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
+    appId: process.env.appId,
 };
 
 // initialize firebase app
