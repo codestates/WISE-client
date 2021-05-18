@@ -1,10 +1,8 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import Router from 'next/router';
-import SignupForm from '../../components/user/SignupForm';
 import Layout from '../../components/Layout';
+import SignupAuthForm from '../../components/user/SignupAuthForm';
 
 const Global = createGlobalStyle`
   footer {
@@ -13,31 +11,32 @@ const Global = createGlobalStyle`
   }
 `;
 
-const Signup = () => {
-    const { me } = useSelector((state) => state.user);
+const SignupAuth = () => {
+    const { linkToEmail } = useSelector((state) => state.user);
 
-    useEffect(() => {
-        if (me) {
-            Router.replace('/welcome');
-        }
-    }, [me]);
     return (
         <Layout title="WISE | SIGNUP">
             <Global />
             <CoverImg src="/images/wise_bg.png" />
             <Modal>
-                <Header>회원가입</Header>
-                <Body>
-                    <SignupForm />
-                </Body>
-                <Footer>
-                    <Link href="/user/signin">
-                        <a>
-                            이미 계정이 있으신가요?&nbsp;&nbsp;
-                            <span>로그인</span>
-                        </a>
-                    </Link>
-                </Footer>
+                {linkToEmail ? (
+                    <div>이메일을 확인해주세요 :)</div>
+                ) : (
+                    <>
+                        <Header>회원가입</Header>
+                        <Body>
+                            <SignupAuthForm />
+                        </Body>
+                        <Footer>
+                            <Link href="/user/signin">
+                                <a>
+                                    이미 계정이 있으신가요?&nbsp;&nbsp;
+                                    <span>로그인</span>
+                                </a>
+                            </Link>
+                        </Footer>
+                    </>
+                )}
             </Modal>
         </Layout>
     );
@@ -56,11 +55,11 @@ const Modal = styled.div`
     // border: 1px solid black;
     background: white;
     width: 30rem;
-    height: 50rem;
+    height: 20rem;
     border-radius: 2rem;
     padding: 2rem 2rem 1rem 2rem;
     z-index: 500;
-    margin-top: 2rem;
+    margin-top: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -111,4 +110,4 @@ const Footer = styled.div`
     }
 `;
 
-export default Signup;
+export default SignupAuth;

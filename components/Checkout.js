@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
-// import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import queryString from 'query-string';
 
 const Checkout = () => {
     // using redux
     // const { price } = useSelector((state) => state.user);
+    const router = useRouter();
 
+    const IMP_CODE = process.env.IMPcode;
     // test
     const PRICE = 100;
     const PG = 'nice';
@@ -16,12 +17,10 @@ const Checkout = () => {
     const BUYER_TEL = '01087659228';
     const BUYER_EMAIL = 'rkgml981105@gmail.com';
 
-    const router = useRouter();
-
     const handleClickPayment = () => {
         // 1. 가맹점 식별
         const { IMP } = window;
-        IMP.init('imp57278971');
+        IMP.init(IMP_CODE);
 
         // 2. 결제 데이터 정의
         const data = {
@@ -41,7 +40,7 @@ const Checkout = () => {
     };
 
     // 3. 콜백 함수 정의
-    const handleCheckoutRequest = (response: Response) => {
+    const handleCheckoutRequest = (response) => {
         const query = queryString.stringify(response);
         router.push(`/payment/result?${query}`);
     };

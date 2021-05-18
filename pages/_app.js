@@ -1,10 +1,18 @@
 /* eslint-disable */
 // import App from 'next/app';
+<<<<<<< HEAD
 import 'antd/dist/antd.css'
 import Head from 'next/head'
 import PropTypes from 'prop-types'
 
 import wrapper from '../store/configureStore'
+=======
+import 'antd/dist/antd.css';
+import Head from 'next/head';
+import PropTypes from 'prop-types';
+
+import wrapper from '../store/configureStore';
+>>>>>>> 6262f17ed92bd1a360ff6b6e063ac031696c44d3
 
 const WISE = ({ Component, pageProps }) => (
     <>
@@ -27,9 +35,9 @@ const WISE = ({ Component, pageProps }) => (
 //   return { ...appProps };
 // };
 
-WISE.prototype = {
+WISE.propTypes = {
     Component: PropTypes.elementType.isRequired,
-    pageProps: PropTypes.object
-}
+    pageProps: PropTypes.object.isRequired,
+};
 
-export default wrapper.withRedux(WISE)
+export default wrapper.withRedux(WISE);
