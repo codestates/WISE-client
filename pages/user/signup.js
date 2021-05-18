@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Router from 'next/router';
-import SignupForm from '../../components/user/SignupForm';
+import SignupForm from '../../components/user/SigninForm';
 import Layout from '../../components/Layout';
 
 const Global = createGlobalStyle`
