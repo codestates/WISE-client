@@ -1,22 +1,37 @@
 import Link from 'next/link';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import Router from 'next/router';
+import { logOut } from '../reducers/user';
 
-const Header = () => (
-    <>
-        <Wrapper>
-            <Container>
-                <Link href="/">
-                    <a>
-                        <Logo src="/images/WISE.png" alt="WISE logo" />
-                    </a>
-                </Link>
-                <Link href="/user/signin">
-                    <LoginBtn>로그인</LoginBtn>
-                </Link>
-            </Container>
-        </Wrapper>
-    </>
-);
+const Header = () => {
+    const dispatch = useDispatch();
+    const { me } = useSelector((state) => state.user);
+
+    const Logout = () => {
+        dispatch(logOut());
+        Router.replace('/user/signin');
+    };
+
+    const Login = () => {
+        Router.replace('/user/signin');
+    };
+
+    return (
+        <>
+            <Wrapper>
+                <Container>
+                    <Link href="/">
+                        <a>
+                            <Logo src="/images/WISE.png" alt="WISE logo" />
+                        </a>
+                    </Link>
+                    {me ? <LoginBtn onClick={Logout}>로그아웃</LoginBtn> : <LoginBtn onClick={Login}>로그인</LoginBtn>}
+                </Container>
+            </Wrapper>
+        </>
+    );
+};
 
 const Wrapper = styled.header`
     height: 4rem;

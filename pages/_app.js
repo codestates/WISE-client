@@ -27,7 +27,7 @@ const WISE = ({ Component, pageProps }) => (
 //   return { ...appProps };
 // };
 
-WISE.prototype = {
+WISE.propTypes = {
     Component: PropTypes.elementType.isRequired,
     pageProps: PropTypes.object
 }

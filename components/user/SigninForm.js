@@ -1,28 +1,61 @@
+import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import useInput from '../../hooks/useInput';
+import { logIn } from '../../reducers/user';
+import Oauth from './Oauth';
 
 const SigninForm = () => {
-    const onsubmit = (e) => {
-        e.preventDefault();
-        console.log('submit');
-    };
+    const dispatch = useDispatch();
+    const [role, setRole] = useState('customer');
+    const [email, onChangeEmail] = useInput('');
+    const [password, onChangePassword] = useInput('');
+
+    const onChangeRole = useCallback((e) => {
+        setRole(e.target.value);
+    }, []);
+    const onsubmit = useCallback(
+        (e) => {
+            e.preventDefault();
+            dispatch(logIn({ role, email, password }));
+        },
+        [role, email, password],
+    );
+
     return (
         <>
             <FormWrapper onSubmit={onsubmit}>
                 <TypeSelect>
-                    <input type="radio" id="user" name="type" />
+                    <input onClick={onChangeRole} type="radio" id="user" name="type" value="customer" defaultChecked />
                     <label htmlFor="user">일반유저</label>
-                    <input type="radio" id="assistant" name="type" />
+                    <input onClick={onChangeRole} type="radio" id="assistant" name="type" value="assistant" />
                     <label htmlFor="assistant">어시스턴트</label>
                 </TypeSelect>
                 <InputWrapper>
                     <label htmlFor="user-email">이메일</label>
-                    <input name="user-email" type="email" placeholder="ex) user@mate.com" required />
+                    <input
+                        name="user-email"
+                        type="email"
+                        placeholder="ex) user@mate.com"
+                        required
+                        value={email}
+                        onChange={onChangeEmail}
+                    />
                 </InputWrapper>
                 <InputWrapper>
                     <label htmlFor="user-password">비밀번호</label>
-                    <input name="user-password" type="password" placeholder="********" required />
+                    <input
+                        name="user-password"
+                        type="password"
+                        placeholder="********"
+                        required
+                        onChange={onChangePassword}
+                        value={password}
+                        minLength="6"
+                    />
                 </InputWrapper>
                 <SigninBtn type="submit">로그인</SigninBtn>
+                <Oauth role={role} />
             </FormWrapper>
         </>
     );
@@ -36,7 +69,7 @@ const FormWrapper = styled.form`
 `;
 
 const TypeSelect = styled.div`
-    margin: 2rem 0 3.125rem 0;
+    margin: 1rem 0 1.125rem 0;
     input[type='radio'] {
         display: none;
     }
@@ -81,7 +114,7 @@ const InputWrapper = styled.div`
 const SigninBtn = styled.button`
     border: none;
     font-weight: 600;
-    height: 3.75rem;
+    height: 3rem;
     background-color: #68d480;
     color: white;
     border-radius: 0.5rem;
