@@ -18,9 +18,12 @@ const Signin = () => {
 
     useEffect(() => {
         if (me) {
+            console.log('role : ', me.role);
             if (me.role === 'customer') {
+                console.log('/');
                 Router.replace('/');
             } else {
+                console.log('/welcome');
                 Router.replace('/welcome');
             }
         }

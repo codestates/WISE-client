@@ -1,19 +1,26 @@
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import { logIn } from '../../reducers/user';
 import Oauth from './Oauth';
 
 const SigninForm = () => {
+    const { logInError } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const [role, setRole] = useState('customer');
+    const [role, onChangeRole] = useInput('customer');
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
+    const [loginErrMsg, setLoginErrMsg] = useState(logInError);
 
-    const onChangeRole = useCallback((e) => {
-        setRole(e.target.value);
+    useEffect(() => {
+        setLoginErrMsg(logInError);
+    }, [logInError]);
+
+    useEffect(() => {
+        setLoginErrMsg('');
     }, []);
+
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
@@ -55,11 +62,18 @@ const SigninForm = () => {
                     />
                 </InputWrapper>
                 <SigninBtn type="submit">로그인</SigninBtn>
+                <LoginErrMsg>{loginErrMsg || ''}</LoginErrMsg>
                 <Oauth role={role} />
             </FormWrapper>
         </>
     );
 };
+
+const LoginErrMsg = styled.div`
+    color: red;
+    line-height: 2rem;
+    height: 2rem;
+`;
 
 const FormWrapper = styled.form`
     // border: 1px solid black;
@@ -118,7 +132,7 @@ const SigninBtn = styled.button`
     background-color: #68d480;
     color: white;
     border-radius: 0.5rem;
-    margin: 0.625rem 0 1.25rem 0;
+    margin: 0.625rem 0 0 0;
     cursor: pointer;
 `;
 

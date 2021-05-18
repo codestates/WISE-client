@@ -44,9 +44,9 @@ export const logIn =
             dispatch({
                 type: LOG_IN_REQUEST,
             });
-            console.log(role, email, password);
+
             const result = await auth.signInWithEmailAndPassword(email, password);
-            console.log(result);
+
             const accessToken = await result.user.getIdToken();
 
             const response = await axios.post(
@@ -58,17 +58,32 @@ export const logIn =
                     },
                 },
             );
-            console.log(response);
+
             dispatch({
                 type: LOG_IN_SUCCESS,
-                payload: response.data,
+                payload: response.data.user,
                 token: accessToken,
             });
         } catch (err) {
-            console.log(err.message);
+            let errorMessage = '';
+            if (err.message === 'The password is invalid or the user does not have a password.') {
+                errorMessage = '비밀번호가 일치하지 않습니다.';
+            } else if (
+                err.message ===
+                'There is no user record corresponding to this identifier. The user may have been deleted.'
+            ) {
+                errorMessage = '존재하지 않는 이메일입니다.';
+            } else if (
+                err.message ===
+                'Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.'
+            ) {
+                errorMessage = '로그인에 연속으로 실패하였습니다. 잠시후 다시 시도해주세요.';
+            }
+            console.log('firebase ErrMsg : ', err.message);
+            console.log('Change ErrMsg : ', errorMessage);
             dispatch({
                 type: LOG_IN_FAILURE,
-                payload: err,
+                error: errorMessage,
             });
         }
     };
@@ -94,7 +109,6 @@ export const googleLogIn =
                     },
                 },
             );
-            console.log(response.data.user);
             dispatch({
                 type: LOG_IN_SUCCESS,
                 payload: response.data.user,
