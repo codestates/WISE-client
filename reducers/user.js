@@ -3,7 +3,7 @@
 import axios from 'axios';
 import firebase from 'firebase/app';
 import Produce from '../util/produce';
-import { auth, googleAuthProvider } from '../firebase';
+import { auth, googleAuthProvider, facebookAuthProvider } from '../firebase';
 
 // 액션 상수
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
@@ -100,6 +100,7 @@ export const googleLogIn =
 
             const accessToken = await result.user.getIdToken();
             console.log('role', role);
+            console.log('accessToken', accessToken);
             const response = await axios.post(
                 'http://localhost:5000/api/v1/signin',
                 { role },
@@ -115,6 +116,43 @@ export const googleLogIn =
                 token: accessToken,
             });
         } catch (err) {
+            dispatch({
+                type: LOG_IN_FAILURE,
+                payload: err,
+            });
+        }
+    };
+
+export const facebookLogIn =
+    ({ role }) =>
+    async (dispatch) => {
+        try {
+            dispatch({
+                type: LOG_IN_REQUEST,
+            });
+            facebookAuthProvider.setCustomParameters({ prompt: 'select_account' });
+            const result = await auth.signInWithPopup(facebookAuthProvider);
+
+            const accessToken = await result.user.getIdToken();
+
+            console.log('accessToken', accessToken);
+            console.log('role', role);
+            const response = await axios.post(
+                'http://localhost:5000/api/v1/signin',
+                { role },
+                {
+                    headers: {
+                        accessToken,
+                    },
+                },
+            );
+            dispatch({
+                type: LOG_IN_SUCCESS,
+                payload: response.data.user,
+                token: accessToken,
+            });
+        } catch (err) {
+            console.log(err.message);
             dispatch({
                 type: LOG_IN_FAILURE,
                 payload: err,

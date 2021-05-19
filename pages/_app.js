@@ -6,12 +6,6 @@ import PropTypes from 'prop-types'
 
 import wrapper from '../store/configureStore'
 
-import 'antd/dist/antd.css';
-import Head from 'next/head';
-import PropTypes from 'prop-types';
-
-import wrapper from '../store/configureStore';
-
 const WISE = ({ Component, pageProps }) => (
     <>
         <Head>

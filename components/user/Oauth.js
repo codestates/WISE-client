@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
-import { googleLogIn } from '../../reducers/user';
+import { googleLogIn, facebookLogIn } from '../../reducers/user';
 
 const Oauth = ({ role }) => {
     const dispatch = useDispatch();
     const onGoogleClick = useCallback(() => {
         dispatch(googleLogIn({ role }));
+    }, [role]);
+    const onFacebookClick = useCallback(() => {
+        dispatch(facebookLogIn({ role }));
     }, [role]);
     return (
         <Wrapper>
@@ -15,7 +18,7 @@ const Oauth = ({ role }) => {
                 <GoogleOutlined />
                 oogle 계정으로 계속하기
             </SigninButton>
-            <SigninButton>
+            <SigninButton onClick={onFacebookClick}>
                 <FacebookOutlined />
                 acebook 계정으로 계속하기
             </SigninButton>

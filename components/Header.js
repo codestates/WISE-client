@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
+import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { logOut } from '../reducers/user';
 
 const Header = () => {
@@ -26,7 +27,18 @@ const Header = () => {
                             <Logo src="/images/WISE.png" alt="WISE logo" />
                         </a>
                     </Link>
-                    {me ? <LoginBtn onClick={Logout}>로그아웃</LoginBtn> : <LoginBtn onClick={Login}>로그인</LoginBtn>}
+                    <UserTap>
+                        <Link href="/registerService">
+                            <a>어시스턴트 등록</a>
+                        </Link>
+                        <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+                        <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+                        {me ? (
+                            <LoginBtn onClick={Logout}>로그아웃</LoginBtn>
+                        ) : (
+                            <LoginBtn onClick={Login}>로그인</LoginBtn>
+                        )}
+                    </UserTap>
                 </Container>
             </Wrapper>
         </>
@@ -60,7 +72,18 @@ const Logo = styled.img`
     width: 4rem;
 `;
 
-const LoginBtn = styled.a`
+const UserTap = styled.div`
+    // border: 1px solid black;
+    width: 25vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    div {
+        display: inline-block;
+    }
+`;
+
+const LoginBtn = styled.div`
     color: #fff;
     font-weight: bolder;
     text-align: center;

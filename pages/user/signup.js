@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Router from 'next/router';
-import SignupForm from '../../components/user/SigninForm';
+import SignupForm from '../../components/user/SignupForm';
 import Layout from '../../components/Layout';
 
 const Global = createGlobalStyle`
@@ -17,8 +17,8 @@ const Signup = () => {
     const { me } = useSelector((state) => state.user);
 
     useEffect(() => {
-        console.log('role : ', me.role);
         if (me) {
+            console.log('role : ', me.role);
             if (me.role === 'customer') {
                 console.log('/');
                 Router.replace('/');
