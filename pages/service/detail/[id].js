@@ -1,10 +1,13 @@
-import React from 'react';
+import { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import Review from '../../../components/ServiceDetail/Review';
+import { getSingleServiceAction } from '../../../actions/service';
 
 const Global = createGlobalStyle`
     footer {
@@ -17,22 +20,50 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Payment = () => (
-    <Layout>
-        <Global />
-        <Wrapper>
-            <Container>
-                <Detail>
-                    <CoverImg src="/images/sample_photo.jpeg" alt="샘플이미지" />
-                    <Navigation />
-                    <Description />
-                </Detail>
-                <Summary />
-            </Container>
-            <Review />
-        </Wrapper>
-    </Layout>
-);
+const ServiceDetail = () => {
+    const IMAGE_URL = process.env.imageURL;
+    const router = useRouter();
+    const { id } = router.query;
+    console.log(id);
+
+    const { service, review } = useSelector((state) => state.service);
+    const dispatch = useDispatch();
+    console.log(service);
+
+    const handleClickServiceDetail = useCallback(() => {
+        dispatch(getSingleServiceAction(id));
+        console.log('aaaa');
+    }, [id]);
+
+    useEffect(() => {
+        if (id) {
+            handleClickServiceDetail();
+        }
+    }, [id]);
+
+    return (
+        <>
+            {service ? (
+                <Layout>
+                    <Global />
+                    <Wrapper>
+                        <Container>
+                            <Detail>
+                                <CoverImg src={`${IMAGE_URL}${service.images[0]}`} alt="cover images" />
+                                <Navigation />
+                                <Description service={service} />
+                            </Detail>
+                            <Summary service={service} id={id} />
+                        </Container>
+                        <Review review={review} />
+                    </Wrapper>
+                </Layout>
+            ) : (
+                ''
+            )}
+        </>
+    );
+};
 
 const Wrapper = styled.div`
     width: 100%;
@@ -60,4 +91,4 @@ const CoverImg = styled.img`
     max-width: 42rem;
 `;
 
-export default Payment;
+export default ServiceDetail;

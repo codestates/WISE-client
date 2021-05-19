@@ -10,7 +10,8 @@ const Item = ({ name }) => {
     return (
         <Wrapper>
             {/* <Link href="/users/[id]" as={`/users/${serviceId}`}> */}
-            <Link href="/service/detail/id">
+            {/* 테스트용 아이디 */}
+            <Link href="/service/detail/60a4f5724352e6c3dee68e14">
                 <a>
                     <Container>
                         <img

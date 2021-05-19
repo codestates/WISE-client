@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { CancelButton, ActionButton } from './button-style';
 
-const OrderItem = () => (
+const Reservation = ({ id }) => (
     <Wrapper>
         <Title>
-            <Link href="../detail/id">
+            <Link href={`../detail/${id}`}>
                 <i className="material-icons">chevron_left</i>
             </Link>
 
@@ -77,4 +78,8 @@ const DetailBox = styled.div`
     margin-bottom: 2rem;
 `;
 
-export default OrderItem;
+Reservation.propTypes = {
+    id: PropTypes.string.isRequired,
+};
+
+export default Reservation;

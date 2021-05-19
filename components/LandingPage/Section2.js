@@ -27,7 +27,7 @@ const Section2 = () => {
                             <h2>교육을 이수한 후, 어시스턴트로도 활동해 보세요.</h2>
                             <p>도움이 필요한 사람들과의 매칭을 도와드릴게요.</p>
                         </SmallText>
-                        <Link href="/signin">
+                        <Link href="/user/signin">
                             <RegisterBtn> 어시스턴트 등록하기 </RegisterBtn>
                         </Link>
                     </BannerText>
