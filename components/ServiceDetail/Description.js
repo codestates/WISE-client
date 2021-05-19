@@ -47,8 +47,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    width: 60%;
-    color: #555;
+    color: #333;
     width: 100%;
 `;
 

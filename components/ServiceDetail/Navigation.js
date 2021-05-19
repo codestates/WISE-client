@@ -23,6 +23,7 @@ const Wrapper = styled.div`
     width: 100%;
     a {
         font-size: 0.9rem;
+        font-weight: 500;
         &:hover {
             color: #68d480;
         }

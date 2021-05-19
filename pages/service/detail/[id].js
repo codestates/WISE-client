@@ -8,6 +8,9 @@ import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import Review from '../../../components/ServiceDetail/Review';
 import { getSingleServiceAction } from '../../../actions/service';
+import Loading from '../../../components/Loading';
+import FAQ from '../../../components/ServiceDetail/FAQ';
+import Refund from '../../../components/ServiceDetail/Refund';
 
 const Global = createGlobalStyle`
     footer {
@@ -28,11 +31,9 @@ const ServiceDetail = () => {
 
     const { service, review } = useSelector((state) => state.service);
     const dispatch = useDispatch();
-    console.log(service);
 
     const handleClickServiceDetail = useCallback(() => {
         dispatch(getSingleServiceAction(id));
-        console.log('aaaa');
     }, [id]);
 
     useEffect(() => {
@@ -52,14 +53,16 @@ const ServiceDetail = () => {
                                 <CoverImg src={`${IMAGE_URL}${service.images[0]}`} alt="cover images" />
                                 <Navigation />
                                 <Description service={service} />
+                                <Review review={review} />
+                                <FAQ />
+                                <Refund />
                             </Detail>
                             <Summary service={service} id={id} />
                         </Container>
-                        <Review review={review} />
                     </Wrapper>
                 </Layout>
             ) : (
-                ''
+                <Loading />
             )}
         </>
     );
@@ -71,7 +74,8 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 3rem;
+    padding: 2rem 0;
+    margin-bottom: 6rem;
 `;
 const Container = styled.div`
     width: 100%;
@@ -88,7 +92,7 @@ const CoverImg = styled.img`
     width: 100%;
     height: 28rem;
     object-fit: cover;
-    max-width: 42rem;
+    max-width: 50rem;
 `;
 
 export default ServiceDetail;

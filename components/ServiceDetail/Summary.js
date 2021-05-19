@@ -37,6 +37,9 @@ const Wrapper = styled.div`
     height: 30rem;
     margin: 0 2%;
     width: 35%;
+    /* border: 1px solid #f0f0f0; */
+    border-radius: 0.4rem;
+    box-shadow: 0.1rem 0 0.3rem #f6f6f6, -0.1rem 0 0.3rem #f6f6f6;
     span {
         color: #888;
         font-size: 0.9rem;
