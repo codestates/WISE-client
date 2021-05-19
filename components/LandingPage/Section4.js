@@ -10,7 +10,7 @@ const Section2 = () => {
             <MainBox>
                 <Text>
                     <h1>이제 마음껏 사용해보세요!</h1>
-                    <Link href="/">
+                    <Link href="/home">
                         <StartBtn>시작하기</StartBtn>
                     </Link>
                 </Text>

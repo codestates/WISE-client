@@ -19,7 +19,7 @@ const SignupAuthForm = () => {
         <>
             <FormWrapper onSubmit={onsubmit}>
                 <InputWrapper>
-                    <label htmlFor="user-email">이메일</label>
+                    <label htmlFor="user-email">이메일을 입력해주세요</label>
                     <input
                         name="user-email"
                         type="email"

@@ -13,7 +13,7 @@ const Section1 = () => {
                     라이프를 위해
                 </h1>
                 <p>병원에 가실 땐 저희가 동행해 드릴게요.</p>
-                <Link href="/">
+                <Link href="/home">
                     <StartBtn>시작하기</StartBtn>
                 </Link>
             </Text>

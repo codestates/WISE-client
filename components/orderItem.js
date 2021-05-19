@@ -7,7 +7,9 @@ const CheckoutNoSSR = dynamic(() => import('./Checkout'), { ssr: false });
 const OrderItem = () => (
     <Wrapper>
         <Title>
-            <i className="material-icons">chevron_left</i>
+            <Link href="/">
+                <i className="material-icons">chevron_left</i>
+            </Link>
             <h1>결제하기</h1>
         </Title>
 

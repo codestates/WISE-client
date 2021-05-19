@@ -1,16 +1,24 @@
-/* eslint-disable */
+/* eslint-disable react/jsx-props-no-spreading */
 // import App from 'next/app';
-import 'antd/dist/antd.css'
-import Head from 'next/head'
-import PropTypes from 'prop-types'
+import 'antd/dist/antd.css';
+import Head from 'next/head';
+import PropTypes from 'prop-types';
+import { createGlobalStyle } from 'styled-components';
 
-import wrapper from '../store/configureStore'
+import wrapper from '../store/configureStore';
+
+const Global = createGlobalStyle`
+    a:hover {
+     color: #222;
+ }
+`;
 
 const WISE = ({ Component, pageProps }) => (
     <>
         <Head>
             <title>WISE</title>
         </Head>
+        <Global />
         <Component {...pageProps} />
     </>
 );

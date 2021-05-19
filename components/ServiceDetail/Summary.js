@@ -1,29 +1,30 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { ActionButton } from '../button-style';
 
-const Summary = () => (
+const Summary = ({ service, id }) => (
     <Wrapper>
         <Bio>
-            <h2>김천사 어시스턴트</h2>
-            <h3>안전하고 편안하게 동행해드릴게요</h3>
+            <h1>김천사 어시스턴트</h1>
+            <h3>{service.greetings}</h3>
         </Bio>
         <Info>
             <Text>
-                <span>지역</span> 서울시 동작구
+                <span>지역</span> {service.location}
             </Text>
             <Text>
                 <span>날짜</span> 2021 - 05 - 14
             </Text>
             <Text>
-                <span>비용</span> <strong>17,000</strong>원 / 시간
+                <span>시간</span> 오전
             </Text>
-            <h1>
-                <span>총 비용</span> 51,000원
-            </h1>
+            <Text>
+                <span>비용</span> <strong>{service.wage}</strong>원 / 시간
+            </Text>
         </Info>
-        <Link href="../reservation/id">
-            <ActionButton>신청하기</ActionButton>
+        <Link href={`../reservation/${id}`} service={service}>
+            <Button>신청하기</Button>
         </Link>
     </Wrapper>
 );
@@ -33,7 +34,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-around;
     padding: 2rem;
-    height: 25rem;
+    height: 30rem;
     margin: 0 2%;
     width: 35%;
     span {
@@ -69,5 +70,14 @@ const Text = styled.div`
     padding-bottom: 1rem;
     color: #222;
 `;
+
+const Button = styled(ActionButton)`
+    height: 3.4rem;
+`;
+
+Summary.propTypes = {
+    service: PropTypes.object.isRequired,
+    id: PropTypes.string.isRequired,
+};
 
 export default Summary;

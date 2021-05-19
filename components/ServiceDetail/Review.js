@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Review = () => (
+const Review = ({ review }) => (
     <>
         <Wrapper id="review">
             <h2>후기 (26개)</h2>
