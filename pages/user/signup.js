@@ -17,15 +17,9 @@ const Signup = () => {
     const { me } = useSelector((state) => state.user);
 
     useEffect(() => {
-        console.log('role : ', me.role);
         if (me) {
-            if (me.role === 'customer') {
-                console.log('/');
-                Router.replace('/');
-            } else {
-                console.log('/welcome');
-                Router.replace('/welcome');
-            }
+            console.log('/welcome');
+            Router.replace('/welcome');
         }
     }, [me]);
     return (
