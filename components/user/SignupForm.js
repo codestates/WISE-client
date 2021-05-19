@@ -6,7 +6,6 @@ import { signUp } from '../../reducers/user';
 
 const SignupForm = () => {
     const dispatch = useDispatch();
-    const [role, onChangeRole] = useInput('customer');
     const [name, onChangeName] = useInput('');
     const [email, setEmail] = useState('');
     const [password, onChangePassword] = useInput('');
@@ -29,19 +28,13 @@ const SignupForm = () => {
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(signUp({ role, email, name, password, mobile }));
+            dispatch(signUp(email, name, password, mobile));
         },
-        [role, email, password],
+        [email, name, password, mobile],
     );
     return (
         <>
             <FormWrapper onSubmit={onsubmit}>
-                <TypeSelect>
-                    <input onClick={onChangeRole} type="radio" id="user" name="type" value="customer" defaultChecked />
-                    <label htmlFor="user">일반유저</label>
-                    <input onClick={onChangeRole} type="radio" id="assistant" name="type" value="assistant" />
-                    <label htmlFor="assistant">어시스턴트</label>
-                </TypeSelect>
                 <InputWrapper>
                     <label htmlFor="user-name">이름</label>
                     <input
@@ -102,30 +95,6 @@ const FormWrapper = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-`;
-
-const TypeSelect = styled.div`
-    margin: 1rem 0 1rem 0;
-    input[type='radio'] {
-        display: none;
-    }
-    input[type='radio'] + label {
-        display: inline-block;
-        width: 50%;
-        height: 3rem;
-        text-align: center;
-        line-height: 3.125rem;
-        border: 1px solid #e5e5e5;
-        cursor: pointer;
-        border-radius: 0 15px 15px 0;
-    }
-    input[type='radio']:first-child + label {
-        border-radius: 15px 0 0 15px;
-    }
-    input[type='radio']:checked + label {
-        background-color: #68d480;
-        color: #fff;
-    }
 `;
 
 const InputWrapper = styled.div`

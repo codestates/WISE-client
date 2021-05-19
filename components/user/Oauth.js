@@ -4,14 +4,14 @@ import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
 import { googleLogIn, facebookLogIn } from '../../reducers/user';
 
-const Oauth = ({ role }) => {
+const Oauth = () => {
     const dispatch = useDispatch();
     const onGoogleClick = useCallback(() => {
-        dispatch(googleLogIn({ role }));
-    }, [role]);
+        dispatch(googleLogIn());
+    }, []);
     const onFacebookClick = useCallback(() => {
-        dispatch(facebookLogIn({ role }));
-    }, [role]);
+        dispatch(facebookLogIn());
+    }, []);
     return (
         <Wrapper>
             <SigninButton onClick={onGoogleClick}>
