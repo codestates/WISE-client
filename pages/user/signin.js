@@ -18,11 +18,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (me) {
-            if (me.role === 'customer') {
-                Router.replace('/');
-            } else {
-                Router.replace('/welcome');
-            }
+            Router.replace('/welcome');
         }
     }, [me]);
     return (
@@ -74,7 +70,6 @@ const Header = styled.div`
     font-size: 2rem;
     font-weight: bolder;
 `;
-
 const Footer = styled.div`
     // border: 1px solid black;
     display: flex;

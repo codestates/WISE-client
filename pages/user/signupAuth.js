@@ -12,14 +12,14 @@ const Global = createGlobalStyle`
 `;
 
 const SignupAuth = () => {
-    const { linkToEmail } = useSelector((state) => state.user);
+    const { emailCheckDone } = useSelector((state) => state.user);
 
     return (
         <Layout title="WISE | SIGNUP">
             <Global />
             <CoverImg src="/images/wise_bg.png" />
             <Modal>
-                {linkToEmail ? (
+                {emailCheckDone ? (
                     <div>이메일을 확인해주세요 :)</div>
                 ) : (
                     <>

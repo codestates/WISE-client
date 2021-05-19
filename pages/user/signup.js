@@ -18,6 +18,7 @@ const Signup = () => {
 
     useEffect(() => {
         if (me) {
+            console.log('/welcome');
             Router.replace('/welcome');
         }
     }, [me]);

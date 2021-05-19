@@ -1,29 +1,23 @@
-import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import { signUpAuth } from '../../reducers/user';
+import { emailCheck } from '../../reducers/user';
 
 const SignupAuthForm = () => {
     const dispatch = useDispatch();
     const [email, onChangeEmail] = useInput('');
-
+    const { emailCheckError } = useSelector((state) => state.user);
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(signUpAuth({ email }));
+            dispatch(emailCheck(email));
         },
         [email],
     );
     return (
         <>
             <FormWrapper onSubmit={onsubmit}>
-                {/* <TypeSelect>
-                    <input onClick={onChangeRole} type="radio" id="user" name="type" defaultChecked />
-                    <label htmlFor="user">일반유저</label>
-                    <input onClick={onChangeRole} type="radio" id="assistant" name="type" />
-                    <label htmlFor="assistant">어시스턴트</label>
-                </TypeSelect> */}
                 <InputWrapper>
                     <label htmlFor="user-email">이메일</label>
                     <input
@@ -35,11 +29,18 @@ const SignupAuthForm = () => {
                         required
                     />
                 </InputWrapper>
+                <ErrMsg>{emailCheckError || ''}</ErrMsg>
                 <SignupBtn type="submit">이메일인증</SignupBtn>
             </FormWrapper>
         </>
     );
 };
+
+const ErrMsg = styled.div`
+    color: red;
+    line-height: 2rem;
+    height: 2rem;
+`;
 
 const FormWrapper = styled.form`
     // border: 1px solid black;
