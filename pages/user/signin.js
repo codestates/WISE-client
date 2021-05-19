@@ -70,6 +70,7 @@ const Header = styled.div`
     font-size: 2rem;
     font-weight: bolder;
 `;
+
 const Footer = styled.div`
     // border: 1px solid black;
     display: flex;

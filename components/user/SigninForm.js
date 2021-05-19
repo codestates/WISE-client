@@ -7,7 +7,6 @@ import Oauth from './Oauth';
 
 const SigninForm = () => {
     const { logInError } = useSelector((state) => state.user);
-
     const dispatch = useDispatch();
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');

@@ -29,10 +29,10 @@ const Welcome = () => {
                     </p>
                 </Content>
                 <Linker>
-                    <Link href="/">
+                    <Link href="/home">
                         <HomeBtn>홈으로가기</HomeBtn>
                     </Link>
-                    <Link href="/">
+                    <Link href="/registerService">
                         <RigisterBtn>어시스턴트 등록하기</RigisterBtn>
                     </Link>
                 </Linker>
