@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import { signUp } from '../../reducers/user';
+import { signupRequestAction } from '../../reducers/user';
 
 const SignupForm = () => {
     const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const SignupForm = () => {
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(signUp(email, name, password, mobile));
+            dispatch(signupRequestAction(email, name, password, mobile));
         },
         [email, name, password, mobile],
     );

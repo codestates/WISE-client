@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import { logIn } from '../../reducers/user';
+import { loginRequestAction } from '../../reducers/user';
 import Oauth from './Oauth';
 
 const SigninForm = () => {
@@ -23,7 +23,7 @@ const SigninForm = () => {
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(logIn(email, password));
+            dispatch(loginRequestAction(email, password));
         },
         [email, password],
     );

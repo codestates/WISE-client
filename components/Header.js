@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import { logOut } from '../reducers/user';
+import { logoutRequestAction } from '../reducers/user';
 
 const Header = () => {
     const dispatch = useDispatch();
     const { me } = useSelector((state) => state.user);
 
     const Logout = () => {
-        dispatch(logOut());
+        dispatch(logoutRequestAction());
         Router.replace('/user/signin');
     };
 

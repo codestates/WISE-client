@@ -1,8 +1,8 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { Form, Input, Button, Checkbox, Radio, Select } from 'antd';
+import { Button, Checkbox, Radio, Select } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { UploadOutlined } from '@ant-design/icons';
+import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import Layout from '../components/Layout';
 
 import useInput from '../hooks/useInput';
@@ -30,6 +30,10 @@ const registerService = () => {
     const onChangeOrgAuth = useCallback((e) => {
         setOrgAuth((prev) => [...prev, ...e.target.files]);
     }, []);
+    const removeOrgAuthImage = useCallback((name) => {
+        const newImages = orgAuth.filter((v) => v.name !== name);
+        setOrgAuth(newImages);
+    });
 
     // 교육 이수 여부
     const [isTrained, setIsTrained] = useState('');
@@ -46,6 +50,10 @@ const registerService = () => {
     const onChangeTrainingCert = useCallback((e) => {
         setTrainingCert((prev) => [...prev, ...e.target.files]);
     }, []);
+    const removeTrainingCertImage = useCallback((name) => {
+        const newImages = trainingCert.filter((v) => v.name !== name);
+        setTrainingCert(newImages);
+    });
 
     // 서비스 제공 이미지
     const [images, setImages] = useState([]);
@@ -56,6 +64,10 @@ const registerService = () => {
     const onChangeImages = useCallback((e) => {
         setImages((prev) => [...prev, ...e.target.files]);
     }, []);
+    const removeImage = useCallback((name) => {
+        const newImages = images.filter((v) => v.name !== name);
+        setImages(newImages);
+    });
 
     // 서비스 제공 가능 지역
     const [location, setLocation] = useState('');
@@ -84,16 +96,6 @@ const registerService = () => {
         setAvailableDays(checkedValues);
     }, []);
 
-    // 활동가능 시간대
-    const [availableTimes, setAvailableTimes] = useState([]);
-    const availableTimesOptions = useMemo(() => [
-        { label: 'am', value: '오전' },
-        { label: 'pm', value: '오후' },
-    ]);
-    const onChangeTimes = useCallback((checkedValues) => {
-        setAvailableTimes(checkedValues);
-    }, []);
-
     // 한 줄 소개
     const [greeting, onChangeGreeting] = useInput('');
 
@@ -103,19 +105,8 @@ const registerService = () => {
         setIsDriver(e.target.value);
     }, []);
 
-    // console.log('기관 인증 여부 : ', isAuthorized);
-    // console.log('기관 인증 증명 이미지 : ', orgAuth);
-    // console.log('교육 이수 여부 : ', isTrained);
-    // console.log('교육 이수 증명 이미지 : ', trainingCert);
-    // console.log('서비스 제공 이미지 : ', images);
-    // console.log('서비스 제공 가능 지역 : ', location);
-    // console.log('서비스 소개 : ', content);
-    // console.log('요금 : ', wage);
-    // console.log('활동 가능 요일 : ', availableDays);
-    // console.log('활동 가능 시간대 : ', availableTimes);
-    // console.log('한줄 소개 : ', greeting);
-    // console.log('운전 가능 여부 : ', isDriver);
-    const onSubmit = useCallback(() => {
+    const onSubmit = useCallback((e) => {
+        e.preventDefault();
         console.log('기관 인증 여부 : ', isAuthorized);
         console.log('기관 인증 증명 이미지 : ', orgAuth);
         console.log('교육 이수 여부 : ', isTrained);
@@ -125,7 +116,6 @@ const registerService = () => {
         console.log('서비스 소개 : ', content);
         console.log('요금 : ', wage);
         console.log('활동 가능 요일 : ', availableDays);
-        console.log('활동 가능 시간대 : ', availableTimes);
         console.log('한줄 소개 : ', greeting);
         console.log('운전 가능 여부 : ', isDriver);
     }, []);
@@ -137,13 +127,15 @@ const registerService = () => {
             <Modal>
                 <Header>어시스턴트 등록</Header>
                 <RegisterForm onSubmit={onSubmit}>
-                    <Form.Item label="기관 인증 여부" name="isAuthorized" rules={[{ required: true }]}>
+                    <InputWrapper>
+                        <span>기관 인증 여부</span>
                         <Radio.Group onChange={onChangeIsAuthorized}>
                             <Radio value="true">완료</Radio>
                             <Radio value="false">미완료</Radio>
                         </Radio.Group>
-                    </Form.Item>
-                    <Form.Item label="기관 인증 증명 이미지" name="orgAuth">
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>기관 인증 증명 이미지</span>
                         <input
                             type="file"
                             accept="image/*"
@@ -155,14 +147,26 @@ const registerService = () => {
                         <Button icon={<UploadOutlined />} onClick={orgAuthUpload}>
                             Upload
                         </Button>
-                    </Form.Item>
-                    <Form.Item label="교육 이수  여부" name="isTrained" rules={[{ required: true }]}>
+                    </InputWrapper>
+                    <ImagesWrapper>
+                        {orgAuth.map((ele) => (
+                            <div key={ele.name}>
+                                {ele.name}
+                                <DeleteBtn type="button" onClick={() => removeOrgAuthImage(ele.name)}>
+                                    <CloseOutlined />
+                                </DeleteBtn>
+                            </div>
+                        ))}
+                    </ImagesWrapper>
+                    <InputWrapper>
+                        <span>교육 이수 여부</span>
                         <Radio.Group onChange={onChangeIsTrained}>
                             <Radio value="true">완료</Radio>
                             <Radio value="false">미완료</Radio>
                         </Radio.Group>
-                    </Form.Item>
-                    <Form.Item label="교육 이수 증명 이미지" name="trainingCert">
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>교육 이수 증명 이미지</span>
                         <input
                             type="file"
                             accept="image/*"
@@ -174,8 +178,19 @@ const registerService = () => {
                         <Button icon={<UploadOutlined />} onClick={trainingCertUpload}>
                             Upload
                         </Button>
-                    </Form.Item>
-                    <Form.Item label="서비스 제공 이미지" name="images" rules={[{ required: true }]}>
+                    </InputWrapper>
+                    <ImagesWrapper>
+                        {trainingCert.map((ele) => (
+                            <div key={ele.name}>
+                                {ele.name}
+                                <DeleteBtn type="button" onClick={() => removeTrainingCertImage(ele.name)}>
+                                    <CloseOutlined />
+                                </DeleteBtn>
+                            </div>
+                        ))}
+                    </ImagesWrapper>
+                    <InputWrapper>
+                        <span>서비스 제공 이미지</span>
                         <input
                             type="file"
                             accept="image/*"
@@ -187,8 +202,19 @@ const registerService = () => {
                         <Button icon={<UploadOutlined />} onClick={imagesUpload}>
                             Upload
                         </Button>
-                    </Form.Item>
-                    <Form.Item label="서비스 제공 가능 지역" name="location" rules={[{ required: true }]}>
+                    </InputWrapper>
+                    <ImagesWrapper>
+                        {images.map((ele) => (
+                            <div key={ele.name}>
+                                <Image src={URL.createObjectURL(ele)} alt="dlalwl" />
+                                <DeleteBtn type="button" onClick={() => removeImage(ele.name)}>
+                                    <CloseOutlined />
+                                </DeleteBtn>
+                            </div>
+                        ))}
+                    </ImagesWrapper>
+                    <InputWrapper>
+                        <span>서비스 제공 가능 지역</span>
                         <Select
                             onChange={onChangeLocation}
                             showSearch
@@ -200,44 +226,95 @@ const registerService = () => {
                             <Select.Option value="gyeonggi">경기</Select.Option>
                             <Select.Option value="incheon">인천</Select.Option>
                         </Select>
-                    </Form.Item>
-                    <Form.Item label="서비스소개" name="content" rules={[{ required: true }]}>
-                        <TextArea onChange={onChangeContent} placeholder="서비스설명" />
-                    </Form.Item>
-                    <Form.Item label="요금" name="wage" rules={[{ required: true }]}>
-                        <Input
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>서비스소개</span>
+                        <textarea
+                            onChange={onChangeContent}
+                            placeholder="서비스설명"
+                            style={{ width: '35rem' }}
+                            required
+                        />
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>요금</span>
+                        <input
                             type="number"
                             onChange={onChangeWage}
                             placeholder="서비스 시급"
                             style={{ width: '8rem' }}
+                            required
                         />
                         /시간
-                    </Form.Item>
-                    <Form.Item label="활동가능요일" name="availableDays" rules={[{ required: true }]}>
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>활동가능요일</span>
                         <Checkbox.Group options={availableDaysOptions} onChange={onChangeDays} />
-                    </Form.Item>
-                    <Form.Item label="활동가능시간대" name="availableTimes" rules={[{ required: true }]}>
-                        <Checkbox.Group options={availableTimesOptions} onChange={onChangeTimes} />
-                    </Form.Item>
-                    <Form.Item label="한줄소개" name="greeting" rules={[{ required: true }]}>
-                        <Input onChange={onChangeGreeting} placeholder="서비스 한줄 소개" />
-                    </Form.Item>
-                    <Form.Item label="운전 가능 여부" name="isDriver" rules={[{ required: true }]}>
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>한줄소개</span>
+                        <input
+                            onChange={onChangeGreeting}
+                            placeholder="서비스 한줄 소개"
+                            style={{ width: '35rem' }}
+                            required
+                        />
+                    </InputWrapper>
+                    <InputWrapper>
+                        <span>운전 가능 여부</span>
                         <Radio.Group onChange={onChangeIsDriver}>
                             <Radio value="true">가능</Radio>
                             <Radio value="false">불가능</Radio>
                         </Radio.Group>
-                    </Form.Item>
-                    <Form.Item>
+                    </InputWrapper>
+                    <InputWrapper>
                         <SubmitBtn type="submit" className="submitbtn">
                             어시스턴트 등록
                         </SubmitBtn>
-                    </Form.Item>
+                    </InputWrapper>
                 </RegisterForm>
             </Modal>
         </Layout>
     );
 };
+
+const Image = styled.img`
+    max-width: 22rem;
+    max-height: 14rem;
+`;
+
+const ImagesWrapper = styled.div`
+    // border: 1px solid gray;
+    color: #777;
+    font-size: 1rem;
+    // height: 9.375rem;
+    padding: 0.625rem;
+`;
+
+const DeleteBtn = styled.button`
+    border: none;
+    background: none;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
+    & > span:first-child {
+        margin-right: 1rem;
+    }
+    input {
+        border: 1px solid #e5e5e5;
+        // padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+    input:focus {
+        outline: none;
+    }
+    margin-bottom: 1.5rem;
+    position: relative;
+`;
 
 const SubmitBtn = styled.button`
     border: none;
@@ -250,7 +327,7 @@ const SubmitBtn = styled.button`
     width: 10rem;
 `;
 
-const RegisterForm = styled(Form)`
+const RegisterForm = styled.form`
     // border: 1px solid black;
     margin-top: 1rem;
     display:flex
@@ -272,11 +349,13 @@ const Modal = styled.div`
     width: 45rem;
     border-radius: 2rem;
     padding: 1rem 2rem 0 2rem;
+    margin-top: 2rem;
     z-index: 500;
     display: flex;
     flex-direction: column;
     font-weight: 600;
     box-shadow: 0 0.2rem 0.3rem 0.1rem rgba(85, 85, 85, 0.25);
+    // height: 90vh;
 `;
 
 const Header = styled.div`
