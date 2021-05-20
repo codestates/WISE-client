@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import { emailCheck } from '../../reducers/user';
+import { emailCheckRequestAction } from '../../reducers/user';
 
 const SignupAuthForm = () => {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const SignupAuthForm = () => {
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(emailCheck(email));
+            dispatch(emailCheckRequestAction(email));
         },
         [email],
     );

@@ -1,7 +1,13 @@
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { createGlobalStyle } from 'styled-components';
+import axios from 'axios';
+import Router from 'next/router';
+import { useEffect } from 'react';
+import { END } from 'redux-saga';
 import Layout from '../components/Layout';
+import wrapper from '../store/configureStore';
+import { loadMyInfo } from '../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -11,8 +17,19 @@ const Global = createGlobalStyle`
 `;
 
 const Welcome = () => {
+    // const dispatch = useDispatch();
     const { me } = useSelector((state) => state.user);
-    console.log(me);
+
+    // console.log(me);
+    // useEffect(() => {
+    //     dispatch(loadMyInfo());
+    // }, []);
+    // useEffect(() => {
+    //     if (!(me && me.id)) {
+    //         Router.push('/home');
+    //     }
+    // }, [me && me.id]);
+
     return (
         <Layout title="WISE | HOME">
             <Global />
@@ -91,5 +108,20 @@ const CoverImg = styled.img`
     top: 0;
     z-index: -50;
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    console.log('getServerSideProps start');
+    console.log(context.req.headers);
+    const cookie = context.req ? context.req.headers.cookie : '';
+    console.log('cookie : ', cookie);
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+        axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch(loadMyInfo());
+    context.store.dispatch(END);
+    console.log('getServerSideProps end');
+    await context.store.sagaTask.toPromise();
+});
 
 export default Welcome;

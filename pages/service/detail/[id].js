@@ -1,23 +1,30 @@
-import { useCallback, useEffect } from 'react';
+// import { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { END } from 'redux-saga';
+
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import Review from '../../../components/ServiceDetail/Review';
-import { getSingleServiceAction } from '../../../actions/service';
+import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
+import Loading from '../../../components/Loading';
+import FAQ from '../../../components/ServiceDetail/FAQ';
+import Refund from '../../../components/ServiceDetail/Refund';
+import wrapper from '../../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
         padding: 2rem 0;
     }
-    .Summary__Wrapper-sc-1wbecrp-0{
+    .Summary__Wrapper-sc-1wbecrp-0, .Navigation__Wrapper-sc-1jd4ncw-0{
       position: sticky;
       top: 0;
       z-index: 10;
     }
+
 `;
 
 const ServiceDetail = () => {
@@ -27,19 +34,18 @@ const ServiceDetail = () => {
     console.log(id);
 
     const { service, review } = useSelector((state) => state.service);
-    const dispatch = useDispatch();
-    console.log(service);
+    // const handleClickServiceDetail = useCallback(() => {
+    //     dispatch({
+    //         type: GET_SERVICE_INFO_REQUEST,
+    //         serviceId: id,
+    //     });
+    // }, [id]);
 
-    const handleClickServiceDetail = useCallback(() => {
-        dispatch(getSingleServiceAction(id));
-        console.log('aaaa');
-    }, [id]);
-
-    useEffect(() => {
-        if (id) {
-            handleClickServiceDetail();
-        }
-    }, [id]);
+    // useEffect(() => {
+    //     if (id) {
+    //         handleClickServiceDetail();
+    //     }
+    // }, [id]);
 
     return (
         <>
@@ -50,16 +56,18 @@ const ServiceDetail = () => {
                         <Container>
                             <Detail>
                                 <CoverImg src={`${IMAGE_URL}${service.images[0]}`} alt="cover images" />
-                                <Navigation />
+                                <Navigation id={id} />
                                 <Description service={service} />
+                                <Review review={review} />
+                                <FAQ />
+                                <Refund />
                             </Detail>
                             <Summary service={service} id={id} />
                         </Container>
-                        <Review review={review} />
                     </Wrapper>
                 </Layout>
             ) : (
-                ''
+                <Loading />
             )}
         </>
     );
@@ -71,7 +79,8 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 3rem;
+    padding: 2rem 0;
+    margin-bottom: 6rem;
 `;
 const Container = styled.div`
     width: 100%;
@@ -88,7 +97,16 @@ const CoverImg = styled.img`
     width: 100%;
     height: 28rem;
     object-fit: cover;
-    max-width: 42rem;
+    max-width: 50rem;
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    context.store.dispatch({
+        type: GET_SERVICE_INFO_REQUEST,
+        serviceId: context.params.id,
+    });
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 export default ServiceDetail;
