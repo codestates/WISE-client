@@ -2,15 +2,18 @@ import { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { END } from 'redux-saga';
+
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import Review from '../../../components/ServiceDetail/Review';
-import { getSingleServiceAction } from '../../../actions/service';
+import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
+import wrapper from '../../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
@@ -31,16 +34,19 @@ const ServiceDetail = () => {
 
     const { service, review } = useSelector((state) => state.service);
     const dispatch = useDispatch();
+    console.log('service: ', service);
+    // const handleClickServiceDetail = useCallback(() => {
+    //     dispatch({
+    //         type: GET_SERVICE_INFO_REQUEST,
+    //         serviceId: id,
+    //     });
+    // }, [id]);
 
-    const handleClickServiceDetail = useCallback(() => {
-        dispatch(getSingleServiceAction(id));
-    }, [id]);
-
-    useEffect(() => {
-        if (id) {
-            handleClickServiceDetail();
-        }
-    }, [id]);
+    // useEffect(() => {
+    //     if (id) {
+    //         handleClickServiceDetail();
+    //     }
+    // }, [id]);
 
     return (
         <>
@@ -94,5 +100,14 @@ const CoverImg = styled.img`
     object-fit: cover;
     max-width: 50rem;
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    context.store.dispatch({
+        type: GET_SERVICE_INFO_REQUEST,
+        serviceId: context.params.id,
+    });
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 export default ServiceDetail;
