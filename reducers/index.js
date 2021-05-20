@@ -4,17 +4,19 @@ import { combineReducers } from 'redux';
 import user from './user';
 import service from './service';
 
-const rootReducer = combineReducers({
-    index: (state = {}, action) => {
-        switch (action.type) {
-            case HYDRATE:
-                return { ...state, ...action.payload };
-            default:
-                return state;
+const rootReducer = (state, action) => {
+    switch (action.type) {
+        case HYDRATE:
+            console.log('HYDRATE', action);
+            return action.payload;
+        default: {
+            const combinedReducer = combineReducers({
+                user,
+                service,
+            });
+            return combinedReducer(state, action);
         }
-    },
-    user,
-    service,
-});
+    }
+};
 
 export default rootReducer;
