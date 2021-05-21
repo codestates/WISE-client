@@ -1,85 +1,159 @@
-// import PropTypes from 'prop-types';
-// import styled from 'styled-components';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 // import { useMemo } from 'react';
+import Link from 'next/link';
 
-// import PostRegisterForm from './PostRegisterForm';
-// import { Icon } from '../../Theme';
+const NotificationModal = ({ onClose }) => {
+    // const style = useMemo(() => ({ marginRight: '1rem' }), []);
 
-// const NotificationModal = ({ onClose }) => {
-//     const style = useMemo(() => ({ marginRight: '1rem' }), []);
+    return (
+        <StyledModalOverlay>
+            <StyledModal>
+                <StyledModalHeader>
+                    <div>새 알림</div>
+                </StyledModalHeader>
+                <StyledModalBody>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>김천사 어시스턴트가 신청을 수락했습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>결제하러 가기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                    <Noti>
+                        <div>서비스 신청이 1건 있습니다</div>
+                        <div>
+                            <Link href="/service/accept/reservationId">
+                                <Button>확인하기</Button>
+                            </Link>
+                        </div>
+                    </Noti>
+                </StyledModalBody>
+            </StyledModal>
+        </StyledModalOverlay>
+    );
+};
 
-//     return (
-//         <StyledModalOverlay>
-//             <StyledModal>
-//                 <StyledModalHeader>
-//                     <div>Aurora post</div>
-//                     <span style={style} onClick={onClose}>
-//                         {Icon.times}
-//                     </span>
-//                 </StyledModalHeader>
-//                 <StyledModalBody>
-//                     <PostRegisterForm onClose={onClose} />
-//                 </StyledModalBody>
-//             </StyledModal>
-//         </StyledModalOverlay>
-//     );
-// };
+const StyledModalOverlay = styled.div`
+    position: absolute;
+    top: 3rem;
+    right: 5%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+`;
 
-// const StyledModalOverlay = styled.div`
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     background-color: rgba(0, 0, 0, 0.5);
-//     z-index: 50;
-// `;
+const StyledModal = styled.div`
+    background: white;
+    width: 30rem;
+    height: 20rem;
+    border-radius: 0.5rem;
+    box-shadow: 0.3rem 0.2rem 0.4rem #f0f0f0, -0.3rem 0.2rem 0.4rem #f0f0f0;
+    padding: 1.5rem 2rem;
+    z-index: 100;
+    overflow-y: scroll;
+`;
 
-// const StyledModal = styled.div`
-//     background: white;
-//     width: 45rem;
-//     height: 38rem;
-//     border-radius: 0.7rem;
-//     padding: 15px;
-//     z-index: 500;
-// `;
+const StyledModalHeader = styled.div`
+    color: #222;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #d0d0d0;
+    width: 100%;
+`;
 
-// const StyledModalHeader = styled.div`
-//     padding-bottom: 1rem;
-//     border-bottom: 1.5px solid #ccc;
-//     display: flex;
-//     position: relative;
-//     justify-content: space-between;
-//     font-size: 1.4rem;
-//     color: #888;
-//     text-align: center;
-//     div {
-//         font-weight: 500;
-//         width: 100%;
-//     }
-//     span {
-//         cursor: pointer;
-//     }
-// `;
+const StyledModalBody = styled.div`
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
 
-// const StyledModalBody = styled.div`
-//     padding-top: 10px;
-//     height: 90%;
-//     input {
-//         border: none;
-//         padding: 0 1rem;
-//         height: 3rem;
-//         &:focus {
-//             outline: none;
-//         }
-//     }
-// `;
+const Noti = styled.div`
+    width: 100%;
+    margin: 0.6rem 0;
+    div:first-child {
+        margin-right: 10%;
+        font-size: 0.9rem;
+    }
+`;
 
-// PostRegisterForm.propTypes = {
-//     onClose: PropTypes.func.isRequired,
-// };
+const Button = styled.a`
+    padding: 0 0.7rem;
+    width: 100%;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    background-color: #f5f5f5;
+    border: 1px solid #f0f0f0;
+    border-radius: 1.2rem;
+    font-size: 0.9rem;
+    &:hover {
+        border: 1px solid #68d480;
+        /* background-color: #fff; */
+    }
+`;
 
-// export default NotificationModal;
+NotificationModal.propTypes = {
+    onClose: PropTypes.func.isRequired,
+};
+
+export default NotificationModal;
+
+

@@ -34,6 +34,7 @@ const Wrapper = styled.div`
     // border: 1px solid black;
     padding: 3rem;
     max-width: 1200px;
+    z-index: -1;
 `;
 
 export default Home;

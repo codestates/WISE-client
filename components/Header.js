@@ -1,13 +1,28 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import Link from 'next/link';
+import { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { logoutRequestAction } from '../reducers/user';
+import NotificationModal from './NotificationModal';
 
 const Header = () => {
     const dispatch = useDispatch();
     const { me } = useSelector((state) => state.user);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const onClickModal = useCallback(() => {
+        setShowModal((state) => !state);
+        console.log('clicked!');
+    }, []);
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+        console.log('clicked!');
+    }, []);
 
     const Logout = () => {
         dispatch(logoutRequestAction());
@@ -31,7 +46,22 @@ const Header = () => {
                         <Link href="/registerService">
                             <a>어시스턴트 등록</a>
                         </Link>
-                        <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+
+                        <div onClick={onClickModal}>
+                            {showModal ? (
+                                <BellOutlined
+                                    style={{
+                                        fontSize: '1.5rem',
+                                        lineHeight: '2rem',
+                                        color: '#68d480',
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                            ) : (
+                                <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }} />
+                            )}
+                        </div>
+                        {showModal && <NotificationModal onClose={onCloseModal} />}
                         <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>
