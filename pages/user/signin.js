@@ -18,16 +18,16 @@ const Global = createGlobalStyle`
 
 const Signin = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+    const { logInDone } = useSelector((state) => state.user);
 
-    // useEffect(() => {
-    //     dispatch(loadMyInfo());
-    // }, []);
     useEffect(() => {
-        if (me) {
+        dispatch(loadMyInfo());
+    }, []);
+    useEffect(() => {
+        if (logInDone) {
             Router.replace('/welcome');
         }
-    }, [me]);
+    }, [logInDone]);
 
     return (
         <Layout title="WISE | SIGNIN">

@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { createGlobalStyle } from 'styled-components';
-import axios from 'axios';
 import Router from 'next/router';
 import { useEffect } from 'react';
-import { END } from 'redux-saga';
 import Layout from '../components/Layout';
 import wrapper from '../store/configureStore';
-import { loadMyInfo } from '../reducers/user';
+import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
+import Loading from '../components/Loading';
 
 const Global = createGlobalStyle`
     footer {
@@ -17,44 +16,52 @@ const Global = createGlobalStyle`
 `;
 
 const Welcome = () => {
-    // const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const { me, logInDone } = useSelector((state) => state.user);
 
-    // console.log(me);
-    // useEffect(() => {
-    //     dispatch(loadMyInfo());
-    // }, []);
-    // useEffect(() => {
-    //     if (!(me && me.id)) {
-    //         Router.push('/home');
-    //     }
-    // }, [me && me.id]);
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            dispatch({
+                type: LOG_IN_SUCCESS,
+            });
+            dispatch(loadMyInfo());
+        } else {
+            Router.replace('/home');
+        }
+    }, []);
 
     return (
-        <Layout title="WISE | HOME">
-            <Global />
-            <CoverImg src="/images/wise_bg.png" />
-            <Wrapper>
-                <Content>
-                    <h2>환영합니다!</h2>
-                    <p>
-                        안녕하세요, 회원님.
-                        <br />
-                        WISE를 이용해 주셔서 감사합니다.
-                        <br />
-                        회원님이 주신 소중한 정보는 안전하게 관리하겠습니다.
-                    </p>
-                </Content>
-                <Linker>
-                    <Link href="/home">
-                        <HomeBtn>홈으로가기</HomeBtn>
-                    </Link>
-                    <Link href="/registerService">
-                        <RigisterBtn>어시스턴트 등록하기</RigisterBtn>
-                    </Link>
-                </Linker>
-            </Wrapper>
-        </Layout>
+        <>
+            {!logInDone ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | WELCOME">
+                    <Global />
+                    <CoverImg src="/images/wise_bg.png" />
+                    <Wrapper>
+                        <Content>
+                            <h2>환영합니다!</h2>
+                            <p>
+                                안녕하세요, 회원님.
+                                <br />
+                                WISE를 이용해 주셔서 감사합니다.
+                                <br />
+                                회원님이 주신 소중한 정보는 안전하게 관리하겠습니다.
+                            </p>
+                        </Content>
+                        <Linker>
+                            <Link href="/home">
+                                <HomeBtn>홈으로가기</HomeBtn>
+                            </Link>
+                            <Link href="/registerService">
+                                <RigisterBtn>어시스턴트 등록하기</RigisterBtn>
+                            </Link>
+                        </Linker>
+                    </Wrapper>
+                </Layout>
+            )}
+        </>
     );
 };
 
@@ -109,19 +116,23 @@ const CoverImg = styled.img`
     z-index: -50;
 `;
 
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    console.log('getServerSideProps start');
-    console.log(context.req.headers);
-    const cookie = context.req ? context.req.headers.cookie : '';
-    console.log('cookie : ', cookie);
-    axios.defaults.headers.Cookie = '';
-    if (context.req && cookie) {
-        axios.defaults.headers.Cookie = cookie;
-    }
-    context.store.dispatch(loadMyInfo());
-    context.store.dispatch(END);
-    console.log('getServerSideProps end');
-    await context.store.sagaTask.toPromise();
-});
+// export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+//     console.log('getServerSideProps start');
+//     // console.log(context.req.cookies);
+//     // const cookie = context.req ? context.req.headers.cookie : '';
+//     // // console.log('cookie : ', cookie);
+//     // axios.defaults.headers.Cookie = '';
+//     // if (context.req && cookie) {
+//     //     axios.defaults.headers.Cookie = cookie;
+//     // }
+
+//     const cookies = new Cookies(context.req, context.res);
+//     const tmp = cookies.get('accessToken');
+//     console.log('tmp@@@@@@@@@@@@@@@@@@@@@@@@ : ', tmp);
+//     context.store.dispatch(loadMyInfo());
+//     context.store.dispatch(END);
+//     console.log('getServerSideProps end');
+//     await context.store.sagaTask.toPromise();
+// });
 
 export default Welcome;
