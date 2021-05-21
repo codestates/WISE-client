@@ -4,7 +4,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Router from 'next/router';
 import { useEffect } from 'react';
 import Layout from '../components/Layout';
-import wrapper from '../store/configureStore';
 import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
 import Loading from '../components/Loading';
 
@@ -17,7 +16,7 @@ const Global = createGlobalStyle`
 
 const Welcome = () => {
     const dispatch = useDispatch();
-    const { me, logInDone } = useSelector((state) => state.user);
+    const { logInDone } = useSelector((state) => state.user);
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');

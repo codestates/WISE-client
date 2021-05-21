@@ -1,11 +1,12 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { Button, Checkbox, Radio, Select } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 import Layout from '../components/Layout';
 
 import useInput from '../hooks/useInput';
+import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -15,6 +16,17 @@ const Global = createGlobalStyle`
 `;
 
 const registerService = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            dispatch({
+                type: LOG_IN_SUCCESS,
+            });
+            dispatch(loadMyInfo());
+        }
+    }, []);
     // 기관 인증 여부
     const [isAuthorized, setIsAuthorized] = useState('');
     const onChangeIsAuthorized = useCallback((e) => {
