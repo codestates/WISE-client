@@ -21,10 +21,8 @@ const Signin = () => {
     const { logInDone } = useSelector((state) => state.user);
 
     useEffect(() => {
-        dispatch(loadMyInfo());
-    }, []);
-    useEffect(() => {
         if (logInDone) {
+            dispatch(loadMyInfo());
             Router.replace('/welcome');
         }
     }, [logInDone]);
