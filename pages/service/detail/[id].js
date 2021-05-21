@@ -28,7 +28,7 @@ const Global = createGlobalStyle`
 `;
 
 const ServiceDetail = () => {
-    const IMAGE_URL = process.env.imageURL;
+    const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();
     const { id } = router.query;
     console.log(id);

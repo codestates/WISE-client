@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Review = ({ review }) => (
     <>
@@ -9,12 +10,11 @@ const Review = ({ review }) => (
                     <img src="/images/avatar_default.png" alt="review avatar" />
                     <span>이지은</span>
                     {/* <span>{review.customer}</span> */}
-                    {/* <div>{review.content}</div> */}
-                    <div>
+                    {/* <div>
                         제가 젊은 나이에 거동이 힘들어 외출은 생각도 안했는데 이 곳 덕분에 방안에만 있다가 바깥공기를
                         쐬고 오니 기분이 한결 좋아졌네요 몸이 불편한 사람들은 어디 한번 나가기가 너무 힘들고 누군가에게
                         부탁기도 어려운데 앞으로 자주 이용할것 같습니다. 너무 감사드리고 저 챙겨주신분께도 감사드립니다.
-                    </div>
+                    </div> */}
                 </ReviewItem>
                 <ReviewItem>
                     <img src="/images/avatar_default.png" alt="review avatar" />
@@ -80,5 +80,9 @@ const ReviewItem = styled.div`
         margin-top: 1rem;
     }
 `;
+
+Review.propTypes = {
+    review: PropTypes.object.isRequired,
+};
 
 export default Review;

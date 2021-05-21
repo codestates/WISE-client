@@ -11,7 +11,7 @@ const configureStore = () => {
     const sagaMiddleware = createSagaMiddleware();
     const middlewares = [sagaMiddleware, thunk];
     const enhancer =
-        process.env.NODE_ENV === 'production'
+        process.env.NEXT_PUBLIC_NODE_ENV === 'production'
             ? compose(applyMiddleware(...middlewares))
             : composeWithDevTools(applyMiddleware(...middlewares));
     const store = createStore(reducer, enhancer);
@@ -19,6 +19,6 @@ const configureStore = () => {
     return store;
 };
 
-const wrapper = createWrapper(configureStore, { debug: process.env.NODE_ENV === 'development' });
+const wrapper = createWrapper(configureStore, { debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development' });
 
 export default wrapper;
