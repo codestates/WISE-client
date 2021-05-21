@@ -21,18 +21,24 @@ import {
     EMAIL_CHECK_FAILURE,
 } from '../reducers/user';
 
+axios.defaults.withCredentials = true;
+
 function loadMyInfoAPI() {
-    return axios.get('/api/v1/users/60a621239ee7342a41f95475');
+    const userId = localStorage.getItem('userId');
+    return axios.get(`/api/v1/users/${userId}`);
 }
 
 function* loadMyInfo() {
     try {
+        const accessToken = localStorage.getItem('accessToken');
         const result = yield call(loadMyInfoAPI);
         yield put({
             type: LOAD_MY_INFO_SUCCESS,
             payload: result.data.user,
+            token: accessToken,
         });
     } catch (err) {
+        console.log('dddddddddddddddddd');
         console.error(err);
         yield put({
             type: LOAD_MY_INFO_FAILURE,
@@ -57,11 +63,12 @@ async function loginToken({ email, password, signinMethod }) {
         result = await auth.signInWithPopup(facebookAuthProvider);
     }
     const accessToken = await result.user.getIdToken();
+    localStorage.setItem('accessToken', accessToken);
     return accessToken;
 }
 
-function logInAPI(accessToken, { signinMethod }) {
-    return axios.post(
+async function logInAPI(accessToken, { signinMethod }) {
+    const response = await axios.post(
         '/api/v1/signin',
         { signinMethod },
         {
@@ -70,16 +77,19 @@ function logInAPI(accessToken, { signinMethod }) {
             },
         },
     );
+    localStorage.setItem('userId', response.data.user._id);
+    return response;
 }
 
 function* logIn(action) {
     try {
         const accessToken = yield call(loginToken, action.data);
         const result = yield call(logInAPI, accessToken, action.data);
+
         yield put({
             type: LOG_IN_SUCCESS,
-            payload: result.data.user,
-            token: accessToken,
+            // payload: result.data.user,
+            // token: accessToken,
         });
     } catch (err) {
         let errorMessage = '';
@@ -111,6 +121,8 @@ function* watchLogIn() {
 function* logOut() {
     try {
         firebase.auth().signOut();
+        localStorage.removeItem('userId');
+        localStorage.removeItem('accessToken');
         yield put({
             type: LOG_OUT_SUCCESS,
         });

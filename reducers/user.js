@@ -86,10 +86,10 @@ const reducer = (state = initialState, action) =>
                 draft.loadMyInfoDone = false;
                 break;
             case LOAD_MY_INFO_SUCCESS: {
-                console.log('action.payload');
                 draft.loadMyInfoLoading = false;
                 draft.me = action.payload;
                 draft.loadMyInfoDone = true;
+                draft.accessToken = action.token;
                 break;
             }
             case LOAD_MY_INFO_FAILURE:
@@ -104,8 +104,8 @@ const reducer = (state = initialState, action) =>
             case LOG_IN_SUCCESS:
                 draft.logInLoading = false;
                 draft.logInDone = true;
-                draft.me = action.payload;
-                draft.accessToken = action.token;
+                // draft.me = action.payload;
+                // draft.accessToken = action.token;
                 break;
             case LOG_IN_FAILURE:
                 draft.logInLoading = false;
