@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/Reservation';
-import { getSingleServiceAction } from '../../../actions/service';
+import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
 
 const Global = createGlobalStyle`
     footer {
@@ -23,7 +23,10 @@ const ReservationDetail = () => {
     console.log(service);
 
     const handleClickServiceDetail = useCallback(() => {
-        dispatch(getSingleServiceAction(id));
+        dispatch({
+            type: GET_SERVICE_INFO_REQUEST,
+            serviceId: id,
+        });
         console.log('aaaa');
     }, [id]);
 
