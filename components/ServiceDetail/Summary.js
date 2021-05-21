@@ -20,6 +20,10 @@ const Summary = ({ service, id }) => (
                 <span>시간</span> 오전
             </Text>
             <Text>
+                <span>평점</span>
+                <i className="material-icons">star</i> {service.starRating ? service.starRating : 0}
+            </Text>
+            <Text>
                 <span>비용</span> <strong>{service.wage}</strong>원 / 시간
             </Text>
         </Info>
@@ -71,6 +75,11 @@ const Text = styled.div`
     font-weight: 500;
     padding-bottom: 1rem;
     color: #222;
+    i {
+        color: #68d480;
+        vertical-align: middle;
+        margin-top: -0.4rem;
+    }
 `;
 
 const Button = styled(ActionButton)`
