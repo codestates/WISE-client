@@ -4,7 +4,7 @@ import axios from 'axios';
 import userSaga from './user';
 import serviceSaga from './service';
 
-axios.defaults.baseURL = process.env.backUrl;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_backUrl;
 axios.defaults.withCredentials = true;
 
 export default function* rootSaga() {

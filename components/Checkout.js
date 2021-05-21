@@ -7,7 +7,7 @@ const Checkout = () => {
     // const { price } = useSelector((state) => state.user);
     const router = useRouter();
 
-    const IMP_CODE = process.env.IMPcode;
+    const IMP_CODE = process.env.NEXT_PUBLIC_IMPcode;
     // test
     const PRICE = 100;
     const PG = 'nice';
