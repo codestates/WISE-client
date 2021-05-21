@@ -3,10 +3,8 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import Layout from '../../components/Layout';
 import SigninForm from '../../components/user/SigninForm';
-import wrapper from '../../store/configureStore';
 import { loadMyInfo } from '../../reducers/user';
 
 const Global = createGlobalStyle`
@@ -18,14 +16,19 @@ const Global = createGlobalStyle`
 
 const Signin = () => {
     const dispatch = useDispatch();
-    const { logInDone } = useSelector((state) => state.user);
+    const { logInDone, me } = useSelector((state) => state.user);
 
     useEffect(() => {
         if (logInDone) {
             dispatch(loadMyInfo());
-            Router.replace('/welcome');
         }
     }, [logInDone]);
+
+    useEffect(() => {
+        if (me) {
+            Router.replace('/welcome');
+        }
+    }, [me]);
 
     return (
         <Layout title="WISE | SIGNIN">
@@ -89,19 +92,5 @@ const Footer = styled.div`
         cursor: pointer;
     }
 `;
-
-// export const getServerSideProps = wrapper.getServerSideProps((context) => {
-//     console.log('getServerSideProps start');
-//     console.log(context.req.headers);
-//     const cookie = context.req ? context.req.headers.cookie : '';
-//     axios.defaults.headers.Cookie = '';
-//     if (context.req && cookie) {
-//         axios.defaults.headers.Cookie = cookie;
-//     }
-//     context.store.dispatch(loadMyInfo());
-//     // context.store.dispatch(END);
-//     console.log('getServerSideProps end');
-//     // await context.store.sagaTask.toPromise();
-// });
 
 export default Signin;

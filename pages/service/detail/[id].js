@@ -1,9 +1,10 @@
 // import { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
+import { useEffect } from 'react';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
@@ -14,6 +15,7 @@ import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
 import wrapper from '../../../store/configureStore';
+import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -28,6 +30,17 @@ const Global = createGlobalStyle`
 `;
 
 const ServiceDetail = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            dispatch({
+                type: LOG_IN_SUCCESS,
+            });
+            dispatch(loadMyInfo());
+        }
+    }, []);
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();
     const { id } = router.query;
