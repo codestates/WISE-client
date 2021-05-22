@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -46,14 +46,21 @@ const ReservationDetail = () => {
             handleClickServiceDetail();
         }
     }, [id]);
+
+    const [duration, setDuration] = useState(1);
+
+    const handleChangeDuration = useCallback((value) => {
+        setDuration(value);
+    }, []);
+
     return (
         <>
             {service ? (
                 <Layout>
                     <Global />
                     <Wrapper>
-                        <Reservation id={id} />
-                        <AssistantInfo service={service} />
+                        <Reservation id={id} handleChangeDuration={handleChangeDuration} />
+                        <AssistantInfo service={service} duration={duration} />
                     </Wrapper>
                 </Layout>
             ) : (

@@ -1,28 +1,34 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-const AssistantInfo = () => (
-    <Wrapper>
-        <h2>김천사 어시스턴트</h2>
-        <img
-            src="/images/sample_photo.jpeg"
-            alt="샘플이미지"
-            style={{ width: '14rem', height: '10rem', objectFit: 'cover', borderRadius: '0.2rem' }}
-        />
-        <h3>안전하고 편안하게 동행해드릴게요</h3>
-        <Text>
-            <span>지역</span> 서울시 동작구
-        </Text>
-        <Text>
-            <span>날짜</span> 2021 - 05 - 14
-        </Text>
-        <Text>
-            <span>비용</span> 17,000원 / 시간
-        </Text>
-        <h1>
-            <span>총 비용</span> 51,000원
-        </h1>
-    </Wrapper>
-);
+const AssistantInfo = ({ service, duration }) => {
+    const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
+
+    return (
+        <Wrapper>
+            <h2>김천사 어시스턴트</h2>
+            <img
+                src={`${IMAGE_URL}${service.images[0]}`}
+                alt="샘플이미지"
+                style={{ height: '12rem', objectFit: 'cover', borderRadius: '0.2rem' }}
+            />
+            <h3>{service.greetings}</h3>
+            <Text>
+                <span>지역</span> {service.location}
+            </Text>
+            <Text>
+                <span>날짜</span> 2021 - 05 - 14
+            </Text>
+            <Text>
+                <span>비용</span> {service.wage}원 / 시간
+            </Text>
+            <h1>
+                <span>총 비용</span> {service.wage * duration}원
+            </h1>
+        </Wrapper>
+    );
+};
 
 const Wrapper = styled.div`
     display: flex;
@@ -34,6 +40,7 @@ const Wrapper = styled.div`
     box-shadow: 0.2rem 0.5rem 0.6rem #ddd;
     padding: 2rem 3rem;
     height: 40rem;
+    width: 25rem;
     margin: 0 2%;
     div,
     h3,
@@ -62,5 +69,9 @@ const Text = styled.div`
     font-size: 1rem;
     font-weight: 500;
 `;
+
+AssistantInfo.propTypes = {
+    service: PropTypes.object.isRequired,
+};
 
 export default AssistantInfo;
