@@ -109,6 +109,36 @@ function* loadMoreReviews(action) {
     }
 }
 
+function makeReservationAPI(accessToken, data) {
+    return axios.post(
+        `api/v1/reservations`,
+        {
+            ...data,
+        },
+        {
+            headers: {
+                accessToken,
+            },
+        },
+    );
+}
+
+function* makeReservation(action) {
+    try {
+        const result = yield call(makeReservationAPI, action.accessToken, action.data);
+        yield put({
+            type: CREATE_RESERVATION_SUCCESS,
+            payload: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: CREATE_RESERVATION_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 function* watchLoadServices() {
     yield takeLatest(LOAD_ALL_SERVICES_REQUEST, loadServices);
 }
@@ -125,11 +155,16 @@ function* watchLoadMoreReviews() {
     yield takeLatest(LOAD_MORE_REVIEWS_REQUEST, loadMoreReviews);
 }
 
+function* watchMakeReservation() {
+    yield takeLatest(CREATE_RESERVATION_REQUEST, makeReservation);
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchLoadServices),
         fork(watchGetSingleService),
         fork(watchLoadFirstReviews),
         fork(watchLoadMoreReviews),
+        fork(watchMakeReservation),
     ]);
 }

@@ -47,18 +47,6 @@ const ServiceDetail = () => {
     console.log(id);
 
     const { service, review } = useSelector((state) => state.service);
-    // const handleClickServiceDetail = useCallback(() => {
-    //     dispatch({
-    //         type: GET_SERVICE_INFO_REQUEST,
-    //         serviceId: id,
-    //     });
-    // }, [id]);
-
-    // useEffect(() => {
-    //     if (id) {
-    //         handleClickServiceDetail();
-    //     }
-    // }, [id]);
 
     return (
         <>
