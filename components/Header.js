@@ -3,16 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
+import { useCallback } from 'react';
 import { logoutRequestAction } from '../reducers/user';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+    const { me, islogin } = useSelector((state) => state.user);
 
-    const Logout = () => {
+    const Logout = useCallback(() => {
         dispatch(logoutRequestAction());
-        Router.replace('/user/signin');
-    };
+    }, []);
 
     const Login = () => {
         Router.replace('/user/signin');
@@ -23,14 +23,24 @@ const Header = () => {
             <Wrapper>
                 <Container>
                     <Link href="/">
-                        <a>
-                            <Logo src="/images/WISE.png" alt="WISE logo" />
-                        </a>
+                        <Logo src="/images/WISE.png" alt="WISE logo" />
                     </Link>
                     <UserTap>
-                        <Link href="/registerService">
-                            <a>어시스턴트 등록</a>
-                        </Link>
+                        <div style={{ width: '8rem' }}>
+                            {islogin ? (
+                                <>
+                                    {me?.isAssistant ? (
+                                        <Link href="/assistant/Center">
+                                            <AssistantBtn>어시스턴트 센터</AssistantBtn>
+                                        </Link>
+                                    ) : (
+                                        <Link href="/assistant/register">
+                                            <AssistantBtn>어시스턴트 등록</AssistantBtn>
+                                        </Link>
+                                    )}
+                                </>
+                            ) : null}
+                        </div>
                         <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         {me ? (
@@ -44,6 +54,10 @@ const Header = () => {
         </>
     );
 };
+
+const AssistantBtn = styled.div`
+    cursor: pointer;
+`;
 
 const Wrapper = styled.header`
     height: 4rem;
@@ -70,14 +84,15 @@ const Container = styled.div`
 
 const Logo = styled.img`
     width: 4rem;
+    cursor: pointer;
 `;
 
 const UserTap = styled.div`
     // border: 1px solid black;
-    width: 25vw;
+    width: 300px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     div {
         display: inline-block;
     }

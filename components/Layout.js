@@ -15,6 +15,8 @@ const Global = createGlobalStyle`
     }
 
   #__next {
+    width: 100vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,6 +50,8 @@ const Layout = ({ children, title }) => (
 const MainComponent = styled.div`
     display: flex;
     justify-content: center;
+    width: 100vw;
+    flex-grow: 1;
 `;
 
 Layout.propTypes = {

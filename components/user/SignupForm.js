@@ -1,131 +1,120 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import useInput from '../../hooks/useInput';
 import { signupRequestAction } from '../../reducers/user';
+import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
+import ErrorMessage from './ErrorMessage';
 
 const SignupForm = () => {
     const dispatch = useDispatch();
-    const [name, onChangeName] = useInput('');
+
+    const [name, setName] = useState('');
+    const [nameError, setNameError] = useState(false);
+
     const [email, setEmail] = useState('');
-    const [password, onChangePassword] = useInput('');
-    const [mobile, onChangeMobile] = useInput('');
+
+    const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
 
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
+    const [passwordCheckError, setPasswordCheckError] = useState(false);
+
+    const [mobile, setMobile] = useState('');
+    const [mobileError, setMobileError] = useState(false);
 
     useEffect(() => {
         setEmail(localStorage.getItem('emailForSignup'));
     }, []);
 
+    const onChangeName = useCallback((e) => {
+        setName(e.target.value);
+        setNameError(false);
+    });
+
+    const onChangePassword = useCallback((e) => {
+        setPassword(e.target.value);
+        setPasswordError(false);
+    });
+
     const onChangePasswordCheck = useCallback(
         (e) => {
             setPasswordCheck(e.target.value);
-            setPasswordError(e.target.value !== password);
+            setPasswordCheckError(e.target.value !== password);
         },
         [password],
     );
+
+    const onChangeMobile = useCallback((e) => {
+        setMobile(e.target.value);
+        setMobileError(false);
+    });
+
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
+            if (!name || !password || !passwordCheck || !mobile) {
+                if (!name) {
+                    setNameError(true);
+                }
+                if (!password) {
+                    setPasswordError(true);
+                }
+                if (!passwordCheck) {
+                    setPasswordCheckError(true);
+                }
+                if (!mobile) {
+                    setMobileError(true);
+                }
+                return;
+            }
             dispatch(signupRequestAction(email, name, password, mobile));
         },
         [email, name, password, mobile],
     );
     return (
         <>
-            <FormWrapper onSubmit={onsubmit}>
+            <Form onSubmit={onsubmit}>
                 <InputWrapper>
-                    <label htmlFor="user-name">이름</label>
-                    <input
-                        name="user-name"
-                        type="text"
-                        placeholder="홍길동"
-                        value={name}
-                        onChange={onChangeName}
-                        required
-                    />
+                    <label htmlFor="name">이름</label>
+                    <input name="name" type="text" placeholder="홍길동" value={name} onChange={onChangeName} />
+                    <ErrorBox>{nameError && <ErrorMessage message="이름을 입력해주세요." />}</ErrorBox>
                 </InputWrapper>
                 <InputWrapper>
-                    <label htmlFor="user-email">이메일</label>
-                    <input name="user-email" type="email" value={email} disabled />
+                    <label htmlFor="email">이메일</label>
+                    <input name="email" type="email" value={email} disabled />
                 </InputWrapper>
                 <InputWrapper>
-                    <label htmlFor="user-password">비밀번호</label>
+                    <label htmlFor="password">비밀번호</label>
                     <input
-                        name="user-password"
+                        name="password"
                         type="password"
                         placeholder="******"
                         value={password}
                         onChange={onChangePassword}
-                        required
                     />
+                    <ErrorBox>{passwordError && <ErrorMessage message="비밀번호를 입력해주세요." />}</ErrorBox>
                 </InputWrapper>
                 <InputWrapper>
-                    <label htmlFor="user-passwordCheck">비밀번호확인</label>
+                    <label htmlFor="passwordCheck">비밀번호확인</label>
                     <input
-                        name="user-passwordCheck"
+                        name="passwordCheck"
                         type="password"
                         placeholder="******"
                         value={passwordCheck}
                         onChange={onChangePasswordCheck}
-                        required
                     />
-                    {passwordError && <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>}
+                    <ErrorBox>
+                        {passwordCheckError && <ErrorMessage message="비밀번호가 일치하지 않습니다." />}
+                    </ErrorBox>
                 </InputWrapper>
                 <InputWrapper>
-                    <label htmlFor="user-phonenumber">연락처</label>
-                    <input name="user-phonenumber" type="text" value={mobile} onChange={onChangeMobile} required />
+                    <label htmlFor="mobile">연락처</label>
+                    <input name="mobile" type="text" value={mobile} onChange={onChangeMobile} />
+                    <ErrorBox>{mobileError && <ErrorMessage message="연락처를 입력해주세요." />}</ErrorBox>
                 </InputWrapper>
-                <SignupBtn type="submit">가입하기</SignupBtn>
-            </FormWrapper>
+                <FormBtn>가입하기</FormBtn>
+            </Form>
         </>
     );
 };
-
-const ErrorMessage = styled.div`
-    color: red;
-    font-size: 0.8rem;
-    position: absolute;
-    top: 5rem;
-`;
-
-const FormWrapper = styled.form`
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-`;
-
-const InputWrapper = styled.div`
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    input {
-        width: 100%;
-        border: 1px solid #e5e5e5;
-        height: 3.125rem;
-        margin: 0.5rem auto 0 auto;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-    }
-    input:focus {
-        outline: none;
-    }
-    margin-bottom: 1.5rem;
-    position: relative;
-`;
-
-const SignupBtn = styled.button`
-    border: none;
-    font-weight: 600;
-    height: 3rem;
-    background-color: #68d480;
-    color: white;
-    border-radius: 0.5rem;
-    margin: 0.625rem 0 1.25rem 0;
-    cursor: pointer;
-`;
 
 export default SignupForm;

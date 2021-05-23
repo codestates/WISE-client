@@ -41,6 +41,7 @@ const LandingPage = () => {
             dispatch(loadMyInfo());
         }
     }, []);
+
     return (
         <Wrapper>
             <Header />

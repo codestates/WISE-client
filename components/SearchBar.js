@@ -2,24 +2,50 @@ import { Button, DatePicker, Radio, Select } from 'antd';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+
+import useInput from '../hooks/useInput';
 
 const SearchBar = () => {
     const router = useRouter();
+
+    const [location, setLocation] = useState('');
+    const [date, setDate] = useState([]);
+    const [time, onChangeTime] = useInput('');
+
+    const onChangeLocation = (value) => {
+        setLocation(value);
+    };
+
     const onSearch = () => {
+        console.log(location);
+        console.log(date);
+        console.log(time);
         router.push('/searchResult');
     };
+
+    function onChange(value, dateString) {
+        setDate(dateString);
+    }
+
     return (
         <Wrapper>
             <h2>어시스턴트 찾기</h2>
             <div>함께 동행할 숙련된 어시스턴트를 찾아보세요</div>
             <Search>
-                <Select showSearch style={{ width: 150 }} placeholder="위치 입력" optionFilterProp="children">
+                <Select
+                    onChange={onChangeLocation}
+                    showSearch
+                    style={{ width: 150 }}
+                    placeholder="위치 입력"
+                    optionFilterProp="children"
+                >
                     <Select.Option value="seoul">서울</Select.Option>
                     <Select.Option value="gyeonggi">경기</Select.Option>
                     <Select.Option value="incheon">인천</Select.Option>
                 </Select>
-                <DatePicker placeholder="날짜 선택" />
-                <Radio.Group defaultValue="am" size="middle">
+                <DatePicker.RangePicker onChange={onChange} />
+                <Radio.Group onChange={onChangeTime} defaultValue="am" size="middle">
                     <Radio.Button value="am">오전</Radio.Button>
                     <Radio.Button value="pm">오후</Radio.Button>
                 </Radio.Group>

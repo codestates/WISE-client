@@ -1,23 +1,45 @@
-import { useCallback } from 'react';
+/* eslint-disable consistent-return */
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import useInput from '../../hooks/useInput';
 import { emailCheckRequestAction } from '../../reducers/user';
+import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
+import ErrorMessage from './ErrorMessage';
 
 const SignupAuthForm = () => {
     const dispatch = useDispatch();
-    const [email, onChangeEmail] = useInput('');
     const { emailCheckError } = useSelector((state) => state.user);
+
+    const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState(false);
+    const [emailCheckErrorMsg, setEmailCheckErrorMsg] = useState('');
+
+    useEffect(() => {
+        setEmailCheckErrorMsg(emailCheckError);
+    }, [emailCheckError]);
+
+    useEffect(() => {
+        setEmailCheckErrorMsg('');
+    }, []);
+
+    const onChangeEmail = useCallback((e) => {
+        setEmail(e.target.value);
+        setEmailError(false);
+        setEmailCheckErrorMsg('');
+    }, []);
     const onsubmit = useCallback(
         (e) => {
             e.preventDefault();
+            if (!email) {
+                return setEmailError(true);
+            }
             dispatch(emailCheckRequestAction(email));
         },
         [email],
     );
     return (
         <>
-            <FormWrapper onSubmit={onsubmit}>
+            <Form onSubmit={onsubmit}>
                 <InputWrapper>
                     <label htmlFor="user-email">이메일을 입력해주세요</label>
                     <input
@@ -26,12 +48,12 @@ const SignupAuthForm = () => {
                         placeholder="ex) user@mate.com"
                         value={email}
                         onChange={onChangeEmail}
-                        required
                     />
+                    <ErrorBox>{emailError && <ErrorMessage message="이메일을 입력해주세요." />}</ErrorBox>
                 </InputWrapper>
-                <ErrMsg>{emailCheckError || ''}</ErrMsg>
-                <SignupBtn type="submit">이메일인증</SignupBtn>
-            </FormWrapper>
+                <ErrMsg>{emailCheckErrorMsg || ''}</ErrMsg>
+                <FormBtn>이메일인증</FormBtn>
+            </Form>
         </>
     );
 };
@@ -40,44 +62,6 @@ const ErrMsg = styled.div`
     color: red;
     line-height: 2rem;
     height: 2rem;
-`;
-
-const FormWrapper = styled.form`
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-`;
-
-const InputWrapper = styled.div`
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    input {
-        width: 100%;
-        border: 1px solid #e5e5e5;
-        height: 3.125rem;
-        margin: 0.5rem auto 0 auto;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-    }
-    input:focus {
-        outline: none;
-    }
-    margin-bottom: 1.5rem;
-    position: relative;
-`;
-
-const SignupBtn = styled.button`
-    border: none;
-    font-weight: 600;
-    height: 3rem;
-    background-color: #68d480;
-    color: white;
-    border-radius: 0.5rem;
-    margin: 0.625rem 0 1.25rem 0;
-    cursor: pointer;
 `;
 
 export default SignupAuthForm;

@@ -1,24 +1,27 @@
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
+import { loadMyInfo } from '../reducers/user';
 
 const Home = () => {
     const dispatch = useDispatch();
+    const { me } = useSelector((state) => state.user);
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
+        if (!me) {
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                dispatch(loadMyInfo());
+            } else {
+                Router.replace('/user/signin');
+            }
         }
-    }, []);
+    }, [me]);
     return (
         <Layout title="WISE | HOME">
             <Wrapper>
