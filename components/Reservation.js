@@ -1,18 +1,86 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
+import { CREATE_RESERVATION_REQUEST } from '../reducers/service';
+import SuccessModal from './SuccessModal';
 
-const Reservation = ({ id, handleChangeDuration }) => {
+const Reservation = ({ service, id, hours, handleChangehours }) => {
+    const dispatch = useDispatch();
+    const { accessToken } = useSelector((state) => state.user);
+    const { reservationRequestDone, reservationRequestError, reservationRequest } = useSelector(
+        (state) => state.service,
+    );
+
+    const onChangehours = useCallback((e) => {
+        handleChangehours(Number(e.target.value));
+    }, []);
+
     const [hospital, setHospital] = useState('');
     const onChanageDestination = useCallback((e) => {
         e.preventDefault();
         setHospital(e.target.value);
     }, []);
-    const onChangeDuration = useCallback((e) => {
-        handleChangeDuration(e.target.value);
+
+    // const [pickup, setPickup] = useState('');
+    const [home, setHome] = useState('');
+    const onChanagePickup = useCallback((e) => {
+        e.preventDefault();
+        setHome(e.target.value);
     }, []);
+
+    const [serviceContent, setServiceContent] = useState('');
+    const onChanageServiceContent = useCallback((e) => {
+        e.preventDefault();
+        setServiceContent(e.target.value);
+    }, []);
+
+    // const [message, setMessage] = useState('');
+    const [content, setContent] = useState('');
+    const onChanageMessage = useCallback((e) => {
+        e.preventDefault();
+        setContent(e.target.value);
+    }, []);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+        console.log('clicked!');
+    }, []);
+
+    useEffect(() => {
+        console.log('reservation request', reservationRequest);
+        if (reservationRequestDone || reservationRequestError) {
+            setShowModal((state) => !state);
+            console.log('modal open!');
+            // alert('예약성공!');
+        }
+    }, [reservationRequestDone, reservationRequestError]);
+
+    const onSubmit = useCallback(
+        (e) => {
+            e.preventDefault();
+            dispatch({
+                type: CREATE_RESERVATION_REQUEST,
+                accessToken,
+                data: {
+                    hospital,
+                    hours,
+                    home,
+                    content,
+                    serviceId: id,
+                    state: 'apply',
+                    date: new Date().toDateString(),
+                    time: 'am',
+                    totalPayment: hours * service.wage,
+                },
+            });
+        },
+        [hospital, home, content, id, hours],
+    );
 
     return (
         <Wrapper>
@@ -23,7 +91,7 @@ const Reservation = ({ id, handleChangeDuration }) => {
 
                 <h1>서비스 신청하기</h1>
             </Title>
-            <FormWrapper onSubmit={onsubmit}>
+            <FormWrapper onSubmit={onSubmit}>
                 <h4>방문하실 병원은 어디인가요?</h4>
                 <InputWrapper>
                     <input
@@ -34,62 +102,77 @@ const Reservation = ({ id, handleChangeDuration }) => {
                         onChange={onChanageDestination}
                     />
                 </InputWrapper>
-
+                <h4>정확한 픽업 위치와 시간을 알려주세요</h4>
+                <InputWrapper>
+                    <input
+                        name="pickup-info"
+                        type="text"
+                        placeholder="ex) 서울시 서초구 서운로 62 래미안리더스원 아파트 정문  / 오전 9시"
+                        required
+                        onChange={onChanagePickup}
+                    />
+                </InputWrapper>
                 <h4>어떤 서비스가 필요한지 말씀해 주세요</h4>
                 <InputWrapper>
                     <input
-                        name="destination"
+                        name="service-content"
                         type="text"
                         placeholder="ex) 진료실 동행, 병원 내에서 휠체어로 동행 등"
                         required
-                        onChange={onChanageDestination}
+                        onChange={onChanageServiceContent}
                     />
                 </InputWrapper>
                 <h4>
                     소요 시간 <span>(최소 1시간 - 모든 이동시간 포함)</span>
                 </h4>
-                <RadioWrapper required onChange={onChangeDuration}>
+                <RadioWrapper required onChange={onChangehours}>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="1" />
+                        <input type="radio" name="service-hours" value="1" />
                         <span className="checkmark">1</span>
                     </label>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="2" />
+                        <input type="radio" name="service-hours" value="2" />
                         <span className="checkmark">2</span>
                     </label>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="3" />
+                        <input type="radio" name="service-hours" value="3" />
                         <span className="checkmark">3</span>
                     </label>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="4" />
+                        <input type="radio" name="service-hours" value="4" />
                         <span className="checkmark">4</span>
                     </label>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="5" />
+                        <input type="radio" name="service-hours" value="5" />
                         <span className="checkmark">5</span>
                     </label>
                     <label className="container">
-                        <input type="radio" name="service-duration" value="6" />
+                        <input type="radio" name="service-hours" value="6" />
                         <span className="checkmark">6</span>
                     </label>
                 </RadioWrapper>
-                <h4>어시스턴트가 참고할 만한 메시지를 남겨주세요</h4>
+                <h4>
+                    어시스턴트가 참고할 만한 메시지를 남겨주세요
+                    <br />
+                    <span>메시지를 자세히 남길수록 매칭확률이 올라가요!</span>
+                </h4>
                 <TextareaWrapper>
                     <textarea
-                        name="destination"
+                        name="message"
                         type="text"
-                        placeholder="ex) 거동이 불편함, 진료 내용 보호자에게 전달 필요 등"
+                        placeholder="ex) 거동이 불편하셔서 휠체어를 동반해야 합니다, 진료 내용은 보호자에게 전달이 필요해요 등"
                         required
-                        onChange={onChanageDestination}
+                        onChange={onChanageMessage}
                     />
                 </TextareaWrapper>
+                <ActionButton>신청하기</ActionButton>
             </FormWrapper>
-
-            <ActionButton>신청하기</ActionButton>
             <Link href="/">
                 <CancelButton>취소하기</CancelButton>
             </Link>
+            {showModal && (
+                <SuccessModal onClose={onCloseModal} success={reservationRequestDone} error={reservationRequestError} />
+            )}
         </Wrapper>
     );
 };
@@ -219,8 +302,10 @@ const Title = styled.div`
 `;
 
 Reservation.propTypes = {
+    service: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
-    handleChangeDuration: PropTypes.func.isRequired,
+    hours: PropTypes.number.isRequired,
+    handleChangehours: PropTypes.func.isRequired,
 };
 
 export default Reservation;

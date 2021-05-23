@@ -18,6 +18,7 @@ export const initialState = {
     loadMoreReviewsDone: false,
     loadMoreReviewsError: null,
     reservationRequest: [],
+    reservationRequestDone: false,
     reservationRequestError: null,
     reservationAccepted: [],
     reservationAcceptedError: null,
@@ -122,6 +123,18 @@ const reducer = (state = initialState, action) => {
             case LOAD_MORE_REVIEWS_FAILURE:
                 draft.loadMoreReviewsLoading = false;
                 draft.getSingleServiceError = action.error;
+                break;
+            case CREATE_RESERVATION_REQUEST:
+                draft.reservationRequestDone = false;
+                draft.reservationRequestError = null;
+                break;
+            case CREATE_RESERVATION_SUCCESS:
+                console.log(action.payload);
+                draft.reservationRequestDone = true;
+                draft.reservationRequest = [...state.reservationRequest, action.payload.reservation];
+                break;
+            case CREATE_RESERVATION_FAILURE:
+                draft.reservationRequestError = action.error;
                 break;
             default:
                 break;

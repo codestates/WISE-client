@@ -6,7 +6,7 @@ import Link from 'next/link';
 const Item = ({ name }) => {
     // const { serviceId } = useSelector((state) => state.service);
     // const dispatch = useDispatch();
-
+    console.log('item');
     return (
         <Wrapper>
             {/* <Link href="/users/[id]" as={`/users/${serviceId}`}> */}

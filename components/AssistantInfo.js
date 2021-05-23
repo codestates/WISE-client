@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
-const AssistantInfo = ({ service, duration }) => {
+const AssistantInfo = ({ service, hours }) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
 
     return (
@@ -24,7 +23,7 @@ const AssistantInfo = ({ service, duration }) => {
                 <span>비용</span> {service.wage}원 / 시간
             </Text>
             <h1>
-                <span>총 비용</span> {service.wage * duration}원
+                <span>총 비용</span> {service.wage * hours}원
             </h1>
         </Wrapper>
     );
@@ -33,7 +32,6 @@ const AssistantInfo = ({ service, duration }) => {
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-self: center;
     justify-content: space-between;
     border: 1px solid #f0f0f0;
     border-radius: 0.5rem;
@@ -41,7 +39,7 @@ const Wrapper = styled.div`
     padding: 2rem 3rem;
     height: 40rem;
     width: 25rem;
-    margin: 0 2%;
+    margin: 10% 2%;
     div,
     h3,
     img {
@@ -72,6 +70,7 @@ const Text = styled.div`
 
 AssistantInfo.propTypes = {
     service: PropTypes.object.isRequired,
+    hours: PropTypes.number.isRequired,
 };
 
 export default AssistantInfo;

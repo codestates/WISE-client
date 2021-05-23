@@ -47,10 +47,10 @@ const ReservationDetail = () => {
         }
     }, [id]);
 
-    const [duration, setDuration] = useState(1);
+    const [hours, setHours] = useState(1);
 
-    const handleChangeDuration = useCallback((value) => {
-        setDuration(value);
+    const handleChangehours = useCallback((value) => {
+        setHours(value);
     }, []);
 
     return (
@@ -59,8 +59,8 @@ const ReservationDetail = () => {
                 <Layout>
                     <Global />
                     <Wrapper>
-                        <Reservation id={id} handleChangeDuration={handleChangeDuration} />
-                        <AssistantInfo service={service} duration={duration} />
+                        <Reservation service={service} id={id} handleChangehours={handleChangehours} hours={hours} />
+                        <AssistantInfo service={service} hours={hours} />
                     </Wrapper>
                 </Layout>
             ) : (
