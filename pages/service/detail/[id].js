@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
-import { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
@@ -41,6 +41,7 @@ const ServiceDetail = () => {
             dispatch(loadMyInfo());
         }
     }, []);
+
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();
     const { id } = router.query;
@@ -48,6 +49,20 @@ const ServiceDetail = () => {
 
     const { service, review } = useSelector((state) => state.service);
 
+    // carousel
+    const slider = useRef();
+    const container = useRef();
+    const [mainIndex, setMainIndex] = useState(0);
+    const slideNext = () => {
+        slider.current.style.transform = `translateX(-${(mainIndex + 1) * 50}rem)`;
+        setMainIndex(mainIndex + 1);
+    };
+    const slidePrev = () => {
+        if (mainIndex > 0) {
+            slider.current.style.transform = `translateX(-${(mainIndex - 1) * 50}rem)`;
+            setMainIndex(mainIndex - 1);
+        }
+    };
     return (
         <>
             {service ? (
@@ -56,7 +71,19 @@ const ServiceDetail = () => {
                     <Wrapper>
                         <Container>
                             <Detail>
-                                <CoverImg src={`${IMAGE_URL}${service.images[0]}`} alt="cover images" />
+                                <CarouselCon ref={container}>
+                                    <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
+                                    <Slider ref={slider}>
+                                        {service.images.map((image) => (
+                                            <img
+                                                src={`${IMAGE_URL}${service.images[0]}`}
+                                                alt="cover images"
+                                                key={image}
+                                            />
+                                        ))}
+                                    </Slider>
+                                    <NextBtn onClick={slideNext}>&rang;</NextBtn>
+                                </CarouselCon>
                                 <Navigation id={id} />
                                 <Description service={service} />
                                 <Review review={review} />
@@ -94,11 +121,40 @@ const Detail = styled.div`
     flex-direction: column;
     justify-content: center;
 `;
-const CoverImg = styled.img`
+
+const CarouselCon = styled.div`
+    display: flex;
     width: 100%;
-    height: 28rem;
-    object-fit: cover;
+`;
+
+const Slider = styled.div`
+    display: flex;
+    justify-content: center;
     max-width: 50rem;
+    transition: all 0.3s ease-in-out;
+    img {
+        width: 90%;
+        object-fit: cover;
+        height: 28rem;
+    }
+`;
+
+const PrevBtn = styled.div`
+    position: relative;
+    top: 13rem;
+    left: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 5;
+`;
+
+const NextBtn = styled.div`
+    position: relative;
+    top: 13rem;
+    right: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 5;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
