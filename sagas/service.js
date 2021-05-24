@@ -11,9 +11,6 @@ import {
     LOAD_MORE_REVIEWS_REQUEST,
     LOAD_MORE_REVIEWS_SUCCESS,
     LOAD_MORE_REVIEWS_FAILURE,
-    LOAD_ALL_SERVICES_REQUEST,
-    LOAD_ALL_SERVICES_SUCCESS,
-    LOAD_ALL_SERVICES_FAILURE,
     CREATE_RESERVATION_REQUEST,
     CREATE_RESERVATION_SUCCESS,
     CREATE_RESERVATION_FAILURE,
@@ -23,30 +20,93 @@ import {
     CHECK_OUT_REQUEST,
     CHECK_OUT_SUCCESS,
     CHECK_OUT_FAILURE,
+    LOAD_POPULAR_SERVICE_SUCCESS,
+    LOAD_POPULAR_SERVICE_FAILURE,
+    LOAD_POPULAR_SERVICE_REQUEST,
+    LOAD_TOTAL_SERVICE_SUCCESS,
+    LOAD_TOTAL_SERVICE_FAILURE,
+    LOAD_TOTAL_SERVICE_REQUEST,
+    LOAD_SEARCH_SERVICE_SUCCESS,
+    LOAD_SEARCH_SERVICE_FAILURE,
+    LOAD_SEARCH_SERVICE_REQUEST,
 } from '../reducers/service';
 
-function loadServicesAPI(accessToken) {
-    return axios.get('api/v1/services', {
-        headers: {
-            accessToken,
-        },
-    });
+function loadPopularServiceAPI() {
+    return axios.get('/api/v1/services/popularity');
 }
 
-function* loadServices(action) {
+function* loadPopularService() {
     try {
-        const result = yield call(loadServicesAPI, action.accessToken);
+        const result = yield call(loadPopularServiceAPI);
+        console.log(result.data);
         yield put({
-            type: LOAD_ALL_SERVICES_SUCCESS,
-            payload: result.data,
+            type: LOAD_POPULAR_SERVICE_SUCCESS,
+            popularService: result.data.popularService,
         });
     } catch (err) {
-        console.error(err);
         yield put({
-            type: LOAD_ALL_SERVICES_FAILURE,
-            error: err.response.data,
+            type: LOAD_POPULAR_SERVICE_FAILURE,
+            error: err.message,
         });
     }
+}
+
+function* watchLoadPopularService() {
+    yield takeLatest(LOAD_POPULAR_SERVICE_REQUEST, loadPopularService);
+}
+
+function loadTotalServiceAPI(page) {
+    return axios.get(`/api/v1/services/all?page=${page}`);
+}
+
+function* loadTotalService(action) {
+    try {
+        const result = yield call(loadTotalServiceAPI, action.page);
+        console.log('action.page :', action.page);
+        console.log(result.data);
+        yield put({
+            type: LOAD_TOTAL_SERVICE_SUCCESS,
+            totalService: result.data.service,
+            totalServiceCount: result.data.totalServices - 8,
+        });
+    } catch (err) {
+        yield put({
+            type: LOAD_TOTAL_SERVICE_FAILURE,
+            error: err.message,
+        });
+    }
+}
+
+function* watchLoadTotalService() {
+    yield throttle(5000, LOAD_TOTAL_SERVICE_REQUEST, loadTotalService);
+}
+
+function loadSearchServiceAPI(query) {
+    console.log('query : ', query);
+    const { location, date, time, page } = query;
+    return axios.get(`/api/v1/services/?location=${location}&date=${date}&time=${time}&page=${page}`);
+}
+
+function* loadSearchService(action) {
+    try {
+        const result = yield call(loadSearchServiceAPI, action.query);
+        console.log(result.data);
+        yield put({
+            type: LOAD_SEARCH_SERVICE_SUCCESS,
+            searchService: result.data.service,
+            searchServiceCount: result.data.totalServices,
+            searchQuery: action.query,
+        });
+    } catch (err) {
+        yield put({
+            type: LOAD_SEARCH_SERVICE_FAILURE,
+            error: err.message,
+        });
+    }
+}
+
+function* watchLoadSearchService() {
+    yield throttle(5000, LOAD_SEARCH_SERVICE_REQUEST, loadSearchService);
 }
 
 function getSingleServiceAPI(serviceId) {
@@ -139,10 +199,6 @@ function* makeReservation(action) {
     }
 }
 
-function* watchLoadServices() {
-    yield takeLatest(LOAD_ALL_SERVICES_REQUEST, loadServices);
-}
-
 function* watchGetSingleService() {
     yield takeLatest(GET_SERVICE_INFO_REQUEST, getSingleService);
 }
@@ -159,9 +215,11 @@ function* watchMakeReservation() {
     yield takeLatest(CREATE_RESERVATION_REQUEST, makeReservation);
 }
 
-export default function* postSaga() {
+export default function* serviceSaga() {
     yield all([
-        fork(watchLoadServices),
+        fork(watchLoadPopularService),
+        fork(watchLoadTotalService),
+        fork(watchLoadSearchService),
         fork(watchGetSingleService),
         fork(watchLoadFirstReviews),
         fork(watchLoadMoreReviews),

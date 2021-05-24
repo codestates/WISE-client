@@ -1,11 +1,6 @@
 import Produce from '../util/produce';
 
 // 액션 상수
-
-export const LOAD_SERVICE_REQUEST = 'LOAD_SERVICE_REQUEST';
-export const LOAD_SERVICE_SUCCESS = 'LOAD_SERVICE_SUCCESS';
-export const LOAD_SERVICE_FAILURE = 'LOAD_SERVICE_FAILURE';
-
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
 export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
@@ -50,23 +45,13 @@ export const initialState = {
     registerServiceLoading: false, // 어시스턴트 등록
     registerServiceDone: false,
     registerServiceError: null,
-    loadServiceLoading: false, // 서비스 불러오기
-    loadServiceDone: false,
-    loadServiceError: null,
     accessToken: null,
     me: null,
     registerService: null,
     islogin: false,
-    popularService: [],
-    service: [],
 };
 
 // 액션 크리에이터
-export const loadService = (page) => ({
-    type: LOAD_SERVICE_REQUEST,
-    page,
-});
-
 export const loadMyInfo = () => ({
     type: LOAD_MY_INFO_REQUEST,
 });
@@ -195,21 +180,6 @@ const reducer = (state = initialState, action) =>
             case REGISTER_SERVICE_FAILURE:
                 draft.registerServiceLoading = false;
                 draft.registerServiceError = action.error;
-                break;
-            case LOAD_SERVICE_REQUEST:
-                draft.loadServiceLoading = true;
-                draft.loadServiceDone = false;
-                draft.loadServiceError = null;
-                break;
-            case LOAD_SERVICE_SUCCESS:
-                draft.loadServiceLoading = false;
-                draft.loadServiceDone = true;
-                draft.popularService = action.popularService;
-                draft.service = draft.service.concat(action.service);
-                break;
-            case LOAD_SERVICE_FAILURE:
-                draft.loadServiceLoading = false;
-                draft.loadServiceError = action.error;
                 break;
             default:
                 break;

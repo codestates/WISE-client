@@ -5,34 +5,25 @@ import Link from 'next/link';
 // import { useSelector, useDispatch } from 'react-redux';
 
 const ServiceCard = ({ service }) => {
-    // const { serviceId } = useSelector((state) => state.service);
-    // const dispatch = useDispatch();
-    // console.log('service : ', service);
-
     return (
-        <Wrapper>
-            <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
-                <a>
-                    <Container>
-                        <img src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
-                        <div>
-                            <div>
-                                {service.assistant.name} <span>{service.location}</span>
-                            </div>
-                            <div>{service.greetings}</div>
-                            <h4>{service.wage}원 / 시간</h4>
-                        </div>
-                    </Container>
-                </a>
-            </Link>
-        </Wrapper>
+        <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
+            <Container>
+                <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
+                <div>
+                    <div style={{ fontSize: '1rem' }}>
+                        {service.assistant.name} <span>{service.location}</span>
+                    </div>
+                    <div>{service.greetings}</div>
+                    <div style={{ fontWeight: 'bold' }}>{service.wage}원 / 시간</div>
+                </div>
+            </Container>
+        </Link>
     );
 };
 
-const Wrapper = styled.div`
-    display: inline-block;
-    margin-right: 3rem;
-    flex-shrink: 0;
+const ServiceImg = styled.img`
+    // width: 280px;
+    // height: 209px;
 `;
 
 const Container = styled.div`
@@ -41,8 +32,8 @@ const Container = styled.div`
     flex-direction: column;
     justify-content: space-between;
     width: 15rem;
-    height: 14rem;
-    margin-bottom: 3rem;
+    height: 16rem;
+    margin-bottom: 2rem;
     span {
         color: #888;
         font-size: 0.5rem;

@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { useDispatch } from 'react-redux';
 import Layout from '../../components/Layout';
 import AssistantInfo from '../../components/AssistantInfo';
 import OrderItem from '../../components/OrderItem';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -13,17 +11,6 @@ const Global = createGlobalStyle`
 `;
 
 const Payment = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, []);
     return (
         <Layout>
             <Global />

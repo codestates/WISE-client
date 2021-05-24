@@ -40,9 +40,9 @@ const Header = () => {
                         <Logo src="/images/WISE.png" alt="WISE logo" />
                     </Link>
                     <UserTap>
-                        <div style={{ width: '8rem' }}>
-                            {islogin ? (
-                                <>
+                        {islogin && (
+                            <>
+                                <div style={{ width: '8rem' }}>
                                     {me?.isAssistant ? (
                                         <Link href="/assistant/Center">
                                             <AssistantBtn>어시스턴트 센터</AssistantBtn>
@@ -52,25 +52,27 @@ const Header = () => {
                                             <AssistantBtn>어시스턴트 등록</AssistantBtn>
                                         </Link>
                                     )}
-                                </>
-                            ) : null}
-                        </div>
-                        <div onClick={onClickModal}>
-                            {showModal ? (
-                                <BellOutlined
-                                    style={{
-                                        fontSize: '1.5rem',
-                                        lineHeight: '2rem',
-                                        color: '#68d480',
-                                        cursor: 'pointer',
-                                    }}
-                                />
-                            ) : (
-                                <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }} />
-                            )}
-                        </div>
-                        {showModal && <NotificationModal onClose={onCloseModal} />}
-                        <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+                                </div>
+                                <div onClick={onClickModal}>
+                                    {showModal ? (
+                                        <BellOutlined
+                                            style={{
+                                                fontSize: '1.5rem',
+                                                lineHeight: '2rem',
+                                                color: '#68d480',
+                                                cursor: 'pointer',
+                                            }}
+                                        />
+                                    ) : (
+                                        <BellOutlined
+                                            style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }}
+                                        />
+                                    )}
+                                </div>
+                                {showModal && <NotificationModal onClose={onCloseModal} />}
+                                <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+                            </>
+                        )}
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>
                         ) : (
@@ -120,7 +122,7 @@ const UserTap = styled.div`
     // border: 1px solid black;
     width: 300px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
 `;
 

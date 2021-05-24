@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
-import { all, fork, put, takeLatest, call, throttle } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import firebase from 'firebase/app';
 import { auth, googleAuthProvider, facebookAuthProvider } from '../firebase';
@@ -24,9 +24,6 @@ import {
     REGISTER_SERVICE_FAILURE,
     REGISTER_SERVICE_REQUEST,
     REGISTER_SERVICE_SUCCESS,
-    LOAD_SERVICE_SUCCESS,
-    LOAD_SERVICE_FAILURE,
-    LOAD_SERVICE_REQUEST,
 } from '../reducers/user';
 
 axios.defaults.withCredentials = true;
@@ -246,35 +243,9 @@ function* watchRegisterService() {
     yield takeLatest(REGISTER_SERVICE_REQUEST, registerService);
 }
 
-function loadServiceAPI(page) {
-    return axios.get(`/api/v1/services/all?page=${page}`);
-}
-
-function* loadService(action) {
-    try {
-        const result = yield call(loadServiceAPI, action.page);
-        console.log(result);
-        yield put({
-            type: LOAD_SERVICE_SUCCESS,
-            popularService: result.data.popularService,
-            service: result.data.service,
-        });
-    } catch (err) {
-        yield put({
-            type: LOAD_SERVICE_FAILURE,
-            error: err.message,
-        });
-    }
-}
-
-function* watchLoadService() {
-    yield throttle(5000, LOAD_SERVICE_REQUEST, loadService);
-}
-
 export default function* userSaga() {
     yield all([
         fork(watchLoadMyInfo),
-        fork(watchLoadService),
         fork(watchEmailCheck),
         fork(watchLogIn),
         fork(watchLogOut),

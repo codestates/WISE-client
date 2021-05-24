@@ -6,17 +6,23 @@ import { useSelector } from 'react-redux';
 import ServiceCard from './ServiceCard';
 
 const TotalSection = ({ title }) => {
-    const { popularService, service } = useSelector((state) => state.user);
+    const { totalService, searchService } = useSelector((state) => state.service);
 
     return (
         <Wrapper>
             <Header>{title}</Header>
             <Row style={{ overflow: 'hidden' }}>
-                {service.map((ele) => (
-                    <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
-                        <ServiceCard service={ele} />
-                    </Col>
-                ))}
+                {title === '검색 결과'
+                    ? searchService.map((ele) => (
+                          <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
+                              <ServiceCard service={ele} />
+                          </Col>
+                      ))
+                    : totalService.map((ele) => (
+                          <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
+                              <ServiceCard service={ele} />
+                          </Col>
+                      ))}
             </Row>
         </Wrapper>
     );

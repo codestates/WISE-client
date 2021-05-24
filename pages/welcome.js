@@ -1,25 +1,18 @@
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { useEffect } from 'react';
 import Layout from '../components/Layout';
-import { loadMyInfo } from '../reducers/user';
 import Loading from '../components/Loading';
 import { AuthGlobal, CoverImg } from '../components/user/styles';
 
 const Welcome = () => {
-    const dispatch = useDispatch();
     const { me, islogin } = useSelector((state) => state.user);
 
     useEffect(() => {
         if (!me) {
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                dispatch(loadMyInfo());
-            } else {
-                Router.replace('/user/signin');
-            }
+            Router.replace('/user/signin');
         }
     }, [me]);
 

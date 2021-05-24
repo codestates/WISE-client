@@ -3,7 +3,10 @@
 import 'antd/dist/antd.css';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
+import { loadMyInfo } from '../reducers/user';
 
 import wrapper from '../store/configureStore';
 
@@ -17,15 +20,30 @@ const Global = createGlobalStyle`
  }
 `;
 
-const WISE = ({ Component, pageProps }) => (
-    <>
-        <Head>
-            <title>WISE</title>
-        </Head>
-        <Global />
-        <Component {...pageProps} />
-    </>
-);
+const WISE = ({ Component, pageProps }) => {
+    const dispatch = useDispatch();
+
+    const { me } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if (!me) {
+            const userId = localStorage.getItem('userId');
+            if (userId) {
+                dispatch(loadMyInfo());
+            }
+        }
+    }, [me]);
+
+    return (
+        <>
+            <Head>
+                <title>WISE</title>
+            </Head>
+            <Global />
+            <Component {...pageProps} />
+        </>
+    );
+};
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to

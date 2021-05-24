@@ -1,26 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Router from 'next/router';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import TotalSection from '../components/TotalSection';
-import { loadMyInfo } from '../reducers/user';
+import { loadSearchServiceRequestAction } from '../reducers/service';
 
 const SearchResult = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+
+    const { searchService, searchServiceLoading, searchServiceCount } = useSelector((state) => state.service);
+    const [page, setPage] = useState(2);
 
     useEffect(() => {
-        if (!me) {
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                dispatch(loadMyInfo());
-            } else {
-                Router.replace('/user/signin');
+        function onScroll() {
+            if (
+                window.pageYOffset + document.documentElement.clientHeight >
+                document.documentElement.scrollHeight - 300
+            ) {
+                if (!searchServiceLoading && searchServiceCount > searchService.length) {
+                    dispatch(loadSearchServiceRequestAction(page));
+                    setPage((prev) => prev + 1);
+                }
             }
         }
-    }, [me]);
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, [searchServiceLoading, searchServiceCount]);
 
     return (
         <Layout title="WISE | Search">
@@ -35,6 +43,7 @@ const SearchResult = () => {
 const Wrapper = styled.div`
     // border: 1px solid black;
     padding: 3rem;
+    width: 100vw;
     max-width: 1200px;
 `;
 

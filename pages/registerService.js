@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import Layout from '../components/Layout';
 
 import useInput from '../hooks/useInput';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -16,17 +15,8 @@ const Global = createGlobalStyle`
 `;
 
 const registerService = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, []);
     // 기관 인증 여부
     const [isAuthorized, setIsAuthorized] = useState('');
     const onChangeIsAuthorized = useCallback((e) => {

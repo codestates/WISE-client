@@ -1,13 +1,10 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import Section1 from '../components/LandingPage/Section1';
 import Section2 from '../components/LandingPage/Section2';
 import Section3 from '../components/LandingPage/Section3';
 import Section4 from '../components/LandingPage/Section4';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../reducers/user';
 
 const Global = createGlobalStyle`
   header {
@@ -30,18 +27,6 @@ const Global = createGlobalStyle`
 `;
 
 const LandingPage = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, []);
-
     return (
         <Wrapper>
             <Header />

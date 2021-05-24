@@ -9,13 +9,13 @@ import { AuthGlobal, CoverImg, Modal, ModalTitle, ModalFooter } from '../../comp
 
 const Signin = () => {
     const dispatch = useDispatch();
-    const { logInDone, me, islogin } = useSelector((state) => state.user);
+    const { me, islogin } = useSelector((state) => state.user);
 
     useEffect(() => {
-        if (logInDone && islogin) {
+        if (islogin) {
             dispatch(loadMyInfo());
         }
-    }, [logInDone, islogin]);
+    }, [islogin]);
 
     useEffect(() => {
         if (me) {

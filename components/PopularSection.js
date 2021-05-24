@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Item from './ServiceCard';
 import ServiceCard from './ServiceCard';
 
 const PopularSection = () => {
@@ -14,7 +13,7 @@ const PopularSection = () => {
     // };
     // const items = [<Item key={1} />, <Item key={2} />, <Item key={3} />, <Item key={4} />, <Item key={5} />];
 
-    const { popularService, service } = useSelector((state) => state.user);
+    const { popularService } = useSelector((state) => state.service);
 
     const slider = useRef();
     const container = useRef();

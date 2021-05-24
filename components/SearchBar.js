@@ -4,23 +4,32 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
 import useInput from '../hooks/useInput';
+import { loadSearchServiceRequestAction } from '../reducers/service';
 
 const SearchBar = () => {
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const [location, setLocation] = useState('');
     const [date, setDate] = useState([]);
-    const [time, onChangeTime] = useInput('');
+    const [time, onChangeTime] = useInput('am');
 
     const onChangeLocation = (value) => {
         setLocation(value);
     };
 
     const onSearch = () => {
-        console.log(location);
-        console.log(date);
-        console.log(time);
+        console.log(`location : ${location}, date : ${date}, time : ${time}`);
+        dispatch(
+            loadSearchServiceRequestAction({
+                location,
+                date,
+                time,
+                page: 1,
+            }),
+        );
         router.push('/searchResult');
     };
 
@@ -40,11 +49,12 @@ const SearchBar = () => {
                     placeholder="위치 입력"
                     optionFilterProp="children"
                 >
-                    <Select.Option value="seoul">서울</Select.Option>
-                    <Select.Option value="gyeonggi">경기</Select.Option>
-                    <Select.Option value="incheon">인천</Select.Option>
+                    <Select.Option value="서울시 성동구">서울시 성동구</Select.Option>
+                    <Select.Option value="서울시 종로구">서울시 종로구</Select.Option>
+                    <Select.Option value="서울시 강서구">서울시 강서구</Select.Option>
+                    <Select.Option value="서울시 송파구">서울시 송파구</Select.Option>
                 </Select>
-                <DatePicker.RangePicker onChange={onChange} />
+                <DatePicker onChange={onChange} />
                 <Radio.Group onChange={onChangeTime} defaultValue="am" size="middle">
                     <Radio.Button value="am">오전</Radio.Button>
                     <Radio.Button value="pm">오후</Radio.Button>
