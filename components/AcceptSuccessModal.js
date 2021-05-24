@@ -5,7 +5,7 @@ import styled from 'styled-components';
 // import { useMemo } from 'react';
 import Link from 'next/link';
 
-const SuccessModal = ({ onClose, success, error }) => {
+const AcceptSuccessModal = ({ onClose, success, error }) => {
     // const style = useMemo(() => ({ marginRight: '1rem' }), []);
     const result = success ? '성공' : '실패';
     const errorMsg = error;
@@ -13,10 +13,10 @@ const SuccessModal = ({ onClose, success, error }) => {
         <StyledModalOverlay onClick={onClose}>
             <StyledModal>
                 <StyledModalHeader>
-                    <div>서비스 신청하기</div>
+                    <div>신청 수락하기</div>
                 </StyledModalHeader>
                 <StyledModalBody>
-                    <div>{success ? `서비스 신청에 ${result}했습니다` : errorMsg} </div>
+                    <div>{success ? `매칭에 ${result}했습니다` : errorMsg} </div>
                     <Link href="/home">
                         <Button>홈으로 돌아가기</Button>
                     </Link>
@@ -94,10 +94,10 @@ const Button = styled.a`
     }
 `;
 
-SuccessModal.propTypes = {
+AcceptSuccessModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     success: PropTypes.bool.isRequired,
     error: PropTypes.string.isRequired,
 };
 
-export default SuccessModal;
+export default AcceptSuccessModal;
