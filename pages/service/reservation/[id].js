@@ -2,11 +2,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import { END } from 'redux-saga';
+
 import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/Reservation';
 import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
 import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
+import wrapper from '../../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
@@ -26,26 +29,13 @@ const ReservationDetail = () => {
             dispatch(loadMyInfo());
         }
     }, []);
+
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
 
     const { service } = useSelector((state) => state.service);
     console.log(service);
-
-    const handleClickServiceDetail = useCallback(() => {
-        dispatch({
-            type: GET_SERVICE_INFO_REQUEST,
-            serviceId: id,
-        });
-        console.log('aaaa');
-    }, [id]);
-
-    useEffect(() => {
-        if (id) {
-            handleClickServiceDetail();
-        }
-    }, [id]);
 
     const [hours, setHours] = useState(1);
 
@@ -76,5 +66,14 @@ const Wrapper = styled.div`
     justify-content: space-between;
     padding: 3rem;
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    context.store.dispatch({
+        type: GET_SERVICE_INFO_REQUEST,
+        serviceId: context.params.id,
+    });
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+});
 
 export default ReservationDetail;
