@@ -87,13 +87,12 @@ const NotificationModal = ({ onClose }) => {
 
 const StyledModalOverlay = styled.div`
     position: absolute;
-    top: 3rem;
+    top: 11rem;
     right: 5%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 101;
 `;
 
 const StyledModal = styled.div`
@@ -120,12 +119,15 @@ const StyledModalBody = styled.div`
     padding-top: 1rem;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 `;
 
 const Noti = styled.div`
     width: 100%;
     margin: 0.6rem 0;
+    display: flex;
+    justify-content: space-between;
     div:first-child {
         margin-right: 10%;
         font-size: 0.9rem;
@@ -155,5 +157,3 @@ NotificationModal.propTypes = {
 };
 
 export default NotificationModal;
-
-

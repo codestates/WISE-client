@@ -1,6 +1,11 @@
 import Produce from '../util/produce';
 
 // 액션 상수
+
+export const LOAD_SERVICE_REQUEST = 'LOAD_SERVICE_REQUEST';
+export const LOAD_SERVICE_SUCCESS = 'LOAD_SERVICE_SUCCESS';
+export const LOAD_SERVICE_FAILURE = 'LOAD_SERVICE_FAILURE';
+
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
 export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
@@ -21,6 +26,10 @@ export const EMAIL_CHECK_REQUEST = 'EMAIL_CHECK_REQUEST';
 export const EMAIL_CHECK_SUCCESS = 'EMAIL_CHECK_SUCCESS';
 export const EMAIL_CHECK_FAILURE = 'EMAIL_CHECK_FAILURE';
 
+export const REGISTER_SERVICE_REQUEST = 'REGISTER_SERVICE_REQUEST';
+export const REGISTER_SERVICE_SUCCESS = 'REGISTER_SERVICE_SUCCESS';
+export const REGISTER_SERVICE_FAILURE = 'REGISTER_SERVICE_FAILURE';
+
 // initial state
 export const initialState = {
     loadMyInfoLoading: false, // 유저 정보 가져오기 시도중
@@ -38,11 +47,26 @@ export const initialState = {
     signUpLoading: false, // 회원가입
     signUpDone: false,
     signUpError: null,
+    registerServiceLoading: false, // 어시스턴트 등록
+    registerServiceDone: false,
+    registerServiceError: null,
+    loadServiceLoading: false, // 서비스 불러오기
+    loadServiceDone: false,
+    loadServiceError: null,
     accessToken: null,
     me: null,
+    registerService: null,
+    islogin: false,
+    popularService: [],
+    service: [],
 };
 
 // 액션 크리에이터
+export const loadService = (page) => ({
+    type: LOAD_SERVICE_REQUEST,
+    page,
+});
+
 export const loadMyInfo = () => ({
     type: LOAD_MY_INFO_REQUEST,
 });
@@ -77,35 +101,40 @@ export const signupRequestAction = (email, name, password, mobile) => ({
     data: { email, name, password, mobile, signinMethod: 'password' },
 });
 
+export const registerServiceRequestAction = (data, accessToken) => ({
+    type: REGISTER_SERVICE_REQUEST,
+    data,
+    accessToken,
+});
+
 const reducer = (state = initialState, action) =>
     Produce(state, (draft) => {
         switch (action.type) {
             case LOAD_MY_INFO_REQUEST:
                 draft.loadMyInfoLoading = true;
-                draft.loadMyInfoError = null;
                 draft.loadMyInfoDone = false;
+                draft.loadMyInfoError = null;
                 break;
-            case LOAD_MY_INFO_SUCCESS: {
+            case LOAD_MY_INFO_SUCCESS:
                 draft.loadMyInfoLoading = false;
-                draft.me = action.payload;
                 draft.loadMyInfoDone = true;
+                draft.islogin = true;
+                draft.me = action.payload;
                 draft.accessToken = action.token;
                 break;
-            }
             case LOAD_MY_INFO_FAILURE:
                 draft.loadMyInfoLoading = false;
                 draft.loadMyInfoError = action.error;
                 break;
             case LOG_IN_REQUEST:
                 draft.logInLoading = true;
-                draft.logInError = null;
                 draft.logInDone = false;
+                draft.logInError = null;
                 break;
             case LOG_IN_SUCCESS:
                 draft.logInLoading = false;
                 draft.logInDone = true;
-                // draft.me = action.payload;
-                // draft.accessToken = action.token;
+                draft.islogin = true;
                 break;
             case LOG_IN_FAILURE:
                 draft.logInLoading = false;
@@ -113,12 +142,13 @@ const reducer = (state = initialState, action) =>
                 break;
             case LOG_OUT_REQUEST:
                 draft.logOutLoading = true;
-                draft.logOutError = null;
                 draft.logOutDone = false;
+                draft.logOutError = null;
                 break;
             case LOG_OUT_SUCCESS:
                 draft.logOutLoading = false;
                 draft.logOutDone = true;
+                draft.islogin = false;
                 draft.me = null;
                 draft.accessToken = null;
                 break;
@@ -128,14 +158,12 @@ const reducer = (state = initialState, action) =>
                 break;
             case SIGN_UP_REQUEST:
                 draft.signUpLoading = true;
-                draft.signUpError = null;
                 draft.signUpDone = false;
+                draft.signUpError = null;
                 break;
             case SIGN_UP_SUCCESS:
                 draft.signUpLoading = false;
                 draft.signUpDone = true;
-                draft.me = action.payload;
-                draft.accessToken = action.token;
                 break;
             case SIGN_UP_FAILURE:
                 draft.signUpLoading = false;
@@ -149,11 +177,39 @@ const reducer = (state = initialState, action) =>
             case EMAIL_CHECK_SUCCESS:
                 draft.emailCheckLoading = false;
                 draft.emailCheckDone = true;
-                draft.emailCheckError = null;
                 break;
             case EMAIL_CHECK_FAILURE:
                 draft.emailCheckLoading = false;
                 draft.emailCheckError = action.error;
+                break;
+            case REGISTER_SERVICE_REQUEST:
+                draft.registerServiceLoading = true;
+                draft.registerServiceDone = false;
+                draft.registerServiceError = null;
+                break;
+            case REGISTER_SERVICE_SUCCESS:
+                draft.registerServiceLoading = false;
+                draft.registerServiceDone = true;
+                draft.registerService = action.payload;
+                break;
+            case REGISTER_SERVICE_FAILURE:
+                draft.registerServiceLoading = false;
+                draft.registerServiceError = action.error;
+                break;
+            case LOAD_SERVICE_REQUEST:
+                draft.loadServiceLoading = true;
+                draft.loadServiceDone = false;
+                draft.loadServiceError = null;
+                break;
+            case LOAD_SERVICE_SUCCESS:
+                draft.loadServiceLoading = false;
+                draft.loadServiceDone = true;
+                draft.popularService = action.popularService;
+                draft.service = draft.service.concat(action.service);
+                break;
+            case LOAD_SERVICE_FAILURE:
+                draft.loadServiceLoading = false;
+                draft.loadServiceError = action.error;
                 break;
             default:
                 break;

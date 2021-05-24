@@ -8,6 +8,10 @@ import { createGlobalStyle } from 'styled-components';
 import wrapper from '../store/configureStore';
 
 const Global = createGlobalStyle`
+    body{
+        // letter-spacing: -75px;
+        color: #191919;
+    }
     a:hover {
      color: #222;
  }

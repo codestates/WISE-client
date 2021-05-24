@@ -11,7 +11,7 @@ import NotificationModal from './NotificationModal';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+    const { me, islogin } = useSelector((state) => state.user);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -24,29 +24,37 @@ const Header = () => {
         console.log('clicked!');
     }, []);
 
-    const Logout = () => {
+    const Logout = useCallback(() => {
         dispatch(logoutRequestAction());
-        Router.replace('/user/signin');
-    };
+    }, []);
 
-    const Login = () => {
+    const Login = useCallback(() => {
         Router.replace('/user/signin');
-    };
+    }, []);
 
     return (
         <>
             <Wrapper>
                 <Container>
                     <Link href="/">
-                        <a>
-                            <Logo src="/images/WISE.png" alt="WISE logo" />
-                        </a>
+                        <Logo src="/images/WISE.png" alt="WISE logo" />
                     </Link>
                     <UserTap>
-                        <Link href="/registerService">
-                            <a>어시스턴트 등록</a>
-                        </Link>
-
+                        <div style={{ width: '8rem' }}>
+                            {islogin ? (
+                                <>
+                                    {me?.isAssistant ? (
+                                        <Link href="/assistant/Center">
+                                            <AssistantBtn>어시스턴트 센터</AssistantBtn>
+                                        </Link>
+                                    ) : (
+                                        <Link href="/assistant/register">
+                                            <AssistantBtn>어시스턴트 등록</AssistantBtn>
+                                        </Link>
+                                    )}
+                                </>
+                            ) : null}
+                        </div>
                         <div onClick={onClickModal}>
                             {showModal ? (
                                 <BellOutlined
@@ -75,6 +83,10 @@ const Header = () => {
     );
 };
 
+const AssistantBtn = styled.div`
+    cursor: pointer;
+`;
+
 const Wrapper = styled.header`
     height: 4rem;
     width: 100%;
@@ -88,6 +100,7 @@ const Wrapper = styled.header`
     -webkit-backdrop-filter: blur(6px);
     border-radius: 0.3rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1;
 `;
 
 const Container = styled.div`
@@ -100,17 +113,15 @@ const Container = styled.div`
 
 const Logo = styled.img`
     width: 4rem;
+    cursor: pointer;
 `;
 
 const UserTap = styled.div`
     // border: 1px solid black;
-    width: 25vw;
+    width: 300px;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    div {
-        display: inline-block;
-    }
+    align-items: center;
 `;
 
 const LoginBtn = styled.div`
