@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
 import { CREATE_RESERVATION_REQUEST } from '../reducers/service';
-import SuccessModal from './SuccessModal';
+import ReservationSuccessModal from './ReservationSuccessModal';
 
 const Reservation = ({ service, id, hours, handleChangehours }) => {
     const dispatch = useDispatch();
@@ -24,24 +24,22 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
         setHospital(e.target.value);
     }, []);
 
-    // const [pickup, setPickup] = useState('');
-    const [home, setHome] = useState('');
+    const [pickup, setPickup] = useState('');
     const onChanagePickup = useCallback((e) => {
         e.preventDefault();
-        setHome(e.target.value);
+        setPickup(e.target.value);
     }, []);
 
-    const [serviceContent, setServiceContent] = useState('');
-    const onChanageServiceContent = useCallback((e) => {
-        e.preventDefault();
-        setServiceContent(e.target.value);
-    }, []);
-
-    // const [message, setMessage] = useState('');
     const [content, setContent] = useState('');
-    const onChanageMessage = useCallback((e) => {
+    const onChanageContent = useCallback((e) => {
         e.preventDefault();
         setContent(e.target.value);
+    }, []);
+
+    const [message, setMessage] = useState('');
+    const onChanageMessage = useCallback((e) => {
+        e.preventDefault();
+        setMessage(e.target.value);
     }, []);
 
     const [showModal, setShowModal] = useState(false);
@@ -69,8 +67,9 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 data: {
                     hospital,
                     hours,
-                    home,
+                    pickup,
                     content,
+                    message,
                     serviceId: id,
                     state: 'apply',
                     date: new Date().toDateString(),
@@ -79,7 +78,7 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 },
             });
         },
-        [hospital, home, content, id, hours],
+        [hospital, pickup, content, message, id, hours],
     );
 
     return (
@@ -119,7 +118,7 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                         type="text"
                         placeholder="ex) 진료실 동행, 병원 내에서 휠체어로 동행 등"
                         required
-                        onChange={onChanageServiceContent}
+                        onChange={onChanageContent}
                     />
                 </InputWrapper>
                 <h4>
@@ -167,11 +166,15 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 </TextareaWrapper>
                 <ActionButton>신청하기</ActionButton>
             </FormWrapper>
-            <Link href="/">
+            <Link href="/home">
                 <CancelButton>취소하기</CancelButton>
             </Link>
             {showModal && (
-                <SuccessModal onClose={onCloseModal} success={reservationRequestDone} error={reservationRequestError} />
+                <ReservationSuccessModal
+                    onClose={onCloseModal}
+                    success={reservationRequestDone}
+                    error={reservationRequestError}
+                />
             )}
         </Wrapper>
     );

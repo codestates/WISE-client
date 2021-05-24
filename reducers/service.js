@@ -17,12 +17,18 @@ export const initialState = {
     loadMoreReviewsLoading: false,
     loadMoreReviewsDone: false,
     loadMoreReviewsError: null,
-    reservationRequest: [],
+    reservationRequests: [],
     reservationRequestDone: false,
     reservationRequestError: null,
+    getReservationInfoDone: false,
+    getReservationInfo: null,
+    getReservationInfoError: null,
+    reservationAcceptedDone: false,
     reservationAccepted: [],
     reservationAcceptedError: null,
-    reservationComplete: [],
+    reservationRejectedDone: false,
+    reservationRejectedError: null,
+    reservationComplete: null,
     reservationCompleteError: null,
 };
 
@@ -53,9 +59,21 @@ export const CREATE_RESERVATION_SUCCESS = 'CREATE_RESERVATION_SUCCESS';
 export const CREATE_RESERVATION_FAILURE = 'CREATE_RESERVATION_FAILURE';
 
 // 날짜, 시간 (오전/오후), 픽업장소, 병원, 소요 시간(ex. 3시간)
+export const GET_ALL_RESERVATIONS_REQUEST = 'GET_ALL_RESERVATIONS_REQUEST';
+export const GET_ALL_RESERVATIONS_SUCCESS = 'GET_ALL_RESERVATIONS_SUCCESS';
+export const GET_ALL_RESERVATIONS_FAILURE = 'GET_ALL_RESERVATIONS_FAILURE';
+
 export const GET_RESERVATION_INFO_REQUEST = 'GET_RESERVATION_INFO_REQUEST';
 export const GET_RESERVATION_INFO_SUCCESS = 'GET_RESERVATION_INFO_SUCCESS';
 export const GET_RESERVATION_INFO_FAILURE = 'GET_RESERVATION_INFO_FAILURE';
+
+export const RESERVATION_ACCEPT_REQUEST = 'RESERVATION_ACCEPT_REQUEST';
+export const RESERVATION_ACCEPT_SUCCESS = 'RESERVATION_ACCEPT_SUCCESS';
+export const RESERVATION_ACCEPT_FAILURE = 'RESERVATION_ACCEPT_FAILURE';
+
+export const RESERVATION_REJECT_REQUEST = 'RESERVATION_REJECT_REQUEST';
+export const RESERVATION_REJECT_SUCCESS = 'RESERVATION_REJECT_SUCCESS';
+export const RESERVATION_REJECT_FAILURE = 'RESERVATION_REJECT_FAILURE';
 
 // 결제 결과
 export const CHECK_OUT_REQUEST = 'CHECK_OUT_REQUEST';
@@ -131,10 +149,45 @@ const reducer = (state = initialState, action) => {
             case CREATE_RESERVATION_SUCCESS:
                 console.log(action.payload);
                 draft.reservationRequestDone = true;
-                draft.reservationRequest = [...state.reservationRequest, action.payload.reservation];
+                draft.reservationRequests = [...action.payload.reservation];
                 break;
             case CREATE_RESERVATION_FAILURE:
                 draft.reservationRequestError = action.error;
+                break;
+            case GET_RESERVATION_INFO_REQUEST:
+                draft.getReservationInfoDone = false;
+                draft.getReservationInfo = null;
+                draft.getReservationInfoError = null;
+                break;
+            case GET_RESERVATION_INFO_SUCCESS:
+                console.log(action.payload);
+                draft.getReservationInfoDone = true;
+                draft.getReservationInfo = action.payload.reservation;
+                break;
+            case GET_RESERVATION_INFO_FAILURE:
+                draft.getReservationInfoError = action.error;
+                break;
+            case RESERVATION_ACCEPT_REQUEST:
+                draft.reservationAccepted = null;
+                draft.reservationAcceptedError = null;
+                break;
+            case RESERVATION_ACCEPT_SUCCESS:
+                console.log(action.payload);
+                draft.reservationAcceptedDone = true;
+                draft.reservationAccepted = [...action.payload.reservations];
+                break;
+            case RESERVATION_ACCEPT_FAILURE:
+                draft.reservationAcceptedError = action.error;
+                break;
+            case RESERVATION_REJECT_REQUEST:
+                draft.reservationRejectedDone = false;
+                draft.reservationRejectedError = null;
+                break;
+            case RESERVATION_REJECT_SUCCESS:
+                draft.reservationRejectedDone = true;
+                break;
+            case RESERVATION_REJECT_FAILURE:
+                draft.reservationRejectedError = action.error;
                 break;
             default:
                 break;

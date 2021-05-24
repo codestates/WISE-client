@@ -63,7 +63,7 @@ const ReservationDetail = () => {
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 3rem;
 `;
 

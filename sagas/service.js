@@ -20,6 +20,15 @@ import {
     GET_RESERVATION_INFO_REQUEST,
     GET_RESERVATION_INFO_SUCCESS,
     GET_RESERVATION_INFO_FAILURE,
+    RESERVATION_ACCEPT_REQUEST,
+    RESERVATION_ACCEPT_SUCCESS,
+    RESERVATION_ACCEPT_FAILURE,
+    RESERVATION_REJECT_REQUEST,
+    RESERVATION_REJECT_SUCCESS,
+    RESERVATION_REJECT_FAILURE,
+    GET_ALL_RESERVATIONS_REQUEST,
+    GET_ALL_RESERVATIONS_SUCCESS,
+    GET_ALL_RESERVATIONS_FAILURE,
     CHECK_OUT_REQUEST,
     CHECK_OUT_SUCCESS,
     CHECK_OUT_FAILURE,
@@ -139,6 +148,108 @@ function* makeReservation(action) {
     }
 }
 
+function getAllReservationsAPI(userId, accessToken) {
+    return axios.get(`api/v1/reservations/${userId}`, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+
+function* getAllReservations(action) {
+    try {
+        const result = yield call(getAllReservationsAPI, action.userId, action.accessToken);
+        yield put({
+            type: GET_ALL_RESERVATIONS_SUCCESS,
+            payload: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: GET_ALL_RESERVATIONS_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
+function getReservationAPI(reservationId, accessToken) {
+    return axios.get(`api/v1/reservations/${reservationId}`, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+
+function* getReservation(action) {
+    try {
+        const result = yield call(getReservationAPI, action.reservationId, action.accessToken);
+        yield put({
+            type: GET_RESERVATION_INFO_SUCCESS,
+            payload: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: GET_RESERVATION_INFO_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
+function reservationAcceptAPI(reservationId, accessToken, state) {
+    return axios.patch(
+        `api/v1/reservations/${reservationId}`,
+        {
+            state,
+        },
+        {
+            headers: {
+                accessToken,
+            },
+        },
+    );
+}
+
+function* reservationAccept(action) {
+    try {
+        const result = yield call(reservationAcceptAPI, action.reservationId, action.accessToken, action.state);
+        yield put({
+            type: RESERVATION_ACCEPT_SUCCESS,
+            payload: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: RESERVATION_ACCEPT_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
+function reservationRejectAPI(reservationId, accessToken) {
+    return axios.delete(`api/v1/reservations/${reservationId}`, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+
+function* reservationReject(action) {
+    try {
+        const result = yield call(reservationRejectAPI, action.reservationId, action.accessToken, action.state);
+        yield put({
+            type: RESERVATION_REJECT_SUCCESS,
+            payload: result.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: RESERVATION_REJECT_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 function* watchLoadServices() {
     yield takeLatest(LOAD_ALL_SERVICES_REQUEST, loadServices);
 }
@@ -159,6 +270,22 @@ function* watchMakeReservation() {
     yield takeLatest(CREATE_RESERVATION_REQUEST, makeReservation);
 }
 
+function* watchGetAllReservations() {
+    yield takeLatest(GET_ALL_RESERVATIONS_REQUEST, getAllReservations);
+}
+
+function* watchGetReservation() {
+    yield takeLatest(GET_RESERVATION_INFO_REQUEST, getReservation);
+}
+
+function* watchReservationAccept() {
+    yield takeLatest(RESERVATION_ACCEPT_REQUEST, reservationAccept);
+}
+
+function* watchReservationReject() {
+    yield takeLatest(RESERVATION_REJECT_REQUEST, reservationReject);
+}
+
 export default function* postSaga() {
     yield all([
         fork(watchLoadServices),
@@ -166,5 +293,9 @@ export default function* postSaga() {
         fork(watchLoadFirstReviews),
         fork(watchLoadMoreReviews),
         fork(watchMakeReservation),
+        fork(watchGetAllReservations),
+        fork(watchGetReservation),
+        fork(watchReservationAccept),
+        fork(watchReservationReject),
     ]);
 }

@@ -20,6 +20,9 @@ const AssistantInfo = ({ service, hours }) => {
                 <span>날짜</span> 2021 - 05 - 14
             </Text>
             <Text>
+                <span>시간</span> 오전
+            </Text>
+            <Text>
                 <span>비용</span> {service.wage}원 / 시간
             </Text>
             <h1>
@@ -39,7 +42,7 @@ const Wrapper = styled.div`
     padding: 2rem 3rem;
     height: 40rem;
     width: 25rem;
-    margin: 10% 2%;
+    margin: 7% 2%;
     div,
     h3,
     img {

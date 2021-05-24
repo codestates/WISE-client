@@ -18,7 +18,7 @@ const NotificationModal = ({ onClose }) => {
                     <Noti>
                         <div>서비스 신청이 1건 있습니다</div>
                         <div>
-                            <Link href="/service/accept/reservationId">
+                            <Link href="/service/accept/60aa0f1641ec6823dbe2e6fb">
                                 <Button>확인하기</Button>
                             </Link>
                         </div>
