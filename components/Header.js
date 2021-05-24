@@ -100,6 +100,7 @@ const Wrapper = styled.header`
     -webkit-backdrop-filter: blur(6px);
     border-radius: 0.3rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1;
 `;
 
 const Container = styled.div`
@@ -121,9 +122,6 @@ const UserTap = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    div {
-        display: inline-block;
-    }
 `;
 
 const LoginBtn = styled.div`

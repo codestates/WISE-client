@@ -63,7 +63,7 @@ const RegisterForm = () => {
         [images],
     );
     // 한 줄 소개
-    const [greeting, onChangeGreeting] = useInput('');
+    const [greetings, onChangeGreetings] = useInput('');
 
     // 가격
     const [wage, onChangeWage] = useInput('');
@@ -133,7 +133,7 @@ const RegisterForm = () => {
             data.append('description', description);
             data.append('wage', Number(wage));
             data.append('availableDays', availableDays);
-            data.append('greetings', greeting);
+            data.append('greetings', greetings);
             data.append('isDriver', Boolean(isDriver));
             dispatch(registerServiceRequestAction(data, accessToken));
         },
@@ -141,7 +141,7 @@ const RegisterForm = () => {
             location,
             availableDays,
             images,
-            greeting,
+            greetings,
             wage,
             description,
             isAuthorized,
@@ -184,7 +184,7 @@ const RegisterForm = () => {
             </ProfileImagesWrapper>
             <InputWrapper>
                 <span>✅한줄 소개</span>
-                <input onChange={onChangeGreeting} placeholder="본인을 한줄로 설명해 주세요" required />
+                <input onChange={onChangeGreetings} placeholder="본인을 한줄로 설명해 주세요" required />
             </InputWrapper>
             <InputWrapper>
                 <span>✅가격</span>

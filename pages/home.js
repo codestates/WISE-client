@@ -1,16 +1,18 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import PopularSection from '../components/PopularSection';
 import TotalSection from '../components/TotalSection';
-import { loadMyInfo } from '../reducers/user';
+import { loadMyInfo, loadService } from '../reducers/user';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { me } = useSelector((state) => state.user);
+    const { me, popularService, service, loadServiceDone, loadServiceLoading } = useSelector((state) => state.user);
+
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
         if (!me) {
@@ -22,6 +24,34 @@ const Home = () => {
             }
         }
     }, [me]);
+
+    useEffect(() => {
+        dispatch(loadService(page));
+    }, []);
+
+    useEffect(() => {
+        if (loadServiceDone) {
+            setPage((prev) => prev + 1);
+        }
+    }, [loadServiceDone]);
+    console.log(page);
+    useEffect(() => {
+        function onScroll() {
+            if (
+                window.pageYOffset + document.documentElement.clientHeight >
+                document.documentElement.scrollHeight - 300
+            ) {
+                if (!loadServiceLoading) {
+                    dispatch(loadService(page));
+                }
+            }
+        }
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, []);
+
     return (
         <Layout title="WISE | HOME">
             <Wrapper>
@@ -37,7 +67,6 @@ const Wrapper = styled.div`
     // border: 1px solid black;
     padding: 3rem;
     max-width: 1200px;
-    z-index: -1;
 `;
 
 export default Home;

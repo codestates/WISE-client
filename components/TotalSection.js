@@ -1,17 +1,20 @@
+/* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
-import Item from './Item';
+import { useSelector } from 'react-redux';
+import ServiceCard from './ServiceCard';
 
 const TotalSection = ({ title }) => {
-    const tmp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const { popularService, service } = useSelector((state) => state.user);
+
     return (
         <Wrapper>
             <Header>{title}</Header>
             <Row style={{ overflow: 'hidden' }}>
-                {tmp.map((ele) => (
-                    <Col key={ele} xs={24} sm={12} md={8} lg={6} span={24}>
-                        <Item />
+                {service.map((ele) => (
+                    <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
+                        <ServiceCard service={ele} />
                     </Col>
                 ))}
             </Row>
