@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+// import PropTypes from 'prop-types';
+import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
+
+type Props = {
+    children: React.ReactNode;
+    title?: string;
+};
 
 const Global = createGlobalStyle`
   html,
@@ -32,13 +37,7 @@ const Global = createGlobalStyle`
     box-sizing: border-box;
   }
 `;
-
-interface LayoutProps {
-  children: JSX.Element,
-  title?: string;
-}
-
-const Layout = ({ children, title }:LayoutProps) => (
+const Layout = ({ children, title }: Props): ReactElement => (
     <>
         <Global />
         <Head>
@@ -58,10 +57,4 @@ const MainComponent = styled.div`
     width: 100vw;
     flex-grow: 1;
 `;
-
-Layout.propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string.isRequired,
-};
-
 export default Layout;

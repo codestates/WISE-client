@@ -1,4 +1,4 @@
-import Produce from '../util/produce';
+import Produce from '../utils/produce';
 
 // 액션 상수
 export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST' as const;
@@ -93,7 +93,7 @@ export const registerServiceRequestAction = (data, accessToken: string) => ({
 });
 
 const reducer = (state = initialState, action) =>
-    Produce(state, (draft: Draft<{}>) => {
+    Produce(state, (draft) => {
         switch (action.type) {
             case LOAD_MY_INFO_REQUEST:
                 draft.loadMyInfoLoading = true;

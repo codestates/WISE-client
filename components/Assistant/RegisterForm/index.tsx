@@ -26,27 +26,30 @@ const RegisterForm = () => {
 
     // 가능 지역
     const [location, setLocation] = useState('');
-    const onChangeLocation = useCallback((value:string) => {
+    const onChangeLocation = useCallback((value: string) => {
         setLocation(value);
     }, []);
     // 가능 요일
     const [availableDays, setAvailableDays] = useState<Array<availableDay>>([]);
-    const availableDaysOptions = useMemo(():Array<availableDay> => [
-        { label: '월 오전', value: 'Monday am' },
-        { label: '화 오전', value: 'Tuesday am' },
-        { label: '수 오전', value: 'Wednesday am' },
-        { label: '목 오전', value: 'Thursday am' },
-        { label: '금 오전', value: 'Friday am' },
-        { label: '토 오전', value: 'Saturday am' },
-        { label: '일 오전', value: 'Sunday am' },
-        { label: '월 오후', value: 'Monday pm' },
-        { label: '화 오후', value: 'Tuesday pm' },
-        { label: '수 오후', value: 'Wednesday pm' },
-        { label: '목 오후', value: 'Thursday pm' },
-        { label: '금 오후', value: 'Friday pm' },
-        { label: '토 오후', value: 'Saturday pm' },
-        { label: '일 오후', value: 'Sunday pm' },
-    ],[]);
+    const availableDaysOptions = useMemo(
+        (): Array<availableDay> => [
+            { label: '월 오전', value: 'Monday am' },
+            { label: '화 오전', value: 'Tuesday am' },
+            { label: '수 오전', value: 'Wednesday am' },
+            { label: '목 오전', value: 'Thursday am' },
+            { label: '금 오전', value: 'Friday am' },
+            { label: '토 오전', value: 'Saturday am' },
+            { label: '일 오전', value: 'Sunday am' },
+            { label: '월 오후', value: 'Monday pm' },
+            { label: '화 오후', value: 'Tuesday pm' },
+            { label: '수 오후', value: 'Wednesday pm' },
+            { label: '목 오후', value: 'Thursday pm' },
+            { label: '금 오후', value: 'Friday pm' },
+            { label: '토 오후', value: 'Saturday pm' },
+            { label: '일 오후', value: 'Sunday pm' },
+        ],
+        [],
+    );
     const onChangeDays = useCallback((checkedValues) => {
         setAvailableDays(checkedValues);
     }, []);
@@ -58,7 +61,7 @@ const RegisterForm = () => {
         imagesInput.current.click();
     }, [imagesInput.current]);
     const onChangeImages = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        setImages((prev:File[]) => [...prev, ...e.target.files]);
+        setImages((prev: File[]) => [...prev, ...e.target.files]);
     }, []);
     const removeImage = useCallback(
         (name) => {
@@ -86,15 +89,15 @@ const RegisterForm = () => {
     const [orgAuth, setOrgAuth] = useState<File[]>([]);
     const orgAuthInput = useRef<HTMLInputElement>(null);
     const orgAuthUpload = useCallback(() => {
-            orgAuthInput.current.click();
+        orgAuthInput.current.click();
     }, [orgAuthInput.current]);
     const onChangeOrgAuth = useCallback((e) => {
         setOrgAuth((prev) => [...prev, ...e.target.files]);
     }, []);
-    const removeOrgAuthImage = useCallback((name:string) => {
-        const newImages:File[] = orgAuth.filter((v) => v.name !== name);
+    const removeOrgAuthImage = useCallback((name: string) => {
+        const newImages: File[] = orgAuth.filter((v) => v.name !== name);
         setOrgAuth(newImages);
-    },[]);
+    }, []);
 
     // 교육 이수
     const [isTrained, setIsTrained] = useState('');
@@ -114,7 +117,7 @@ const RegisterForm = () => {
     const removeTrainingCertImage = useCallback((name) => {
         const newImages = trainingCert.filter((v) => v.name !== name);
         setTrainingCert(newImages);
-    },[]);
+    }, []);
 
     // 운전 여부
     const [isDriver, setIsDriver] = useState('');
@@ -136,16 +139,16 @@ const RegisterForm = () => {
             data.append('isAuthorized', isAuthorized);
             data.append('isTrained', isTrained);
             data.append('isDriver', isDriver);
-            for(let v of images){
+            for (let v of images) {
                 data.append('images', v);
             }
-            for(let v of orgAuth){
+            for (let v of orgAuth) {
                 data.append('orgAuth', v);
             }
-            for(let v of trainingCert){
+            for (let v of trainingCert) {
                 data.append('trainingCert', v);
             }
-            for(let v of availableDays){
+            for (let v of availableDays) {
                 data.append('availableDays', JSON.stringify(v));
             }
             dispatch(registerServiceRequestAction(data, accessToken));

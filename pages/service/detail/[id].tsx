@@ -1,26 +1,28 @@
-// import { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import { GetServerSideProps } from 'next';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
-import Review from '../../../components/ServiceDetail/Review';
+import ReviewComponent from '../../../components/ServiceDetail/Review';
 import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
 import wrapper from '../../../store/configureStore';
+import { RootState } from '../../../reducers';
+// import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
         padding: 2rem 0;
     }
-    .Summary__Wrapper-sc-1wbecrp-0, .Navigation__Wrapper-sc-1jd4ncw-0{
+    .Summary__Wrapper-sc-1xkyrag-0, .Navigation__Wrapper-fz5fkk-0{
       position: sticky;
       top: 0;
       z-index: 10;
@@ -28,35 +30,41 @@ const Global = createGlobalStyle`
 
 `;
 
-const ServiceDetail = () => {
-    const dispatch = useDispatch();
+const ServiceDetail = (): ReactElement => {
+    // const dispatch = useDispatch();
 
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, []);
+    // useEffect(() => {
+    //     const userId = localStorage.getItem('userId');
+    //     if (userId) {
+    //         dispatch({
+    //             type: LOG_IN_SUCCESS,
+    //         });
+    //         dispatch(loadMyInfo());
+    //     }
+    // }, []);
 
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
 
-    const { service, review } = useSelector((state) => state.service);
+    const { service, review } = useSelector((state: RootState) => state.service);
 
     // carousel
-    const slider = useRef();
-    const container = useRef();
+    const slider = useRef<HTMLInputElement>(null);
+    const container = useRef<HTMLInputElement>(null);
     const [mainIndex, setMainIndex] = useState(0);
     const slideNext = () => {
+        if (!slider.current) {
+            return;
+        }
         slider.current.style.transform = `translateX(-${(mainIndex + 1) * 50}rem)`;
         setMainIndex(mainIndex + 1);
     };
     const slidePrev = () => {
+        if (!slider.current) {
+            return;
+        }
         if (mainIndex > 0) {
             slider.current.style.transform = `translateX(-${(mainIndex - 1) * 50}rem)`;
             setMainIndex(mainIndex - 1);
@@ -73,7 +81,7 @@ const ServiceDetail = () => {
                                 <CarouselCon ref={container}>
                                     <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
                                     <Slider ref={slider}>
-                                        {service.images.map((image) => (
+                                        {service.images.map((image: string) => (
                                             <img
                                                 src={`${IMAGE_URL}${service.images[0]}`}
                                                 alt="cover images"
@@ -85,7 +93,7 @@ const ServiceDetail = () => {
                                 </CarouselCon>
                                 <Navigation id={id} />
                                 <Description service={service} />
-                                <Review review={review} />
+                                <ReviewComponent review={review} />
                                 <FAQ />
                                 <Refund />
                             </Detail>
@@ -156,13 +164,13 @@ const NextBtn = styled.div`
     z-index: 5;
 `;
 
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
     context.store.dispatch({
         type: GET_SERVICE_INFO_REQUEST,
-        serviceId: context.params.id,
+        serviceId: context.params?.id,
     });
     context.store.dispatch(END);
-    await context.store.sagaTask.toPromise();
+    await context.store.sagaTask?.toPromise();
 });
 
 export default ServiceDetail;

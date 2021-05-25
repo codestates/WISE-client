@@ -1,17 +1,18 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, ReactElement } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { logoutRequestAction } from '../reducers/user';
 import NotificationModal from './NotificationModal';
+import { RootState } from '../reducers';
 
-const Header = () => {
+const Header = (): ReactElement => {
     const dispatch = useDispatch();
-    const { me, islogin } = useSelector((state) => state.user);
+    const { me, islogin } = useSelector((state: RootState) => state.user);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -40,9 +41,9 @@ const Header = () => {
                         <Logo src="/images/WISE.png" alt="WISE logo" />
                     </Link>
                     <UserTap>
-                        {islogin && (
-                            <>
-                                <div style={{ width: '8rem' }}>
+                        <div style={{ width: '8rem' }}>
+                            {islogin ? (
+                                <>
                                     {me?.isAssistant ? (
                                         <Link href="/assistant/Center">
                                             <AssistantBtn>어시스턴트 센터</AssistantBtn>
@@ -52,27 +53,25 @@ const Header = () => {
                                             <AssistantBtn>어시스턴트 등록</AssistantBtn>
                                         </Link>
                                     )}
-                                </div>
-                                <div onClick={onClickModal}>
-                                    {showModal ? (
-                                        <BellOutlined
-                                            style={{
-                                                fontSize: '1.5rem',
-                                                lineHeight: '2rem',
-                                                color: '#68d480',
-                                                cursor: 'pointer',
-                                            }}
-                                        />
-                                    ) : (
-                                        <BellOutlined
-                                            style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }}
-                                        />
-                                    )}
-                                </div>
-                                {showModal && <NotificationModal onClose={onCloseModal} />}
-                                <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
-                            </>
-                        )}
+                                </>
+                            ) : null}
+                        </div>
+                        <div onClick={onClickModal}>
+                            {showModal ? (
+                                <BellOutlined
+                                    style={{
+                                        fontSize: '1.5rem',
+                                        lineHeight: '2rem',
+                                        color: '#68d480',
+                                        cursor: 'pointer',
+                                    }}
+                                />
+                            ) : (
+                                <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }} />
+                            )}
+                        </div>
+                        {showModal && <NotificationModal onClose={onCloseModal} />}
+                        <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>
                         ) : (
@@ -122,7 +121,7 @@ const UserTap = styled.div`
     // border: 1px solid black;
     width: 300px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
 `;
 

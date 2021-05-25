@@ -1,24 +1,31 @@
-import thunk from 'redux-thunk';
 import { applyMiddleware, createStore, compose } from 'redux';
-import { createWrapper } from 'next-redux-wrapper';
+import { MakeStore, createWrapper } from 'next-redux-wrapper';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
-import reducer from '../reducers';
 import rootSaga from '../sagas';
+import rootReducer from '../reducers';
+import { UserState } from '../reducers/user';
+import { ServiceState } from '../interfaces/data/service';
 
-const configureStore = () => {
+export interface CombinedState {
+    index: string;
+    user: UserState;
+    service: ServiceState;
+}
+
+const configureStore: MakeStore<CombinedState> = () => {
     const sagaMiddleware = createSagaMiddleware();
-    const middlewares = [sagaMiddleware, thunk];
+    const middlewares = [sagaMiddleware];
     const enhancer =
         process.env.NEXT_PUBLIC_NODE_ENV === 'production'
             ? compose(applyMiddleware(...middlewares))
             : composeWithDevTools(applyMiddleware(...middlewares));
-    const store = createStore(reducer, enhancer);
+    const store = createStore(rootReducer, enhancer);
     store.sagaTask = sagaMiddleware.run(rootSaga);
     return store;
 };
 
-const wrapper = createWrapper(configureStore, { debug: process.env.NEXT_PUBLIC_NODE_ENV === 'development' });
+const wrapper = createWrapper<CombinedState>(configureStore, { debug: process.env.NODE_ENV === 'development' });
 
 export default wrapper;

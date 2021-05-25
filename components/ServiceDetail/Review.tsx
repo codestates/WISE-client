@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
+import { Review } from '../../interfaces/data/service';
 
-const Review = ({ review }) => (
+type ReviewProps = {
+    review: Review;
+};
+
+const ReviewComponent = ({ review }: ReviewProps): ReactElement => (
     <>
         <Wrapper id="review">
             <h2>후기 (26개)</h2>
@@ -81,8 +87,8 @@ const ReviewItem = styled.div`
     }
 `;
 
-Review.propTypes = {
-    review: PropTypes.object.isRequired,
-};
+// Review.propTypes = {
+//     review: PropTypes.object.isRequired,
+// };
 
-export default Review;
+export default ReviewComponent;

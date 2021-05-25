@@ -10,17 +10,15 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Payment = () => {
-    return (
-        <Layout>
-            <Global />
-            <Wrapper>
-                <OrderItem />
-                <AssistantInfo />
-            </Wrapper>
-        </Layout>
-    );
-};
+const Payment = () => (
+    <Layout>
+        <Global />
+        <Wrapper>
+            <OrderItem />
+            <AssistantInfo />
+        </Wrapper>
+    </Layout>
+);
 
 const Wrapper = styled.div`
     width: 100%;

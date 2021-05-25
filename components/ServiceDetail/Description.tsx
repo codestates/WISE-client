@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
+import { LongService } from '../../interfaces/data/service';
 
-const Description = ({ service }) => (
+type ServiceProps = {
+    service: LongService;
+};
+
+const Description = ({ service }: ServiceProps): ReactElement => (
     <>
         <Wrapper id="description">
             <Title>김천사 어시스턴트는 이런 사람이에요</Title>
@@ -83,8 +89,8 @@ const Text = styled.div`
     padding: 2rem;
 `;
 
-Description.propTypes = {
-    service: PropTypes.object.isRequired,
-};
+// Description.propTypes = {
+//     service: PropTypes.object.isRequired,
+// };
 
 export default Description;

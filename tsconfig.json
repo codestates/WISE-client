@@ -19,5 +19,5 @@
     "target": "esnext"
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "components/ServiceDetail/Navigation.js", "components/ServiceDetail/Refund.js", "components/ServiceDetail/Review.js", "components/ServiceDetail/Summary.js", "components/user/ErrorMessage.js", "components/user/Oauth.js", "components/user/Oauth.js", "components/user/SigninForm.js", "components/user/SignupAuthForm.js", "components/user/SigninForm"]
+  "include": ["**/*.ts", "**/*.tsx",]
 }

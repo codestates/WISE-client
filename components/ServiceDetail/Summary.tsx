@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { ReactElement } from 'react';
 import { ActionButton } from '../button-style';
+import { ShortService } from '../../interfaces/data/service';
 
-const Summary = ({ service, id }) => (
+type ServiceProps = {
+    service: ShortService;
+    id: string | string[];
+};
+
+const Summary = ({ service, id }: ServiceProps): ReactElement => (
     <Wrapper>
         <Bio>
             <h1>김천사 어시스턴트</h1>
@@ -86,9 +93,9 @@ const Button = styled(ActionButton)`
     height: 3.4rem;
 `;
 
-Summary.propTypes = {
-    service: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired,
-};
+// Summary.propTypes = {
+//     service: PropTypes.object.isRequired,
+//     id: PropTypes.string.isRequired,
+// };
 
 export default Summary;

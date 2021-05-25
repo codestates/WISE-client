@@ -1,90 +1,88 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import { useMemo } from 'react';
 import Link from 'next/link';
+import { ReactElement } from 'react';
 
-const NotificationModal = ({ onClose }) => {
+const NotificationModal = (): ReactElement => (
     // const style = useMemo(() => ({ marginRight: '1rem' }), []);
 
-    return (
-        <StyledModalOverlay>
-            <StyledModal>
-                <StyledModalHeader>
-                    <div>새 알림</div>
-                </StyledModalHeader>
-                <StyledModalBody>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/60aa0f1641ec6823dbe2e6fb">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>김천사 어시스턴트가 신청을 수락했습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>결제하러 가기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                    <Noti>
-                        <div>서비스 신청이 1건 있습니다</div>
-                        <div>
-                            <Link href="/service/accept/reservationId">
-                                <Button>확인하기</Button>
-                            </Link>
-                        </div>
-                    </Noti>
-                </StyledModalBody>
-            </StyledModal>
-        </StyledModalOverlay>
-    );
-};
-
+    <StyledModalOverlay>
+        <StyledModal>
+            <StyledModalHeader>
+                <div>새 알림</div>
+            </StyledModalHeader>
+            <StyledModalBody>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/60aa0f1641ec6823dbe2e6fb">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>김천사 어시스턴트가 신청을 수락했습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>결제하러 가기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+                <Noti>
+                    <div>서비스 신청이 1건 있습니다</div>
+                    <div>
+                        <Link href="/service/accept/reservationId">
+                            <Button>확인하기</Button>
+                        </Link>
+                    </div>
+                </Noti>
+            </StyledModalBody>
+        </StyledModal>
+    </StyledModalOverlay>
+);
 const StyledModalOverlay = styled.div`
     position: absolute;
     top: 11rem;
@@ -152,8 +150,8 @@ const Button = styled.a`
     }
 `;
 
-NotificationModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-};
+// NotificationModal.propTypes = {
+//     onClose: PropTypes.func.isRequired,
+// };
 
 export default NotificationModal;

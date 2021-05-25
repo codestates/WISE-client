@@ -1,13 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Link from 'next/link';
-import React, { Children } from 'react';
+import React, { Children, ReactElement } from 'react';
 
-const ActiveLink = ({ children, activeClassName, ...props }) => {
+type NavProps = {
+    children: React.ReactNode | undefined;
+    activeClassName: string;
+    href: string;
+};
+
+const ActiveLink = ({ children, activeClassName, ...props }: NavProps): ReactElement => {
     const { asPath } = useRouter();
     const child = Children.only(children);
-    const childClassName = child.props.className || '';
+    const childClassName = child?.props.className || '';
 
     const className = asPath === props.href ? `${childClassName} ${activeClassName}`.trim() : childClassName;
 
@@ -20,10 +26,10 @@ const ActiveLink = ({ children, activeClassName, ...props }) => {
     );
 };
 
-ActiveLink.propTypes = {
-    children: PropTypes.node.isRequired,
-    activeClassName: PropTypes.string.isRequired,
-    href: PropTypes.string.isRequired,
-};
+// ActiveLink.propTypes = {
+//     children: PropTypes.node.isRequired,
+//     activeClassName: PropTypes.string.isRequired,
+//     href: PropTypes.string.isRequired,
+// };
 
 export default ActiveLink;
