@@ -264,7 +264,7 @@ function* reservationReject(action: ReturnType<typeof reservationRejectRequest>)
     }
 }
 
-function checkoutAPI(orderId: string, impUid: string, accessToken: string) {
+function checkoutAPI(orderId: string, impUid: string | string[], accessToken: string) {
     return axios.post(
         `api/v1/payments/${orderId}`,
         {

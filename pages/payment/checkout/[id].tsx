@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import Link from 'next/link';
 // import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import AssistantInfo from '../../components/AssistantInfo';
-import OrderItem from '../../components/OrderItem';
-import { RootState } from '../../reducers/index';
-import wrapper from '../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../interfaces/act/services';
-import ReservationInfo from '../../components/ReservationInfo';
+import Layout from '../../../components/Layout';
+import AssistantInfo from '../../../components/AssistantInfo';
+import OrderItem from '../../../components/OrderItem';
+import { RootState } from '../../../reducers/index';
+import wrapper from '../../../store/configureStore';
+import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import ReservationInfo from '../../../components/ReservationInfo';
 
 const Global = createGlobalStyle`
     footer {

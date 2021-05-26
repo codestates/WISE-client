@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import { Order } from '../interfaces/data/service';
+import { ActionButton } from './button-style';
 
 type Props = {
     reservationInfo: Order;
@@ -45,29 +46,6 @@ const Wrapper = styled.div`
 const Divide = styled.div`
     border-top: 1px solid #ddd;
     margin-bottom: 3rem;
-`;
-
-export const ActionButton = styled.a`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem;
-    color: #aaa;
-    background: #fff;
-    font-size: 1.4rem;
-    border: 1px solid #68d480;
-    border-radius: 0.6rem;
-    height: 2.8rem;
-    width: 100%;
-    box-shadow: 0.1rem 0.1rem 0.3rem #b8b8b8;
-    cursor: pointer;
-    transition: transform 200ms ease-in-out;
-    &:hover {
-        transform: scale(1.01);
-        margin-left: -1%;
-        box-shadow: 0.3rem 0.2rem 0.4rem #cecece;
-        color: #aaa;
-    }
 `;
 
 export default OrderItem;

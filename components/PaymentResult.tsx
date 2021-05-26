@@ -5,10 +5,10 @@ import { CheckCircleTwoTone, ExclamationCircleOutlined } from '@ant-design/icons
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ParsedUrlQuery } from 'querystring';
-import { ActionButton } from './OrderItem';
 import { checkoutRequest } from '../actions/service';
 import { Order } from '../interfaces/data/service';
 import { RootState } from '../reducers';
+import { ActionButton } from './button-style';
 
 type Props = {
     result: ParsedUrlQuery;

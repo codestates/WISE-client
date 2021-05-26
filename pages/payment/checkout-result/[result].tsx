@@ -3,11 +3,11 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { END } from 'redux-saga';
 import { useSelector } from 'react-redux';
-import Layout from '../../components/Layout';
-import PaymentResult from '../../components/PaymentResult';
-import wrapper from '../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST } from '../../interfaces/act/services';
-import { RootState } from '../../reducers';
+import Layout from '../../../components/Layout';
+import PaymentResult from '../../../components/PaymentResult';
+import wrapper from '../../../store/configureStore';
+import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/services';
+import { RootState } from '../../../reducers';
 
 const Global = createGlobalStyle`
     footer {
