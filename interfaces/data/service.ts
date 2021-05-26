@@ -102,4 +102,5 @@ export type ServiceState = {
     checkoutDone: boolean;
     checkoutStatus: null | string;
     checkoutError: null | string;
+    notifications: null | string[];
 };

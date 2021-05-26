@@ -20,10 +20,10 @@ const Header = () => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
-    const onCloseModal = useCallback(() => {
-        setShowModal(false);
-        console.log('clicked!');
-    }, []);
+    // const onCloseModal = useCallback(() => {
+    //     setShowModal(false);
+    //     console.log('clicked!');
+    // }, []);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequestAction());
@@ -70,7 +70,7 @@ const Header = () => {
                                 <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }} />
                             )}
                         </div>
-                        {showModal && <NotificationModal onClose={onCloseModal} />}
+                        {showModal && <NotificationModal />}
                         <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>

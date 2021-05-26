@@ -2,12 +2,15 @@ import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
+import Link from 'next/link';
+// import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import AssistantInfo from '../../components/AssistantInfo';
 import OrderItem from '../../components/OrderItem';
 import { RootState } from '../../reducers/index';
 import wrapper from '../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../reducers/service';
+import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../interfaces/act/services';
+import ReservationInfo from '../../components/ReservationInfo';
 
 const Global = createGlobalStyle`
     footer {
@@ -16,15 +19,28 @@ const Global = createGlobalStyle`
 `;
 
 const Payment = () => {
+    // const router = useRouter();
+    // const { id } = router.query;
+    // console.log(id);
+
     const { service, getReservationInfo } = useSelector((state: RootState) => state.service);
 
     return (
-        <Layout>
-            <Global />
-            <Wrapper>
-                <OrderItem />
-                <AssistantInfo service={service} hours={getReservationInfo.hours} />
-            </Wrapper>
+        <Layout title="Checkout">
+            <>
+                <Global />
+                <Wrapper>
+                    <Title>
+                        <Link href="/">
+                            <i className="material-icons">chevron_left</i>
+                        </Link>
+                        <h1>결제하기</h1>
+                    </Title>
+                    <ReservationInfo reservationInfo={getReservationInfo} />
+                    <OrderItem reservationInfo={getReservationInfo} />
+                    <AssistantInfo service={service} hours={getReservationInfo.hours} />
+                </Wrapper>
+            </>
         </Layout>
     );
 };
@@ -34,6 +50,12 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 3rem;
+`;
+
+const Title = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {

@@ -1,22 +1,21 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import ReviewComponent from '../../../components/ServiceDetail/Review';
-import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -30,19 +29,7 @@ const Global = createGlobalStyle`
 
 `;
 
-const ServiceDetail = (): ReactElement => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, [dispatch]);
-
+const ServiceDetail = () => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();
     const { id } = router.query;

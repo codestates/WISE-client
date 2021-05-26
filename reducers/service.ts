@@ -88,6 +88,7 @@ export const initialState: ServiceState = {
     checkoutDone: false,
     checkoutStatus: null,
     checkoutError: null,
+    notifications: [],
 };
 
 /* ------- reducer ------ */

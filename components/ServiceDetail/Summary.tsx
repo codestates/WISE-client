@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-// import PropTypes from 'prop-types';
 import { ActionButton } from '../button-style';
 import { ShortService } from '../../interfaces/data/service';
 
@@ -33,7 +32,7 @@ const Summary = ({ service, id }: ServiceProps) => (
                 <span>비용</span> <strong>{service.wage}</strong>원 / 시간
             </Text>
         </Info>
-        <Link href={`../reservation/${id}`} service={service}>
+        <Link href={`../reservation/${id}`}>
             <Button>신청하기</Button>
         </Link>
     </Wrapper>
@@ -91,10 +90,5 @@ const Text = styled.div`
 const Button = styled(ActionButton)`
     height: 3.4rem;
 `;
-
-// Summary.propTypes = {
-//     service: PropTypes.object.isRequired,
-//     id: PropTypes.string.isRequired,
-// };
 
 export default Summary;

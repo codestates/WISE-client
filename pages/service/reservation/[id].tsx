@@ -1,14 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
 import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/Reservation';
-import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
-import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 
@@ -19,18 +18,6 @@ const Global = createGlobalStyle`
 `;
 
 const ReservationDetail = () => {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch({
-                type: LOG_IN_SUCCESS,
-            });
-            dispatch(loadMyInfo());
-        }
-    }, [dispatch]);
-
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
