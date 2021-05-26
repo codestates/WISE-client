@@ -2,40 +2,18 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosResponse } from 'axios';
 import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
-import { EActionTypesService } from '../interfaces/act/service';
 import * as data from '../interfaces/data/service';
 
 import {
     GET_SERVICE_INFO_REQUEST,
-    GET_SERVICE_INFO_SUCCESS,
-    GET_SERVICE_INFO_FAILURE,
     LOAD_FIRST_REVIEWS_REQUEST,
-    LOAD_FIRST_REVIEWS_SUCCESS,
-    LOAD_FIRST_REVIEWS_FAILURE,
     LOAD_MORE_REVIEWS_REQUEST,
-    LOAD_MORE_REVIEWS_SUCCESS,
-    LOAD_MORE_REVIEWS_FAILURE,
-    LOAD_ALL_SERVICES_REQUEST,
-    LOAD_ALL_SERVICES_SUCCESS,
-    LOAD_ALL_SERVICES_FAILURE,
     CREATE_RESERVATION_REQUEST,
-    CREATE_RESERVATION_SUCCESS,
-    CREATE_RESERVATION_FAILURE,
     GET_RESERVATION_INFO_REQUEST,
-    GET_RESERVATION_INFO_SUCCESS,
-    GET_RESERVATION_INFO_FAILURE,
     RESERVATION_ACCEPT_REQUEST,
-    RESERVATION_ACCEPT_SUCCESS,
-    RESERVATION_ACCEPT_FAILURE,
     RESERVATION_REJECT_REQUEST,
-    RESERVATION_REJECT_SUCCESS,
-    RESERVATION_REJECT_FAILURE,
     GET_ALL_RESERVATIONS_REQUEST,
-    GET_ALL_RESERVATIONS_SUCCESS,
-    GET_ALL_RESERVATIONS_FAILURE,
     CHECK_OUT_REQUEST,
-    CHECK_OUT_SUCCESS,
-    CHECK_OUT_FAILURE,
     LOAD_POPULAR_SERVICE_REQUEST,
     LOAD_SEARCH_SERVICE_REQUEST,
     LOAD_TOTAL_SERVICE_REQUEST,
@@ -47,6 +25,33 @@ import {
     loadTotalServiceFailure,
     loadSearchServiceSuccess,
     loadSearchServiceFailure,
+    checkoutFailure,
+    checkoutSuccess,
+    createReservationFailure,
+    createReservationSuccess,
+    getAllReservationsFailure,
+    getAllReservationsSuccess,
+    getReservationInfoFailure,
+    getReservationInfoSuccess,
+    getServiceInfoFailure,
+    getServiceInfoSuccess,
+    loadFirstReviewFailure,
+    loadFirstReviewSuccess,
+    loadMoreReviewsFailure,
+    loadMoreReviewsSuccess,
+    reservationAcceptFailure,
+    reservationAcceptSuccess,
+    reservationRejectFailure,
+    reservationRejectSuccess,
+    loadMoreReviewsRequest,
+    checkoutRequest,
+    createReservationRequest,
+    getAllReservationsRequest,
+    getReservationInfoRequest,
+    getServiceInfoRequest,
+    loadFirstReviewRequest,
+    reservationAcceptRequest,
+    reservationRejectRequest,
 } from '../actions/service';
 
 function loadPopularServiceAPI() {
@@ -96,22 +101,12 @@ function getSingleServiceAPI(serviceId: string) {
     return axios.get(`api/v1/services/${serviceId}`);
 }
 
-function* getSingleService(action: { serviceId: string }) {
+function* getSingleService(action: ReturnType<typeof getServiceInfoRequest>) {
     try {
-        const result: AxiosResponse<{ data: { service: data.LongService } }> = yield call(
-            getSingleServiceAPI,
-            action.serviceId,
-        );
-        yield put({
-            type: GET_SERVICE_INFO_SUCCESS,
-            payload: result.data,
-        });
+        const result: AxiosResponse<{ service: data.LongService }> = yield call(getSingleServiceAPI, action.serviceId);
+        yield put(getServiceInfoSuccess(result.data.service));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: GET_SERVICE_INFO_FAILURE,
-            error: err.response.data,
-        });
+        yield put(getServiceInfoFailure(err.message));
     }
 }
 
@@ -119,19 +114,12 @@ function loadFirstReviewsAPI(serviceId: string) {
     return axios.get(`api/v1/reviews?serviceId=${serviceId}&page=${1}`);
 }
 
-function* loadFirstReviews(action: { serviceId: string }) {
+function* loadFirstReviews(action: ReturnType<typeof loadFirstReviewRequest>) {
     try {
-        const result: AxiosResponse<data.Review[]> = yield call(loadFirstReviewsAPI, action.serviceId);
-        yield put({
-            type: LOAD_FIRST_REVIEWS_SUCCESS,
-            payload: result.data,
-        });
+        const result: AxiosResponse<{ reviews: data.Review[] }> = yield call(loadFirstReviewsAPI, action.serviceId);
+        yield put(loadFirstReviewSuccess(result.data.reviews));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: LOAD_FIRST_REVIEWS_FAILURE,
-            error: err.response.data,
-        });
+        yield put(loadFirstReviewFailure(err.message));
     }
 }
 
@@ -139,24 +127,20 @@ function loadMoreReviewsAPI(serviceId: string, page: number) {
     return axios.get(`api/v1/reviews?serviceId=${serviceId}&page=${page}`);
 }
 
-function* loadMoreReviews(action: { serviceId: string; page: number }) {
+function* loadMoreReviews(action: ReturnType<typeof loadMoreReviewsRequest>) {
     try {
-        const result: AxiosResponse<data.Review[]> = yield call(loadMoreReviewsAPI, action.serviceId, action.page);
-        yield put({
-            type: LOAD_MORE_REVIEWS_SUCCESS,
-            payload: result.data,
-        });
+        const result: AxiosResponse<{ reviews: data.Review[] }> = yield call(
+            loadMoreReviewsAPI,
+            action.serviceId,
+            action.page,
+        );
+        yield put(loadMoreReviewsSuccess(result.data.reviews));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: LOAD_MORE_REVIEWS_FAILURE,
-            error: err.response.data,
-        });
+        yield put(loadMoreReviewsFailure(err.message));
     }
 }
 
 function makeReservationAPI(accessToken: string, data: data.Order) {
-    console.log('data:*******', data);
     return axios.post(
         `api/v1/orders`,
         {
@@ -170,23 +154,16 @@ function makeReservationAPI(accessToken: string, data: data.Order) {
     );
 }
 
-function* makeReservation(action: { accessToken: string; data: data.Order }) {
+function* makeReservation(action: ReturnType<typeof createReservationRequest>) {
     try {
-        const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
+        const result: AxiosResponse<{ order: data.Order }> = yield call(
             makeReservationAPI,
             action.accessToken,
             action.data,
         );
-        yield put({
-            type: CREATE_RESERVATION_SUCCESS,
-            payload: result.data,
-        });
+        yield put(createReservationSuccess(result.data.order));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: CREATE_RESERVATION_FAILURE,
-            error: err.response.data,
-        });
+        yield put(createReservationFailure(err.message));
     }
 }
 
@@ -198,23 +175,16 @@ function getAllReservationsAPI(userId: string, accessToken: string) {
     });
 }
 
-function* getAllReservations(action: { userId: string; accessToken: string }) {
+function* getAllReservations(action: ReturnType<typeof getAllReservationsRequest>) {
     try {
-        const result: AxiosResponse<{ data: { orders: [data.Order] } }> = yield call(
+        const result: AxiosResponse<{ orders: [data.Order] }> = yield call(
             getAllReservationsAPI,
             action.userId,
             action.accessToken,
         );
-        yield put({
-            type: GET_ALL_RESERVATIONS_SUCCESS,
-            payload: result.data,
-        });
+        yield put(getAllReservationsSuccess(result.data.orders));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: GET_ALL_RESERVATIONS_FAILURE,
-            error: err.response.data,
-        });
+        yield put(getAllReservationsFailure(err.message));
     }
 }
 
@@ -226,23 +196,16 @@ function getReservationAPI(orderId: string, accessToken: string) {
     });
 }
 
-function* getReservation(action: { orderId: string; accessToken: string }) {
+function* getReservation(action: ReturnType<typeof getReservationInfoRequest>) {
     try {
-        const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
+        const result: AxiosResponse<{ order: data.Order }> = yield call(
             getReservationAPI,
             action.orderId,
             action.accessToken,
         );
-        yield put({
-            type: GET_RESERVATION_INFO_SUCCESS,
-            payload: result.data,
-        });
+        yield put(getReservationInfoSuccess(result.data.order));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: GET_RESERVATION_INFO_FAILURE,
-            error: err.response.data,
-        });
+        yield put(getReservationInfoFailure(err.message));
     }
 }
 
@@ -260,24 +223,17 @@ function reservationAcceptAPI(orderId: string, accessToken: string, state: strin
     );
 }
 
-function* reservationAccept(action: { orderId: string; accessToken: string; state: string }) {
+function* reservationAccept(action: ReturnType<typeof reservationAcceptRequest>) {
     try {
-        const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
+        const result: AxiosResponse<{ order: data.Order }> = yield call(
             reservationAcceptAPI,
             action.orderId,
             action.accessToken,
             action.state,
         );
-        yield put({
-            type: RESERVATION_ACCEPT_SUCCESS,
-            payload: result.data,
-        });
+        yield put(reservationAcceptSuccess(result.data.order));
     } catch (err) {
-        console.error(err);
-        yield put({
-            type: RESERVATION_ACCEPT_FAILURE,
-            error: err.response.data,
-        });
+        yield put(reservationAcceptFailure(err.message));
     }
 }
 
@@ -289,23 +245,45 @@ function reservationRejectAPI(orderId: string, accessToken: string) {
     });
 }
 
-function* reservationReject(action: { orderId: string; accessToken: string }) {
+function* reservationReject(action: ReturnType<typeof reservationRejectRequest>) {
     try {
-        const result: AxiosResponse<{ data: { message: string } }> = yield call(
+        const result: AxiosResponse<{ message: string }> = yield call(
             reservationRejectAPI,
             action.orderId,
             action.accessToken,
         );
-        yield put({
-            type: RESERVATION_REJECT_SUCCESS,
-            payload: result.data,
-        });
+        yield put(reservationRejectSuccess(result.data.message));
     } catch (err) {
         console.error(err);
-        yield put({
-            type: RESERVATION_REJECT_FAILURE,
-            error: err.response.data,
-        });
+        yield put(reservationRejectFailure(err.message));
+    }
+}
+
+function checkoutAPI(orderId: string, impUid: string, accessToken: string) {
+    return axios.post(
+        `api/v1/payments/${orderId}`,
+        {
+            impUid,
+        },
+        {
+            headers: {
+                accessToken,
+            },
+        },
+    );
+}
+
+function* checkout(action: ReturnType<typeof checkoutRequest>) {
+    try {
+        const result: AxiosResponse<{ status: string; message: string }> = yield call(
+            checkoutAPI,
+            action.orderId,
+            action.impUid,
+            action.accessToken,
+        );
+        yield put(checkoutSuccess(result.data.status, result.data.message));
+    } catch (err) {
+        yield put(checkoutFailure(err.message));
     }
 }
 
@@ -353,6 +331,10 @@ function* watchReservationReject() {
     yield takeLatest(RESERVATION_REJECT_REQUEST, reservationReject);
 }
 
+function* watchCheckout() {
+    yield takeLatest(CHECK_OUT_REQUEST, checkout);
+}
+
 export default function* serviceSaga() {
     yield all([
         fork(watchLoadPopularService),
@@ -366,5 +348,6 @@ export default function* serviceSaga() {
         fork(watchGetReservation),
         fork(watchReservationAccept),
         fork(watchReservationReject),
+        fork(watchCheckout),
     ]);
 }

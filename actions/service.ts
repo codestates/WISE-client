@@ -1,4 +1,41 @@
-import { GET_SERVICE_INFO_REQUEST, GET_SERVICE_INFO_SUCCESS, GET_SERVICE_INFO_FAILURE, LOAD_FIRST_REVIEWS_REQUEST, LOAD_FIRST_REVIEWS_SUCCESS, LOAD_FIRST_REVIEWS_FAILURE, LOAD_MORE_REVIEWS_REQUEST, LOAD_MORE_REVIEWS_SUCCESS, LOAD_MORE_REVIEWS_FAILURE, CREATE_RESERVATION_REQUEST, CREATE_RESERVATION_SUCCESS, CREATE_RESERVATION_FAILURE, GET_RESERVATION_INFO_REQUEST, GET_RESERVATION_INFO_SUCCESS, GET_RESERVATION_INFO_FAILURE, RESERVATION_ACCEPT_REQUEST, RESERVATION_ACCEPT_SUCCESS, RESERVATION_ACCEPT_FAILURE, RESERVATION_REJECT_REQUEST, RESERVATION_REJECT_SUCCESS, RESERVATION_REJECT_FAILURE, CHECK_OUT_REQUEST, CHECK_OUT_SUCCESS, LOAD_POPULAR_SERVICE_FAILURE, LOAD_POPULAR_SERVICE_REQUEST, LOAD_POPULAR_SERVICE_SUCCESS, LOAD_SEARCH_SERVICE_FAILURE, LOAD_SEARCH_SERVICE_REQUEST, LOAD_SEARCH_SERVICE_SUCCESS, LOAD_TOTAL_SERVICE_FAILURE, LOAD_TOTAL_SERVICE_REQUEST, LOAD_TOTAL_SERVICE_SUCCESS } from '../interfaces/act/services';
+import {
+    GET_SERVICE_INFO_REQUEST,
+    GET_SERVICE_INFO_SUCCESS,
+    GET_SERVICE_INFO_FAILURE,
+    LOAD_FIRST_REVIEWS_REQUEST,
+    LOAD_FIRST_REVIEWS_SUCCESS,
+    LOAD_FIRST_REVIEWS_FAILURE,
+    LOAD_MORE_REVIEWS_REQUEST,
+    LOAD_MORE_REVIEWS_SUCCESS,
+    LOAD_MORE_REVIEWS_FAILURE,
+    CREATE_RESERVATION_REQUEST,
+    CREATE_RESERVATION_SUCCESS,
+    CREATE_RESERVATION_FAILURE,
+    GET_RESERVATION_INFO_REQUEST,
+    GET_RESERVATION_INFO_SUCCESS,
+    GET_RESERVATION_INFO_FAILURE,
+    RESERVATION_ACCEPT_REQUEST,
+    RESERVATION_ACCEPT_SUCCESS,
+    RESERVATION_ACCEPT_FAILURE,
+    RESERVATION_REJECT_REQUEST,
+    RESERVATION_REJECT_SUCCESS,
+    RESERVATION_REJECT_FAILURE,
+    CHECK_OUT_REQUEST,
+    CHECK_OUT_SUCCESS,
+    LOAD_POPULAR_SERVICE_FAILURE,
+    LOAD_POPULAR_SERVICE_REQUEST,
+    LOAD_POPULAR_SERVICE_SUCCESS,
+    LOAD_SEARCH_SERVICE_FAILURE,
+    LOAD_SEARCH_SERVICE_REQUEST,
+    LOAD_SEARCH_SERVICE_SUCCESS,
+    LOAD_TOTAL_SERVICE_FAILURE,
+    LOAD_TOTAL_SERVICE_REQUEST,
+    LOAD_TOTAL_SERVICE_SUCCESS,
+    CHECK_OUT_FAILURE,
+    GET_ALL_RESERVATIONS_FAILURE,
+    GET_ALL_RESERVATIONS_REQUEST,
+    GET_ALL_RESERVATIONS_SUCCESS,
+} from '../interfaces/act/services';
 import { LongService, Review, ShortService, Order, Query } from '../interfaces/data/service';
 
 export const loadPopularServiceRequest = () => ({
@@ -52,133 +89,129 @@ export const loadSearchServiceFailure = (error: string) => ({
     error,
 });
 
-// TODO:
+export const getServiceInfoRequest = (serviceId: string) => ({
+    type: GET_SERVICE_INFO_REQUEST,
+    serviceId,
+});
+export const getServiceInfoSuccess = (service: LongService) => ({
+    type: GET_SERVICE_INFO_SUCCESS,
+    service,
+});
+export const getServiceInfoFailure = (error: string) => ({
+    type: GET_SERVICE_INFO_FAILURE,
+    error,
+});
 
-export const IGetServiceInfoRequest = () => ({
-  type: GET_SERVICE_INFO_REQUEST
-})
-export const IGetServiceInfoSuccess  = () => ({
-  type: GET_SERVICE_INFO_SUCCESS,
-  payload: { service: LongService }
-})
-export const IGetServiceInfoFailure = () => ({
-  type: GET_SERVICE_INFO_FAILURE,
-  error: Error
-})
+export const loadFirstReviewRequest = (serviceId: string) => ({
+    type: LOAD_FIRST_REVIEWS_REQUEST,
+    serviceId,
+});
+export const loadFirstReviewSuccess = (reviews: Review[]) => ({
+    type: LOAD_FIRST_REVIEWS_SUCCESS,
+    reviews,
+});
+export const loadFirstReviewFailure = (error: string) => ({
+    type: LOAD_FIRST_REVIEWS_FAILURE,
+    error,
+});
 
-export const ILoadFirstReviewRequest = () => ({
-  type: LOAD_FIRST_REVIEWS_REQUEST
-})
-export const ILoadFirstReviewSuccess  = () => ({
-  type: LOAD_FIRST_REVIEWS_SUCCESS,
-  payload: { reviews: Review[] | null }
-})
-export const ILoadFirstReviewFailure   = () => ({
-  type: LOAD_FIRST_REVIEWS_FAILURE,
-  error: Error
-})
+export const loadMoreReviewsRequest = (serviceId: string, page: number) => ({
+    type: LOAD_MORE_REVIEWS_REQUEST,
+    serviceId,
+    page,
+});
+export const loadMoreReviewsSuccess = (reviews: Review[]) => ({
+    type: LOAD_MORE_REVIEWS_SUCCESS,
+    reviews,
+});
+export const loadMoreReviewsFailure = (error: string) => ({
+    type: LOAD_MORE_REVIEWS_FAILURE,
+    error,
+});
 
-export const ILoadMoreReviewsRequest   = () => ({
-  type: LOAD_MORE_REVIEWS_REQUEST
-})
-export const ILoadMoreReviewsSuccess  = () => ({
-  type: LOAD_MORE_REVIEWS_SUCCESS,
-  payload: { reviews: Review[] | null }
-})
-export const ILoadMoreReviewsFailure   = () => ({
-  type: LOAD_MORE_REVIEWS_FAILURE,
-  error: Error
-})
+export const createReservationRequest = (accessToken: string, data: Order) => ({
+    type: CREATE_RESERVATION_REQUEST,
+    accessToken,
+    data,
+});
+export const createReservationSuccess = (order: Order) => ({
+    type: CREATE_RESERVATION_SUCCESS,
+    order,
+});
+export const createReservationFailure = (error: string) => ({
+    type: CREATE_RESERVATION_FAILURE,
+    error,
+});
 
-// export const ILoadAllServicesRequest {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_REQUEST;
-// }
-// export const ILoadAllServicesSuccess {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_SUCCESS;
-//     payload: {
-//         services:
-//             | [
-//                   {
-//                       service: ShortService[];
-//                       popularService: ShortService[];
-//                   },
-//               ]
-//             | [];
-//     };
-// }
-// export const ILoadAllServicesFailure {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_FAILURE;
-//     error: Error;
-// }
+export const getAllReservationsRequest = (userId: string, accessToken: string) => ({
+    type: GET_ALL_RESERVATIONS_REQUEST,
+    userId,
+    accessToken,
+});
+export const getAllReservationsSuccess = (orders: Order[]) => ({
+    type: GET_ALL_RESERVATIONS_SUCCESS,
+    orders,
+});
+export const getAllReservationsFailure = (error: string) => ({
+    type: GET_ALL_RESERVATIONS_FAILURE,
+    error,
+});
 
-export const ICreateReservationRequest = () => ({
-  type: CREATE_RESERVATION_REQUEST
-})
-export const ICreateReservationSuccess = () => ({
-  type: CREATE_RESERVATION_SUCCESS,
-  payload: { order: Order | null }
-})
-export const ICreateReservationFailure = () => ({
-  type: CREATE_RESERVATION_FAILURE,
-  error: Error
-})
+export const getReservationInfoRequest = (userId: string, accessToken: string) => ({
+    type: GET_RESERVATION_INFO_REQUEST,
+    userId,
+    accessToken,
+});
+export const getReservationInfoSuccess = (order: Order) => ({
+    type: GET_RESERVATION_INFO_SUCCESS,
+    order,
+});
+export const getReservationInfoFailure = (error: string) => ({
+    type: GET_RESERVATION_INFO_FAILURE,
+    error,
+});
 
-// export const IGetAllReservationsRequest {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_REQUEST;
-// }
-// export const IGetAllReservationsSuccess {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_SUCCESS;
-//     payload: { reservationRequests: Order[] | null };
-// }
-// export const IGetAllReservationsFailure {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_FAILURE;
-//     error: Error;
-// }
+export const reservationAcceptRequest = (orderId: string, accessToken: string, state: string) => ({
+    type: RESERVATION_ACCEPT_REQUEST,
+    orderId,
+    accessToken,
+    state,
+});
+export const reservationAcceptSuccess = (order: Order) => ({
+    type: RESERVATION_ACCEPT_SUCCESS,
+    order,
+});
+export const reservationAcceptFailure = (error: string) => ({
+    type: RESERVATION_ACCEPT_FAILURE,
+    error,
+});
 
-export const IGetReservationInfoRequest = () => ({
-  type: GET_RESERVATION_INFO_REQUEST
-})
-export const IGetReservationInfoSuccess = () => ({
-  type: GET_RESERVATION_INFO_SUCCESS,
-  payload: { order: Order | null }
-})
-export const IGetReservationInfoFailure = () => ({
-  type: GET_RESERVATION_INFO_FAILURE,
-  error: Error
-})
+export const reservationRejectRequest = (orderId: string, accessToken: string) => ({
+    type: RESERVATION_REJECT_REQUEST,
+    orderId,
+    accessToken,
+});
+export const reservationRejectSuccess = (message: string) => ({
+    type: RESERVATION_REJECT_SUCCESS,
+    message,
+});
+export const reservationRejectFailure = (error: string) => ({
+    type: RESERVATION_REJECT_FAILURE,
+    error,
+});
 
-export const IReservationAcceptRequest = () => ({
-  type: RESERVATION_ACCEPT_REQUEST,
-})
-export const IReservationAcceptSuccess = () => ({
-  type: RESERVATION_ACCEPT_SUCCESS,
-  payload: { order: Order | null }
-})
-export const IReservationAcceptFailure = () => ({
-  type: RESERVATION_ACCEPT_FAILURE,
-  error: Error
-})
-
-export const IReservationRejectRequest = () => ({
-  type: RESERVATION_REJECT_REQUEST
-})
-export const IReservationRejectSuccess = () => ({
-  type: RESERVATION_REJECT_SUCCESS,
-  payload: { message: string }
-})
-export const IReservationRejectFailure = () => ({
-  type: RESERVATION_REJECT_FAILURE,
-  error: Error
-})
-
-export const ICheckoutRequest = () => ({
-  type: CHECK_OUT_REQUEST
-})
-export const ICheckoutSuccess = () => ({
-  type: CHECK_OUT_SUCCESS,
-  payload: { status: string; message: string }
-})
-export const ICheckoutFailure = () => ({
-  type: .CHECK_OUT_FAILURE,
-  error: Error
-})
+export const checkoutRequest = (orderId: string, impUid: string, accessToken: string) => ({
+    type: CHECK_OUT_REQUEST,
+    orderId,
+    impUid,
+    accessToken,
+});
+export const checkoutSuccess = (status: string, message: string) => ({
+    type: CHECK_OUT_SUCCESS,
+    status,
+    message,
+});
+export const checkoutFailure = (error: string) => ({
+    type: CHECK_OUT_FAILURE,
+    error,
+});

@@ -16,7 +16,7 @@ import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
-// import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
+import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -33,15 +33,15 @@ const Global = createGlobalStyle`
 const ServiceDetail = (): ReactElement => {
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     const userId = localStorage.getItem('userId');
-    //     if (userId) {
-    //         dispatch({
-    //             type: LOG_IN_SUCCESS,
-    //         });
-    //         dispatch(loadMyInfo());
-    //     }
-    // }, [dispatch]);
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            dispatch({
+                type: LOG_IN_SUCCESS,
+            });
+            dispatch(loadMyInfo());
+        }
+    }, [dispatch]);
 
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();

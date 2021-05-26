@@ -6,6 +6,9 @@ import {
     CREATE_RESERVATION_FAILURE,
     CREATE_RESERVATION_REQUEST,
     CREATE_RESERVATION_SUCCESS,
+    GET_ALL_RESERVATIONS_REQUEST,
+    GET_ALL_RESERVATIONS_SUCCESS,
+    GET_ALL_RESERVATIONS_FAILURE,
     GET_RESERVATION_INFO_FAILURE,
     GET_RESERVATION_INFO_REQUEST,
     GET_RESERVATION_INFO_SUCCESS,
@@ -33,8 +36,10 @@ import {
     RESERVATION_REJECT_FAILURE,
     RESERVATION_REJECT_REQUEST,
     RESERVATION_REJECT_SUCCESS,
+    CHECK_OUT_REQUEST,
+    CHECK_OUT_SUCCESS,
+    CHECK_OUT_FAILURE,
 } from '../interfaces/act/services';
-// import { IActionsService } from '../interfaces/act/service';
 import { ServiceState } from '../interfaces/data/service';
 
 import Produce from '../utils/produce';
@@ -58,9 +63,6 @@ export const initialState: ServiceState = {
     searchServiceLoading: false, // 검색 서비스 불러오기
     searchServiceDone: false,
     searchServiceError: null,
-    loadAllServicesLoading: false,
-    loadAllServicesDone: false,
-    loadAllServicesError: null,
     getSingleServiceLoading: false,
     getSingleServiceDone: false,
     getSingleServiceError: null,
@@ -70,9 +72,11 @@ export const initialState: ServiceState = {
     loadMoreReviewsLoading: false,
     loadMoreReviewsDone: false,
     loadMoreReviewsError: null,
-    reservationRequests: [],
     reservationRequestDone: false,
     reservationRequestError: null,
+    getAllReservationsDone: false,
+    reservationRequests: [],
+    getAllReservationsError: null,
     getReservationInfoDone: false,
     getReservationInfo: null,
     getReservationInfoError: null,
@@ -81,8 +85,9 @@ export const initialState: ServiceState = {
     reservationAcceptedError: null,
     reservationRejectedDone: false,
     reservationRejectedError: null,
-    reservationComplete: null,
-    reservationCompleteError: null,
+    checkoutDone: false,
+    checkoutStatus: null,
+    checkoutError: null,
 };
 
 /* ------- reducer ------ */
@@ -145,10 +150,9 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 draft.getSingleServiceError = null;
                 break;
             case GET_SERVICE_INFO_SUCCESS:
-                console.log(action.payload);
                 draft.getSingleServiceLoading = false;
                 draft.getSingleServiceDone = true;
-                draft.service = action.payload.service;
+                draft.service = action.service;
                 break;
             case GET_SERVICE_INFO_FAILURE:
                 draft.getSingleServiceDone = false;
@@ -162,7 +166,7 @@ const reducer = (state = initialState, action: ActionRequest) =>
             case LOAD_FIRST_REVIEWS_SUCCESS:
                 draft.loadFirstReviewsLoading = false;
                 draft.loadFirstReviewsDone = true;
-                draft.reviews = action.payload.reviews;
+                draft.reviews = [...action.reviews];
                 break;
             case LOAD_FIRST_REVIEWS_FAILURE:
                 draft.loadFirstReviewsLoading = false;
@@ -176,7 +180,7 @@ const reducer = (state = initialState, action: ActionRequest) =>
             case LOAD_MORE_REVIEWS_SUCCESS:
                 draft.loadMoreReviewsLoading = false;
                 draft.loadMoreReviewsDone = true;
-                draft.reviews = action.payload.reviews;
+                draft.reviews = [...action.reviews];
                 break;
             case LOAD_MORE_REVIEWS_FAILURE:
                 draft.loadMoreReviewsLoading = false;
@@ -187,12 +191,21 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 draft.reservationRequestError = null;
                 break;
             case CREATE_RESERVATION_SUCCESS:
-                console.log(action.payload);
                 draft.reservationRequestDone = true;
-                // draft.reservationRequests = action.payload.order;
                 break;
             case CREATE_RESERVATION_FAILURE:
                 draft.reservationRequestError = action.error;
+                break;
+            case GET_ALL_RESERVATIONS_REQUEST:
+                draft.getAllReservationsDone = false;
+                draft.getAllReservationsError = null;
+                break;
+            case GET_ALL_RESERVATIONS_SUCCESS:
+                draft.getAllReservationsDone = true;
+                draft.reservationRequests = [...action.orders];
+                break;
+            case GET_ALL_RESERVATIONS_FAILURE:
+                draft.getAllReservationsError = action.error;
                 break;
             case GET_RESERVATION_INFO_REQUEST:
                 draft.getReservationInfoDone = false;
@@ -200,9 +213,8 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 draft.getReservationInfoError = null;
                 break;
             case GET_RESERVATION_INFO_SUCCESS:
-                console.log(action.payload);
                 draft.getReservationInfoDone = true;
-                draft.getReservationInfo = action.payload.order;
+                draft.getReservationInfo = action.order;
                 break;
             case GET_RESERVATION_INFO_FAILURE:
                 draft.getReservationInfoError = action.error;
@@ -212,9 +224,8 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 draft.reservationAcceptedError = null;
                 break;
             case RESERVATION_ACCEPT_SUCCESS:
-                console.log(action.payload);
                 draft.reservationAcceptedDone = true;
-                draft.reservationAccepted = action.payload.order;
+                draft.reservationAccepted = action.order;
                 break;
             case RESERVATION_ACCEPT_FAILURE:
                 draft.reservationAcceptedError = action.error;
@@ -228,6 +239,17 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 break;
             case RESERVATION_REJECT_FAILURE:
                 draft.reservationRejectedError = action.error;
+                break;
+            case CHECK_OUT_REQUEST:
+                draft.checkoutDone = false;
+                draft.checkoutError = null;
+                break;
+            case CHECK_OUT_SUCCESS:
+                draft.checkoutDone = true;
+                draft.checkoutStatus = action.status;
+                break;
+            case CHECK_OUT_FAILURE:
+                draft.checkoutError = action.error;
                 break;
             default:
                 break;

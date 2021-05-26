@@ -1,28 +1,31 @@
 import {
-    IGetServiceInfoRequest,
-    IGetServiceInfoSuccess,
-    IGetServiceInfoFailure,
-    ILoadFirstReviewRequest,
-    ILoadFirstReviewSuccess,
-    ILoadFirstReviewFailure,
-    ILoadMoreReviewsRequest,
-    ILoadMoreReviewsSuccess,
-    ILoadMoreReviewsFailure,
-    ICreateReservationRequest,
-    ICreateReservationSuccess,
-    ICreateReservationFailure,
-    IGetReservationInfoRequest,
-    IGetReservationInfoSuccess,
-    IGetReservationInfoFailure,
-    IReservationAcceptRequest,
-    IReservationAcceptSuccess,
-    IReservationAcceptFailure,
-    IReservationRejectRequest,
-    IReservationRejectSuccess,
-    IReservationRejectFailure,
-    ICheckoutRequest,
-    ICheckoutSuccess,
-    ICheckoutFailure,
+    getServiceInfoRequest,
+    getServiceInfoSuccess,
+    getServiceInfoFailure,
+    loadFirstReviewRequest,
+    loadFirstReviewSuccess,
+    loadFirstReviewFailure,
+    loadMoreReviewsRequest,
+    loadMoreReviewsSuccess,
+    loadMoreReviewsFailure,
+    createReservationRequest,
+    createReservationSuccess,
+    createReservationFailure,
+    getReservationInfoRequest,
+    getReservationInfoSuccess,
+    getReservationInfoFailure,
+    reservationAcceptRequest,
+    reservationAcceptSuccess,
+    reservationAcceptFailure,
+    reservationRejectRequest,
+    reservationRejectSuccess,
+    reservationRejectFailure,
+    checkoutRequest,
+    checkoutSuccess,
+    checkoutFailure,
+    getAllReservationsFailure,
+    getAllReservationsRequest,
+    getAllReservationsSuccess,
 } from '../../actions/service';
 
 // 인기 서비스 요청
@@ -81,30 +84,30 @@ export const CHECK_OUT_SUCCESS = 'CHECK_OUT_SUCCESS' as const;
 export const CHECK_OUT_FAILURE = 'CHECK_OUT_FAILURE' as const;
 
 export type ActionRequest =
-    | ReturnType<typeof IGetServiceInfoRequest>
-    | ReturnType<typeof IGetServiceInfoSuccess>
-    | ReturnType<typeof IGetServiceInfoFailure>
-    | ReturnType<typeof ILoadFirstReviewRequest>
-    | ReturnType<typeof ILoadFirstReviewSuccess>
-    | ReturnType<typeof ILoadFirstReviewFailure>
-    | ReturnType<typeof ILoadMoreReviewsRequest>
-    | ReturnType<typeof ILoadMoreReviewsSuccess>
-    | ReturnType<typeof ILoadMoreReviewsFailure>
-    | ReturnType<typeof ICreateReservationRequest>
-    | ReturnType<typeof ICreateReservationSuccess>
-    | ReturnType<typeof ICreateReservationFailure>
-    // | ReturnType<typeof IGetAllReservationsRequest>
-    // | ReturnType<typeof IGetAllReservationsSuccess>
-    // | ReturnType<typeof IGetAllReservationsFailure>
-    | ReturnType<typeof IGetReservationInfoRequest>
-    | ReturnType<typeof IGetReservationInfoSuccess>
-    | ReturnType<typeof IGetReservationInfoFailure>
-    | ReturnType<typeof IReservationAcceptRequest>
-    | ReturnType<typeof IReservationAcceptSuccess>
-    | ReturnType<typeof IReservationAcceptFailure>
-    | ReturnType<typeof IReservationRejectRequest>
-    | ReturnType<typeof IReservationRejectSuccess>
-    | ReturnType<typeof IReservationRejectFailure>
-    | ReturnType<typeof ICheckoutRequest>
-    | ReturnType<typeof ICheckoutSuccess>
-    | ReturnType<typeof ICheckoutFailure>;
+    | ReturnType<typeof getServiceInfoRequest>
+    | ReturnType<typeof getServiceInfoSuccess>
+    | ReturnType<typeof getServiceInfoFailure>
+    | ReturnType<typeof loadFirstReviewRequest>
+    | ReturnType<typeof loadFirstReviewSuccess>
+    | ReturnType<typeof loadFirstReviewFailure>
+    | ReturnType<typeof loadMoreReviewsRequest>
+    | ReturnType<typeof loadMoreReviewsSuccess>
+    | ReturnType<typeof loadMoreReviewsFailure>
+    | ReturnType<typeof createReservationRequest>
+    | ReturnType<typeof createReservationSuccess>
+    | ReturnType<typeof createReservationFailure>
+    | ReturnType<typeof getAllReservationsRequest>
+    | ReturnType<typeof getAllReservationsSuccess>
+    | ReturnType<typeof getAllReservationsFailure>
+    | ReturnType<typeof getReservationInfoRequest>
+    | ReturnType<typeof getReservationInfoSuccess>
+    | ReturnType<typeof getReservationInfoFailure>
+    | ReturnType<typeof reservationAcceptRequest>
+    | ReturnType<typeof reservationAcceptSuccess>
+    | ReturnType<typeof reservationAcceptFailure>
+    | ReturnType<typeof reservationRejectRequest>
+    | ReturnType<typeof reservationRejectSuccess>
+    | ReturnType<typeof reservationRejectFailure>
+    | ReturnType<typeof checkoutRequest>
+    | ReturnType<typeof checkoutSuccess>
+    | ReturnType<typeof checkoutFailure>;
