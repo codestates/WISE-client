@@ -60,23 +60,23 @@ export interface Query {
 }
 
 export type ServiceState = {
-    popularService: ShortService[] | [];
-    totalService: ShortService[] | [];
-    totalServiceCount: number;
-    searchService: ShortService[] | [];
-    searchServiceCount: number;
+    popularServices: ShortService[] | [];
+    totalServices: ShortService[] | [];
+    totalServicesCount: number;
+    searchServices: ShortService[] | [];
+    searchServicesCount: number;
     searchQuery: Query | null;
     service: LongService | null;
     reviews: Review[] | null;
-    popularServiceLoading: boolean;
-    popularServiceDone: boolean;
-    popularServiceError: null | string;
-    totalServiceLoading: boolean;
-    totalServiceDone: boolean;
-    totalServiceError: null | string;
-    searchServiceLoading: boolean;
-    searchServiceDone: boolean;
-    searchServiceError: null | string;
+    popularServicesLoading: boolean;
+    popularServicesDone: boolean;
+    popularServicesError: null | string;
+    totalServicesLoading: boolean;
+    totalServicesDone: boolean;
+    totalServicesError: null | string;
+    searchServicesLoading: boolean;
+    searchServicesDone: boolean;
+    searchServicesError: null | string;
     getSingleServiceLoading: boolean;
     getSingleServiceDone: boolean;
     getSingleServiceError: null | string;

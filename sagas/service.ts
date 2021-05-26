@@ -23,8 +23,8 @@ import {
     loadPopularServicesFailure,
     loadTotalServicesSuccess,
     loadTotalServicesFailure,
-    loadSearchServiceSuccess,
-    loadSearchServiceFailure,
+    loadSearchServicesSuccess,
+    loadSearchServicesFailure,
     checkoutFailure,
     checkoutSuccess,
     createReservationFailure,
@@ -53,7 +53,7 @@ import {
     reservationAcceptRequest,
     reservationRejectRequest,
     loadTotalServicesRequest,
-    loadSearchServiceRequest,
+    loadSearchServicesRequest,
 } from '../actions/service';
 
 function loadPopularServiceAPI() {
@@ -69,7 +69,7 @@ function* loadPopularService() {
     }
 }
 
-function loadTotalServiceAPI(page: string) {
+function loadTotalServiceAPI(page: number) {
     return axios.get(`/api/v1/services/all?page=${page}`);
 }
 
@@ -90,15 +90,15 @@ function loadSearchServiceAPI(query: data.Query) {
     return axios.get(`/api/v1/services/?location=${location}&date=${date}&time=${time}&page=${page}`);
 }
 
-function* loadSearchService(action: ReturnType<typeof loadSearchServiceRequest>) {
+function* loadSearchService(action: ReturnType<typeof loadSearchServicesRequest>) {
     try {
         const result: AxiosResponse<{ services: data.ShortService[]; totalServices: number }> = yield call(
             loadSearchServiceAPI,
             action.query,
         );
-        yield put(loadSearchServiceSuccess(result.data.services, result.data.totalServices, action.query));
+        yield put(loadSearchServicesSuccess(result.data.services, result.data.totalServices, action.query));
     } catch (err) {
-        yield put(loadSearchServiceFailure(err.message));
+        yield put(loadSearchServicesFailure(err.message));
     }
 }
 

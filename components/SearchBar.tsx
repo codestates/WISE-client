@@ -5,8 +5,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import useInput from '../hooks/useInput';
-import { loadSearchServiceRequestAction } from '../reducers/service';
+import { loadSearchServicesRequest } from '../actions/service';
 
 const SearchBar = () => {
     const router = useRouter();
@@ -23,7 +22,7 @@ const SearchBar = () => {
     const onSearch = useCallback(() => {
         console.log(`location : ${location}, date : ${date}, time : ${time}`);
         dispatch(
-            loadSearchServiceRequestAction({
+            loadSearchServicesRequest({
                 location,
                 date,
                 time,

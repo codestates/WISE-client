@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { GoogleOutlined, FacebookOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
-import { oauthLoginRequest } from '../../reducers/user';
+import { oauthLoginRequest } from '../../actions/user';
 
 const Oauth = () => {
     const dispatch = useDispatch();

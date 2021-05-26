@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
 import Layout from '../../components/Layout';
-import { loadMyInfoRequest } from '../../reducers/user';
+import { loadMyInfoRequest } from '../../actions/user';
 import RegisterForm from '../../components/Assistant/RegisterForm/index';
 import { RootState } from '../../reducers';
 

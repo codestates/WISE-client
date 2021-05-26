@@ -7,7 +7,7 @@ import { RootState } from '../reducers';
 import { ShortService } from '../interfaces/data/service';
 
 const PopularSection = () => {
-    const { popularService } = useSelector((state: RootState) => state.service);
+    const { popularServices } = useSelector((state: RootState) => state.service);
 
     const slider = useRef<HTMLInputElement>(null);
     const [mainIndex, setMainIndex] = useState(0);
@@ -34,7 +34,7 @@ const PopularSection = () => {
             <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
             <Container>
                 <Slider ref={slider}>
-                    {popularService.map((ele: ShortService) => (
+                    {popularServices.map((ele: ShortService) => (
                         <ServiceCard key={ele.id} service={ele} />
                     ))}
                 </Slider>

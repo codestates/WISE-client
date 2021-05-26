@@ -52,15 +52,15 @@ export const loadPopularServicesFailure = (error: string) => ({
     error,
 });
 
-export const loadTotalServicesRequest = (page = 1) => ({
+export const loadTotalServicesRequest = (page: number) => ({
     type: LOAD_TOTAL_SERVICE_REQUEST,
     page,
 });
 
-export const loadTotalServicesSuccess = (totalService: ShortService[], totalServiceCount: number) => ({
+export const loadTotalServicesSuccess = (totalServices: ShortService[], totalServicesCount: number) => ({
     type: LOAD_TOTAL_SERVICE_SUCCESS,
-    totalService,
-    totalServiceCount,
+    totalServices,
+    totalServicesCount,
 });
 
 export const loadTotalServicesFailure = (error: string) => ({
@@ -68,23 +68,23 @@ export const loadTotalServicesFailure = (error: string) => ({
     error,
 });
 
-export const loadSearchServiceRequest = (query: Query) => ({
+export const loadSearchServicesRequest = (query: Query) => ({
     type: LOAD_SEARCH_SERVICE_REQUEST,
     query,
 });
 
-export const loadSearchServiceSuccess = (
-    searchService: ShortService[],
-    searchServiceCount: number,
+export const loadSearchServicesSuccess = (
+    searchServices: ShortService[],
+    searchServicesCount: number,
     searchQuery: Query,
 ) => ({
     type: LOAD_SEARCH_SERVICE_SUCCESS,
-    searchService,
-    searchServiceCount,
+    searchServices,
+    searchServicesCount,
     searchQuery,
 });
 
-export const loadSearchServiceFailure = (error: string) => ({
+export const loadSearchServicesFailure = (error: string) => ({
     type: LOAD_SEARCH_SERVICE_FAILURE,
     error,
 });

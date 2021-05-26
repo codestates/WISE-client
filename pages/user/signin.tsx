@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Layout from '../../components/Layout';
 import SigninForm from '../../components/user/SigninForm';
-import { loadMyInfo } from '../../reducers/user';
 import { AuthGlobal, CoverImg, Modal, ModalTitle, ModalFooter } from '../../components/user/styles';
 import { RootState } from '../../reducers';
+import { loadMyInfoRequest } from '../../actions/user';
 
 const Signin = () => {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Signin = () => {
 
     useEffect(() => {
         if (islogin) {
-            dispatch(loadMyInfo());
+            dispatch(loadMyInfoRequest());
         }
     }, [islogin, dispatch]);
 

@@ -3,7 +3,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ShortService } from '../interfaces/data/service';
-// import { useSelector, useDispatch } from 'react-redux';
 
 type ServiceCard = {
     service: ShortService;

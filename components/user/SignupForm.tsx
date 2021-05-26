@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { signupRequest } from '../../reducers/user';
+import { signupRequest } from '../../actions/user';
 import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
 import ErrorMessage from './ErrorMessage';
 

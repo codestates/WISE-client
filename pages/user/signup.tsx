@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import Router from 'next/router';
 import SignupForm from '../../components/user/SignupForm';
 import Layout from '../../components/Layout';
-import { loadMyInfo } from '../../reducers/user';
 import { AuthGlobal, CoverImg, Modal, ModalTitle } from '../../components/user/styles';
 import { RootState } from '../../reducers';
+import { loadMyInfoRequest } from '../../actions/user';
 
 const Signup = () => {
     const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const Signup = () => {
 
     useEffect(() => {
         if (signUpDone) {
-            dispatch(loadMyInfo());
+            dispatch(loadMyInfoRequest());
         }
     }, [signUpDone, dispatch]);
 

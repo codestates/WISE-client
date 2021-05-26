@@ -2,10 +2,10 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { emailCheckRequest } from '../../reducers/user';
 import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { RootState } from '../../reducers';
+import { emailCheckRequest } from '../../actions/user';
 
 const SignupAuthForm = () => {
     const dispatch = useDispatch();

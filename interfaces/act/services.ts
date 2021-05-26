@@ -26,9 +26,9 @@ import {
     getAllReservationsFailure,
     getAllReservationsRequest,
     getAllReservationsSuccess,
-    loadSearchServiceFailure,
-    loadSearchServiceRequest,
-    loadSearchServiceSuccess,
+    loadSearchServicesFailure,
+    loadSearchServicesRequest,
+    loadSearchServicesSuccess,
     loadPopularServicesFailure,
     loadPopularServicesRequest,
     loadPopularServicesSuccess,
@@ -99,9 +99,9 @@ export type ActionRequest =
     | ReturnType<typeof loadTotalServicesRequest>
     | ReturnType<typeof loadTotalServicesSuccess>
     | ReturnType<typeof loadTotalServicesFailure>
-    | ReturnType<typeof loadSearchServiceRequest>
-    | ReturnType<typeof loadSearchServiceSuccess>
-    | ReturnType<typeof loadSearchServiceFailure>
+    | ReturnType<typeof loadSearchServicesRequest>
+    | ReturnType<typeof loadSearchServicesSuccess>
+    | ReturnType<typeof loadSearchServicesFailure>
     | ReturnType<typeof getServiceInfoRequest>
     | ReturnType<typeof getServiceInfoSuccess>
     | ReturnType<typeof getServiceInfoFailure>
