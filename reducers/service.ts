@@ -1,9 +1,41 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
-// import { ActionRequest } from '../interfaces/act/services';
-import { IActionsService } from '../interfaces/act/service';
-import { Query, ServiceState, ShortService } from '../interfaces/data/service';
+import {
+    ActionRequest,
+    CREATE_RESERVATION_FAILURE,
+    CREATE_RESERVATION_REQUEST,
+    CREATE_RESERVATION_SUCCESS,
+    GET_RESERVATION_INFO_FAILURE,
+    GET_RESERVATION_INFO_REQUEST,
+    GET_RESERVATION_INFO_SUCCESS,
+    GET_SERVICE_INFO_FAILURE,
+    GET_SERVICE_INFO_REQUEST,
+    GET_SERVICE_INFO_SUCCESS,
+    LOAD_FIRST_REVIEWS_FAILURE,
+    LOAD_FIRST_REVIEWS_REQUEST,
+    LOAD_FIRST_REVIEWS_SUCCESS,
+    LOAD_MORE_REVIEWS_FAILURE,
+    LOAD_MORE_REVIEWS_REQUEST,
+    LOAD_MORE_REVIEWS_SUCCESS,
+    LOAD_POPULAR_SERVICE_FAILURE,
+    LOAD_POPULAR_SERVICE_REQUEST,
+    LOAD_POPULAR_SERVICE_SUCCESS,
+    LOAD_SEARCH_SERVICE_FAILURE,
+    LOAD_SEARCH_SERVICE_REQUEST,
+    LOAD_SEARCH_SERVICE_SUCCESS,
+    LOAD_TOTAL_SERVICE_FAILURE,
+    LOAD_TOTAL_SERVICE_REQUEST,
+    LOAD_TOTAL_SERVICE_SUCCESS,
+    RESERVATION_ACCEPT_FAILURE,
+    RESERVATION_ACCEPT_REQUEST,
+    RESERVATION_ACCEPT_SUCCESS,
+    RESERVATION_REJECT_FAILURE,
+    RESERVATION_REJECT_REQUEST,
+    RESERVATION_REJECT_SUCCESS,
+} from '../interfaces/act/services';
+// import { IActionsService } from '../interfaces/act/service';
+import { ServiceState } from '../interfaces/data/service';
 
 import Produce from '../utils/produce';
 
@@ -11,7 +43,7 @@ import Produce from '../utils/produce';
 export const initialState: ServiceState = {
     popularService: [],
     totalService: [],
-    totalserviceCount: 0,
+    totalServiceCount: 0,
     searchService: [],
     searchServiceCount: 0,
     searchQuery: null,
@@ -53,117 +85,8 @@ export const initialState: ServiceState = {
     reservationCompleteError: null,
 };
 
-/* ------- action 상수 ------ */
-
-// 어시스턴트 이름, 지역, 시급, 요일 (가능한 날짜), 시간 (가능한 시간대 - 오전,오후)
-export const GET_SERVICE_INFO_REQUEST = 'GET_SERVICE_INFO_REQUEST';
-export const GET_SERVICE_INFO_SUCCESS = 'GET_SERVICE_INFO_SUCCESS';
-export const GET_SERVICE_INFO_FAILURE = 'GET_SERVICE_INFO_FAILURE';
-
-// 후기
-export const LOAD_FIRST_REVIEWS_REQUEST = 'LOAD_FIRST_REVIEWS_REQUEST';
-export const LOAD_FIRST_REVIEWS_SUCCESS = 'LOAD_FIRST_REVIEWS_SUCCESS';
-export const LOAD_FIRST_REVIEWS_FAILURE = 'LOAD_FIRST_REVIEWS_FAILURE';
-
-export const LOAD_MORE_REVIEWS_REQUEST = 'LOAD_MORE_REVIEWS_REQUEST';
-export const LOAD_MORE_REVIEWS_SUCCESS = 'LOAD_MORE_REVIEWS_SUCCESS';
-export const LOAD_MORE_REVIEWS_FAILURE = 'LOAD_MORE_REVIEWS_FAILURE';
-
-// 인기 서비스 요청
-export const LOAD_POPULAR_SERVICE_REQUEST = 'LOAD_POPULAR_SERVICE_REQUEST';
-export const LOAD_POPULAR_SERVICE_SUCCESS = 'LOAD_POPULAR_SERVICE_SUCCESS';
-export const LOAD_POPULAR_SERVICE_FAILURE = 'LOAD_POPULAR_SERVICE_FAILURE';
-
-// 전체 서비스 요청
-export const LOAD_TOTAL_SERVICE_REQUEST = 'LOAD_TOTAL_SERVICE_REQUEST';
-export const LOAD_TOTAL_SERVICE_SUCCESS = 'LOAD_TOTAL_SERVICE_SUCCESS';
-export const LOAD_TOTAL_SERVICE_FAILURE = 'LOAD_TOTAL_SERVICE_FAILURE';
-
-// 검색 서비스 요청
-export const LOAD_SEARCH_SERVICE_REQUEST = 'LOAD_SEARCH_SERVICE_REQUEST';
-export const LOAD_SEARCH_SERVICE_SUCCESS = 'LOAD_SEARCH_SERVICE_SUCCESS';
-export const LOAD_SEARCH_SERVICE_FAILURE = 'LOAD_SEARCH_SERVICE_FAILURE';
-
-// 날짜, 지역, 시간 (오전/오후), 픽업장소, 병원, 소요 시간(ex. 3시간) post 요청
-export const CREATE_RESERVATION_REQUEST = 'CREATE_RESERVATION_REQUEST';
-export const CREATE_RESERVATION_SUCCESS = 'CREATE_RESERVATION_SUCCESS';
-export const CREATE_RESERVATION_FAILURE = 'CREATE_RESERVATION_FAILURE';
-
-// 날짜, 시간 (오전/오후), 픽업장소, 병원, 소요 시간(ex. 3시간)
-export const GET_ALL_RESERVATIONS_REQUEST = 'GET_ALL_RESERVATIONS_REQUEST';
-export const GET_ALL_RESERVATIONS_SUCCESS = 'GET_ALL_RESERVATIONS_SUCCESS';
-export const GET_ALL_RESERVATIONS_FAILURE = 'GET_ALL_RESERVATIONS_FAILURE';
-
-export const GET_RESERVATION_INFO_REQUEST = 'GET_RESERVATION_INFO_REQUEST';
-export const GET_RESERVATION_INFO_SUCCESS = 'GET_RESERVATION_INFO_SUCCESS';
-export const GET_RESERVATION_INFO_FAILURE = 'GET_RESERVATION_INFO_FAILURE';
-
-export const RESERVATION_ACCEPT_REQUEST = 'RESERVATION_ACCEPT_REQUEST';
-export const RESERVATION_ACCEPT_SUCCESS = 'RESERVATION_ACCEPT_SUCCESS';
-export const RESERVATION_ACCEPT_FAILURE = 'RESERVATION_ACCEPT_FAILURE';
-
-export const RESERVATION_REJECT_REQUEST = 'RESERVATION_REJECT_REQUEST';
-export const RESERVATION_REJECT_SUCCESS = 'RESERVATION_REJECT_SUCCESS';
-export const RESERVATION_REJECT_FAILURE = 'RESERVATION_REJECT_FAILURE';
-
-// 결제 결과
-export const CHECK_OUT_REQUEST = 'CHECK_OUT_REQUEST';
-export const CHECK_OUT_SUCCESS = 'CHECK_OUT_SUCCESS';
-export const CHECK_OUT_FAILURE = 'CHECK_OUT_FAILURE';
-
 /* ------- reducer ------ */
-export const loadPopularServiceRequest = () => ({
-    type: LOAD_POPULAR_SERVICE_REQUEST,
-});
-
-export const loadPopularServiceSuccess = (popularService: ShortService) => ({
-    type: LOAD_POPULAR_SERVICE_SUCCESS,
-    popularService,
-});
-
-export const loadPopularServiceFailure = (error: string) => ({
-    type: LOAD_POPULAR_SERVICE_FAILURE,
-    error,
-});
-
-export const loadTotalServiceRequest = (page = 1) => ({
-    type: LOAD_TOTAL_SERVICE_REQUEST,
-    page,
-});
-
-export const loadTotalServiceSuccess = (totalService: ShortService[], totalServiceCount: number) => ({
-    type: LOAD_TOTAL_SERVICE_SUCCESS,
-    totalService,
-    totalServiceCount,
-});
-
-export const loadTotalServiceFailure = (error: string) => ({
-    type: LOAD_TOTAL_SERVICE_FAILURE,
-    error,
-});
-
-export const loadSearchServiceRequest = (query: Query) => ({
-    type: LOAD_SEARCH_SERVICE_REQUEST,
-    query,
-});
-
-export const loadSearchServiceSuccess = (
-    searchService: ShortService[],
-    searchServiceCount: number,
-    searchQuery: Query,
-) => ({
-    type: LOAD_SEARCH_SERVICE_SUCCESS,
-    searchService,
-    searchServiceCount,
-    searchQuery,
-});
-
-export const loadSearchServiceFailure = (error: string) => ({
-    type: LOAD_SEARCH_SERVICE_FAILURE,
-    error,
-});
-
-const reducer = (state = initialState, action: IActionsService) =>
+const reducer = (state = initialState, action: ActionRequest) =>
     Produce(state, (draft: ServiceState) => {
         switch (action.type) {
             case LOAD_POPULAR_SERVICE_REQUEST:

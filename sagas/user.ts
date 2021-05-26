@@ -5,28 +5,30 @@ import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import firebase from 'firebase/app';
 import { auth, googleAuthProvider, facebookAuthProvider } from '../firebase';
+
+import { User } from '../interfaces/data/user';
 import {
+    EMAIL_CHECK_REQUEST,
     LOAD_MY_INFO_REQUEST,
     LOG_IN_REQUEST,
     LOG_OUT_REQUEST,
-    SIGN_UP_REQUEST,
-    EMAIL_CHECK_REQUEST,
     REGISTER_SERVICE_REQUEST,
-    loadMyInfoFailure,
+    SIGN_UP_REQUEST,
+} from '../interfaces/act/user';
+import {
     loadMyInfoSuccess,
+    loadMyInfoFailure,
     loginSuccess,
     loginFailure,
     logoutSuccess,
     logoutFailure,
-    emailCheckFailure,
     emailCheckSuccess,
-    signupFailure,
+    emailCheckFailure,
     signupSuccess,
-    registerServiceFailure,
+    signupFailure,
     registerServiceSuccess,
-} from '../reducers/user';
-import { User } from '../interfaces/data/user';
-import { UserAction } from '../interfaces/act/user';
+    registerServiceFailure,
+} from '../actions/user';
 
 axios.defaults.withCredentials = true;
 

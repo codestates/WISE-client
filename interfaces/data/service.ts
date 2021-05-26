@@ -74,7 +74,7 @@ export type ServiceState = {
               },
           ]
         | [];
-    totalserviceCount: number;
+    totalServiceCount: number;
     searchService:
         | [
               {

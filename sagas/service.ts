@@ -36,16 +36,18 @@ import {
     CHECK_OUT_REQUEST,
     CHECK_OUT_SUCCESS,
     CHECK_OUT_FAILURE,
-    loadPopularServiceFailure,
-    loadPopularServiceSuccess,
-    loadSearchServiceFailure,
-    loadSearchServiceSuccess,
-    loadTotalServiceFailure,
-    loadTotalServiceSuccess,
     LOAD_POPULAR_SERVICE_REQUEST,
     LOAD_SEARCH_SERVICE_REQUEST,
     LOAD_TOTAL_SERVICE_REQUEST,
-} from '../reducers/service';
+} from '../interfaces/act/services';
+import {
+    loadPopularServiceSuccess,
+    loadPopularServiceFailure,
+    loadTotalServiceSuccess,
+    loadTotalServiceFailure,
+    loadSearchServiceSuccess,
+    loadSearchServiceFailure,
+} from '../actions/service';
 
 function loadPopularServiceAPI() {
     return axios.get('/api/v1/services/popularity');
@@ -53,15 +55,11 @@ function loadPopularServiceAPI() {
 
 function* loadPopularService() {
     try {
-        const result = yield call(loadPopularServiceAPI);
+        const result: AxiosResponse<{}> = yield call(loadPopularServiceAPI);
         yield put(loadPopularServiceSuccess(result.data.popularService));
     } catch (err) {
         yield put(loadPopularServiceFailure(err.message));
     }
-}
-
-function* watchLoadPopularService() {
-    yield takeLatest(LOAD_POPULAR_SERVICE_REQUEST, loadPopularService);
 }
 
 function loadTotalServiceAPI(page: string) {
@@ -79,10 +77,6 @@ function* loadTotalService(action) {
     }
 }
 
-function* watchLoadTotalService() {
-    yield throttle(5000, LOAD_TOTAL_SERVICE_REQUEST, loadTotalService);
-}
-
 function loadSearchServiceAPI(query: data.Query) {
     console.log('query : ', query);
     const { location, date, time, page } = query;
@@ -96,10 +90,6 @@ function* loadSearchService(action) {
     } catch (err) {
         yield put(loadSearchServiceFailure(err.message));
     }
-}
-
-function* watchLoadSearchService() {
-    yield throttle(5000, LOAD_SEARCH_SERVICE_REQUEST, loadSearchService);
 }
 
 function getSingleServiceAPI(serviceId: string) {
@@ -131,7 +121,7 @@ function loadFirstReviewsAPI(serviceId: string) {
 
 function* loadFirstReviews(action: { serviceId: string }) {
     try {
-        const result: AxiosResponse<{ data: data.Review[] }> = yield call(loadFirstReviewsAPI, action.serviceId);
+        const result: AxiosResponse<data.Review[]> = yield call(loadFirstReviewsAPI, action.serviceId);
         yield put({
             type: LOAD_FIRST_REVIEWS_SUCCESS,
             payload: result.data,
@@ -151,11 +141,7 @@ function loadMoreReviewsAPI(serviceId: string, page: number) {
 
 function* loadMoreReviews(action: { serviceId: string; page: number }) {
     try {
-        const result: AxiosResponse<{ data: data.Review[] }> = yield call(
-            loadMoreReviewsAPI,
-            action.serviceId,
-            action.page,
-        );
+        const result: AxiosResponse<data.Review[]> = yield call(loadMoreReviewsAPI, action.serviceId, action.page);
         yield put({
             type: LOAD_MORE_REVIEWS_SUCCESS,
             payload: result.data,
@@ -321,6 +307,18 @@ function* reservationReject(action: { orderId: string; accessToken: string }) {
             error: err.response.data,
         });
     }
+}
+
+function* watchLoadTotalService() {
+    yield throttle(5000, LOAD_TOTAL_SERVICE_REQUEST, loadTotalService);
+}
+
+function* watchLoadPopularService() {
+    yield takeLatest(LOAD_POPULAR_SERVICE_REQUEST, loadPopularService);
+}
+
+function* watchLoadSearchService() {
+    yield throttle(5000, LOAD_SEARCH_SERVICE_REQUEST, loadSearchService);
 }
 
 function* watchGetSingleService() {

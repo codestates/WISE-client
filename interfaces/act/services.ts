@@ -1,4 +1,44 @@
-import { LongService, Review, ShortService, Order } from '../data/service';
+import {
+    IGetServiceInfoRequest,
+    IGetServiceInfoSuccess,
+    IGetServiceInfoFailure,
+    ILoadFirstReviewRequest,
+    ILoadFirstReviewSuccess,
+    ILoadFirstReviewFailure,
+    ILoadMoreReviewsRequest,
+    ILoadMoreReviewsSuccess,
+    ILoadMoreReviewsFailure,
+    ICreateReservationRequest,
+    ICreateReservationSuccess,
+    ICreateReservationFailure,
+    IGetReservationInfoRequest,
+    IGetReservationInfoSuccess,
+    IGetReservationInfoFailure,
+    IReservationAcceptRequest,
+    IReservationAcceptSuccess,
+    IReservationAcceptFailure,
+    IReservationRejectRequest,
+    IReservationRejectSuccess,
+    IReservationRejectFailure,
+    ICheckoutRequest,
+    ICheckoutSuccess,
+    ICheckoutFailure,
+} from '../../actions/service';
+
+// 인기 서비스 요청
+export const LOAD_POPULAR_SERVICE_REQUEST = 'LOAD_POPULAR_SERVICE_REQUEST' as const;
+export const LOAD_POPULAR_SERVICE_SUCCESS = 'LOAD_POPULAR_SERVICE_SUCCESS' as const;
+export const LOAD_POPULAR_SERVICE_FAILURE = 'LOAD_POPULAR_SERVICE_FAILURE' as const;
+
+// 전체 서비스 요청
+export const LOAD_TOTAL_SERVICE_REQUEST = 'LOAD_TOTAL_SERVICE_REQUEST' as const;
+export const LOAD_TOTAL_SERVICE_SUCCESS = 'LOAD_TOTAL_SERVICE_SUCCESS' as const;
+export const LOAD_TOTAL_SERVICE_FAILURE = 'LOAD_TOTAL_SERVICE_FAILURE' as const;
+
+// 검색 서비스 요청
+export const LOAD_SEARCH_SERVICE_REQUEST = 'LOAD_SEARCH_SERVICE_REQUEST' as const;
+export const LOAD_SEARCH_SERVICE_SUCCESS = 'LOAD_SEARCH_SERVICE_SUCCESS' as const;
+export const LOAD_SEARCH_SERVICE_FAILURE = 'LOAD_SEARCH_SERVICE_FAILURE' as const;
 
 export const GET_SERVICE_INFO_REQUEST = 'GET_SERVICE_INFO_REQUEST' as const;
 export const GET_SERVICE_INFO_SUCCESS = 'GET_SERVICE_INFO_SUCCESS' as const;
@@ -50,9 +90,6 @@ export type ActionRequest =
     | ReturnType<typeof ILoadMoreReviewsRequest>
     | ReturnType<typeof ILoadMoreReviewsSuccess>
     | ReturnType<typeof ILoadMoreReviewsFailure>
-    // | ReturnType<typeof ILoadAllServicesRequest>
-    // | ReturnType<typeof ILoadAllServicesSuccess>
-    // | ReturnType<typeof ILoadAllServicesFailure>
     | ReturnType<typeof ICreateReservationRequest>
     | ReturnType<typeof ICreateReservationSuccess>
     | ReturnType<typeof ICreateReservationFailure>
@@ -70,133 +107,4 @@ export type ActionRequest =
     | ReturnType<typeof IReservationRejectFailure>
     | ReturnType<typeof ICheckoutRequest>
     | ReturnType<typeof ICheckoutSuccess>
-    | ReturnType<typeof ICheckoutFailure>
-
-export const IGetServiceInfoRequest = () => ({
-    type: GET_SERVICE_INFO_REQUEST
-})
-export const IGetServiceInfoSuccess  = () => ({
-    type: GET_SERVICE_INFO_SUCCESS,
-    payload: { service: LongService }
-})
-export const IGetServiceInfoFailure = () => ({
-    type: GET_SERVICE_INFO_FAILURE,
-    error: Error
-})
-
-export const ILoadFirstReviewRequest = () => ({
-    type: LOAD_FIRST_REVIEWS_REQUEST
-})
-export const ILoadFirstReviewSuccess  = () => ({
-    type: LOAD_FIRST_REVIEWS_SUCCESS,
-    payload: { reviews: Review[] | null }
-})
-export const ILoadFirstReviewFailure   = () => ({
-    type: LOAD_FIRST_REVIEWS_FAILURE,
-    error: Error
-})
-
-export const ILoadMoreReviewsRequest   = () => ({
-    type: LOAD_MORE_REVIEWS_REQUEST
-})
-export const ILoadMoreReviewsSuccess  = () => ({
-    type: LOAD_MORE_REVIEWS_SUCCESS,
-    payload: { reviews: Review[] | null }
-})
-export const ILoadMoreReviewsFailure   = () => ({
-    type: LOAD_MORE_REVIEWS_FAILURE,
-    error: Error
-})
-
-// export const ILoadAllServicesRequest {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_REQUEST;
-// }
-// export const ILoadAllServicesSuccess {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_SUCCESS;
-//     payload: {
-//         services:
-//             | [
-//                   {
-//                       service: ShortService[];
-//                       popularService: ShortService[];
-//                   },
-//               ]
-//             | [];
-//     };
-// }
-// export const ILoadAllServicesFailure {
-//     type: EActionTypesService.LOAD_ALL_SERVICES_FAILURE;
-//     error: Error;
-// }
-
-export const ICreateReservationRequest = () => ({
-    type: CREATE_RESERVATION_REQUEST
-})
-export const ICreateReservationSuccess = () => ({
-    type: CREATE_RESERVATION_SUCCESS,
-    payload: { order: Order | null }
-})
-export const ICreateReservationFailure = () => ({
-    type: CREATE_RESERVATION_FAILURE,
-    error: Error
-})
-
-// export const IGetAllReservationsRequest {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_REQUEST;
-// }
-// export const IGetAllReservationsSuccess {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_SUCCESS;
-//     payload: { reservationRequests: Order[] | null };
-// }
-// export const IGetAllReservationsFailure {
-//     type: EActionTypesService.GET_ALL_RESERVATIONS_FAILURE;
-//     error: Error;
-// }
-
-export const IGetReservationInfoRequest = () => ({
-    type: GET_RESERVATION_INFO_REQUEST
-})
-export const IGetReservationInfoSuccess = () => ({
-    type: GET_RESERVATION_INFO_SUCCESS,
-    payload: { order: Order | null }
-})
-export const IGetReservationInfoFailure = () => ({
-    type: GET_RESERVATION_INFO_FAILURE,
-    error: Error
-})
-
-export const IReservationAcceptRequest = () => ({
-    type: RESERVATION_ACCEPT_REQUEST,
-})
-export const IReservationAcceptSuccess = () => ({
-    type: RESERVATION_ACCEPT_SUCCESS,
-    payload: { order: Order | null }
-})
-export const IReservationAcceptFailure = () => ({
-    type: RESERVATION_ACCEPT_FAILURE,
-    error: Error
-})
-
-export const IReservationRejectRequest = () => ({
-    type: RESERVATION_REJECT_REQUEST
-})
-export const IReservationRejectSuccess = () => ({
-    type: RESERVATION_REJECT_SUCCESS,
-    payload: { message: string }
-})
-export const IReservationRejectFailure = () => ({
-    type: RESERVATION_REJECT_FAILURE,
-    error: Error
-})
-
-export const ICheckoutRequest = () => ({
-    type: CHECK_OUT_REQUEST
-})
-export const ICheckoutSuccess = () => ({
-    type: CHECK_OUT_SUCCESS,
-    payload: { status: string; message: string }
-})
-export const ICheckoutFailure = () => ({
-    type: .CHECK_OUT_FAILURE,
-    error: Error
-})
+    | ReturnType<typeof ICheckoutFailure>;
