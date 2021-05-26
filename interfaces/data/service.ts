@@ -60,28 +60,10 @@ export interface Query {
 }
 
 export type ServiceState = {
-    popularService:
-        | [
-              {
-                  popularServices: ShortService[];
-              },
-          ]
-        | [];
-    totalService:
-        | [
-              {
-                  services: ShortService[];
-              },
-          ]
-        | [];
+    popularService: ShortService[] | [];
+    totalService: ShortService[] | [];
     totalServiceCount: number;
-    searchService:
-        | [
-              {
-                  services: ShortService[];
-              },
-          ]
-        | [];
+    searchService: ShortService[] | [];
     searchServiceCount: number;
     searchQuery: Query | null;
     service: LongService | null;

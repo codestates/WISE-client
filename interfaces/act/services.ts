@@ -26,6 +26,15 @@ import {
     getAllReservationsFailure,
     getAllReservationsRequest,
     getAllReservationsSuccess,
+    loadSearchServiceFailure,
+    loadSearchServiceRequest,
+    loadSearchServiceSuccess,
+    loadPopularServicesFailure,
+    loadPopularServicesRequest,
+    loadPopularServicesSuccess,
+    loadTotalServicesFailure,
+    loadTotalServicesRequest,
+    loadTotalServicesSuccess,
 } from '../../actions/service';
 
 // 인기 서비스 요청
@@ -84,6 +93,15 @@ export const CHECK_OUT_SUCCESS = 'CHECK_OUT_SUCCESS' as const;
 export const CHECK_OUT_FAILURE = 'CHECK_OUT_FAILURE' as const;
 
 export type ActionRequest =
+    | ReturnType<typeof loadPopularServicesRequest>
+    | ReturnType<typeof loadPopularServicesSuccess>
+    | ReturnType<typeof loadPopularServicesFailure>
+    | ReturnType<typeof loadTotalServicesRequest>
+    | ReturnType<typeof loadTotalServicesSuccess>
+    | ReturnType<typeof loadTotalServicesFailure>
+    | ReturnType<typeof loadSearchServiceRequest>
+    | ReturnType<typeof loadSearchServiceSuccess>
+    | ReturnType<typeof loadSearchServiceFailure>
     | ReturnType<typeof getServiceInfoRequest>
     | ReturnType<typeof getServiceInfoSuccess>
     | ReturnType<typeof getServiceInfoFailure>

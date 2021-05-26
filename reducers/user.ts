@@ -98,19 +98,6 @@ const reducer = (state = initialState, action: UserAction) =>
                 draft.logOutLoading = false;
                 draft.logOutError = action.error;
                 break;
-            case SIGN_UP_REQUEST:
-                draft.signUpLoading = true;
-                draft.signUpDone = false;
-                draft.signUpError = null;
-                break;
-            case SIGN_UP_SUCCESS:
-                draft.signUpLoading = false;
-                draft.signUpDone = true;
-                break;
-            case SIGN_UP_FAILURE:
-                draft.signUpLoading = false;
-                draft.signUpError = action.error;
-                break;
             case EMAIL_CHECK_REQUEST:
                 draft.emailCheckLoading = true;
                 draft.emailCheckDone = false;
@@ -123,6 +110,19 @@ const reducer = (state = initialState, action: UserAction) =>
             case EMAIL_CHECK_FAILURE:
                 draft.emailCheckLoading = false;
                 draft.emailCheckError = action.error;
+                break;
+            case SIGN_UP_REQUEST:
+                draft.signUpLoading = true;
+                draft.signUpDone = false;
+                draft.signUpError = null;
+                break;
+            case SIGN_UP_SUCCESS:
+                draft.signUpLoading = false;
+                draft.signUpDone = true;
+                break;
+            case SIGN_UP_FAILURE:
+                draft.signUpLoading = false;
+                draft.signUpError = action.error;
                 break;
             case REGISTER_SERVICE_REQUEST:
                 draft.registerServiceLoading = true;

@@ -28,7 +28,12 @@ import {
     signupFailure,
     registerServiceSuccess,
     registerServiceFailure,
+    loginRequest,
+    emailCheckRequest,
+    registerServiceRequest,
+    signupRequest,
 } from '../actions/user';
+import { ShortService } from '../interfaces/data/service';
 
 axios.defaults.withCredentials = true;
 
@@ -36,23 +41,15 @@ function loadMyInfoAPI(userId: string) {
     return axios.get(`/api/v1/users/${userId}`);
 }
 
-type IUser = {
-    user: User;
-};
-
 function* loadMyInfo() {
     try {
         const userId = localStorage.getItem('userId') as string;
         const accessToken = localStorage.getItem('accessToken') as string;
-        const result: AxiosResponse<IUser> = yield call(loadMyInfoAPI, userId);
+        const result: AxiosResponse<{ user: User }> = yield call(loadMyInfoAPI, userId);
         yield put(loadMyInfoSuccess(result.data.user, accessToken));
     } catch (err) {
         yield put(loadMyInfoFailure(err.message));
     }
-}
-
-function* watchLoadMyInfo() {
-    yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
 type LoginData = {
@@ -64,7 +61,7 @@ type LoginData = {
 async function loginToken({ email, password, signinMethod }: LoginData) {
     let result = null;
     if (signinMethod === 'password') {
-        result = await auth.signInWithEmailAndPassword(email, password);
+        result = await auth.signInWithEmailAndPassword(email as string, password as string);
     } else if (signinMethod === 'google') {
         googleAuthProvider.setCustomParameters({ prompt: 'select_account' });
         result = await auth.signInWithPopup(googleAuthProvider);
@@ -72,7 +69,7 @@ async function loginToken({ email, password, signinMethod }: LoginData) {
         facebookAuthProvider.setCustomParameters({ display: 'popup' });
         result = await auth.signInWithPopup(facebookAuthProvider);
     }
-    return result.user.getIdToken();
+    return result?.user?.getIdToken();
 }
 
 function logInAPI(accessToken: string, { signinMethod }: LoginData) {
@@ -87,12 +84,12 @@ function logInAPI(accessToken: string, { signinMethod }: LoginData) {
     );
 }
 
-function* logIn(action: { data: LoginData }) {
+function* logIn(action: ReturnType<typeof loginRequest>) {
     try {
-        const accessToken = yield call(loginToken, action.data);
-        const result = yield call(logInAPI, accessToken, action.data);
+        const accessToken: string = yield call(loginToken, action.data);
+        const result: AxiosResponse<{ user: User }> = yield call(logInAPI, accessToken, action.data);
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('userId', result.data.user._id);
+        localStorage.setItem('userId', result.data.user.id);
         yield put(loginSuccess());
     } catch (err) {
         let errorMessage = '';
@@ -114,10 +111,6 @@ function* logIn(action: { data: LoginData }) {
     }
 }
 
-function* watchLogIn() {
-    yield takeLatest(LOG_IN_REQUEST, logIn);
-}
-
 function* logOut() {
     try {
         firebase.auth().signOut();
@@ -127,10 +120,6 @@ function* logOut() {
     } catch (err) {
         yield put(logoutFailure(err.message));
     }
-}
-
-function* watchLogOut() {
-    yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
 type SignupData = {
@@ -150,7 +139,7 @@ async function signupToken({ email, password }: SignupData) {
 }
 
 async function emailCheckAPI(email: string) {
-    await axios.post('/api/v1/email-validation', {
+    await axios.post('/api/v1/validation/email', {
         email,
     });
     const REDIRECT_URL = 'http://localhost:3000/user/signup';
@@ -162,17 +151,13 @@ async function emailCheckAPI(email: string) {
     localStorage.setItem('emailForSignup', email);
 }
 
-function* emailCheck(action: { email: string }) {
+function* emailCheck(action: ReturnType<typeof emailCheckRequest>) {
     try {
         yield call(emailCheckAPI, action.email);
         yield put(emailCheckSuccess());
     } catch (err) {
         yield put(emailCheckFailure('이미 가입된 이메일 입니다.'));
     }
-}
-
-function* watchEmailCheck() {
-    yield takeLatest(EMAIL_CHECK_REQUEST, emailCheck);
 }
 
 function signUpAPI(accessToken: string, { email, name, mobile, signinMethod }: SignupData) {
@@ -187,20 +172,17 @@ function signUpAPI(accessToken: string, { email, name, mobile, signinMethod }: S
     );
 }
 
-function* signUp(action: { data: SignupData }) {
+function* signUp(action: ReturnType<typeof signupRequest>) {
     try {
-        const accessToken = yield call(signupToken, action.data);
-        const result = yield call(signUpAPI, accessToken, action.data);
-        localStorage.setItem('userId', result.data.user._id);
+        const accessToken: string = yield call(signupToken, action.data);
+        const result: AxiosResponse<{ user: User }> = yield call(signUpAPI, accessToken, action.data);
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('userId', result.data.user.id);
         localStorage.removeItem('emailForSignup');
-        yield put(signupSuccess(accessToken));
+        yield put(signupSuccess());
     } catch (err) {
         yield put(signupFailure(err.message));
     }
-}
-
-function* watchSignUp() {
-    yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 function registerServiceAPI(accessToken: string, data: FormData) {
@@ -216,14 +198,38 @@ function registerServiceAPI(accessToken: string, data: FormData) {
     });
 }
 
-function* registerService(action: { data: FormData; accessToken: string }) {
+function* registerService(action: ReturnType<typeof registerServiceRequest>) {
     try {
-        const result = yield call(registerServiceAPI, action.accessToken, action.data);
+        const result: AxiosResponse<{ service: ShortService }> = yield call(
+            registerServiceAPI,
+            action.accessToken,
+            action.data,
+        );
         console.log(result);
         yield put(registerServiceSuccess(result.data.service));
     } catch (err) {
         yield put(registerServiceFailure(err.message));
     }
+}
+
+function* watchLoadMyInfo() {
+    yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
+
+function* watchLogIn() {
+    yield takeLatest(LOG_IN_REQUEST, logIn);
+}
+
+function* watchLogOut() {
+    yield takeLatest(LOG_OUT_REQUEST, logOut);
+}
+
+function* watchEmailCheck() {
+    yield takeLatest(EMAIL_CHECK_REQUEST, emailCheck);
+}
+
+function* watchSignUp() {
+    yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
 function* watchRegisterService() {

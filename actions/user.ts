@@ -94,9 +94,8 @@ export const signupRequest = (email: string, name: string, password: string, mob
     data: { email, name, password, mobile, signinMethod: 'password' },
 });
 
-export const signupSuccess = (token: string) => ({
+export const signupSuccess = () => ({
     type: SIGN_UP_SUCCESS,
-    token,
 });
 
 export const signupFailure = (error: string) => ({

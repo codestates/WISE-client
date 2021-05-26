@@ -102,7 +102,7 @@ const reducer = (state = initialState, action: ActionRequest) =>
             case LOAD_POPULAR_SERVICE_SUCCESS:
                 draft.popularServiceLoading = false;
                 draft.popularServiceDone = true;
-                draft.popularService = action.popularService;
+                draft.popularService = action.popularServices;
                 break;
             case LOAD_POPULAR_SERVICE_FAILURE:
                 draft.popularServiceLoading = false;

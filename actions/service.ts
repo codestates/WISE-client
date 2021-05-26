@@ -38,32 +38,32 @@ import {
 } from '../interfaces/act/services';
 import { LongService, Review, ShortService, Order, Query } from '../interfaces/data/service';
 
-export const loadPopularServiceRequest = () => ({
+export const loadPopularServicesRequest = () => ({
     type: LOAD_POPULAR_SERVICE_REQUEST,
 });
 
-export const loadPopularServiceSuccess = (popularService: ShortService) => ({
+export const loadPopularServicesSuccess = (popularServices: ShortService[]) => ({
     type: LOAD_POPULAR_SERVICE_SUCCESS,
-    popularService,
+    popularServices,
 });
 
-export const loadPopularServiceFailure = (error: string) => ({
+export const loadPopularServicesFailure = (error: string) => ({
     type: LOAD_POPULAR_SERVICE_FAILURE,
     error,
 });
 
-export const loadTotalServiceRequest = (page = 1) => ({
+export const loadTotalServicesRequest = (page = 1) => ({
     type: LOAD_TOTAL_SERVICE_REQUEST,
     page,
 });
 
-export const loadTotalServiceSuccess = (totalService: ShortService[], totalServiceCount: number) => ({
+export const loadTotalServicesSuccess = (totalService: ShortService[], totalServiceCount: number) => ({
     type: LOAD_TOTAL_SERVICE_SUCCESS,
     totalService,
     totalServiceCount,
 });
 
-export const loadTotalServiceFailure = (error: string) => ({
+export const loadTotalServicesFailure = (error: string) => ({
     type: LOAD_TOTAL_SERVICE_FAILURE,
     error,
 });
@@ -157,9 +157,9 @@ export const getAllReservationsFailure = (error: string) => ({
     error,
 });
 
-export const getReservationInfoRequest = (userId: string, accessToken: string) => ({
+export const getReservationInfoRequest = (orderId: string, accessToken: string) => ({
     type: GET_RESERVATION_INFO_REQUEST,
-    userId,
+    orderId,
     accessToken,
 });
 export const getReservationInfoSuccess = (order: Order) => ({
