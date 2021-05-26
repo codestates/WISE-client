@@ -1,47 +1,45 @@
 /* eslint-disable camelcase */
-// import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { CheckCircleTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
-import { ActionButton } from './OrderItem';
+import { useDispatch, useSelector } from 'react-redux';
+import { ParsedUrlQuery } from 'querystring';
+import { checkoutRequest } from '../actions/service';
+import { Order } from '../interfaces/data/service';
+import { RootState } from '../reducers';
+import { ActionButton } from './button-style';
 
-// TODO: object from querystring @payment/[result]
-// type Props = {
+type Props = {
+    result: ParsedUrlQuery;
+    order: Order;
+    accessToken: string;
+};
 
-// };
-
-const PaymentResult = ({ result }) => {
+const PaymentResult = ({ result, order, accessToken }: Props) => {
     console.log(result);
-    const router = useRouter();
-    const { merchant_uid, imp_uid, paid_amount, success, error_msg } = result;
+    const { merchant_uid, imp_uid } = result;
 
-    // const [isSuccessed, setIsSuccessed] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState('');
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.service);
+
+    const [isSuccessed, setIsSuccessed] = useState(false);
 
     // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
-    // const handleRequestResult = useCallback(async () => {
-    //     const response = await axios.post('http://localhost:5000/payment/result', {
-    //         imp_uid,
-    //         merchant_uid,
-    //         paid_amount,
-    //         success,
-    //     });
-    //     try {
-    //         if (response.status === 200) {
-    //             setIsSuccessed(true);
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //         setErrorMessage(err);
-    //     }
-    // }, [merchant_uid, imp_uid, paid_amount, success]);
+    const handleRequestResult = useCallback(() => {
+        dispatch(checkoutRequest(order.id, imp_uid, accessToken));
+    }, [order.id, imp_uid, accessToken, dispatch]);
 
-    // useEffect(() => {
-    //     handleRequestResult();
-    // }, [handleRequestResult]);
+    useEffect(() => {
+        handleRequestResult();
+    }, [handleRequestResult]);
 
-    // server 연결 전 테스트용
-    const isSuccessed = result.success === 'true';
+    useEffect(() => {
+        if (checkoutStatus === 'success') {
+            setIsSuccessed(true);
+        }
+    }, [checkoutStatus]);
 
     const resultType = isSuccessed ? '성공' : '실패';
     return (
@@ -65,7 +63,7 @@ const PaymentResult = ({ result }) => {
                 ) : (
                     <li>
                         <span>실패 메시지</span>
-                        <span>{error_msg}</span>
+                        <span>{checkoutError}</span>
                     </li>
                 )}
             </ul>
@@ -126,9 +124,5 @@ const Button = styled(ActionButton)`
         color: #7ab387;
     }
 `;
-
-// PaymentResult.propTypes = {
-//     result: PropTypes.object.isRequired,
-// };
 
 export default PaymentResult;

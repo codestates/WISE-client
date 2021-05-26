@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import { logoutRequestAction } from '../reducers/user';
 import NotificationModal from './NotificationModal';
 import { RootState } from '../reducers';
+import { logoutRequest } from '../actions/user';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -20,13 +20,13 @@ const Header = () => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
-    const onCloseModal = useCallback(() => {
-        setShowModal(false);
-        console.log('clicked!');
-    }, []);
+    // const onCloseModal = useCallback(() => {
+    //     setShowModal(false);
+    //     console.log('clicked!');
+    // }, []);
 
     const Logout = useCallback(() => {
-        dispatch(logoutRequestAction());
+        dispatch(logoutRequest());
     }, [dispatch]);
 
     const Login = useCallback(() => {
@@ -70,7 +70,7 @@ const Header = () => {
                                 <BellOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem', cursor: 'pointer' }} />
                             )}
                         </div>
-                        {showModal && <NotificationModal onClose={onCloseModal} />}
+                        {showModal && <NotificationModal />}
                         <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>

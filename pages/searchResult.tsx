@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { loadSearchServicesRequest } from '../actions/service';
 import Layout from '../components/Layout';
 import SearchBar from '../components/SearchBar';
 import TotalSection from '../components/TotalSection';
 import { RootState } from '../reducers';
-import { loadSearchServiceRequest } from '../reducers/service';
 
 const SearchResult = () => {
     const dispatch = useDispatch();
 
-    const { searchService, searchServiceLoading, searchServiceCount, searchQuery } = useSelector(
+    const { searchServices, searchServicesLoading, searchServicesCount, searchQuery } = useSelector(
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
@@ -21,8 +21,8 @@ const SearchResult = () => {
                 window.pageYOffset + document.documentElement.clientHeight >
                 document.documentElement.scrollHeight - 300
             ) {
-                if (!searchServiceLoading && searchServiceCount > searchService.length) {
-                    dispatch(loadSearchServiceRequest({ ...searchQuery, page }));
+                if (!searchServicesLoading && searchServicesCount > searchServices.length) {
+                    dispatch(loadSearchServicesRequest({ ...searchQuery, page }));
                     setPage((prev) => prev + 1);
                 }
             }
@@ -31,7 +31,7 @@ const SearchResult = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [searchServiceLoading, searchServiceCount, dispatch, page, searchService, searchQuery]);
+    }, [searchServicesLoading, searchServicesCount, dispatch, page, searchServices, searchQuery]);
 
     return (
         <Layout title="WISE | Search">

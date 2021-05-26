@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import type { AppProps } from 'next/app';
-import { loadMyInfoRequest } from '../reducers/user';
 
 import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
+import { loadMyInfoRequest } from '../actions/user';
 
 const Global = createGlobalStyle`
     body{

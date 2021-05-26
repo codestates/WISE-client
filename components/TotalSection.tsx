@@ -11,19 +11,19 @@ type TotalSectionProps = {
 };
 
 const TotalSection = ({ title }: TotalSectionProps) => {
-    const { totalService, searchService } = useSelector((state: RootState) => state.service);
+    const { totalServices, searchServices } = useSelector((state: RootState) => state.service);
 
     return (
         <Wrapper>
             <Header>{title}</Header>
             <Row style={{ overflow: 'hidden' }}>
                 {title === '검색 결과'
-                    ? searchService.map((ele: ShortService) => (
+                    ? searchServices.map((ele: ShortService) => (
                           <Col key={ele.id} xs={24} sm={12} md={8} lg={6} span={24}>
                               <ServiceCard service={ele} />
                           </Col>
                       ))
-                    : totalService.map((ele: ShortService) => (
+                    : totalServices.map((ele: ShortService) => (
                           <Col key={ele.id} xs={24} sm={12} md={8} lg={6} span={24}>
                               <ServiceCard service={ele} />
                           </Col>

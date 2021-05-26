@@ -4,19 +4,16 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import { RequestPayResponse } from 'iamport-typings';
+import { Order } from '../interfaces/data/service';
 
-const Checkout = () => {
-    // using redux
-    // const { price } = useSelector((state) => state.user);
+type Props = {
+    order: Order;
+};
+
+const Checkout = ({ order }: Props) => {
     const router = useRouter();
 
     const IMP_CODE: string = process.env.NEXT_PUBLIC_IMPcode!;
-    // test
-    const PRICE = 100;
-    const PG = 'nice';
-    const PAY_METHOD = 'card';
-    const ORDER_NAME = '김천사 어시스턴트 동행 신청';
-    const BUYER_NAME = '김가희';
     const BUYER_TEL = '01087659228';
     const BUYER_EMAIL = 'rkgml981105@gmail.com';
 
@@ -27,12 +24,12 @@ const Checkout = () => {
 
         // 2. 결제 데이터 정의
         const data = {
-            pg: PG, // PG사
-            pay_method: PAY_METHOD, // 결제수단
+            pg: 'nice', // PG사
+            pay_method: 'card', // 결제수단
             merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-            amount: PRICE, // 결제금액
-            name: ORDER_NAME, // 주문명
-            buyer_name: BUYER_NAME, // 구매자 이름
+            amount: order.totalPayment, // 결제금액
+            name: `${order.assistant.name} 어시스턴트의 동행 서비스`, // 주문명
+            buyer_name: order.customer.name, // 구매자 이름
             buyer_tel: BUYER_TEL, // 구매자 전화번호
             buyer_email: BUYER_EMAIL, // 구매자 이메일
         };

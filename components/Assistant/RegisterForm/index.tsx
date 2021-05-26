@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ChangeEvent, FormEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import useInput from '../../../hooks/useInput';
-import { registerServiceRequest } from '../../../reducers/user';
 import {
     ProfileImagesWrapper,
     Image,
@@ -16,6 +16,7 @@ import {
     RegisterFormWrapper,
 } from './styles';
 import { RootState } from '../../../reducers';
+import { registerServiceRequest } from '../../../actions/user';
 
 type availableDay = {
     label: string;
@@ -64,7 +65,7 @@ const RegisterForm = () => {
         imagesInput.current.click();
     }, [imagesInput]);
     const onChangeImages = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setImages((prev: File[]) => [...prev, ...e.target.files]);
+        setImages((prev: File[]) => [...prev, ...Array.from(e.target.files!)]);
     }, []);
     const removeImage = useCallback(
         (name: string) => {
@@ -96,7 +97,7 @@ const RegisterForm = () => {
         orgAuthInput.current.click();
     }, [orgAuthInput]);
     const onChangeOrgAuth = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setOrgAuth((prev) => [...prev, ...e.target.files]);
+        setOrgAuth((prev) => [...prev, ...Array.from(e.target.files!)]);
     }, []);
     const removeOrgAuthImage = useCallback(
         (name: string) => {
@@ -120,7 +121,7 @@ const RegisterForm = () => {
         trainingCertInput.current.click();
     }, [trainingCertInput]);
     const onChangeTrainingCert = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setTrainingCert((prev) => [...prev, ...e.target.files]);
+        setTrainingCert((prev) => [...prev, ...Array.from(e.target.files!)]);
     }, []);
     const removeTrainingCertImage = useCallback(
         (name: string) => {

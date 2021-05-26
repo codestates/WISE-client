@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
-import { CREATE_RESERVATION_REQUEST } from '../reducers/service';
+import { CREATE_RESERVATION_REQUEST } from '../interfaces/act/services';
 import ReservationSuccessModal from './ReservationSuccessModal';
 import { LongService } from '../interfaces/data/service';
 import { RootState } from '../reducers';
@@ -18,9 +18,7 @@ type Props = {
 const Reservation = ({ service, id, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
     const { accessToken } = useSelector((state: RootState) => state.user);
-    const { reservationRequestDone, reservationRequestError, reservationRequests } = useSelector(
-        (state: RootState) => state.service,
-    );
+    const { reservationRequestDone, reservationRequestError } = useSelector((state: RootState) => state.service);
 
     const onChangehours = useCallback(
         (e) => {
