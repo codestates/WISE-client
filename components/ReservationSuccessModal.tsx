@@ -1,12 +1,16 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // import { useMemo } from 'react';
 import Link from 'next/link';
 
-const ReservationSuccessModal = ({ onClose, success, error }) => {
-    // const style = useMemo(() => ({ marginRight: '1rem' }), []);
+type Props = {
+    onClose: () => void;
+    success: boolean;
+    error: string;
+};
+
+const ReservationSuccessModal = ({ onClose, success, error }: Props) => {
     const result = success ? '성공' : '실패';
     const errorMsg = error;
     return (
@@ -30,7 +34,7 @@ const StyledModalOverlay = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    height: 100%;
+    height: 1250px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
@@ -40,7 +44,7 @@ const StyledModalOverlay = styled.div`
 
 const StyledModal = styled.div`
     background: white;
-    margin-top: -50%;
+    margin-top: 10%;
     width: 30rem;
     height: 16rem;
     border-radius: 0.5rem;
@@ -88,16 +92,10 @@ const Button = styled.a`
     border-radius: 1.2rem;
     font-size: 0.9rem;
     &:hover {
-        color: #f0f0f0;
+        color: #fff;
         font-weight: 600;
         background-color: #68d480;
     }
 `;
-
-ReservationSuccessModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    success: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
-};
 
 export default ReservationSuccessModal;

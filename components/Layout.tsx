@@ -1,5 +1,4 @@
 // import PropTypes from 'prop-types';
-import React, { ReactElement } from 'react';
 import Head from 'next/head';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
@@ -37,7 +36,7 @@ const Global = createGlobalStyle`
     box-sizing: border-box;
   }
 `;
-const Layout = ({ children, title }: Props): ReactElement => (
+const Layout = ({ children, title }: Props) => (
     <>
         <Global />
         <Head>

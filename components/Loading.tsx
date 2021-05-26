@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Head from 'next/head';
-import { ReactElement } from 'react';
 import Layout from './Layout';
 
 const Global = createGlobalStyle`
@@ -10,7 +9,7 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Loading = (): ReactElement => (
+const Loading = () => (
     <>
         <Head>
             {/* Compiled and minified CSS */}

@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router';
 // import PropTypes from 'prop-types';
 import Link from 'next/link';
-import React, { Children, ReactElement } from 'react';
+import React, { Children } from 'react';
 
 type NavProps = {
     children: React.ReactNode | undefined;
@@ -10,7 +10,7 @@ type NavProps = {
     href: string;
 };
 
-const ActiveLink = ({ children, activeClassName, ...props }: NavProps): ReactElement => {
+const ActiveLink = ({ children, activeClassName, ...props }: NavProps) => {
     const { asPath } = useRouter();
     const child = Children.only(children);
     const childClassName = child?.props.className || '';

@@ -6,7 +6,7 @@ interface ErrorMessageProps {
     message: string;
 }
 
-const ErrorMessage = ({ message }:ErrorMessageProps) => {
+const ErrorMessage = ({ message }: ErrorMessageProps) => {
     const style = useMemo(
         () => ({
             fontSize: '14px',

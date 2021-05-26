@@ -31,7 +31,7 @@ const Global = createGlobalStyle`
 `;
 
 const ServiceDetail = (): ReactElement => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     // useEffect(() => {
     //     const userId = localStorage.getItem('userId');
@@ -41,7 +41,7 @@ const ServiceDetail = (): ReactElement => {
     //         });
     //         dispatch(loadMyInfo());
     //     }
-    // }, []);
+    // }, [dispatch]);
 
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
     const router = useRouter();

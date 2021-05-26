@@ -22,6 +22,9 @@ export const CancelButton = styled.a`
         box-shadow: 0.3rem 0.2rem 0.4rem #cecece;
         color: #aaa;
     }
+    &:focus {
+        outline: none;
+    }
 `;
 
 export const ActionButton = styled.button`
@@ -44,5 +47,8 @@ export const ActionButton = styled.button`
         transform: scale(1.01);
         margin-left: -1%;
         box-shadow: 0.3rem 0.2rem 0.4rem #b8b8b8;
+    }
+    &:focus {
+        outline: none;
     }
 `;

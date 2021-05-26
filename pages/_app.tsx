@@ -5,11 +5,11 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
+import type { AppProps } from 'next/app';
 import { loadMyInfo } from '../reducers/user';
 
 import wrapper from '../store/configureStore';
-
-import type { AppProps } from 'next/app'
+import { RootState } from '../reducers';
 
 const Global = createGlobalStyle`
     body{
@@ -25,7 +25,7 @@ const Global = createGlobalStyle`
 const WISE = ({ Component, pageProps }: AppProps) => {
     const dispatch = useDispatch();
 
-    const { me } = useSelector((state) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         if (!me) {
@@ -34,7 +34,7 @@ const WISE = ({ Component, pageProps }: AppProps) => {
                 dispatch(loadMyInfo());
             }
         }
-    }, [me]);
+    }, [me, dispatch]);
 
     return (
         <>

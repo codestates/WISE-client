@@ -1,36 +1,38 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import { useMemo } from 'react';
 import Link from 'next/link';
 
-const AcceptSuccessModal = ({ onClose, success, error }) => {
-    // const style = useMemo(() => ({ marginRight: '1rem' }), []);
-    const result = success ? '성공' : '실패';
-    const errorMsg = error;
-    return (
-        <StyledModalOverlay onClick={onClose}>
-            <StyledModal>
-                <StyledModalHeader>
-                    <div>신청 수락하기</div>
-                </StyledModalHeader>
-                <StyledModalBody>
-                    <div>{success ? `매칭에 ${result}했습니다` : errorMsg} </div>
-                    <Link href="/home">
-                        <Button>홈으로 돌아가기</Button>
-                    </Link>
-                </StyledModalBody>
-            </StyledModal>
-        </StyledModalOverlay>
-    );
+type AcceptProps = {
+    onClose: () => void;
+    success: boolean;
+    reject: boolean;
+    acceptError: string;
+    rejectError: string;
 };
+
+const AcceptSuccessModal = ({ onClose, success, reject, acceptError, rejectError }: AcceptProps) => (
+    <StyledModalOverlay onClick={onClose}>
+        <StyledModal>
+            <StyledModalHeader>
+                <div>신청 수락하기</div>
+            </StyledModalHeader>
+            <StyledModalBody>
+                {success ? <div>성공적으로 매칭되었습니다!</div> : <div>{acceptError}</div>}
+                {reject ? <div>서비스 요청을 거절했습니다</div> : <div>{rejectError}</div>}
+                <Link href="/home">
+                    <Button>홈으로 돌아가기</Button>
+                </Link>
+            </StyledModalBody>
+        </StyledModal>
+    </StyledModalOverlay>
+);
 
 const StyledModalOverlay = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    height: 100%;
+    height: 1100px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
@@ -40,7 +42,6 @@ const StyledModalOverlay = styled.div`
 
 const StyledModal = styled.div`
     background: white;
-    margin-top: -50%;
     width: 30rem;
     height: 16rem;
     border-radius: 0.5rem;
@@ -59,7 +60,6 @@ const StyledModalHeader = styled.div`
 `;
 
 const StyledModalBody = styled.div`
-    padding-top: 1rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -93,11 +93,5 @@ const Button = styled.a`
         background-color: #68d480;
     }
 `;
-
-AcceptSuccessModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    success: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
-};
 
 export default AcceptSuccessModal;

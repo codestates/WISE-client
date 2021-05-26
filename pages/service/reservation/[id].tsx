@@ -10,6 +10,7 @@ import Reservation from '../../../components/Reservation';
 import { GET_SERVICE_INFO_REQUEST } from '../../../reducers/service';
 import { loadMyInfo, LOG_IN_SUCCESS } from '../../../reducers/user';
 import wrapper from '../../../store/configureStore';
+import { RootState } from '../../../reducers';
 
 const Global = createGlobalStyle`
     footer {
@@ -28,13 +29,13 @@ const ReservationDetail = () => {
             });
             dispatch(loadMyInfo());
         }
-    }, []);
+    }, [dispatch]);
 
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
 
-    const { service } = useSelector((state) => state.service);
+    const { service } = useSelector((state: RootState) => state.service);
     console.log(service);
 
     const [hours, setHours] = useState(1);
@@ -70,10 +71,10 @@ const Wrapper = styled.div`
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     context.store.dispatch({
         type: GET_SERVICE_INFO_REQUEST,
-        serviceId: context.params.id,
+        serviceId: context.params?.id,
     });
     context.store.dispatch(END);
-    await context.store.sagaTask.toPromise();
+    await context.store.sagaTask?.toPromise();
 });
 
 export default ReservationDetail;

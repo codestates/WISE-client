@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootSaga from '../sagas';
 import rootReducer from '../reducers';
-import { UserState } from '../reducers/user';
+import { UserState } from '../interfaces/data/user';
 import { ServiceState } from '../interfaces/data/service';
 
 export interface CombinedState {

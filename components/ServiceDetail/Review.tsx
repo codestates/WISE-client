@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 // import PropTypes from 'prop-types';
-import { ReactElement } from 'react';
 import { Review } from '../../interfaces/data/service';
 
 type ReviewProps = {
     review: Review;
 };
 
-const ReviewComponent = ({ review }: ReviewProps): ReactElement => (
+const ReviewComponent = ({ review }: ReviewProps) => (
     <>
         <Wrapper id="review">
             <h2>후기 (26개)</h2>

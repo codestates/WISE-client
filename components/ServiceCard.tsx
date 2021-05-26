@@ -4,22 +4,20 @@ import styled from 'styled-components';
 import Link from 'next/link';
 // import { useSelector, useDispatch } from 'react-redux';
 
-const ServiceCard = ({ service }) => {
-    return (
-        <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
-            <Container>
-                <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
-                <div>
-                    <div style={{ fontSize: '1rem' }}>
-                        {service.assistant.name} <span>{service.location}</span>
-                    </div>
-                    <div>{service.greetings}</div>
-                    <div style={{ fontWeight: 'bold' }}>{service.wage}원 / 시간</div>
+const ServiceCard = ({ service }) => (
+    <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
+        <Container>
+            <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
+            <div>
+                <div style={{ fontSize: '1rem' }}>
+                    {service.assistant.name} <span>{service.location}</span>
                 </div>
-            </Container>
-        </Link>
-    );
-};
+                <div>{service.greetings}</div>
+                <div style={{ fontWeight: 'bold' }}>{service.wage}원 / 시간</div>
+            </div>
+        </Container>
+    </Link>
+);
 
 const ServiceImg = styled.img`
     // width: 280px;

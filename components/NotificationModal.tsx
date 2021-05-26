@@ -1,14 +1,9 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-// import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import { useMemo } from 'react';
 import Link from 'next/link';
-import { ReactElement } from 'react';
 
-const NotificationModal = (): ReactElement => (
-    // const style = useMemo(() => ({ marginRight: '1rem' }), []);
-
+const NotificationModal = () => (
     <StyledModalOverlay>
         <StyledModal>
             <StyledModalHeader>
@@ -149,9 +144,5 @@ const Button = styled.a`
         /* background-color: #fff; */
     }
 `;
-
-// NotificationModal.propTypes = {
-//     onClose: PropTypes.func.isRequired,
-// };
 
 export default NotificationModal;

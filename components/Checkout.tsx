@@ -1,13 +1,16 @@
+/* eslint-disable import/no-unresolved */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import queryString from 'query-string';
+import { RequestPayResponse } from 'iamport-typings';
 
 const Checkout = () => {
     // using redux
     // const { price } = useSelector((state) => state.user);
     const router = useRouter();
 
-    const IMP_CODE = process.env.NEXT_PUBLIC_IMPcode;
+    const IMP_CODE: string = process.env.NEXT_PUBLIC_IMPcode!;
     // test
     const PRICE = 100;
     const PG = 'nice';
@@ -20,7 +23,7 @@ const Checkout = () => {
     const handleClickPayment = () => {
         // 1. 가맹점 식별
         const { IMP } = window;
-        IMP.init(IMP_CODE);
+        IMP?.init(IMP_CODE);
 
         // 2. 결제 데이터 정의
         const data = {
@@ -36,11 +39,11 @@ const Checkout = () => {
 
         // 4. 결제 창 호출
         // eslint-disable-next-line no-use-before-define
-        IMP.request_pay(data, handleCheckoutRequest);
+        IMP?.request_pay(data, handleCheckoutRequest);
     };
 
     // 3. 콜백 함수 정의
-    const handleCheckoutRequest = (response) => {
+    const handleCheckoutRequest = (response: RequestPayResponse) => {
         const query = queryString.stringify(response);
         router.push(`/payment/result?${query}`);
     };

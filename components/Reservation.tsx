@@ -1,22 +1,33 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
 import { CREATE_RESERVATION_REQUEST } from '../reducers/service';
 import ReservationSuccessModal from './ReservationSuccessModal';
+import { LongService } from '../interfaces/data/service';
+import { RootState } from '../reducers';
 
-const Reservation = ({ service, id, hours, handleChangehours }) => {
+type Props = {
+    service: LongService;
+    id: string | string[];
+    hours: number;
+    handleChangehours: (value: number) => void;
+};
+
+const Reservation = ({ service, id, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state) => state.user);
-    const { reservationRequestDone, reservationRequestError, reservationRequest } = useSelector(
-        (state) => state.service,
+    const { accessToken } = useSelector((state: RootState) => state.user);
+    const { reservationRequestDone, reservationRequestError, reservationRequests } = useSelector(
+        (state: RootState) => state.service,
     );
 
-    const onChangehours = useCallback((e) => {
-        handleChangehours(Number(e.target.value));
-    }, []);
+    const onChangehours = useCallback(
+        (e) => {
+            handleChangehours(Number(e.target.value));
+        },
+        [handleChangehours],
+    );
 
     const [hospital, setHospital] = useState('');
     const onChanageDestination = useCallback((e) => {
@@ -50,11 +61,10 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
     }, []);
 
     useEffect(() => {
-        console.log('reservation request', reservationRequest);
+        console.log('reservation request', reservationRequestDone);
         if (reservationRequestDone || reservationRequestError) {
             setShowModal((state) => !state);
             console.log('modal open!');
-            // alert('예약성공!');
         }
     }, [reservationRequestDone, reservationRequestError]);
 
@@ -78,7 +88,7 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 },
             });
         },
-        [hospital, pickup, content, message, id, hours],
+        [hospital, pickup, content, message, id, hours, accessToken, dispatch, service.wage],
     );
 
     return (
@@ -124,7 +134,7 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 <h4>
                     소요 시간 <span>(최소 1시간 - 모든 이동시간 포함)</span>
                 </h4>
-                <RadioWrapper required onChange={onChangehours}>
+                <RadioWrapper onChange={onChangehours}>
                     <label className="container">
                         <input type="radio" name="service-hours" value="1" />
                         <span className="checkmark">1</span>
@@ -158,7 +168,6 @@ const Reservation = ({ service, id, hours, handleChangehours }) => {
                 <TextareaWrapper>
                     <textarea
                         name="message"
-                        type="text"
                         placeholder="ex) 거동이 불편하셔서 휠체어를 동반해야 합니다, 진료 내용은 보호자에게 전달이 필요해요 등"
                         required
                         onChange={onChanageMessage}
@@ -303,12 +312,5 @@ const Title = styled.div`
     align-items: center;
     margin-bottom: 3rem;
 `;
-
-Reservation.propTypes = {
-    service: PropTypes.object.isRequired,
-    id: PropTypes.string.isRequired,
-    hours: PropTypes.number.isRequired,
-    handleChangehours: PropTypes.func.isRequired,
-};
 
 export default Reservation;

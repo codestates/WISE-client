@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Refund = (): JSX.Element => (
+const Refund = () => (
     <>
         <Wrapper id="refund">
             <Title>환불 정책</Title>

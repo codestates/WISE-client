@@ -1,7 +1,12 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { LongService } from '../interfaces/data/service';
 
-const AssistantInfo = ({ service, hours }) => {
+type Props = {
+    service: LongService;
+    hours: number;
+};
+
+const AssistantInfo = ({ service, hours }: Props) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
 
     return (
@@ -70,10 +75,5 @@ const Text = styled.div`
     font-size: 1rem;
     font-weight: 500;
 `;
-
-AssistantInfo.propTypes = {
-    service: PropTypes.object.isRequired,
-    hours: PropTypes.number.isRequired,
-};
 
 export default AssistantInfo;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FAQ = (): JSX.Element => (
+const FAQ = () => (
     <>
         <Wrapper id="faq">
             <Title>자주 묻는 질문</Title>

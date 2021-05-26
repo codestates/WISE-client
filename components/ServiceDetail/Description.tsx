@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 // import PropTypes from 'prop-types';
-import { ReactElement } from 'react';
 import { LongService } from '../../interfaces/data/service';
 
 type ServiceProps = {
     service: LongService;
 };
 
-const Description = ({ service }: ServiceProps): ReactElement => (
+const Description = ({ service }: ServiceProps) => (
     <>
         <Wrapper id="description">
             <Title>김천사 어시스턴트는 이런 사람이에요</Title>

@@ -26,19 +26,17 @@ const Global = createGlobalStyle`
     }
 `;
 
-const LandingPage = () => {
-    return (
-        <Wrapper>
-            <Header />
-            <Global />
-            <Section1 />
-            <Section2 />
-            <Section3 />
-            <Section4 />
-            <Footer />
-        </Wrapper>
-    );
-};
+const LandingPage = () => (
+    <Wrapper>
+        <Header />
+        <Global />
+        <Section1 />
+        <Section2 />
+        <Section3 />
+        <Section4 />
+        <Footer />
+    </Wrapper>
+);
 
 const Wrapper = styled.div`
     height: 520vh;

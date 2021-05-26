@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
-import { ReactElement } from 'react';
 import ActiveLink from './ActiveLink';
 
 type IdProps = {
     id: string | string[];
 };
 
-const Navigation = ({ id }: IdProps): ReactElement => {
+const Navigation = ({ id }: IdProps) => {
     const DETAIL_URL = `/service/detail/${id}`;
     return (
         <>
@@ -51,9 +49,5 @@ const Wrapper = styled.div`
         color: #58d480;
     }
 `;
-
-// Navigation.propTypes = {
-//     id: PropTypes.string.isRequired,
-// };
 
 export default Navigation;

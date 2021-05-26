@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosResponse } from 'axios';
 import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
@@ -93,7 +94,7 @@ function loadFirstReviewsAPI(serviceId: string) {
 
 function* loadFirstReviews(action: { serviceId: string }) {
     try {
-        const result: AxiosResponse<{ data: {} }> = yield call(loadFirstReviewsAPI, action.serviceId);
+        const result: AxiosResponse<{ data: data.Review[] }> = yield call(loadFirstReviewsAPI, action.serviceId);
         yield put({
             type: LOAD_FIRST_REVIEWS_SUCCESS,
             payload: result.data,
@@ -113,7 +114,11 @@ function loadMoreReviewsAPI(serviceId: string, page: number) {
 
 function* loadMoreReviews(action: { serviceId: string; page: number }) {
     try {
-        const result: AxiosResponse<{ data: {} }> = yield call(loadMoreReviewsAPI, action.serviceId, action.page);
+        const result: AxiosResponse<{ data: data.Review[] }> = yield call(
+            loadMoreReviewsAPI,
+            action.serviceId,
+            action.page,
+        );
         yield put({
             type: LOAD_MORE_REVIEWS_SUCCESS,
             payload: result.data,
@@ -127,9 +132,10 @@ function* loadMoreReviews(action: { serviceId: string; page: number }) {
     }
 }
 
-function makeReservationAPI(accessToken: string, data: {}) {
+function makeReservationAPI(accessToken: string, data: data.Order) {
+    console.log('data:*******', data);
     return axios.post(
-        `api/v1/reservations`,
+        `api/v1/orders`,
         {
             ...data,
         },
@@ -141,7 +147,7 @@ function makeReservationAPI(accessToken: string, data: {}) {
     );
 }
 
-function* makeReservation(action: { accessToken: string; data: {} }) {
+function* makeReservation(action: { accessToken: string; data: data.Order }) {
     try {
         const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
             makeReservationAPI,
@@ -162,7 +168,7 @@ function* makeReservation(action: { accessToken: string; data: {} }) {
 }
 
 function getAllReservationsAPI(userId: string, accessToken: string) {
-    return axios.get(`api/v1/reservations/${userId}`, {
+    return axios.get(`api/v1/orders/${userId}`, {
         headers: {
             accessToken,
         },
@@ -189,19 +195,19 @@ function* getAllReservations(action: { userId: string; accessToken: string }) {
     }
 }
 
-function getReservationAPI(reservationId: string, accessToken: string) {
-    return axios.get(`api/v1/reservations/${reservationId}`, {
+function getReservationAPI(orderId: string, accessToken: string) {
+    return axios.get(`api/v1/orders/${orderId}`, {
         headers: {
             accessToken,
         },
     });
 }
 
-function* getReservation(action: { reservationId: string; accessToken: string }) {
+function* getReservation(action: { orderId: string; accessToken: string }) {
     try {
         const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
             getReservationAPI,
-            action.reservationId,
+            action.orderId,
             action.accessToken,
         );
         yield put({
@@ -217,9 +223,9 @@ function* getReservation(action: { reservationId: string; accessToken: string })
     }
 }
 
-function reservationAcceptAPI(reservationId: string, accessToken: string, state: string) {
+function reservationAcceptAPI(orderId: string, accessToken: string, state: string) {
     return axios.patch(
-        `api/v1/reservations/${reservationId}`,
+        `api/v1/orders/${orderId}`,
         {
             state,
         },
@@ -231,11 +237,11 @@ function reservationAcceptAPI(reservationId: string, accessToken: string, state:
     );
 }
 
-function* reservationAccept(action: { reservationId: string; accessToken: string; state: string }) {
+function* reservationAccept(action: { orderId: string; accessToken: string; state: string }) {
     try {
         const result: AxiosResponse<{ data: { order: data.Order } }> = yield call(
             reservationAcceptAPI,
-            action.reservationId,
+            action.orderId,
             action.accessToken,
             action.state,
         );
@@ -252,19 +258,19 @@ function* reservationAccept(action: { reservationId: string; accessToken: string
     }
 }
 
-function reservationRejectAPI(reservationId: string, accessToken: string) {
-    return axios.delete(`api/v1/reservations/${reservationId}`, {
+function reservationRejectAPI(orderId: string, accessToken: string) {
+    return axios.delete(`api/v1/orders/${orderId}`, {
         headers: {
             accessToken,
         },
     });
 }
 
-function* reservationReject(action: { reservationId: string; accessToken: string }) {
+function* reservationReject(action: { orderId: string; accessToken: string }) {
     try {
         const result: AxiosResponse<{ data: { message: string } }> = yield call(
             reservationRejectAPI,
-            action.reservationId,
+            action.orderId,
             action.accessToken,
         );
         yield put({
