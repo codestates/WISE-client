@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Head from 'next/head';
+import { ReactElement } from 'react';
 import Layout from './Layout';
 
 const Global = createGlobalStyle`

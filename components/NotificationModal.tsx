@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import styled from 'styled-components';
 import Link from 'next/link';
+import { ReactElement } from 'react';
 
 const NotificationModal = () => (
     <StyledModalOverlay>
