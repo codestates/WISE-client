@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 

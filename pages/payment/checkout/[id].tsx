@@ -8,7 +8,7 @@ import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import { RootState } from '../../../reducers/index';
 import wrapper from '../../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import ReservationInfo from '../../../components/ReservationInfo';
 import OrderItem from '../../../components/OrderItem';
 
@@ -22,8 +22,16 @@ const Payment = () => {
     // const router = useRouter();
     // const { id } = router.query;
     // console.log(id);
-
+    // const { accessToken } = useSelector((state: RootState) => state.user);
     const { service, getReservationInfo } = useSelector((state: RootState) => state.service);
+
+    // useEffect(() => {
+    //     context.store.dispatch({
+    //         type: GET_RESERVATION_INFO_REQUEST,
+    //         reservationId: context.params?.id,
+    //         accessToken,
+    //     });
+    // }, []);
 
     return (
         <Layout title="Checkout">
@@ -59,19 +67,12 @@ const Title = styled.div`
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    // const { accessToken } = useSelector((state: RootState) => state.user);
     const state = context.store.getState();
     console.log('getState*************', state);
     context.store.dispatch({
         type: GET_SERVICE_INFO_REQUEST,
         serviceId: context.params?.id,
     });
-
-    // context.store.dispatch({
-    //     type: GET_RESERVATION_INFO_REQUEST,
-    //     reservationId: context.params?.id,
-    //     accessToken,
-    // });
 
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();

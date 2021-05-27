@@ -32,7 +32,7 @@ const SearchBar = () => {
         router.push('/searchResult');
     }, [location, date, time, dispatch, router]);
 
-    const onChangeDate = useCallback((value: any, dateString: string) => {
+    const onChangeDate = useCallback((_, dateString: string) => {
         setDate(dateString);
     }, []);
 
