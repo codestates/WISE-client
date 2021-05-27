@@ -1,21 +1,21 @@
+/* eslint-disable no-underscore-dangle */
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
-import { CREATE_RESERVATION_REQUEST } from '../interfaces/act/services';
+import { CREATE_RESERVATION_REQUEST } from '../interfaces/act/service';
 import ReservationSuccessModal from './ReservationSuccessModal';
 import { LongService } from '../interfaces/data/service';
 import { RootState } from '../reducers';
 
 type Props = {
     service: LongService;
-    id: string | string[];
     hours: number;
     handleChangehours: (value: number) => void;
 };
 
-const Reservation = ({ service, id, hours, handleChangehours }: Props) => {
+const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
     const { accessToken } = useSelector((state: RootState) => state.user);
     const { reservationRequestDone, reservationRequestError } = useSelector((state: RootState) => state.service);
@@ -78,7 +78,7 @@ const Reservation = ({ service, id, hours, handleChangehours }: Props) => {
                     pickup,
                     content,
                     message,
-                    serviceId: id,
+                    serviceId: service._id,
                     state: 'apply',
                     date: new Date().toDateString(),
                     time: 'am',
@@ -86,13 +86,13 @@ const Reservation = ({ service, id, hours, handleChangehours }: Props) => {
                 },
             });
         },
-        [hospital, pickup, content, message, id, hours, accessToken, dispatch, service.wage],
+        [hospital, pickup, content, message, service._id, hours, accessToken, dispatch, service.wage],
     );
 
     return (
         <Wrapper>
             <Title>
-                <Link href={`../detail/${id}`}>
+                <Link href={`../detail/${service._id}`}>
                     <i className="material-icons">chevron_left</i>
                 </Link>
 

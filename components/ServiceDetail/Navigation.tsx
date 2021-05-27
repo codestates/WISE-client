@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import ActiveLink from './ActiveLink';
 
 type IdProps = {
-    id: string | string[];
+    _id: string | string[];
 };
 
-const Navigation = ({ id }: IdProps) => {
-    const DETAIL_URL = `/service/detail/${id}`;
+const Navigation = ({ _id }: IdProps) => {
+    const DETAIL_URL = `/service/detail/${_id}`;
     return (
         <>
             <Wrapper>

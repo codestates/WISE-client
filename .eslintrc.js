@@ -39,6 +39,7 @@ module.exports = {
         '@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
+        'no-underscore-dangle': 'off',
     },
     settings: {
         'import/resolver': {

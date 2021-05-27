@@ -7,7 +7,7 @@ import { END } from 'redux-saga';
 import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/Reservation';
-import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 
@@ -18,9 +18,9 @@ const Global = createGlobalStyle`
 `;
 
 const ReservationDetail = () => {
-    const router = useRouter();
-    const { id } = router.query;
-    console.log(id);
+    // const router = useRouter();
+    // const { id } = router.query;
+    // console.log(id);
 
     const { service } = useSelector((state: RootState) => state.service);
     console.log(service);
@@ -34,12 +34,14 @@ const ReservationDetail = () => {
     return (
         <>
             {service ? (
-                <Layout>
-                    <Global />
-                    <Wrapper>
-                        <Reservation service={service} id={id} handleChangehours={handleChangehours} hours={hours} />
-                        <AssistantInfo service={service} hours={hours} />
-                    </Wrapper>
+                <Layout title="Reservation">
+                    <>
+                        <Global />
+                        <Wrapper>
+                            <Reservation service={service} handleChangehours={handleChangehours} hours={hours} />
+                            <AssistantInfo service={service} hours={hours} />
+                        </Wrapper>
+                    </>
                 </Layout>
             ) : (
                 ''

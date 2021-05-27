@@ -14,8 +14,8 @@ const Checkout = ({ order }: Props) => {
     const router = useRouter();
 
     const IMP_CODE: string = process.env.NEXT_PUBLIC_IMPcode!;
-    const BUYER_TEL = '01087659228';
-    const BUYER_EMAIL = 'rkgml981105@gmail.com';
+    const BUYER_TEL = '010-8765-9228';
+    // const BUYER_EMAIL = 'rkgml981105@gmail.com';
 
     const handleClickPayment = () => {
         // 1. 가맹점 식별
@@ -30,8 +30,8 @@ const Checkout = ({ order }: Props) => {
             amount: order.totalPayment, // 결제금액
             name: `${order.assistant.name} 어시스턴트의 동행 서비스`, // 주문명
             buyer_name: order.customer.name, // 구매자 이름
-            buyer_tel: BUYER_TEL, // 구매자 전화번호
-            buyer_email: BUYER_EMAIL, // 구매자 이메일
+            // buyer_tel: order.customer.mobile, // 구매자 전화번호
+            buyer_tel: BUYER_TEL,
         };
 
         // 4. 결제 창 호출

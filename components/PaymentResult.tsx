@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
@@ -24,12 +25,14 @@ const PaymentResult = ({ result, order, accessToken }: Props) => {
     const dispatch = useDispatch();
     const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.service);
 
+    const orderName = `${order.assistant.name} 어시스턴트의 동행 서비스`;
+
     const [isSuccessed, setIsSuccessed] = useState(false);
 
     // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
     const handleRequestResult = useCallback(() => {
-        dispatch(checkoutRequest(order.id, imp_uid, accessToken));
-    }, [order.id, imp_uid, accessToken, dispatch]);
+        dispatch(checkoutRequest(order._id, imp_uid, orderName, accessToken));
+    }, [order._id, imp_uid, orderName, accessToken, dispatch]);
 
     useEffect(() => {
         handleRequestResult();
@@ -52,14 +55,24 @@ const PaymentResult = ({ result, order, accessToken }: Props) => {
             <p>{`결제에 ${resultType}하였습니다`}</p>
             <ul>
                 <li>
+                    <span>주문명</span>
+                    <span>{orderName}</span>
+                </li>
+                <li>
                     <span>주문번호</span>
                     <span>{merchant_uid}</span>
                 </li>
                 {isSuccessed ? (
-                    <li>
-                        <span>아임포트 번호</span>
-                        <span>{imp_uid}</span>
-                    </li>
+                    <>
+                        <li>
+                            <span>아임포트 번호</span>
+                            <span>{imp_uid}</span>
+                        </li>
+                        <li>
+                            <span>어시스턴트 연락처</span>
+                            <span>{order.assistant.mobile}</span>
+                        </li>
+                    </>
                 ) : (
                     <li>
                         <span>실패 메시지</span>

@@ -35,7 +35,7 @@ import {
     GET_ALL_RESERVATIONS_FAILURE,
     GET_ALL_RESERVATIONS_REQUEST,
     GET_ALL_RESERVATIONS_SUCCESS,
-} from '../interfaces/act/services';
+} from '../interfaces/act/service';
 import { LongService, Review, ShortService, Order, Query } from '../interfaces/data/service';
 
 export const loadPopularServicesRequest = () => ({
@@ -200,10 +200,16 @@ export const reservationRejectFailure = (error: string) => ({
     error,
 });
 
-export const checkoutRequest = (orderId: string, impUid: string | string[], accessToken: string) => ({
+export const checkoutRequest = (
+    orderId: string,
+    impUid: string | string[],
+    orderName: string,
+    accessToken: string,
+) => ({
     type: CHECK_OUT_REQUEST,
     orderId,
     impUid,
+    orderName,
     accessToken,
 });
 export const checkoutSuccess = (status: string, message: string) => ({

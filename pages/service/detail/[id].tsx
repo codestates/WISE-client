@@ -10,7 +10,7 @@ import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import ReviewComponent from '../../../components/ServiceDetail/Review';
-import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
@@ -31,9 +31,9 @@ const Global = createGlobalStyle`
 
 const ServiceDetail = () => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
-    const router = useRouter();
-    const { id } = router.query;
-    console.log(id);
+    // const router = useRouter();
+    // const { id } = router.query;
+    // console.log(id);
 
     const { service, review } = useSelector((state: RootState) => state.service);
 
@@ -60,33 +60,35 @@ const ServiceDetail = () => {
     return (
         <>
             {service ? (
-                <Layout>
-                    <Global />
-                    <Wrapper>
-                        <Container>
-                            <Detail>
-                                <CarouselCon ref={container}>
-                                    <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
-                                    <Slider ref={slider}>
-                                        {service.images.map((image: string) => (
-                                            <img
-                                                src={`${IMAGE_URL}${service.images[0]}`}
-                                                alt="cover images"
-                                                key={image}
-                                            />
-                                        ))}
-                                    </Slider>
-                                    <NextBtn onClick={slideNext}>&rang;</NextBtn>
-                                </CarouselCon>
-                                <Navigation id={id} />
-                                <Description service={service} />
-                                <ReviewComponent review={review} />
-                                <FAQ />
-                                <Refund />
-                            </Detail>
-                            <Summary service={service} id={id} />
-                        </Container>
-                    </Wrapper>
+                <Layout title="Service Detail">
+                    <>
+                        <Global />
+                        <Wrapper>
+                            <Container>
+                                <Detail>
+                                    <CarouselCon ref={container}>
+                                        <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
+                                        <Slider ref={slider}>
+                                            {service.images.map((image: string) => (
+                                                <img
+                                                    src={`${IMAGE_URL}${service.images[0]}`}
+                                                    alt="cover images"
+                                                    key={image}
+                                                />
+                                            ))}
+                                        </Slider>
+                                        <NextBtn onClick={slideNext}>&rang;</NextBtn>
+                                    </CarouselCon>
+                                    <Navigation _id={service._id} />
+                                    <Description service={service} />
+                                    <ReviewComponent review={review} />
+                                    <FAQ />
+                                    <Refund />
+                                </Detail>
+                                <Summary service={service} />
+                            </Container>
+                        </Wrapper>
+                    </>
                 </Layout>
             ) : (
                 <Loading />

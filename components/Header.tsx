@@ -95,7 +95,6 @@ const Wrapper = styled.header`
     display: flex;
     justify-content: center;
     /* glassmorphism effect */
-    background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(160, 160, 160, 0.37);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);

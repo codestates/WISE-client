@@ -39,7 +39,7 @@ import {
     CHECK_OUT_REQUEST,
     CHECK_OUT_SUCCESS,
     CHECK_OUT_FAILURE,
-} from '../interfaces/act/services';
+} from '../interfaces/act/service';
 import { ServiceState, ShortService } from '../interfaces/data/service';
 
 import Produce from '../utils/produce';

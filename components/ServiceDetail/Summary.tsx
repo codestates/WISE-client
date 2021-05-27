@@ -5,10 +5,9 @@ import { ShortService } from '../../interfaces/data/service';
 
 type ServiceProps = {
     service: ShortService;
-    id: string | string[];
 };
 
-const Summary = ({ service, id }: ServiceProps) => (
+const Summary = ({ service }: ServiceProps) => (
     <Wrapper>
         <Bio>
             <h1>김천사 어시스턴트</h1>
@@ -32,7 +31,7 @@ const Summary = ({ service, id }: ServiceProps) => (
                 <span>비용</span> <strong>{service.wage}</strong>원 / 시간
             </Text>
         </Info>
-        <Link href={`../reservation/${id}`}>
+        <Link href={`../reservation/${service._id}`}>
             <Button>신청하기</Button>
         </Link>
     </Wrapper>

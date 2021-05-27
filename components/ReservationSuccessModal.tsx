@@ -12,7 +12,7 @@ type Props = {
 
 const ReservationSuccessModal = ({ onClose, success, error }: Props) => {
     const result = success ? '성공' : '실패';
-    const errorMsg = error;
+    // const errorMsg = error ? '로그인을 먼저 해주세요!' : '';
     return (
         <StyledModalOverlay onClick={onClose}>
             <StyledModal>
@@ -20,10 +20,21 @@ const ReservationSuccessModal = ({ onClose, success, error }: Props) => {
                     <div>서비스 신청하기</div>
                 </StyledModalHeader>
                 <StyledModalBody>
-                    <div>{success ? `서비스 신청에 ${result}했습니다` : errorMsg} </div>
-                    <Link href="/home">
-                        <Button>홈으로 돌아가기</Button>
-                    </Link>
+                    {success ? (
+                        <>
+                            <div>{`서비스 신청에 ${result}했습니다`}</div>
+                            <Link href="/home">
+                                <Button>홈으로 돌아가기</Button>
+                            </Link>
+                        </>
+                    ) : (
+                        <>
+                            <div>{error}</div>
+                            <Link href="/user/signin">
+                                <Button>로그인하러 가기</Button>
+                            </Link>
+                        </>
+                    )}
                 </StyledModalBody>
             </StyledModal>
         </StyledModalOverlay>

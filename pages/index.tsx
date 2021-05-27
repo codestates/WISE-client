@@ -11,6 +11,7 @@ const Global = createGlobalStyle`
     position: sticky;
     top: 0;
     z-index: 10;
+    background: rgba(255,255,255,0.25);
   }
 
   .hidden,

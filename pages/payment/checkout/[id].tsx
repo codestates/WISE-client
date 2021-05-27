@@ -9,7 +9,7 @@ import AssistantInfo from '../../../components/AssistantInfo';
 import OrderItem from '../../../components/OrderItem';
 import { RootState } from '../../../reducers/index';
 import wrapper from '../../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_RESERVATION_INFO_REQUEST, GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import ReservationInfo from '../../../components/ReservationInfo';
 
 const Global = createGlobalStyle`
@@ -59,18 +59,19 @@ const Title = styled.div`
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    const { accessToken } = useSelector((state: RootState) => state.user);
-
+    // const { accessToken } = useSelector((state: RootState) => state.user);
+    const state = context.store.getState();
+    console.log('getState*************', state);
     context.store.dispatch({
         type: GET_SERVICE_INFO_REQUEST,
         serviceId: context.params?.id,
     });
 
-    context.store.dispatch({
-        type: GET_RESERVATION_INFO_REQUEST,
-        reservationId: context.params?.id,
-        accessToken,
-    });
+    // context.store.dispatch({
+    //     type: GET_RESERVATION_INFO_REQUEST,
+    //     reservationId: context.params?.id,
+    //     accessToken,
+    // });
 
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();

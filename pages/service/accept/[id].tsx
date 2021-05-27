@@ -6,7 +6,7 @@ import { END } from 'redux-saga';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Layout from '../../../components/Layout';
 import AcceptOrder from '../../../components/AcceptOrder';
-import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 
@@ -25,19 +25,21 @@ const ReservationAccept = () => {
     console.log(getReservationInfo);
 
     return (
-        <Layout>
-            <Global />
-            {getReservationInfo ? (
-                <Wrapper>
-                    <h2>서비스 요청을 자세히 확인해주세요!</h2>
-                    <AcceptOrder reservationInfo={getReservationInfo} orderId={id} />
-                </Wrapper>
-            ) : (
-                <BadRequest>
-                    <ExclamationCircleOutlined />
-                    <h2>존재하지 않는 요청입니다 :(</h2>
-                </BadRequest>
-            )}
+        <Layout title="Reservation accept">
+            <>
+                <Global />
+                {getReservationInfo ? (
+                    <Wrapper>
+                        <h2>서비스 요청을 자세히 확인해주세요!</h2>
+                        <AcceptOrder reservationInfo={getReservationInfo} orderId={id} />
+                    </Wrapper>
+                ) : (
+                    <BadRequest>
+                        <ExclamationCircleOutlined />
+                        <h2>존재하지 않는 요청입니다 :(</h2>
+                    </BadRequest>
+                )}
+            </>
         </Layout>
     );
 };
