@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-props-no-spreading */
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import React, { Children } from 'react';
 
 type NavProps = {
-    children: { props: { className: string } };
+    children: any;
     activeClassName: string;
     href: string;
 };

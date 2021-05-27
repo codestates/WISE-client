@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HYDRATE } from 'next-redux-wrapper';
 import { combineReducers, Reducer, AnyAction } from 'redux';
 import user from './user';

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
+import produce from 'immer';
 import {
     ActionRequest,
     CREATE_RESERVATION_FAILURE,
@@ -41,8 +41,6 @@ import {
     CHECK_OUT_FAILURE,
 } from '../interfaces/act/service';
 import { ServiceState, ShortService } from '../interfaces/data/service';
-
-import Produce from '../utils/produce';
 
 /* ------- initial state ------ */
 export const initialState: ServiceState = {
@@ -93,7 +91,7 @@ export const initialState: ServiceState = {
 
 /* ------- reducer ------ */
 const reducer = (state = initialState, action: ActionRequest) =>
-    Produce(state, (draft: ServiceState) => {
+    produce(state, (draft: ServiceState) => {
         switch (action.type) {
             case LOAD_POPULAR_SERVICE_REQUEST:
                 draft.popularServicesLoading = true;

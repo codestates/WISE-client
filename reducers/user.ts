@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import produce from 'immer';
 import {
     EMAIL_CHECK_FAILURE,
     EMAIL_CHECK_REQUEST,
@@ -21,7 +22,6 @@ import {
     UserAction,
 } from '../interfaces/act/user';
 import { UserState } from '../interfaces/data/user';
-import Produce from '../utils/produce';
 
 // initial state
 export const initialState = {
@@ -50,7 +50,7 @@ export const initialState = {
 };
 
 const reducer = (state = initialState, action: UserAction) =>
-    Produce(state, (draft: UserState) => {
+    produce(state, (draft: UserState) => {
         switch (action.type) {
             case LOAD_MY_INFO_REQUEST:
                 draft.loadMyInfoLoading = true;
