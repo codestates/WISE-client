@@ -1,7 +1,7 @@
 import { ShortService } from './service';
 
 export interface User {
-    id: string;
+    _id: string;
     email: string;
     name: string;
     signinMethod: string;

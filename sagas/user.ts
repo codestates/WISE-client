@@ -89,7 +89,7 @@ function* logIn(action: ReturnType<typeof loginRequest>) {
         const accessToken: string = yield call(loginToken, action.data);
         const result: AxiosResponse<{ user: User }> = yield call(logInAPI, accessToken, action.data);
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('userId', result.data.user.id);
+        localStorage.setItem('userId', result.data.user._id);
         yield put(loginSuccess());
     } catch (err) {
         let errorMessage = '';
@@ -177,7 +177,7 @@ function* signUp(action: ReturnType<typeof signupRequest>) {
         const accessToken: string = yield call(signupToken, action.data);
         const result: AxiosResponse<{ user: User }> = yield call(signUpAPI, accessToken, action.data);
         localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('userId', result.data.user.id);
+        localStorage.setItem('userId', result.data.user._id);
         localStorage.removeItem('emailForSignup');
         yield put(signupSuccess());
     } catch (err) {

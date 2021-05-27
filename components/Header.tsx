@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
@@ -12,7 +12,7 @@ import { logoutRequest } from '../actions/user';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin } = useSelector((state: RootState) => state.user);
+    const { me, islogin, logOutDone } = useSelector((state: RootState) => state.user);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -24,6 +24,12 @@ const Header = () => {
     //     setShowModal(false);
     //     console.log('clicked!');
     // }, []);
+
+    useEffect(() => {
+        if (logOutDone) {
+            Router.replace('/home');
+        }
+    }, [logOutDone]);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequest());

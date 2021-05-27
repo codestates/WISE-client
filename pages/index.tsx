@@ -8,6 +8,8 @@ import Footer from '../components/Footer';
 
 const Global = createGlobalStyle`
   header {
+    /* glassmorphism effect */
+    background: rgba(255, 255, 255, 0.25);
     position: sticky;
     top: 0;
     z-index: 10;

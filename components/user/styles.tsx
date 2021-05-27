@@ -2,7 +2,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
 export const AuthGlobal = createGlobalStyle`
-    .jaRsXl {
+    header {
         background: rgba(255, 255, 255, 1);
     }
     footer {
@@ -13,7 +13,7 @@ export const AuthGlobal = createGlobalStyle`
 
 export const CoverImg = styled.img.attrs({
     src: '/images/wise_bg.png',
-})<{ filter?: boolean }>`
+})<{ filter?: string }>`
     width: 100%;
     height: 100vh;
     object-fit: cover;

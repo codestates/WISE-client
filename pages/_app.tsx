@@ -18,7 +18,10 @@ const Global = createGlobalStyle`
     }
     a:hover {
      color: #222;
- }
+    }
+    button:focus{
+        outline:none;
+    }
 `;
 
 const WISE = ({ Component, pageProps }: AppProps) => {

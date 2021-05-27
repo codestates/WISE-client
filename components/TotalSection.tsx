@@ -19,12 +19,12 @@ const TotalSection = ({ title }: TotalSectionProps) => {
             <Row style={{ overflow: 'hidden' }}>
                 {title === '검색 결과'
                     ? searchServices.map((ele: ShortService) => (
-                          <Col key={ele.id} xs={24} sm={12} md={8} lg={6} span={24}>
+                          <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
                               <ServiceCard service={ele} />
                           </Col>
                       ))
                     : totalServices.map((ele: ShortService) => (
-                          <Col key={ele.id} xs={24} sm={12} md={8} lg={6} span={24}>
+                          <Col key={ele._id} xs={24} sm={12} md={8} lg={6} span={24}>
                               <ServiceCard service={ele} />
                           </Col>
                       ))}
