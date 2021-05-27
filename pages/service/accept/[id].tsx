@@ -6,7 +6,7 @@ import { END } from 'redux-saga';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Layout from '../../../components/Layout';
 import AcceptOrder from '../../../components/AcceptOrder';
-import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 

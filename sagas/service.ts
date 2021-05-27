@@ -17,7 +17,7 @@ import {
     LOAD_POPULAR_SERVICE_REQUEST,
     LOAD_SEARCH_SERVICE_REQUEST,
     LOAD_TOTAL_SERVICE_REQUEST,
-} from '../interfaces/act/services';
+} from '../interfaces/act/service';
 import {
     loadPopularServicesSuccess,
     loadPopularServicesFailure,

@@ -35,7 +35,7 @@ const PopularSection = () => {
             <Container>
                 <Slider ref={slider}>
                     {popularServices.map((ele: ShortService) => (
-                        <ServiceCard key={ele.id} service={ele} />
+                        <ServiceCard key={ele._id} service={ele} />
                     ))}
                 </Slider>
             </Container>

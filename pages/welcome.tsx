@@ -1,8 +1,6 @@
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Router from 'next/router';
-import { useEffect } from 'react';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
 import { AuthGlobal, CoverImg } from '../components/user/styles';
@@ -10,12 +8,6 @@ import { RootState } from '../reducers';
 
 const Welcome = () => {
     const { me, islogin } = useSelector((state: RootState) => state.user);
-
-    useEffect(() => {
-        if (!me) {
-            Router.replace('/user/signin');
-        }
-    }, [me]);
 
     return (
         <>

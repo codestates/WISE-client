@@ -10,7 +10,7 @@ import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import ReviewComponent from '../../../components/ServiceDetail/Review';
-import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';

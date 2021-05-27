@@ -12,7 +12,7 @@ const SignupAuth = () => {
         <Layout title="WISE | SIGNUP">
             <>
                 <AuthGlobal />
-                <CoverImg filter />
+                <CoverImg filter="true" />
                 <Modal>
                     <ModalTitle>회원가입</ModalTitle>
                     {emailCheckDone ? (

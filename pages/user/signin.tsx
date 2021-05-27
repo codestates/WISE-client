@@ -20,7 +20,11 @@ const Signin = () => {
 
     useEffect(() => {
         if (me) {
-            Router.replace('/welcome');
+            if (me.isAssistant) {
+                Router.replace('/home');
+            } else {
+                Router.replace('/welcome');
+            }
         }
     }, [me]);
 
@@ -28,7 +32,7 @@ const Signin = () => {
         <Layout title="WISE | SIGNIN">
             <>
                 <AuthGlobal />
-                <CoverImg filter />
+                <CoverImg filter="true" />
                 <Modal>
                     <ModalTitle>로그인</ModalTitle>
                     <SigninForm />

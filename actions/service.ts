@@ -35,7 +35,7 @@ import {
     GET_ALL_RESERVATIONS_FAILURE,
     GET_ALL_RESERVATIONS_REQUEST,
     GET_ALL_RESERVATIONS_SUCCESS,
-} from '../interfaces/act/services';
+} from '../interfaces/act/service';
 import { LongService, Review, ShortService, Order, Query } from '../interfaces/data/service';
 
 export const loadPopularServicesRequest = () => ({

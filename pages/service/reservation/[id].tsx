@@ -7,7 +7,7 @@ import { END } from 'redux-saga';
 import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/Reservation';
-import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 

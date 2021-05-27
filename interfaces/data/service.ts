@@ -1,8 +1,8 @@
 export interface ShortService {
-    id: string;
+    _id: string;
     images: string[];
     assistant: {
-        id: string;
+        _id: string;
         name: string;
     };
     wage: number;
@@ -12,7 +12,7 @@ export interface ShortService {
 }
 
 export interface LongService {
-    id: string;
+    _id: string;
     assistant: string;
     description: string;
     wage: number;
@@ -29,7 +29,7 @@ export interface LongService {
 }
 
 export interface Order {
-    id: string;
+    _id: string;
     customer: { id: string; name: string };
     assistant: { id: string; name: string };
     service: string;
@@ -45,7 +45,7 @@ export interface Order {
 }
 
 export interface Review {
-    id: string;
+    _id: string;
     content: string;
     writtenBy: string;
     service: string;

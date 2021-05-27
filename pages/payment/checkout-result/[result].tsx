@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import Layout from '../../../components/Layout';
 import PaymentResult from '../../../components/PaymentResult';
 import wrapper from '../../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/services';
+import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
 import { RootState } from '../../../reducers';
 
 const Global = createGlobalStyle`

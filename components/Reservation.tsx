@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './button-style';
-import { CREATE_RESERVATION_REQUEST } from '../interfaces/act/services';
+import { CREATE_RESERVATION_REQUEST } from '../interfaces/act/service';
 import ReservationSuccessModal from './ReservationSuccessModal';
 import { LongService } from '../interfaces/data/service';
 import { RootState } from '../reducers';

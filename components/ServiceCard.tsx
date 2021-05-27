@@ -9,7 +9,7 @@ type ServiceCard = {
 };
 
 const ServiceCard = ({ service }: ServiceCard) => (
-    <Link href="/service/detail/[id]" as={`/service/detail/${service.id}`}>
+    <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
         <Container>
             <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
             <div>

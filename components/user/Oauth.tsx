@@ -14,11 +14,11 @@ const Oauth = () => {
     }, [dispatch]);
     return (
         <Wrapper>
-            <SigninButton onClick={onGoogleClick}>
+            <SigninButton type="button" onClick={onGoogleClick}>
                 <GoogleOutlined />
                 oogle 계정으로 계속하기
             </SigninButton>
-            <SigninButton onClick={onFacebookClick}>
+            <SigninButton type="button" onClick={onFacebookClick}>
                 <FacebookOutlined />
                 acebook 계정으로 계속하기
             </SigninButton>
