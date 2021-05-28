@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ServiceCard from './ServiceCard';
-import { RootState } from '../reducers';
-import { ShortService } from '../interfaces/data/service';
+import { ShortService } from '../../interfaces/data/service';
+import { RootState } from '../../reducers';
 
 const PopularSection = () => {
     const { popularServices } = useSelector((state: RootState) => state.service);

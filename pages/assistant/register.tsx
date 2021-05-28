@@ -1,12 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 import styled, { createGlobalStyle } from 'styled-components';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import Layout from '../../components/Layout';
 import { loadMyInfoRequest } from '../../actions/user';
-import RegisterForm from '../../components/Assistant/RegisterForm/index';
+import RegisterForm from '../../components/Assistant/RegisterForm';
 import { RootState } from '../../reducers';
+import Layout from '../../layout/Layout';
 
 const Global = createGlobalStyle`
     footer {

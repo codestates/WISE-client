@@ -1,14 +1,16 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-import Layout from '../components/Layout';
-import SearchBar from '../components/SearchBar';
+
+import SearchBar from '../components/home/SearchBar';
 // import PopularSection from '../components/PopularSection';
-import TotalSection from '../components/TotalSection';
+
 import { loadPopularServicesRequest, loadTotalServicesRequest } from '../actions/service';
 import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
+import Layout from '../layout/Layout';
+import TotalSection from '../components/home/TotalSection';
 
 const Home = () => {
     const dispatch = useDispatch();

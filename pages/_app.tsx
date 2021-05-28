@@ -19,6 +19,8 @@ const Global = createGlobalStyle`
     a:hover {
      color: #222;
     }
+    textarea:focus,
+    input:focus,
     button:focus{
         outline:none;
     }

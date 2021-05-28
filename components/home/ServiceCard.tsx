@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import Link from 'next/link';
-import { ShortService } from '../interfaces/data/service';
+import { ShortService } from '../../interfaces/data/service';
 
 type ServiceCard = {
     service: ShortService;
@@ -30,11 +30,12 @@ const ServiceImg = styled.img`
 
 const Container = styled.div`
     // border: 1px solid black;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 15rem;
-    height: 16rem;
+    width: 17rem;
+    height: 18rem;
     margin-bottom: 2rem;
     span {
         color: #888;

@@ -17,8 +17,14 @@ import {
     REGISTER_SERVICE_REQUEST,
     REGISTER_SERVICE_SUCCESS,
     REGISTER_SERVICE_FAILURE,
+    LOAD_ORDERS_REQUEST,
+    LOAD_ORDERS_SUCCESS,
+    LOAD_ORDERS_FAILURE,
+    EDIT_PROFILE_REQUEST,
+    EDIT_PROFILE_FAILURE,
+    EDIT_PROFILE_SUCCESS,
 } from '../interfaces/act/user';
-import { ShortService } from '../interfaces/data/service';
+import { Order, ShortService } from '../interfaces/data/service';
 import { User } from '../interfaces/data/user';
 
 // 액션 크리에이터
@@ -116,5 +122,40 @@ export const registerServiceSuccess = (service: ShortService) => ({
 
 export const registerServiceFailure = (error: string) => ({
     type: REGISTER_SERVICE_FAILURE,
+    error,
+});
+
+export const loadOrdersRequest = (accessToken: string, userType: string, userId: string) => ({
+    type: LOAD_ORDERS_REQUEST,
+    accessToken,
+    userType,
+    userId,
+});
+
+export const loadOrdersSuccess = (orders: Order[], userType: string) => ({
+    type: LOAD_ORDERS_SUCCESS,
+    orders,
+    userType,
+});
+
+export const loadOrdersFailure = (error: string) => ({
+    type: LOAD_ORDERS_FAILURE,
+    error,
+});
+
+export const editProfileRequest = (userId: string, accessToken: string, data: FormData) => ({
+    type: EDIT_PROFILE_REQUEST,
+    userId,
+    accessToken,
+    data,
+});
+
+export const editProfileSuccess = (user: User) => ({
+    type: EDIT_PROFILE_SUCCESS,
+    user,
+});
+
+export const editProfileFailure = (error: string) => ({
+    type: EDIT_PROFILE_FAILURE,
     error,
 });

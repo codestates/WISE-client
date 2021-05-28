@@ -4,12 +4,12 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
-import Layout from '../../../components/Layout';
 import AssistantInfo from '../../../components/AssistantInfo';
-import Reservation from '../../../components/Reservation';
+import Reservation from '../../../components/reservation/Reservation';
 import { GET_SERVICE_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
+import Layout from '../../../layout/Layout';
 
 const Global = createGlobalStyle`
     footer {

@@ -1,4 +1,4 @@
-import { ShortService } from './service';
+import { Order, ShortService } from './service';
 
 export interface User {
     _id: string;
@@ -29,8 +29,20 @@ export type UserState = {
     registerServiceLoading: boolean; // 어시스턴트 등록
     registerServiceDone: boolean;
     registerServiceError: null | string;
+    loadOrdersLoading: boolean;
+    loadOrdersDone: boolean;
+    loadOrdersError: null | string;
+    editProfileLoading: boolean;
+    editProfileDone: boolean;
+    editProfileError: null | string;
     accessToken: null | string;
     me: null | User;
     registerService: null | ShortService;
     islogin: boolean;
+    applyOrdersC: null | Order[];
+    acceptOrdersC: null | Order[];
+    completeOrdersC: null | Order[];
+    applyOrdersA: null | Order[];
+    acceptOrdersA: null | Order[];
+    completeOrdersA: null | Order[];
 };

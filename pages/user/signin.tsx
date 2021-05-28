@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import Router from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Layout from '../../components/Layout';
-import SigninForm from '../../components/user/SigninForm';
-import { AuthGlobal, CoverImg, Modal, ModalTitle, ModalFooter } from '../../components/user/styles';
+import SigninForm from '../../components/auth/SigninForm';
+import { AuthGlobal, CoverImg, Modal, ModalTitle, ModalFooter } from '../../components/auth/styles';
 import { RootState } from '../../reducers';
 import { loadMyInfoRequest } from '../../actions/user';
+import Layout from '../../layout/Layout';
 
 const Signin = () => {
     const dispatch = useDispatch();

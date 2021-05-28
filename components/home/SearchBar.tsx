@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { loadSearchServicesRequest } from '../actions/service';
+import { loadSearchServicesRequest } from '../../actions/service';
 
 const SearchBar = () => {
     const router = useRouter();

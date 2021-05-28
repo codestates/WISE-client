@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import { RequestPayResponse } from 'iamport-typings';
-import { Order } from '../interfaces/data/service';
+import { Order } from '../../interfaces/data/service';
 
 type Props = {
     order: Order;

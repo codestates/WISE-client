@@ -3,8 +3,8 @@ import Section1 from '../components/LandingPage/Section1';
 import Section2 from '../components/LandingPage/Section2';
 import Section3 from '../components/LandingPage/Section3';
 import Section4 from '../components/LandingPage/Section4';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Footer from '../layout/Footer';
+import Header from '../layout/Header';
 
 const Global = createGlobalStyle`
   header {

@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import Head from 'next/head';
-import Layout from './Layout';
+import React from 'react';
+import Layout from '../layout/Layout';
 
 const Global = createGlobalStyle`
     footer {

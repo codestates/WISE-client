@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import useInput from '../../../hooks/useInput';
+import useInput from '../../hooks/useInput';
 import {
     ProfileImagesWrapper,
     Image,
@@ -14,9 +14,9 @@ import {
     InputWrapper,
     SubmitBtn,
     RegisterFormWrapper,
-} from './styles';
-import { RootState } from '../../../reducers';
-import { registerServiceRequest } from '../../../actions/user';
+} from '../style';
+import { RootState } from '../../reducers';
+import { registerServiceRequest } from '../../actions/user';
 
 type availableDay = {
     label: string;
@@ -83,6 +83,9 @@ const RegisterForm = () => {
     // 서비스 소개
     const [description, onChangeDescription] = useInput('');
 
+    // 계좌 번호
+    const [bankAccout, onChangeBankAccount] = useInput('');
+
     // 기관 인증
     const [isAuthorized, setIsAuthorized] = useState('');
     const onChangeIsAuthorized = useCallback((e: RadioChangeEvent) => {
@@ -138,7 +141,7 @@ const RegisterForm = () => {
     }, []);
 
     const onSubmit = useCallback(
-        async (e: FormEvent<HTMLFormElement>) => {
+        (e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
 
             // string or blob 만 가능
@@ -147,6 +150,7 @@ const RegisterForm = () => {
             data.append('location', location);
             data.append('greetings', greetings);
             data.append('description', description);
+            data.append('bankAccout', bankAccout);
             data.append('wage', wage);
             data.append('isAuthorized', isAuthorized);
             data.append('isTrained', isTrained);
@@ -165,6 +169,7 @@ const RegisterForm = () => {
             greetings,
             wage,
             description,
+            bankAccout,
             isAuthorized,
             orgAuth,
             isTrained,
@@ -217,6 +222,10 @@ const RegisterForm = () => {
             <InputWrapper>
                 <span>✅서비스 소개</span>
                 <textarea onChange={onChangeDescription} placeholder="서비스설명" required />
+            </InputWrapper>
+            <InputWrapper>
+                <span>✅계좌 번호</span>
+                <input onChange={onChangeBankAccount} placeholder="계좌번호" required />
             </InputWrapper>
             <hr />
             <InputWrapper>

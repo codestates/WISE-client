@@ -8,8 +8,10 @@ import { auth, googleAuthProvider, facebookAuthProvider } from '../firebase';
 
 import { User } from '../interfaces/data/user';
 import {
+    EDIT_PROFILE_REQUEST,
     EMAIL_CHECK_REQUEST,
     LOAD_MY_INFO_REQUEST,
+    LOAD_ORDERS_REQUEST,
     LOG_IN_REQUEST,
     LOG_OUT_REQUEST,
     REGISTER_SERVICE_REQUEST,
@@ -32,8 +34,14 @@ import {
     emailCheckRequest,
     registerServiceRequest,
     signupRequest,
+    loadOrdersSuccess,
+    loadOrdersFailure,
+    loadOrdersRequest,
+    editProfileRequest,
+    editProfileSuccess,
+    editProfileFailure,
 } from '../actions/user';
-import { ShortService } from '../interfaces/data/service';
+import { Order, ShortService } from '../interfaces/data/service';
 
 axios.defaults.withCredentials = true;
 
@@ -212,6 +220,56 @@ function* registerService(action: ReturnType<typeof registerServiceRequest>) {
     }
 }
 
+function loadOrdersAPI(accessToken: string, userType: string, userId: string) {
+    console.log('accessToken: ', accessToken);
+    return axios.get(`/api/v1/orders?userId=${userId}&type=${userType}`, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+
+function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
+    try {
+        const result: AxiosResponse<{ orders: Order[] }> = yield call(
+            loadOrdersAPI,
+            action.accessToken,
+            action.userType,
+            action.userId,
+        );
+        console.log(result);
+        yield put(loadOrdersSuccess(result.data.orders, action.userType));
+    } catch (err) {
+        console.log(err.message);
+        yield put(loadOrdersFailure(err.message));
+    }
+}
+
+function editProfileAPI(userId: string, accessToken: string, data: FormData) {
+    console.log('accessToken: ', accessToken);
+    return axios.patch(`/api/v1/users/${userId}`, data, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+
+function* editProfile(action: ReturnType<typeof editProfileRequest>) {
+    try {
+        const result: AxiosResponse<{ user: User }> = yield call(
+            editProfileAPI,
+            action.userId,
+            action.accessToken,
+            action.data,
+        );
+        console.log('result :', result.data);
+        yield put(editProfileSuccess(result.data.user));
+    } catch (err) {
+        console.log(err.message);
+        yield put(editProfileFailure(err.message));
+    }
+}
+
 function* watchLoadMyInfo() {
     yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
@@ -236,6 +294,14 @@ function* watchRegisterService() {
     yield takeLatest(REGISTER_SERVICE_REQUEST, registerService);
 }
 
+function* watchLoadOrders() {
+    yield takeLatest(LOAD_ORDERS_REQUEST, loadOrders);
+}
+
+function* watchEditProfile() {
+    yield takeLatest(EDIT_PROFILE_REQUEST, editProfile);
+}
+
 export default function* userSaga() {
     yield all([
         fork(watchLoadMyInfo),
@@ -244,5 +310,7 @@ export default function* userSaga() {
         fork(watchLogOut),
         fork(watchSignUp),
         fork(watchRegisterService),
+        fork(watchLoadOrders),
+        fork(watchEditProfile),
     ]);
 }

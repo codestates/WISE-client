@@ -55,6 +55,7 @@ const Layout = ({ children, title }: Props) => (
 const MainComponent = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100vw;
     flex-grow: 1;
 `;

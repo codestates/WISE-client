@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
-import { ActionButton } from '../button-style';
+import { ActionButton } from '../style';
 import { ShortService } from '../../interfaces/data/service';
 
 type ServiceProps = {

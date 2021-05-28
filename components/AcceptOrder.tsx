@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CancelButton, ActionButton } from './button-style';
+import { CancelButton, ActionButton } from './style';
 import { RESERVATION_ACCEPT_REQUEST, RESERVATION_REJECT_REQUEST } from '../interfaces/act/service';
 import AcceptSuccessModal from './AcceptSuccessModal';
 import { Order } from '../interfaces/data/service';
 import { RootState } from '../reducers';
-import ReservationInfo from './ReservationInfo';
+import ReservationInfo from './reservation/ReservationInfo';
 
 type Props = {
     reservationInfo: Order;

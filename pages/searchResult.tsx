@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { loadSearchServicesRequest } from '../actions/service';
-import Layout from '../components/Layout';
-import SearchBar from '../components/SearchBar';
-import TotalSection from '../components/TotalSection';
+
+import SearchBar from '../components/home/SearchBar';
+import TotalSection from '../components/home/TotalSection';
+import Layout from '../layout/Layout';
+
 import { RootState } from '../reducers';
 
 const SearchResult = () => {

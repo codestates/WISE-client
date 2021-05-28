@@ -2,13 +2,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { loadOrdersRequest } from '../../actions/user';
-import OrderTable from '../../components/Assistant/OrderTable';
+import AssistantList from '../../components/Assistant/AssistantList';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
+import ProfileModify from '../../components/ProfileModify';
 import { Order } from '../../interfaces/data/service';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
@@ -44,9 +44,9 @@ const dummyapplyOrders: Order[] = [
     },
 ];
 
-const Center = () => {
+const Mypage = () => {
     const dispatch = useDispatch();
-    const { accessToken, me, applyOrdersA, acceptOrdersA, completeOrdersA } = useSelector(
+    const { accessToken, me, applyOrdersC, acceptOrdersC, completeOrdersC } = useSelector(
         (state: RootState) => state.user,
     );
     const [tap, setTap] = useState(1);
@@ -57,7 +57,7 @@ const Center = () => {
 
     useEffect(() => {
         if (me) {
-            dispatch(loadOrdersRequest(accessToken, 'assistant', me._id));
+            dispatch(loadOrdersRequest(accessToken, 'customer', me._id));
         }
     }, [dispatch, me]);
 
@@ -65,7 +65,7 @@ const Center = () => {
         <Layout title="WISE | MYPAGE">
             <Wrapper>
                 <NavTap>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>어시스턴트 센터</div>
+                    <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
                     <Nav>
                         <div onClick={() => onClickTap(1)}>수락 대기</div>
                         <div onClick={() => onClickTap(2)}>결제 대기</div>
@@ -76,17 +76,17 @@ const Center = () => {
                         <div className="userName">{me?.name}</div>
                         <div className="userEmail">{me?.email}</div>
                         <div className="profile" onClick={() => onClickTap(5)}>
-                            어시스턴트 수정&nbsp;&nbsp;
+                            프로필 업데이트&nbsp;&nbsp;
                             <SettingOutlined />
                         </div>
                     </UserInfo>
                 </NavTap>
                 <Tap>
-                    {tap === 1 && <OrderTable title="수락 대기 중인 유저 목록" orders={applyOrdersA} />}
-                    {tap === 2 && <OrderTable title="결제 대기 중인 유저 목록" orders={acceptOrdersA} />}
-                    {tap === 3 && <OrderTable title="매칭 완료된 유저 목록" orders={completeOrdersA} />}
-                    {tap === 4 && <PaymentDetails orders={completeOrdersA} />}
-                    {/* {tap === 5 && <AssistantModify />} */}
+                    {tap === 1 && <AssistantList title="수락 대기 중인" orders={applyOrdersC} />}
+                    {tap === 2 && <AssistantList title="결제 대기 중인" orders={acceptOrdersC} />}
+                    {tap === 3 && <AssistantList title="매칭 완료된" orders={completeOrdersC} />}
+                    {tap === 4 && <PaymentDetails orders={completeOrdersC} />}
+                    {tap === 5 && <ProfileModify />}
                 </Tap>
             </Wrapper>
         </Layout>
@@ -149,4 +149,4 @@ const Nav = styled.div`
     }
 `;
 
-export default Center;
+export default Mypage;

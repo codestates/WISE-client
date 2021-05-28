@@ -32,16 +32,17 @@ export interface Order {
     _id: string;
     customer: { _id: string; name: string; mobile: string };
     assistant: { _id: string; name: string; mobile?: string };
-    service: string;
+    service: { _id: string; images: string[]; location: string };
     pickup: string;
     content: string;
     hospital: string;
     message: string;
-    date: Date;
+    date: string;
     time: string;
     hours: number;
     totalPayment: number;
     state: string;
+    isReviewed: boolean;
 }
 
 export interface Review {

@@ -1,12 +1,18 @@
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
 import {
+    EDIT_PROFILE_FAILURE,
+    EDIT_PROFILE_REQUEST,
+    EDIT_PROFILE_SUCCESS,
     EMAIL_CHECK_FAILURE,
     EMAIL_CHECK_REQUEST,
     EMAIL_CHECK_SUCCESS,
     LOAD_MY_INFO_FAILURE,
     LOAD_MY_INFO_REQUEST,
     LOAD_MY_INFO_SUCCESS,
+    LOAD_ORDERS_FAILURE,
+    LOAD_ORDERS_REQUEST,
+    LOAD_ORDERS_SUCCESS,
     LOG_IN_FAILURE,
     LOG_IN_REQUEST,
     LOG_IN_SUCCESS,
@@ -43,10 +49,22 @@ export const initialState = {
     registerServiceLoading: false, // 어시스턴트 등록
     registerServiceDone: false,
     registerServiceError: null,
+    loadOrdersLoading: false, // 유저 주문내역
+    loadOrdersDone: false,
+    loadOrdersError: null,
+    editProfileLoading: false, // 유저 프로필 수정
+    editProfileDone: false,
+    editProfileError: null,
     accessToken: null,
     me: null,
     registerService: null,
     islogin: false,
+    applyOrdersC: null,
+    acceptOrdersC: null,
+    completeOrdersC: null,
+    applyOrdersA: null,
+    acceptOrdersA: null,
+    completeOrdersA: null,
 };
 
 const reducer = (state = initialState, action: UserAction) =>
@@ -137,6 +155,43 @@ const reducer = (state = initialState, action: UserAction) =>
             case REGISTER_SERVICE_FAILURE:
                 draft.registerServiceLoading = false;
                 draft.registerServiceError = action.error;
+                break;
+            case LOAD_ORDERS_REQUEST:
+                draft.loadOrdersLoading = true;
+                draft.loadOrdersDone = false;
+                draft.loadOrdersError = null;
+                break;
+            case LOAD_ORDERS_SUCCESS: {
+                draft.loadOrdersLoading = false;
+                draft.loadOrdersDone = true;
+                if (action.userType === 'customer') {
+                    draft.applyOrdersC = action.orders.filter((v) => v.state === 'apply');
+                    draft.acceptOrdersC = action.orders.filter((v) => v.state === 'accept');
+                    draft.completeOrdersC = action.orders.filter((v) => v.state === 'complete');
+                } else {
+                    draft.applyOrdersA = action.orders.filter((v) => v.state === 'apply');
+                    draft.acceptOrdersA = action.orders.filter((v) => v.state === 'accept');
+                    draft.completeOrdersA = action.orders.filter((v) => v.state === 'complete');
+                }
+                break;
+            }
+            case LOAD_ORDERS_FAILURE:
+                draft.loadOrdersLoading = false;
+                draft.loadOrdersError = action.error;
+                break;
+            case EDIT_PROFILE_REQUEST:
+                draft.editProfileLoading = true;
+                draft.editProfileDone = false;
+                draft.editProfileError = null;
+                break;
+            case EDIT_PROFILE_SUCCESS:
+                draft.editProfileLoading = false;
+                draft.editProfileDone = true;
+                draft.me = action.user;
+                break;
+            case EDIT_PROFILE_FAILURE:
+                draft.editProfileLoading = false;
+                draft.editProfileError = action.error;
                 break;
             default:
                 break;

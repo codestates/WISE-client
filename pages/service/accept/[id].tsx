@@ -4,11 +4,12 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import Layout from '../../../components/Layout';
+import React from 'react';
 import AcceptOrder from '../../../components/AcceptOrder';
 import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
+import Layout from '../../../layout/Layout';
 
 const Global = createGlobalStyle`
     footer {

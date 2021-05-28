@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Router from 'next/router';
-import SignupForm from '../../components/user/SignupForm';
-import Layout from '../../components/Layout';
-import { AuthGlobal, CoverImg, Modal, ModalTitle } from '../../components/user/styles';
+import SignupForm from '../../components/auth/SignupForm';
+import Layout from '../../layout/Layout';
+import { AuthGlobal, CoverImg, Modal, ModalTitle } from '../../components/auth/styles';
 import { RootState } from '../../reducers';
 import { loadMyInfoRequest } from '../../actions/user';
 

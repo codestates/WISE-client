@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import Link from 'next/link';
-import { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
-import NotificationModal from './NotificationModal';
 import { RootState } from '../reducers';
 import { logoutRequest } from '../actions/user';
+import NotificationModal from '../components/NotificationModal';
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -24,7 +24,6 @@ const Header = () => {
     //     setShowModal(false);
     //     console.log('clicked!');
     // }, []);
-
     useEffect(() => {
         if (logOutDone) {
             Router.replace('/home');
@@ -51,7 +50,7 @@ const Header = () => {
                             {islogin ? (
                                 <>
                                     {me?.isAssistant ? (
-                                        <Link href="/assistant/Center">
+                                        <Link href="/assistant/center">
                                             <AssistantBtn>어시스턴트 센터</AssistantBtn>
                                         </Link>
                                     ) : (
@@ -77,7 +76,16 @@ const Header = () => {
                             )}
                         </div>
                         {showModal && <NotificationModal />}
-                        <UserOutlined style={{ fontSize: '1.5rem', lineHeight: '2rem' }} />
+                        <Link href="/user/mypage">
+                            <a>
+                                {me?.image ? (
+                                    <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />
+                                ) : (
+                                    <Avatar src="/images/avatar_default.png" alt="avatar" />
+                                )}
+                                {me?.name}
+                            </a>
+                        </Link>
                         {me ? (
                             <LoginBtn onClick={Logout}>로그아웃</LoginBtn>
                         ) : (
@@ -89,6 +97,13 @@ const Header = () => {
         </>
     );
 };
+const Avatar = styled.img`
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #d2d2d2;
+`;
 
 const AssistantBtn = styled.div`
     cursor: pointer;

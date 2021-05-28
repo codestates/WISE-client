@@ -18,6 +18,12 @@ import {
     registerServiceRequest,
     registerServiceSuccess,
     registerServiceFailure,
+    loadOrdersRequest,
+    loadOrdersFailure,
+    loadOrdersSuccess,
+    editProfileRequest,
+    editProfileSuccess,
+    editProfileFailure,
 } from '../../actions/user';
 
 // 액션 상수
@@ -45,6 +51,14 @@ export const REGISTER_SERVICE_REQUEST = 'REGISTER_SERVICE_REQUEST' as const;
 export const REGISTER_SERVICE_SUCCESS = 'REGISTER_SERVICE_SUCCESS' as const;
 export const REGISTER_SERVICE_FAILURE = 'REGISTER_SERVICE_FAILURE' as const;
 
+export const LOAD_ORDERS_REQUEST = 'LOAD_ORDERS_REQUEST' as const;
+export const LOAD_ORDERS_SUCCESS = 'LOAD_ORDERS_SUCCESS' as const;
+export const LOAD_ORDERS_FAILURE = 'LOAD_ORDERS_FAILURE' as const;
+
+export const EDIT_PROFILE_REQUEST = 'EDIT_PROFILE_REQUEST' as const;
+export const EDIT_PROFILE_SUCCESS = 'EDIT_PROFILE_SUCCESS' as const;
+export const EDIT_PROFILE_FAILURE = 'EDIT_PROFILE_FAILURE' as const;
+
 export type UserAction =
     | ReturnType<typeof loadMyInfoRequest>
     | ReturnType<typeof loadMyInfoSuccess>
@@ -64,4 +78,10 @@ export type UserAction =
     | ReturnType<typeof signupFailure>
     | ReturnType<typeof registerServiceRequest>
     | ReturnType<typeof registerServiceSuccess>
-    | ReturnType<typeof registerServiceFailure>;
+    | ReturnType<typeof registerServiceFailure>
+    | ReturnType<typeof loadOrdersRequest>
+    | ReturnType<typeof loadOrdersSuccess>
+    | ReturnType<typeof loadOrdersFailure>
+    | ReturnType<typeof editProfileRequest>
+    | ReturnType<typeof editProfileSuccess>
+    | ReturnType<typeof editProfileFailure>;
