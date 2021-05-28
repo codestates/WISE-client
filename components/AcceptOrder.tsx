@@ -5,16 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './style';
 import { RESERVATION_ACCEPT_REQUEST, RESERVATION_REJECT_REQUEST } from '../interfaces/act/service';
 import AcceptSuccessModal from './AcceptSuccessModal';
-import { Order } from '../interfaces/data/service';
 import { RootState } from '../reducers';
-import ReservationInfo from './reservation/ReservationInfo';
 
 type Props = {
-    reservationInfo: Order;
     orderId: string | string[];
 };
 
-const AcceptOrder = ({ reservationInfo, orderId }: Props) => {
+const AcceptOrder = ({ orderId }: Props) => {
     const { accessToken } = useSelector((state: RootState) => state.user);
     const { reservationAcceptedDone, reservationRejectedDone, reservationAcceptedError, reservationRejectedError } =
         useSelector((state: RootState) => state.service);
@@ -77,7 +74,7 @@ const AcceptOrder = ({ reservationInfo, orderId }: Props) => {
                     </a>
                 </Link>
             </Title>
-            <ReservationInfo reservationInfo={reservationInfo} />
+            <h2>서비스 요청을 자세히 확인해주세요!</h2>
             <ActionButton onClick={handleClickAccept}>수락하기</ActionButton>
             <CancelButton onClick={handleClickReject}>거절하기</CancelButton>
 
@@ -96,7 +93,7 @@ const AcceptOrder = ({ reservationInfo, orderId }: Props) => {
 
 const Wrapper = styled.div`
     padding: 2rem 3rem 3rem;
-    align-self: center;
+    margin-top: 15%;
     div {
         color: #333;
         font-weight: 500;

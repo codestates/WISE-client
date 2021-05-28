@@ -14,8 +14,6 @@ const Checkout = ({ order }: Props) => {
     const router = useRouter();
 
     const IMP_CODE: string = process.env.NEXT_PUBLIC_IMPcode!;
-    const BUYER_TEL = '010-8765-9228';
-    // const BUYER_EMAIL = 'rkgml981105@gmail.com';
 
     const handleClickPayment = () => {
         // 1. 가맹점 식별
@@ -26,12 +24,11 @@ const Checkout = ({ order }: Props) => {
         const data = {
             pg: 'nice', // PG사
             pay_method: 'card', // 결제수단
-            merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+            merchant_uid: order._id, // 주문번호
             amount: order.totalPayment, // 결제금액
             name: `${order.assistant.name} 어시스턴트의 동행 서비스`, // 주문명
             buyer_name: order.customer.name, // 구매자 이름
-            // buyer_tel: order.customer.mobile, // 구매자 전화번호
-            buyer_tel: BUYER_TEL,
+            buyer_tel: order.customer.mobile, // 구매자 전화번호
         };
 
         // 4. 결제 창 호출
@@ -41,8 +38,8 @@ const Checkout = ({ order }: Props) => {
 
     // 3. 콜백 함수 정의
     const handleCheckoutRequest = (response: RequestPayResponse) => {
-        const query = queryString.stringify(response);
-        router.push(`/payment/result?${query}`);
+        const query = `${queryString.stringify(response)}&orderId=${order._id}`;
+        router.push(`/payment/checkout-result/result?${query}`);
     };
 
     return <ActionButton onClick={handleClickPayment}>결제하기</ActionButton>;

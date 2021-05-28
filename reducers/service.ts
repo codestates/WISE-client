@@ -193,6 +193,7 @@ const reducer = (state = initialState, action: ActionRequest) =>
                 draft.reservationRequestDone = true;
                 break;
             case CREATE_RESERVATION_FAILURE:
+                console.log(action.error);
                 draft.reservationRequestError = action.error;
                 break;
             case GET_ALL_RESERVATIONS_REQUEST:

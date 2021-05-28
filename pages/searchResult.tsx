@@ -16,7 +16,7 @@ const SearchResult = () => {
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
-
+    console.log(searchQuery);
     useEffect(() => {
         function onScroll() {
             if (
@@ -39,7 +39,7 @@ const SearchResult = () => {
         <Layout title="WISE | Search">
             <Wrapper>
                 <SearchBar />
-                <TotalSection title="검색 결과" />
+                <TotalSection title="검색 결과" searchQuery={searchQuery} />
             </Wrapper>
         </Layout>
     );

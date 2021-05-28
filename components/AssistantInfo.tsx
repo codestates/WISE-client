@@ -61,7 +61,7 @@ const Wrapper = styled.div`
         margin-right: 1rem;
     }
     h1 {
-        color: #4faa63;
+        color: #51be69;
         font-weight: 700;
     }
     h2 {

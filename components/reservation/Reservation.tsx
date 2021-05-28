@@ -59,7 +59,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log('reservation request', reservationRequestDone);
+        console.log('reservation error', reservationRequestError);
         if (reservationRequestDone || reservationRequestError) {
             setShowModal((state) => !state);
             console.log('modal open!');

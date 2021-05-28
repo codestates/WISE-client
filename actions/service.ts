@@ -157,7 +157,7 @@ export const getAllReservationsFailure = (error: string) => ({
     error,
 });
 
-export const getReservationInfoRequest = (orderId: string, accessToken: string) => ({
+export const getReservationInfoRequest = (orderId: string | string[], accessToken: string) => ({
     type: GET_RESERVATION_INFO_REQUEST,
     orderId,
     accessToken,
@@ -200,16 +200,10 @@ export const reservationRejectFailure = (error: string) => ({
     error,
 });
 
-export const checkoutRequest = (
-    orderId: string,
-    impUid: string | string[],
-    orderName: string,
-    accessToken: string,
-) => ({
+export const checkoutRequest = (orderId: string | string[], impUid: string | string[], accessToken: string) => ({
     type: CHECK_OUT_REQUEST,
     orderId,
     impUid,
-    orderName,
     accessToken,
 });
 export const checkoutSuccess = (status: string, message: string) => ({

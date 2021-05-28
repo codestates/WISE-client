@@ -1,15 +1,17 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
-import { END } from 'redux-saga';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import React from 'react';
+import Link from 'next/link';
+import React, { useEffect } from 'react';
 import AcceptOrder from '../../../components/AcceptOrder';
-import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
-import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
+import { getReservationInfoRequest } from '../../../actions/service';
+import Loading from '../../../components/Loading';
+import { ActionButton, WarningBox } from '../../../components/style';
+import ReservationInfo from '../../../components/reservation/ReservationInfo';
 
 const Global = createGlobalStyle`
     footer {
@@ -18,38 +20,65 @@ const Global = createGlobalStyle`
 `;
 
 const ReservationAccept = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
+
     const { id } = router.query;
     console.log(id);
 
-    const { getReservationInfo } = useSelector((state: RootState) => state.service);
+    const { accessToken } = useSelector((state: RootState) => state.user);
+    const { getReservationInfo, getReservationInfoError } = useSelector((state: RootState) => state.service);
     console.log(getReservationInfo);
 
+    useEffect(() => {
+        if (accessToken) {
+            dispatch(getReservationInfoRequest(id, accessToken));
+        }
+    }, [id, accessToken, dispatch]);
+
     return (
-        <Layout title="Reservation accept">
-            <>
-                <Global />
-                {getReservationInfo ? (
-                    <Wrapper>
-                        <h2>서비스 요청을 자세히 확인해주세요!</h2>
-                        <AcceptOrder reservationInfo={getReservationInfo} orderId={id} />
-                    </Wrapper>
-                ) : (
-                    <BadRequest>
-                        <ExclamationCircleOutlined />
-                        <h2>존재하지 않는 요청입니다 :(</h2>
-                    </BadRequest>
-                )}
-            </>
-        </Layout>
+        <>
+            {getReservationInfo ? (
+                <Layout title="Reservation accept">
+                    <>
+                        <Global />
+                        <Wrapper>
+                            <ReservationInfo reservationInfo={getReservationInfo} />
+                            <Divide />
+                            <AcceptOrder orderId={id} />
+                        </Wrapper>
+                    </>
+                </Layout>
+            ) : (
+                <>
+                    {getReservationInfoError ? (
+                        <Layout title="Reservation accept">
+                            <>
+                                <Global />
+                                <WarningBox>
+                                    <Link href="/home">
+                                        <a>
+                                            <ExclamationCircleOutlined />
+                                            <h2>에러 발생! 로그아웃 후 다시 로그인 해주세요 :(</h2>
+                                            <ActionButton>로그인 하러가기</ActionButton>
+                                        </a>
+                                    </Link>
+                                </WarningBox>
+                            </>
+                        </Layout>
+                    ) : (
+                        <Loading />
+                    )}
+                </>
+            )}
+        </>
     );
 };
 
 const Wrapper = styled.div`
     width: 100%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 3rem;
     h2 {
         text-align: center;
@@ -57,31 +86,9 @@ const Wrapper = styled.div`
     }
 `;
 
-const BadRequest = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-    > .anticon {
-        font-size: 5rem;
-        text-align: center;
-        margin-bottom: 2rem;
-        color: #db454c;
-    }
+const Divide = styled.div`
+    border-right: 1px solid #ddd;
+    height: 100%;
 `;
-
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    const { accessToken } = useSelector((state: RootState) => state.user);
-
-    context.store.dispatch({
-        type: GET_RESERVATION_INFO_REQUEST,
-        orderId: context.params?.id,
-        accessToken,
-    });
-
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
-});
 
 export default ReservationAccept;
