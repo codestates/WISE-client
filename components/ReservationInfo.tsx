@@ -31,10 +31,27 @@ const DetailWrapper = styled.form`
     justify-content: space-between;
     width: 28rem;
     padding: 2rem;
-    margin-bottom: 3rem;
-    border: 1px solid #f0f0f0;
-    border-radius: 0.4rem;
-    box-shadow: 0.2rem 0.1rem 0.4rem #ddd;
+    margin-bottom: 1rem;
+    h3 {
+        padding-bottom: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #54b86a;
+    }
+    h4 {
+        font-size: 1rem;
+        margin: 1.5rem 0 0.5rem;
+        color: #555;
+        font-weight: 600;
+    }
+    div {
+        color: #424242;
+        font-size: 1rem;
+        background: rgba(84, 184, 105, 0.3);
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+        font-weight: 500;
+    }
 `;
 
 export default ReservationInfo;

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import { Order } from '../interfaces/data/service';
-import { ActionButton } from './button-style';
+import { CancelButton } from './button-style';
 
 type Props = {
     reservationInfo: Order;
@@ -15,14 +15,13 @@ const OrderItem = ({ reservationInfo }: Props) => (
         <Divide />
         <CheckoutNoSSR order={reservationInfo} />
         <Link href="/">
-            <ActionButton>취소하기</ActionButton>
+            <CancelButton>나중에 하기</CancelButton>
         </Link>
     </Wrapper>
 );
 
 const Wrapper = styled.div`
-    padding: 0 3rem 3rem 0;
-    margin-right: 2rem;
+    width: 100%;
     align-self: center;
     div {
         color: #333;

@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { END } from 'redux-saga';
-import { useSelector } from 'react-redux';
+import Link from 'next/link';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ActionButton, WarningBox } from '../../../components/button-style';
 import Layout from '../../../components/Layout';
 import PaymentResult from '../../../components/PaymentResult';
-import wrapper from '../../../store/configureStore';
-import { GET_RESERVATION_INFO_REQUEST } from '../../../interfaces/act/service';
-import { RootState } from '../../../reducers';
 
 const Global = createGlobalStyle`
     footer {
@@ -25,30 +23,33 @@ const Payment = () => {
     const result = router.query;
     console.log(result);
 
-    const { accessToken } = useSelector((state: RootState) => state.user);
-    const { getReservationInfo } = useSelector((state: RootState) => state.service);
-
     return (
-        <Layout title="Payment result">
-            <>
-                <Global />
-                <PaymentResult result={result} order={getReservationInfo} accessToken={accessToken} />
-            </>
-        </Layout>
+        <>
+            {result.error_msg ? (
+                <Layout title="Checkout">
+                    <>
+                        <Global />
+                        <WarningBox>
+                            <Link href="/home">
+                                <a>
+                                    <ExclamationCircleOutlined />
+                                    <div style={{ fontSize: '1rem' }}>{result.error_msg}</div>
+                                    <ActionButton>홈으로 돌아가기</ActionButton>
+                                </a>
+                            </Link>
+                        </WarningBox>
+                    </>
+                </Layout>
+            ) : (
+                <Layout title="Payment result">
+                    <>
+                        <Global />
+                        <PaymentResult result={result} />
+                    </>
+                </Layout>
+            )}
+        </>
     );
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    const { accessToken } = useSelector((state: RootState) => state.user);
-
-    context.store.dispatch({
-        type: GET_RESERVATION_INFO_REQUEST,
-        orderId: context.params?.id,
-        accessToken,
-    });
-
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
-});
 
 export default Payment;

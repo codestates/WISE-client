@@ -168,6 +168,7 @@ function* makeReservation(action: ReturnType<typeof createReservationRequest>) {
         );
         yield put(createReservationSuccess(result.data.order));
     } catch (err) {
+        console.log(err);
         yield put(createReservationFailure(err.message));
     }
 }
@@ -193,7 +194,7 @@ function* getAllReservations(action: ReturnType<typeof getAllReservationsRequest
     }
 }
 
-function getReservationAPI(orderId: string, accessToken: string) {
+function getReservationAPI(orderId: string | string[], accessToken: string) {
     return axios.get(`api/v1/orders/${orderId}`, {
         headers: {
             accessToken,
@@ -264,7 +265,7 @@ function* reservationReject(action: ReturnType<typeof reservationRejectRequest>)
     }
 }
 
-function checkoutAPI(orderId: string, impUid: string | string[], accessToken: string) {
+function checkoutAPI(orderId: string | string[], impUid: string | string[], accessToken: string) {
     return axios.post(
         `api/v1/payments/${orderId}`,
         {

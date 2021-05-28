@@ -32,7 +32,7 @@ const StyledModalOverlay = styled.div`
     position: absolute;
     top: 0;
     right: 0;
-    height: 1100px;
+    height: 1000px;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     display: flex;
@@ -41,6 +41,7 @@ const StyledModalOverlay = styled.div`
 `;
 
 const StyledModal = styled.div`
+    margin-top: -20%;
     background: white;
     width: 30rem;
     height: 16rem;
@@ -69,7 +70,7 @@ const StyledModalBody = styled.div`
     div {
         font-size: 1.5rem;
         font-weight: 600;
-        margin: 1rem 0;
+        margin-top: 2rem;
         color: #424242;
     }
 `;

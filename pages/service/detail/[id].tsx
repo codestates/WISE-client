@@ -1,9 +1,8 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
-import React, { useRef, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Layout from '../../../components/Layout';
 import Navigation from '../../../components/ServiceDetail/Navigation';
@@ -16,6 +15,7 @@ import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
+import Swiper from '../../../components/ServiceDetail/Swiper';
 
 const Global = createGlobalStyle`
     footer {
@@ -23,41 +23,24 @@ const Global = createGlobalStyle`
     }
     .Summary__Wrapper-sc-1xkyrag-0, .Navigation__Wrapper-fz5fkk-0{
       position: sticky;
-      top: 0;
-      z-index: 10;
+      top: 5%;
+    }
+    .Navigation__Wrapper-fz5fkk-0 {
+        top: 0;
     }
 
 `;
 
 const ServiceDetail = () => {
-    const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
-    // const router = useRouter();
+    const router = useRouter();
     // const { id } = router.query;
     // console.log(id);
-
+    // TODO: search result가 한번에 안받아와지고 새로고침해야지만 받아와지는 문제
+    const searchResult = router.query;
+    console.log(searchResult);
     // TODO: review import
     const { service } = useSelector((state: RootState) => state.service);
 
-    // carousel
-    const slider = useRef<HTMLInputElement>(null);
-    const container = useRef<HTMLInputElement>(null);
-    const [mainIndex, setMainIndex] = useState(0);
-    const slideNext = () => {
-        if (!slider.current) {
-            return;
-        }
-        slider.current.style.transform = `translateX(-${(mainIndex + 1) * 50}rem)`;
-        setMainIndex(mainIndex + 1);
-    };
-    const slidePrev = () => {
-        if (!slider.current) {
-            return;
-        }
-        if (mainIndex > 0) {
-            slider.current.style.transform = `translateX(-${(mainIndex - 1) * 50}rem)`;
-            setMainIndex(mainIndex - 1);
-        }
-    };
     return (
         <>
             {service ? (
@@ -67,19 +50,7 @@ const ServiceDetail = () => {
                         <Wrapper>
                             <Container>
                                 <Detail>
-                                    <CarouselCon ref={container}>
-                                        <PrevBtn onClick={slidePrev}>&lang;</PrevBtn>
-                                        <Slider ref={slider}>
-                                            {service.images.map((image: string) => (
-                                                <img
-                                                    src={`${IMAGE_URL}${service.images[0]}`}
-                                                    alt="cover images"
-                                                    key={image}
-                                                />
-                                            ))}
-                                        </Slider>
-                                        <NextBtn onClick={slideNext}>&rang;</NextBtn>
-                                    </CarouselCon>
+                                    <Swiper service={service} />
                                     <Navigation _id={service._id} />
                                     <Description service={service} />
                                     {/* <ReviewComponent review={review} /> */}
@@ -87,7 +58,7 @@ const ServiceDetail = () => {
                                     <FAQ />
                                     <Refund />
                                 </Detail>
-                                <Summary service={service} />
+                                <Summary service={service} searchResult={searchResult} />
                             </Container>
                         </Wrapper>
                     </>
@@ -118,41 +89,6 @@ const Detail = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-`;
-
-const CarouselCon = styled.div`
-    display: flex;
-    width: 100%;
-`;
-
-const Slider = styled.div`
-    display: flex;
-    justify-content: center;
-    max-width: 50rem;
-    transition: all 0.3s ease-in-out;
-    img {
-        width: 90%;
-        object-fit: cover;
-        height: 28rem;
-    }
-`;
-
-const PrevBtn = styled.div`
-    position: relative;
-    top: 13rem;
-    left: 0;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 5;
-`;
-
-const NextBtn = styled.div`
-    position: relative;
-    top: 13rem;
-    right: 0;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 5;
 `;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {

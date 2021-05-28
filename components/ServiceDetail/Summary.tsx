@@ -5,12 +5,13 @@ import { ShortService } from '../../interfaces/data/service';
 
 type ServiceProps = {
     service: ShortService;
+    searchResult: { date: string; location: string; page: number; time: string };
 };
 
-const Summary = ({ service }: ServiceProps) => (
+const Summary = ({ service, searchResult }: ServiceProps) => (
     <Wrapper>
         <Bio>
-            <h1>김천사 어시스턴트</h1>
+            <h1>{service.assistant.name} 어시스턴트</h1>
             <h3>{service.greetings}</h3>
         </Bio>
         <Info>
@@ -18,10 +19,10 @@ const Summary = ({ service }: ServiceProps) => (
                 <span>지역</span> {service.location}
             </Text>
             <Text>
-                <span>날짜</span> 2021 - 05 - 14
+                <span>날짜</span> {searchResult.date}
             </Text>
             <Text>
-                <span>시간</span> 오전
+                <span>시간</span> {searchResult.time}
             </Text>
             <Text>
                 <span>평점</span>

@@ -1,6 +1,7 @@
 module.exports = {
     env: {
         NEXT_PUBLIC_IMPcode: 'imp57278971',
+        // NEXT_PUBLIC_imageURL: 'https://wise-server-image-bucket.s3.us-east-2.amazonaws.com/',
         NEXT_PUBLIC_imageURL: 'https://wise-image.s3.ap-northeast-2.amazonaws.com/',
         NEXT_PUBLIC_apiKey: 'AIzaSyAMOvQAqwdBVWn942rEY5YID8z9NtvQwlc',
         NEXT_PUBLIC_authDomain: 'wise-4bb4c.firebaseapp.com',

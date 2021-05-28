@@ -6,10 +6,20 @@ import { ShortService } from '../interfaces/data/service';
 
 type ServiceCard = {
     service: ShortService;
+    searchQuery: { date: string; location: string; page: number; time: string };
 };
 
-const ServiceCard = ({ service }: ServiceCard) => (
-    <Link href="/service/detail/[id]" as={`/service/detail/${service._id}`}>
+const ServiceCard = ({ service, searchQuery }: ServiceCard) => (
+    // console.log(searchQuery);
+
+    <Link
+        href="/service/detail/[id]"
+        as={
+            searchQuery
+                ? `/service/detail/${service._id}?date=${searchQuery.date}&time=${searchQuery.time}`
+                : `/service/detail/${service._id}`
+        }
+    >
         <Container>
             <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
             <div>
@@ -22,7 +32,6 @@ const ServiceCard = ({ service }: ServiceCard) => (
         </Container>
     </Link>
 );
-
 const ServiceImg = styled.img`
     // width: 280px;
     // height: 209px;

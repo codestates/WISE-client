@@ -43,7 +43,7 @@ const Header = () => {
         <>
             <Wrapper>
                 <Container>
-                    <Link href="/">
+                    <Link href="/home">
                         <Logo src="/images/WISE.png" alt="WISE logo" />
                     </Link>
                     <UserTap>

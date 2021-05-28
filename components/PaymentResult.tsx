@@ -1,42 +1,45 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CheckCircleTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ParsedUrlQuery } from 'querystring';
-import { checkoutRequest } from '../actions/service';
-import { Order } from '../interfaces/data/service';
+import { checkoutRequest, getReservationInfoRequest } from '../actions/service';
 import { RootState } from '../reducers';
 import { ActionButton } from './button-style';
+import Loading from './Loading';
 
 type Props = {
     result: ParsedUrlQuery;
-    order: Order;
-    accessToken: string;
 };
 
-const PaymentResult = ({ result, order, accessToken }: Props) => {
-    console.log(result);
-    const { merchant_uid, imp_uid } = result;
-
+const PaymentResult = ({ result }: Props) => {
     const router = useRouter();
+
+    console.log(result);
+    const { imp_uid, merchant_uid } = result;
+
     const dispatch = useDispatch();
-    const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.service);
+    const { accessToken } = useSelector((state: RootState) => state.user);
+    const { getReservationInfo, checkoutStatus, checkoutError } = useSelector((state: RootState) => state.service);
 
-    const orderName = `${order.assistant.name} 어시스턴트의 동행 서비스`;
+    const order = getReservationInfo;
 
+    const [checkoutErrorMsg, setCheckoutErrorMsg] = useState('');
     const [isSuccessed, setIsSuccessed] = useState(false);
 
     // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
-    const handleRequestResult = useCallback(() => {
-        dispatch(checkoutRequest(order._id, imp_uid, orderName, accessToken));
-    }, [order._id, imp_uid, orderName, accessToken, dispatch]);
+    useEffect(() => {
+        dispatch(checkoutRequest(result.orderId, imp_uid, accessToken));
+    }, [result.orderId, imp_uid, accessToken, dispatch]);
 
     useEffect(() => {
-        handleRequestResult();
-    }, [handleRequestResult]);
+        if (accessToken) {
+            dispatch(getReservationInfoRequest(result.orderId, accessToken));
+        }
+    }, [result.orderId, accessToken, dispatch]);
 
     useEffect(() => {
         if (checkoutStatus === 'success') {
@@ -44,44 +47,59 @@ const PaymentResult = ({ result, order, accessToken }: Props) => {
         }
     }, [checkoutStatus]);
 
+    useEffect(() => {
+        if (checkoutError === `Request failed with status code 500`) {
+            setCheckoutErrorMsg('결제를 취소했습니다');
+        }
+        if (checkoutError === `Request failed with status code 400`) {
+            setCheckoutErrorMsg('결제 금액이 일치하지 않아 결제가 취소되었습니다');
+        }
+    }, [checkoutError]);
+
     const resultType = isSuccessed ? '성공' : '실패';
     return (
-        <Wrapper>
-            {isSuccessed ? (
-                <CheckCircleTwoTone twoToneColor="#68d480" />
+        <>
+            {order ? (
+                <Wrapper>
+                    {isSuccessed ? (
+                        <CheckCircleTwoTone twoToneColor="#68d480" />
+                    ) : (
+                        <ExclamationCircleOutlined twoToneColor="#db454c" />
+                    )}
+                    <p>{`결제에 ${resultType}하였습니다`}</p>
+                    <ul>
+                        <li>
+                            <span>주문명</span>
+                            <span>{`${order.assistant.name} 어시스턴트의 동행 서비스`}</span>
+                        </li>
+                        <li>
+                            <span>주문번호</span>
+                            <span>{merchant_uid}</span>
+                        </li>
+                        {isSuccessed ? (
+                            <>
+                                <li>
+                                    <span>아임포트 번호</span>
+                                    <span>{imp_uid}</span>
+                                </li>
+                                <li>
+                                    <span>어시스턴트 연락처</span>
+                                    <span>{order.assistant.mobile}</span>
+                                </li>
+                            </>
+                        ) : (
+                            <li>
+                                <span>실패 메시지</span>
+                                <span>{checkoutErrorMsg}</span>
+                            </li>
+                        )}
+                    </ul>
+                    <Button onClick={() => router.push('/')}>메인으로 돌아가기</Button>
+                </Wrapper>
             ) : (
-                <ExclamationCircleOutlined twoToneColor="#db454c" />
+                <div style={{ fontSize: '1rem', marginTop: '25%' }}>불러오는 중입니다...</div>
             )}
-            <p>{`결제에 ${resultType}하였습니다`}</p>
-            <ul>
-                <li>
-                    <span>주문명</span>
-                    <span>{orderName}</span>
-                </li>
-                <li>
-                    <span>주문번호</span>
-                    <span>{merchant_uid}</span>
-                </li>
-                {isSuccessed ? (
-                    <>
-                        <li>
-                            <span>아임포트 번호</span>
-                            <span>{imp_uid}</span>
-                        </li>
-                        <li>
-                            <span>어시스턴트 연락처</span>
-                            <span>{order.assistant.mobile}</span>
-                        </li>
-                    </>
-                ) : (
-                    <li>
-                        <span>실패 메시지</span>
-                        <span>{checkoutError}</span>
-                    </li>
-                )}
-            </ul>
-            <Button onClick={() => router.push('/')}>메인으로 돌아가기</Button>
-        </Wrapper>
+        </>
     );
 };
 
@@ -123,19 +141,12 @@ const Wrapper = styled.div`
             }
         }
     }
-
-    button:hover {
-        opacity: 0.7;
-    }
 `;
 
 const Button = styled(ActionButton)`
-    color: #51885d;
+    color: #fff;
     font-size: 1rem;
     width: 21rem;
-    &:hover {
-        color: #7ab387;
-    }
 `;
 
 export default PaymentResult;

@@ -52,3 +52,27 @@ export const ActionButton = styled.button`
         outline: none;
     }
 `;
+
+export const WarningBox = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 3rem;
+    h2 {
+        text-align: center;
+        font-weight: 700;
+    }
+    a {
+        padding: 4rem;
+        align-self: center;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0.3rem 0.1rem 0.4rem #f0f0f0;
+        border-radius: 1rem;
+        > .anticon {
+            font-size: 5rem;
+            text-align: center;
+            margin: 0 0 2rem 35%;
+            color: #db454c;
+        }
+    }
+`;
