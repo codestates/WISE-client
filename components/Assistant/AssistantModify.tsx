@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import Router from 'next/router';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {

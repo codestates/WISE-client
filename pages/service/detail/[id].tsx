@@ -4,13 +4,12 @@ import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
 import { GetServerSideProps } from 'next';
-import { useCallback, useEffect } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import { useEffect } from 'react';
+import axios from 'axios';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import ReviewComponent from '../../../components/ServiceDetail/Review';
-
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';

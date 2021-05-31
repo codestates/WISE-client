@@ -5,7 +5,7 @@ import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { RootState } from '../reducers';
 import useInput from '../hooks/useInput';
-import { InputWrapper, Image, ProfileImagesWrapper, DeleteBtn, SubmitBtn } from './style';
+import { InputWrapper, DeleteBtn, SubmitBtn } from './style';
 import { changeProfileRequest } from '../actions/user';
 import ResultModal from './ResultModal';
 

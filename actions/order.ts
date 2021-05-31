@@ -1,4 +1,4 @@
-import { Order } from '../interfaces/data/service';
+import { Order } from '../interfaces/data/order';
 
 export const ADD_ORDER_REQUEST = 'ADD_ORDER_REQUEST' as const;
 export const ADD_ORDER_SUCCESS = 'ADD_ORDER_SUCCESS' as const;
