@@ -5,32 +5,39 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
-import { BellOutlined, UserOutlined } from '@ant-design/icons';
+import { BellOutlined } from '@ant-design/icons';
 import { RootState } from '../reducers';
 import { logoutRequest } from '../actions/user';
 import NotificationModal from '../components/Notifications/NotificationModal';
 import { loadNotificationsRequest } from '../actions/notifications';
+import { Notification } from '../interfaces/data/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin, logoutDone, accessToken } = useSelector((state: RootState) => state.user);
-
+    const { me, islogin, accessToken } = useSelector((state: RootState) => state.user);
+    const { loadNotificationsDone, notifications } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
+    const [unchecked, setUnchecked] = useState(0);
 
     useEffect(() => {
-        if (accessToken) {
+        if (notifications) {
+            const uncheckedNotifications = notifications.filter(
+                (notification: Notification) => !notification.isChecked,
+            ).length;
+            setUnchecked(uncheckedNotifications);
+        }
+    }, [notifications]);
+
+    useEffect(() => {
+        if (accessToken && !loadNotificationsDone) {
             dispatch(loadNotificationsRequest(me._id, accessToken));
         }
-    }, [accessToken, dispatch, me]);
+    }, [accessToken, dispatch, me, loadNotificationsDone]);
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
-    // const onCloseModal = useCallback(() => {
-    //     setShowModal(false);
-    //     console.log('clicked!');
-    // }, []);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequest());
@@ -66,13 +73,19 @@ const Header = () => {
                         <div onClick={onClickModal}>
                             {me &&
                                 (showModal ? (
-                                    <BellOutlined
-                                        style={{
-                                            color: '#68d480',
-                                        }}
-                                    />
+                                    <>
+                                        {unchecked > 0 ? <NotiNum>{unchecked}</NotiNum> : ''}
+                                        <BellOutlined
+                                            style={{
+                                                color: '#68d480',
+                                            }}
+                                        />
+                                    </>
                                 ) : (
-                                    <BellOutlined />
+                                    <>
+                                        {unchecked > 0 ? <NotiNum>{unchecked}</NotiNum> : ''}
+                                        <BellOutlined />
+                                    </>
                                 ))}
                         </div>
                         {showModal && <NotificationModal />}
@@ -163,6 +176,19 @@ const LoginBtn = styled.div`
     width: 4rem;
     height: 2rem;
     cursor: pointer;
+`;
+
+const NotiNum = styled.div`
+    position: absolute;
+    margin: -0.5rem 0 0 1.2rem;
+    border-radius: 1rem;
+    width: 1.4rem;
+    height: 1.4rem;
+    background: #f04646;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export default Header;

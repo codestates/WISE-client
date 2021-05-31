@@ -1,5 +1,6 @@
 export interface Notification {
-    sender: string;
+    _id: string;
+    sender: { id: string; name: string };
     recipient: string;
     subject: string;
     clientUrl: string;
@@ -15,4 +16,7 @@ export type NotificationsState = {
     addNotificationLoading: boolean;
     addNotificationDone: boolean;
     addNotificationError: null | string;
+    checkNotificationLoading: boolean;
+    checkNotificationDone: boolean;
+    checkNotificationError: null | string;
 };

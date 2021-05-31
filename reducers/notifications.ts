@@ -8,11 +8,13 @@ import {
     ADD_NOTIFICATION_REQUEST,
     ADD_NOTIFICATION_SUCCESS,
     ADD_NOTIFICATION_FAILURE,
+    CHECK_NOTIFICATION_REQUEST,
+    CHECK_NOTIFICATION_FAILURE,
+    CHECK_NOTIFICATION_SUCCESS,
 } from '../actions/notifications';
 import { NotificationsAction } from '../interfaces/act/notifications';
 import { NotificationsState } from '../interfaces/data/notifications';
 
-/* ------- initial state ------ */
 export const initialState: NotificationsState = {
     loadNotificationsLoading: false,
     loadNotificationsDone: false,
@@ -21,9 +23,11 @@ export const initialState: NotificationsState = {
     addNotificationLoading: false,
     addNotificationDone: false,
     addNotificationError: null,
+    checkNotificationLoading: false,
+    checkNotificationDone: false,
+    checkNotificationError: null,
 };
 
-/* ------- reducer ------ */
 const reducer = (state = initialState, action: NotificationsAction) =>
     produce(state, (draft: NotificationsState) => {
         switch (action.type) {
@@ -43,16 +47,30 @@ const reducer = (state = initialState, action: NotificationsAction) =>
                 break;
             case ADD_NOTIFICATION_REQUEST:
                 draft.addNotificationLoading = true;
-                draft.loadNotificationsDone = false;
+                draft.addNotificationDone = false;
                 draft.addNotificationError = null;
                 break;
             case ADD_NOTIFICATION_SUCCESS:
                 draft.addNotificationLoading = false;
-                draft.loadNotificationsDone = true;
+                draft.addNotificationDone = true;
                 break;
             case ADD_NOTIFICATION_FAILURE:
                 draft.addNotificationLoading = false;
                 draft.addNotificationError = action.error;
+                break;
+            case CHECK_NOTIFICATION_REQUEST:
+                draft.checkNotificationLoading = true;
+                draft.checkNotificationDone = false;
+                draft.checkNotificationError = null;
+                break;
+            case CHECK_NOTIFICATION_SUCCESS:
+                draft.checkNotificationLoading = false;
+                draft.checkNotificationDone = true;
+                draft.notifications = (draft.notifications as Notification[]).concat(action.notifications);
+                break;
+            case CHECK_NOTIFICATION_FAILURE:
+                draft.checkNotificationLoading = false;
+                draft.checkNotificationError = action.error;
                 break;
             default:
                 break;

@@ -11,6 +11,8 @@ import {
     loadNotificationsRequest,
     loadNotificationsSuccess,
     LOAD_NOTIFICATIONS_REQUEST,
+    checkNotificationRequest,
+    CHECK_NOTIFICATION_REQUEST,
 } from '../actions/notifications';
 
 function loadNotificationsAPI(userId: string | string[], accessToken: string) {
@@ -76,7 +78,30 @@ function* watchaddNotification() {
     yield takeLatest(ADD_NOTIFICATION_REQUEST, addNotification);
 }
 
+function checkNotificationAPI(notificationId: string, accessToken: string) {
+    return axios.patch(`api/v1/notifications/${notificationId}`, {
+        headers: {
+            accessToken,
+        },
+    });
+}
+function* checkNotification(action: ReturnType<typeof checkNotificationRequest>) {
+    try {
+        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
+            checkNotificationAPI,
+            action.notificationId,
+            action.accessToken,
+        );
+        yield put(addNotificationSuccess(result.data.notifications));
+    } catch (err) {
+        yield put(addNotificationFailure(err.message));
+    }
+}
+
+function* watchcheckNotification() {
+    yield takeLatest(CHECK_NOTIFICATION_REQUEST, checkNotification);
+}
+
 export default function* notificationsSaga() {
-    yield all([fork(watchloadNotifications)]);
-    yield all([fork(watchaddNotification)]);
+    yield all([fork(watchloadNotifications), fork(watchaddNotification), fork(watchcheckNotification)]);
 }

@@ -6,6 +6,7 @@ import { CancelButton, ActionButton } from './style';
 import AcceptSuccessModal from './AcceptSuccessModal';
 import { RootState } from '../reducers';
 import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
+import { addNotificationRequest, checkNotificationRequest } from '../actions/notifications';
 
 type Props = {
     orderId: string | string[];
@@ -13,8 +14,12 @@ type Props = {
 
 const AcceptOrder = ({ orderId }: Props) => {
     const { accessToken } = useSelector((state: RootState) => state.user);
-    const { reservationAcceptedDone, reservationRejectedDone, reservationAcceptedError, reservationRejectedError } =
-        useSelector((state: RootState) => state.service);
+    const { acceptOrderDone, acceptOrderError, rejectOrderDone, rejectOrderError, orderInfo } = useSelector(
+        (state: RootState) => state.order,
+    );
+    const { addNotificationDone, notifications, checkNotificationDone } = useSelector(
+        (state: RootState) => state.notifications,
+    );
 
     const dispatch = useDispatch();
 
@@ -25,35 +30,69 @@ const AcceptOrder = ({ orderId }: Props) => {
         console.log('clicked!');
     }, []);
 
-    useEffect(() => {
-        console.log('reservation accepted', reservationAcceptedDone);
-        if (
-            reservationAcceptedDone ||
-            reservationRejectedDone ||
-            reservationAcceptedError ||
-            reservationRejectedError
-        ) {
-            setShowModal((state) => !state);
-            console.log('modal open!');
-        }
-    }, [reservationAcceptedDone, reservationRejectedDone, reservationAcceptedError, reservationRejectedError]);
-
     const handleClickAccept = useCallback(
         (e) => {
-            e.preventDefault();
-            dispatch(acceptOrderRequest(orderId, accessToken, 'accept'));
+            if (!acceptOrderDone) {
+                e.preventDefault();
+                dispatch(acceptOrderRequest(orderId, accessToken, 'accept'));
+            }
         },
-        [accessToken, orderId, dispatch],
+        [accessToken, orderId, dispatch, acceptOrderDone],
     );
 
     // 거절했을 때, 유저에게 알림으로 거절했다고 알려줘야함 -> delete reservation
     const handleClickReject = useCallback(
         (e) => {
-            e.preventDefault();
-            dispatch(rejectOrderRequest(orderId, accessToken));
+            if (!rejectOrderDone) {
+                e.preventDefault();
+                dispatch(rejectOrderRequest(orderId, accessToken));
+            }
         },
-        [accessToken, orderId, dispatch],
+        [accessToken, orderId, dispatch, rejectOrderDone],
     );
+
+    // POST notification
+    useEffect(() => {
+        if (!addNotificationDone) {
+            if (orderInfo && acceptOrderDone) {
+                const notificationData = {
+                    recipient: orderInfo.customer._id,
+                    subject: orderInfo._id,
+                    clientUrl: `/payment/checkout/${orderInfo._id}`,
+                    content: `${orderInfo.assistant.name} 어시스턴트가 신청을 수락했습니다`,
+                };
+                dispatch(addNotificationRequest(notificationData, accessToken));
+                console.log('notification sent!');
+                console.log('add notification done', addNotificationDone);
+            } else if (orderInfo && rejectOrderDone) {
+                const notificationData = {
+                    recipient: orderInfo.customer._id,
+                    subject: orderInfo._id,
+                    clientUrl: '',
+                    content: `${orderInfo.assistant.name} 어시스턴트가 신청을 거절했어요`,
+                };
+                dispatch(addNotificationRequest(notificationData, accessToken));
+                console.log('notification sent!');
+            }
+        }
+    }, [accessToken, dispatch, orderInfo, rejectOrderDone, acceptOrderDone, addNotificationDone]);
+
+    // isChecked로 바꾸기
+    useEffect(() => {
+        if (addNotificationDone) {
+            dispatch(checkNotificationRequest(notifications._id, accessToken));
+        }
+    }, [accessToken, addNotificationDone, dispatch, notifications]);
+
+    // 결과 모달 띄우기
+    useEffect(() => {
+        console.log('check notification done', checkNotificationDone);
+
+        if (checkNotificationDone || acceptOrderError || rejectOrderError) {
+            setShowModal((state) => !state);
+            console.log('modal open!');
+        }
+    }, [checkNotificationDone, acceptOrderError, rejectOrderError]);
 
     return (
         <Wrapper>
@@ -72,10 +111,10 @@ const AcceptOrder = ({ orderId }: Props) => {
             {showModal && (
                 <AcceptSuccessModal
                     onClose={onCloseModal}
-                    success={reservationAcceptedDone}
-                    reject={reservationRejectedDone}
-                    acceptError={reservationAcceptedError}
-                    rejectError={reservationRejectedError}
+                    success={acceptOrderDone}
+                    reject={rejectOrderDone}
+                    acceptError={acceptOrderError}
+                    rejectError={rejectOrderError}
                 />
             )}
         </Wrapper>

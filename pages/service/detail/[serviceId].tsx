@@ -46,6 +46,7 @@ const ServiceDetail = () => {
 
     // TODO: review import
 
+    // TODO: search Query 동기 액션 dispatch해서 리덕스 스토어에 저장
     // useEffect(() => {
     //     dispatch({ type: ADD_SEARCH_QUERY, data: searchResult });
     // }, [searchResult, dispatch]);

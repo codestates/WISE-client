@@ -1,45 +1,11 @@
-/* eslint-disable consistent-return */
-/* eslint-disable array-callback-return */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
-import { loadNotificationsRequest } from '../../actions/notifications';
 import { Notification } from '../../interfaces/data/notifications';
 
 const NotificationModal = () => {
-    const dispatch = useDispatch();
     const { notifications } = useSelector((state: RootState) => state.notifications);
-    // const { accessToken, me } = useSelector((state: RootState) => state.user);
-    const [loadNotifications, setLoadNotifications] = useState<Notification[]>([]);
-    // TODO: 새로고침하기 전까지 딱 한번만 호출되도록 해야함 -> home에서 호출하면??
-    // useEffect(() => {
-    //     if (accessToken) {
-    //         dispatch(loadNotificationsRequest(me._id, accessToken));
-    //     }
-    // }, []);
-    console.log(notifications);
-    console.log(loadNotifications);
-    // 이미 렌더링 된 알림은 새로고침해도 다시 렌더하지 않게
-    const getNotifications = useCallback(() => {
-        const filteredNotifications = notifications.filter((notification: Notification) => {
-            for (let el of loadNotifications) {
-                return notification.subject !== el.subject;
-            }
-        });
-        setLoadNotifications((state) => {
-            state.concat(filteredNotifications);
-        });
-        console.log(loadNotifications);
-    }, [notifications]);
-
-    useEffect(() => {
-        getNotifications();
-    }, [getNotifications]);
 
     return (
         <StyledModalOverlay>
@@ -48,15 +14,19 @@ const NotificationModal = () => {
                     <div>새 알림</div>
                 </StyledModalHeader>
                 <StyledModalBody>
-                    {loadNotifications ? (
+                    {notifications ? (
                         <>
-                            {loadNotifications.map((notification: Notification) => (
-                                <Noti key={notification.subject}>
+                            {notifications.map((notification: Notification) => (
+                                <Noti key={notification._id}>
                                     <div>{notification.content}</div>
                                     <div>
-                                        <Link href={notification.clientUrl}>
-                                            <Button>확인하기</Button>
-                                        </Link>
+                                        {notification.isChecked ? (
+                                            <CheckedButton disabled>확인 완료</CheckedButton>
+                                        ) : (
+                                            <Link href={notification.clientUrl}>
+                                                <Button>확인하기</Button>
+                                            </Link>
+                                        )}
                                     </div>
                                 </Noti>
                             ))}
@@ -134,6 +104,20 @@ const Button = styled.a`
         border: 1px solid #68d480;
         /* background-color: #fff; */
     }
+`;
+
+const CheckedButton = styled.button`
+    padding: 0 0.7rem;
+    width: 100%;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #ccc;
+    border: none;
+    border-radius: 1.2rem;
 `;
 
 export default NotificationModal;

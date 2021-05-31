@@ -5,6 +5,9 @@ import {
     addNotificationRequest,
     addNotificationSuccess,
     addNotificationFailure,
+    checkNotificationFailure,
+    checkNotificationRequest,
+    checkNotificationSuccess,
 } from '../../actions/notifications';
 
 export type NotificationsAction =
@@ -13,4 +16,7 @@ export type NotificationsAction =
     | ReturnType<typeof loadNotificationsFailure>
     | ReturnType<typeof addNotificationRequest>
     | ReturnType<typeof addNotificationSuccess>
-    | ReturnType<typeof addNotificationFailure>;
+    | ReturnType<typeof addNotificationFailure>
+    | ReturnType<typeof checkNotificationRequest>
+    | ReturnType<typeof checkNotificationSuccess>
+    | ReturnType<typeof checkNotificationFailure>;

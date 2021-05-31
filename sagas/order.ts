@@ -51,7 +51,7 @@ function* addOrder(action: ReturnType<typeof addOrderRequest>) {
 }
 
 function loadOrdersAPI(accessToken: string, userType: string, userId: string) {
-    console.log('accessToken: ', accessToken);
+    // console.log('accessToken: ', accessToken);
     return axios.get(`/api/v1/orders?userId=${userId}&type=${userType}`, {
         headers: {
             accessToken,

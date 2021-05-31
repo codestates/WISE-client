@@ -87,7 +87,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                 recipient: service.assistant._id,
                 subject: orderInfo._id,
                 clientUrl: `/service/accept/${orderInfo._id}`,
-                content: '새로운 서비스 신청 1건이 들어왔습니다',
+                content: '새로운 서비스 신청 1건이 있습니다',
             };
             dispatch(addNotificationRequest(notification, accessToken));
             console.log('notification sent!');

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { CheckCircleTwoTone, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
@@ -10,6 +10,7 @@ import { RootState } from '../../reducers';
 import { ActionButton } from '../style';
 import { checkoutRequest } from '../../actions/payment';
 import { loadOrderInfoRequest } from '../../actions/order';
+import { addNotificationRequest, checkNotificationRequest } from '../../actions/notifications';
 
 type Props = {
     result: ParsedUrlQuery;
@@ -25,6 +26,7 @@ const PaymentResult = ({ result }: Props) => {
     const { accessToken } = useSelector((state: RootState) => state.user);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.payment);
+    const { addNotificationDone, notifications } = useSelector((state: RootState) => state.notifications);
 
     const order = orderInfo;
 
@@ -56,6 +58,28 @@ const PaymentResult = ({ result }: Props) => {
             setCheckoutErrorMsg('결제 금액이 일치하지 않아 결제가 취소되었습니다');
         }
     }, [checkoutError]);
+
+    // POST notification
+    const sendNotification = useCallback(() => {
+        if (orderInfo && !addNotificationDone) {
+            const notification = {
+                recipient: orderInfo.assistant._id,
+                subject: orderInfo._id,
+                clientUrl: `/user/mypage`,
+                content: `${orderInfo.customer.name}님이 결제를 완료하셨습니다.`,
+            };
+            dispatch(addNotificationRequest(notification, accessToken));
+            console.log('notification sent!');
+        }
+    }, [accessToken, addNotificationDone, dispatch, orderInfo]);
+
+    // isChecked로 바꾸기
+    useEffect(() => {
+        if (addNotificationDone) {
+            dispatch(checkNotificationRequest(notifications._id, accessToken));
+            router.push('/');
+        }
+    }, [accessToken, addNotificationDone, dispatch, notifications, router]);
 
     const resultType = isSuccessed ? '성공' : '실패';
     return (
@@ -95,7 +119,7 @@ const PaymentResult = ({ result }: Props) => {
                             </li>
                         )}
                     </ul>
-                    <Button onClick={() => router.push('/')}>메인으로 돌아가기</Button>
+                    <Button onClick={sendNotification}>메인으로 돌아가기</Button>
                 </Wrapper>
             ) : (
                 <div style={{ fontSize: '1rem', marginTop: '25%' }}>불러오는 중입니다...</div>
