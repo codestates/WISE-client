@@ -44,7 +44,7 @@ const SearchBar = () => {
         setTime(e.target.value);
     }, []);
 
-    const disabledDate = (current: any) => current && current < moment().endOf('day');
+    const disabledDate = (current: any) => current < moment().subtract(1, 'days').endOf('day');
 
     return (
         <Wrapper>

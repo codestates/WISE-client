@@ -134,7 +134,7 @@ const Logo = styled.img`
 
 const UserTap = styled.div`
     // border: 1px solid black;
-    width: 320px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
     align-items: center;

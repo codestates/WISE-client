@@ -8,10 +8,11 @@ import { RootState } from '../../reducers';
 import Layout from '../../layout/Layout';
 import SigninForm from '../../components/auth/SigninForm';
 import { loadProfileRequest } from '../../actions/user';
+import Loading from '../../components/Loading';
 
 const Signin = () => {
     const dispatch = useDispatch();
-    const { me, islogin } = useSelector((state: RootState) => state.user);
+    const { me, islogin, logInLoading, loadProfileLoading } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         if (islogin) {
@@ -22,29 +23,35 @@ const Signin = () => {
     useEffect(() => {
         if (me) {
             if (me.service) {
-                Router.replace('/home');
+                Router.push('/home');
             } else {
-                Router.replace('/welcome');
+                Router.push('/welcome');
             }
         }
     }, [me]);
 
     return (
-        <Layout title="WISE | SIGNIN">
-            <>
-                <AuthGlobal />
-                <CoverImg filter="true" />
-                <Modal>
-                    <ModalTitle>로그인</ModalTitle>
-                    <SigninForm />
-                    <Link href="/user/signupAuth">
-                        <ModalFooter>
-                            <button type="button">회원가입</button>
-                        </ModalFooter>
-                    </Link>
-                </Modal>
-            </>
-        </Layout>
+        <>
+            {logInLoading || loadProfileLoading ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | SIGNIN">
+                    <>
+                        <AuthGlobal />
+                        <CoverImg filter="true" />
+                        <Modal>
+                            <ModalTitle>로그인</ModalTitle>
+                            <SigninForm />
+                            <Link href="/user/signupAuth">
+                                <ModalFooter>
+                                    <button type="button">회원가입</button>
+                                </ModalFooter>
+                            </Link>
+                        </Modal>
+                    </>
+                </Layout>
+            )}
+        </>
     );
 };
 

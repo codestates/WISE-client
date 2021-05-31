@@ -42,6 +42,8 @@ export const LOAD_SERVICE_INFO_FAILURE = 'LOAD_SERVICE_INFO_FAILURE' as const;
 
 export const LOAD_SERVICE_SCHEDULE = 'LOAD_SERVICE_SCHEDULE' as const;
 
+export const CLEAR_SERVICE = 'CLEAR_SERVICE' as const;
+
 // 서비스 등록
 export const addServiceRequest = (data: FormData, accessToken: string) => ({
     type: ADD_SERVICE_REQUEST,

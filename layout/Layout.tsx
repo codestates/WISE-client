@@ -57,5 +57,6 @@ const MainComponent = styled.div`
     justify-content: center;
     width: 100vw;
     flex-grow: 1;
+    position: relative;
 `;
 export default Layout;

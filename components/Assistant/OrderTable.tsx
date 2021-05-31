@@ -1,4 +1,7 @@
+/* eslint-disable react/display-name */
+import moment from 'moment';
 import { Table } from 'antd';
+import Router from 'next/router';
 import styled from 'styled-components';
 import { Order } from '../../interfaces/data/order';
 
@@ -39,9 +42,10 @@ type PaymentDetailsProps = {
 const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
     const dataSource = orders?.map((ele, idx) => ({
         key: idx,
-        date: ele.date,
+        date: moment(ele.date).format('YYYY-MM-DD'),
         userName: ele.customer.name,
         location: ele.hospital,
+        state: ele._id,
     }));
     const columns = [
         {
@@ -59,7 +63,31 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
             dataIndex: 'location',
             key: 'location',
         },
+        {
+            title: '상태',
+            dataIndex: 'state',
+            key: 'state',
+            render: (orderId: string) => (
+                <>
+                    {orders[0].state === 'apply' && (
+                        <ActionBtn
+                            onClick={() => {
+                                onClickApply(orderId);
+                            }}
+                        >
+                            수락하기
+                        </ActionBtn>
+                    )}
+                    {orders[0].state === 'accept' && <ActionBtn disabled>결제대기중</ActionBtn>}
+                </>
+            ),
+        },
     ];
+
+    const onClickApply = (orderId: string) => {
+        Router.push(`/service/accept/${orderId}`);
+    };
+
     return (
         <Wrapper>
             <Title>{title}</Title>
@@ -79,6 +107,23 @@ const Title = styled.div`
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 2rem;
+`;
+
+const ActionBtn = styled.button.attrs({
+    type: 'button',
+})`
+    border: none;
+    width: 5rem;
+    height: 2rem;
+    background-color: #68d480;
+    border-radius: 10px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    &:disabled {
+        background-color: #999;
+        cursor: grab;
+    }
 `;
 
 export default OrderTable;

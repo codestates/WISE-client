@@ -6,6 +6,7 @@ import { CancelButton, ActionButton } from './style';
 import AcceptSuccessModal from './AcceptSuccessModal';
 import { RootState } from '../reducers';
 import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
+import ResultModal from './ResultModal';
 
 type Props = {
     orderId: string;
@@ -13,8 +14,9 @@ type Props = {
 
 const AcceptOrder = ({ orderId }: Props) => {
     const { accessToken } = useSelector((state: RootState) => state.user);
-    const { reservationAcceptedDone, reservationRejectedDone, reservationAcceptedError, reservationRejectedError } =
-        useSelector((state: RootState) => state.service);
+    const { acceptOrderDone, rejectOrderDone, acceptOrderError, rejectOrderError } = useSelector(
+        (state: RootState) => state.order,
+    );
 
     const dispatch = useDispatch();
 
@@ -26,17 +28,12 @@ const AcceptOrder = ({ orderId }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log('reservation accepted', reservationAcceptedDone);
-        if (
-            reservationAcceptedDone ||
-            reservationRejectedDone ||
-            reservationAcceptedError ||
-            reservationRejectedError
-        ) {
+        console.log('reservation accepted', acceptOrderDone);
+        if (acceptOrderDone || rejectOrderDone || acceptOrderError || rejectOrderError) {
             setShowModal((state) => !state);
             console.log('modal open!');
         }
-    }, [reservationAcceptedDone, reservationRejectedDone, reservationAcceptedError, reservationRejectedError]);
+    }, [acceptOrderDone, rejectOrderDone, acceptOrderError, rejectOrderError]);
 
     const handleClickAccept = useCallback(
         (e) => {
@@ -69,13 +66,45 @@ const AcceptOrder = ({ orderId }: Props) => {
             <ActionButton onClick={handleClickAccept}>수락하기</ActionButton>
             <CancelButton onClick={handleClickReject}>거절하기</CancelButton>
 
-            {showModal && (
+            {/* {showModal && (
                 <AcceptSuccessModal
                     onClose={onCloseModal}
                     success={reservationAcceptedDone}
                     reject={reservationRejectedDone}
                     acceptError={reservationAcceptedError}
                     rejectError={reservationRejectedError}
+                />
+            )} */}
+            {showModal && acceptOrderDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message="성공적으로 매칭되었습니다!"
+                    redirection="home"
+                />
+            )}
+            {showModal && acceptOrderError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message={acceptOrderError}
+                    redirection="home"
+                />
+            )}
+            {showModal && rejectOrderDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message="서비스 요청을 거절했습니다"
+                    redirection="home"
+                />
+            )}
+            {showModal && rejectOrderError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message={rejectOrderError}
+                    redirection="home"
                 />
             )}
         </Wrapper>

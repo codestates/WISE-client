@@ -11,13 +11,15 @@ import { loadServiceRequest } from '../../actions/service';
 import AssistantModify from '../../components/Assistant/AssistantModify';
 import OrderTable from '../../components/Assistant/OrderTable';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
+import Loading from '../../components/Loading';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
 
 const Center = () => {
     const dispatch = useDispatch();
     const { accessToken, me } = useSelector((state: RootState) => state.user);
-    const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders } = useSelector(
+    const { loadServiceLoading } = useSelector((state: RootState) => state.service);
+    const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
     );
     const [tap, setTap] = useState(1);
@@ -34,37 +36,45 @@ const Center = () => {
     }, [dispatch, me]);
 
     return (
-        <Layout title="WISE | MYPAGE">
-            <Wrapper>
-                <NavTap>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>어시스턴트 센터</div>
-                    <Nav>
-                        <div onClick={() => onClickTap(1)}>주문 현황</div>
-                        <div onClick={() => onClickTap(2)}>매칭 완료</div>
-                        <div onClick={() => onClickTap(3)}>결제 내역</div>
-                    </Nav>
-                    <UserInfo>
-                        <div className="userName">{me?.name}</div>
-                        <div className="userEmail">{me?.email}</div>
-                        <div className="profile" onClick={() => onClickTap(4)}>
-                            어시스턴트 수정&nbsp;&nbsp;
-                            <SettingOutlined />
-                        </div>
-                    </UserInfo>
-                </NavTap>
-                <Tap>
-                    {tap === 1 && (
-                        <>
-                            <OrderTable title="수락 대기 중인 유저 목록" orders={assistantApplyOrders} />
-                            <OrderTable title="결제 대기 중인 유저 목록" orders={assistantAcceptOrders} />
-                        </>
-                    )}
-                    {tap === 2 && <OrderTable title="매칭 완료된 유저 목록" orders={assistantCompleteOrders} />}
-                    {tap === 3 && <PaymentDetails orders={assistantCompleteOrders} />}
-                    {tap === 4 && <AssistantModify />}
-                </Tap>
-            </Wrapper>
-        </Layout>
+        <>
+            {loadServiceLoading || loadOrdersLoading ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | MYPAGE">
+                    <Wrapper>
+                        <NavTap>
+                            <div style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>
+                                어시스턴트 센터
+                            </div>
+                            <Nav>
+                                <div onClick={() => onClickTap(1)}>주문 현황</div>
+                                <div onClick={() => onClickTap(2)}>매칭 완료</div>
+                                <div onClick={() => onClickTap(3)}>결제 내역</div>
+                            </Nav>
+                            <UserInfo>
+                                <div className="userName">{me?.name}</div>
+                                <div className="userEmail">{me?.email}</div>
+                                <div className="profile" onClick={() => onClickTap(4)}>
+                                    어시스턴트 수정&nbsp;&nbsp;
+                                    <SettingOutlined />
+                                </div>
+                            </UserInfo>
+                        </NavTap>
+                        <Tap>
+                            {tap === 1 && (
+                                <>
+                                    <OrderTable title="수락 대기 중인 유저 목록" orders={assistantApplyOrders} />
+                                    <OrderTable title="결제 대기 중인 유저 목록" orders={assistantAcceptOrders} />
+                                </>
+                            )}
+                            {tap === 2 && <OrderTable title="매칭 완료된 유저 목록" orders={assistantCompleteOrders} />}
+                            {tap === 3 && <PaymentDetails orders={assistantCompleteOrders} />}
+                            {tap === 4 && <AssistantModify />}
+                        </Tap>
+                    </Wrapper>
+                </Layout>
+            )}
+        </>
     );
 };
 
