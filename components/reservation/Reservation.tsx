@@ -8,6 +8,7 @@ import ReservationSuccessModal from './ReservationSuccessModal';
 import { RootState } from '../../reducers';
 import { Service } from '../../interfaces/data/service';
 import { addOrderRequest } from '../../actions/order';
+import { addNotificationRequest } from '../../actions/notifications';
 
 type Props = {
     service: Service;
@@ -18,7 +19,8 @@ type Props = {
 const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
     const { accessToken } = useSelector((state: RootState) => state.user);
-    const { addOrderDone, addOrderError } = useSelector((state: RootState) => state.order);
+    const { addOrderDone, addOrderError, orderInfo } = useSelector((state: RootState) => state.order);
+    const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
     const onChangehours = useCallback(
         (e) => {
@@ -51,21 +53,6 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
         setMessage(e.target.value);
     }, []);
 
-    const [showModal, setShowModal] = useState(false);
-
-    const onCloseModal = useCallback(() => {
-        setShowModal(false);
-        console.log('clicked!');
-    }, []);
-
-    useEffect(() => {
-        console.log('reservation error', addOrderError);
-        if (addOrderDone || addOrderError) {
-            setShowModal((state) => !state);
-            console.log('modal open!');
-        }
-    }, [addOrderDone, addOrderError]);
-
     const onSubmit = useCallback(
         (e) => {
             e.preventDefault();
@@ -85,6 +72,35 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
         },
         [hospital, pickup, content, message, service._id, hours, accessToken, dispatch, service.wage],
     );
+
+    const [showModal, setShowModal] = useState(false);
+
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+        console.log('clicked!');
+    }, []);
+
+    // POST notification
+    useEffect(() => {
+        if (orderInfo && addOrderDone) {
+            const notification = {
+                recipient: service.assistant._id,
+                subject: orderInfo._id,
+                clientUrl: `/service/accept/${orderInfo._id}`,
+                content: '새로운 서비스 신청 1건이 들어왔습니다',
+            };
+            dispatch(addNotificationRequest(notification, accessToken));
+            console.log('notification sent!');
+        }
+    }, [accessToken, dispatch, service.assistant._id, orderInfo, addOrderDone]);
+
+    useEffect(() => {
+        console.log('reservation error', addOrderError);
+        if (addNotificationDone || addOrderError) {
+            setShowModal((state) => !state);
+            console.log('modal open!');
+        }
+    }, [addNotificationDone, addOrderError]);
 
     return (
         <Wrapper>

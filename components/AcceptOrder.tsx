@@ -8,7 +8,7 @@ import { RootState } from '../reducers';
 import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
 
 type Props = {
-    orderId: string;
+    orderId: string | string[];
 };
 
 const AcceptOrder = ({ orderId }: Props) => {

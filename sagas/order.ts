@@ -24,7 +24,7 @@ import {
     rejectOrderSuccess,
     REJECT_ORDER_REQUEST,
 } from '../actions/order';
-import * as data from '../interfaces/data/service';
+import * as data from '../interfaces/data/order';
 
 function addOrderAPI(accessToken: string, data: data.Order) {
     return axios.post(

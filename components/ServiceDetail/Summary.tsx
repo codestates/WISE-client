@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import { ParsedUrlQuery } from 'querystring';
 import { ActionButton } from '../style';
 import { ShortService } from '../../interfaces/data/service';
 
 type ServiceProps = {
     service: ShortService;
-    searchResult: { date: string; location: string; page: number; time: string };
+    searchResult: ParsedUrlQuery | null;
 };
 
 const Summary = ({ service, searchResult }: ServiceProps) => (
@@ -19,10 +20,10 @@ const Summary = ({ service, searchResult }: ServiceProps) => (
                 <span>지역</span> {service.location}
             </Text>
             <Text>
-                <span>날짜</span> {searchResult.date}
+                <span>날짜</span> {searchResult?.date}
             </Text>
             <Text>
-                <span>시간</span> {searchResult.time}
+                <span>시간</span> {searchResult?.time}
             </Text>
             <Text>
                 <span>평점</span>
@@ -32,7 +33,8 @@ const Summary = ({ service, searchResult }: ServiceProps) => (
                 <span>비용</span> <strong>{service.wage}</strong>원 / 시간
             </Text>
         </Info>
-        <Link href={`../reservation/${service._id}`}>
+        <Link href={`../reservation/${service._id}?date=${searchResult?.date}&time=${searchResult?.time}`}>
+            {/* <Link href={`../reservation/${service._id}`}> */}
             <Button>신청하기</Button>
         </Link>
     </Wrapper>

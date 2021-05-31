@@ -11,15 +11,16 @@ type ServiceCard = {
 };
 
 const ServiceCard = ({ service, searchQuery }: ServiceCard) => (
-    // console.log(searchQuery);
-
     <Link
-        href="/service/detail/[id]"
-        as={
-            searchQuery
-                ? `/service/detail/${service._id}?date=${searchQuery.date}&time=${searchQuery.time}`
-                : `/service/detail/${service._id}`
-        }
+        href={{
+            pathname: `/service/detail/${service._id}`,
+            query: searchQuery
+                ? {
+                      date: searchQuery.date,
+                      time: searchQuery.time,
+                  }
+                : {},
+        }}
     >
         <Container>
             <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />

@@ -1,12 +1,11 @@
 export interface ShortService {
     _id: string;
     images: string[];
-    assistant:
-        | {
-              _id: string;
-              name: string;
-          }
-        | string;
+    assistant: {
+        _id: string;
+        name: string;
+    };
+    // | string;
     wage: number;
     greetings: string;
     location: string;

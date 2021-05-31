@@ -7,13 +7,13 @@ import styled from 'styled-components';
 
 // Import Swiper styles
 import 'swiper/swiper-bundle.css';
-import { LongService } from '../../interfaces/data/service';
+import { Service } from '../../interfaces/data/service';
 
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
 type Props = {
-    service: LongService;
+    service: Service;
 };
 const SwiperContainer = ({ service }: Props) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
@@ -35,7 +35,8 @@ const SwiperContainer = ({ service }: Props) => {
 
 const Wrapper = styled.div`
     margin-left: 5%;
-    max-width: 52vw;
+    /* width: 90%; */
+    max-width: 53vw;
     min-height: 30vh;
     /* .mySwiper {
         max-width: 50vw;

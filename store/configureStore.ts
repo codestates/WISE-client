@@ -7,11 +7,19 @@ import rootSaga from '../sagas';
 import rootReducer from '../reducers';
 import { UserState } from '../interfaces/data/user';
 import { ServiceState } from '../interfaces/data/service';
+import { OrderState } from '../interfaces/data/order';
+import { PaymentState } from '../interfaces/data/payment';
+import { ReviewState } from '../interfaces/data/review';
+import { NotificationsState } from '../interfaces/data/notifications';
 
 export interface CombinedState {
     index: string;
     user: UserState;
     service: ServiceState;
+    order: OrderState;
+    payment: PaymentState;
+    review: ReviewState;
+    notifications: NotificationsState;
 }
 
 const configureStore: MakeStore<CombinedState> = () => {

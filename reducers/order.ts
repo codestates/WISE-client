@@ -58,6 +58,7 @@ const reducer = (state = initialState, action: OrderAction) =>
             case ADD_ORDER_SUCCESS:
                 draft.addOrderLoading = false;
                 draft.addOrderDone = true;
+                draft.orderInfo = action.order;
                 break;
             case ADD_ORDER_FAILURE:
                 draft.addOrderLoading = false;
@@ -91,6 +92,7 @@ const reducer = (state = initialState, action: OrderAction) =>
                 draft.orderInfo = null;
                 break;
             case LOAD_ORDER_INFO_SUCCESS:
+                draft.loadOrderInfoLoading = false;
                 draft.loadOrderInfoDone = true;
                 draft.orderInfo = action.order;
                 break;

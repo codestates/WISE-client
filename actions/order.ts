@@ -1,4 +1,4 @@
-import { Order } from '../interfaces/data/service';
+import { Order } from '../interfaces/data/order';
 
 export const ADD_ORDER_REQUEST = 'ADD_ORDER_REQUEST' as const;
 export const ADD_ORDER_SUCCESS = 'ADD_ORDER_SUCCESS' as const;
@@ -66,7 +66,7 @@ export const loadOrderInfoFailure = (error: string) => ({
     error,
 });
 
-export const acceptOrderRequest = (orderId: string, accessToken: string, state: string) => ({
+export const acceptOrderRequest = (orderId: string | string[], accessToken: string, state: string) => ({
     type: ACCEPT_ORDER_REQUEST,
     orderId,
     accessToken,
@@ -81,7 +81,7 @@ export const acceptOrderFailure = (error: string) => ({
     error,
 });
 
-export const rejectOrderRequest = (orderId: string, accessToken: string) => ({
+export const rejectOrderRequest = (orderId: string | string[], accessToken: string) => ({
     type: REJECT_ORDER_REQUEST,
     orderId,
     accessToken,

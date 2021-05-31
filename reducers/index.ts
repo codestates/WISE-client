@@ -6,12 +6,13 @@ import service from './service';
 import order from './order';
 import review from './review';
 import payment from './payment';
+import notifications from './notifications';
 // import { CombinedState } from '../store/configureStore';
 
 const rootReducer: Reducer<any, AnyAction> = (state, action) => {
     switch (action.type) {
         case HYDRATE:
-            console.log('HYDRATE', action);
+            // console.log('HYDRATE', action);
             return action.payload;
         default: {
             const combinedReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer: Reducer<any, AnyAction> = (state, action) => {
                 order,
                 review,
                 payment,
+                notifications,
             });
             return combinedReducer(state, action);
         }

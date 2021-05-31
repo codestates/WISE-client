@@ -1,9 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 // import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/reservation/Reservation';
 import wrapper from '../../../store/configureStore';
@@ -18,12 +20,16 @@ const Global = createGlobalStyle`
 `;
 
 const ReservationDetail = () => {
-    // const router = useRouter();
-    // const { id } = router.query;
-    // console.log(id);
-
+    const router = useRouter();
     const { service } = useSelector((state: RootState) => state.service);
     console.log(service);
+
+    const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
+
+    useEffect(() => {
+        console.log(router.isReady, router.query);
+        setSearchResult(router.query);
+    }, [router.isReady, router.query]);
 
     const [hours, setHours] = useState(1);
 
@@ -33,13 +39,13 @@ const ReservationDetail = () => {
 
     return (
         <>
-            {service ? (
+            {service && searchResult ? (
                 <Layout title="Reservation">
                     <>
                         <Global />
                         <Wrapper>
                             <Reservation service={service} handleChangehours={handleChangehours} hours={hours} />
-                            <AssistantInfo service={service} hours={hours} />
+                            <AssistantInfo service={service} hours={hours} searchResult={searchResult} />
                         </Wrapper>
                     </>
                 </Layout>
@@ -60,7 +66,7 @@ const Wrapper = styled.div`
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     context.store.dispatch({
         type: LOAD_SERVICE_INFO_REQUEST,
-        serviceId: context.params?.id,
+        serviceId: context.params?.serviceId,
     });
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();

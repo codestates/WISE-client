@@ -8,13 +8,20 @@ import Router from 'next/router';
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { RootState } from '../reducers';
 import { logoutRequest } from '../actions/user';
-import NotificationModal from '../components/NotificationModal';
+import NotificationModal from '../components/Notifications/NotificationModal';
+import { loadNotificationsRequest } from '../actions/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin, logoutDone } = useSelector((state: RootState) => state.user);
+    const { me, islogin, logoutDone, accessToken } = useSelector((state: RootState) => state.user);
 
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        if (accessToken) {
+            dispatch(loadNotificationsRequest(me._id, accessToken));
+        }
+    }, [accessToken, dispatch, me]);
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);
@@ -134,7 +141,7 @@ const Logo = styled.img`
 
 const UserTap = styled.div`
     // border: 1px solid black;
-    width: 320px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
     align-items: center;

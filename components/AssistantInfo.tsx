@@ -1,12 +1,17 @@
+import { ParsedUrlQuery } from 'querystring';
 import styled from 'styled-components';
 import { Service } from '../interfaces/data/service';
 
 type Props = {
     service: Service;
     hours: number;
+    searchResult?: ParsedUrlQuery | null;
 };
 
-const AssistantInfo = ({ service, hours }: Props) => {
+// TODO: searchResult default props 적용,
+//  payment에서는 어떻게 이걸 적용할지 고민, redux로 관리해야 할 거 같음
+
+const AssistantInfo = ({ service, hours, searchResult }: Props) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
 
     return (
@@ -22,10 +27,10 @@ const AssistantInfo = ({ service, hours }: Props) => {
                 <span>지역</span> {service.location}
             </Text>
             <Text>
-                <span>날짜</span> 2021 - 05 - 14
+                <span>날짜</span> {searchResult?.date}
             </Text>
             <Text>
-                <span>시간</span> 오전
+                <span>시간</span> {searchResult?.time}
             </Text>
             <Text>
                 <span>비용</span> {service.wage}원 / 시간

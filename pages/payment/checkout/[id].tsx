@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-
 import AssistantInfo from '../../../components/AssistantInfo';
 import { RootState } from '../../../reducers/index';
 
@@ -32,6 +31,7 @@ const Payment = () => {
     const { service } = useSelector((state: RootState) => state.service);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     console.log(orderInfo);
+
     useEffect(() => {
         if (accessToken) {
             dispatch(loadOrderInfoRequest(id, accessToken));
