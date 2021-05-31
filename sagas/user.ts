@@ -34,6 +34,7 @@ import {
 axios.defaults.withCredentials = true;
 
 async function loginToken({ email, password, signinMethod }: LoginData) {
+    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
     let result = null;
     if (signinMethod === 'password') {
         result = await auth.signInWithEmailAndPassword(email as string, password as string);

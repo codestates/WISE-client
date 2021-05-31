@@ -1,16 +1,16 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
+import axios from 'axios';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
 import ReviewComponent from '../../../components/ServiceDetail/Review';
-
 import Loading from '../../../components/Loading';
 import FAQ from '../../../components/ServiceDetail/FAQ';
 import Refund from '../../../components/ServiceDetail/Refund';
@@ -18,7 +18,7 @@ import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
 import Swiper from '../../../components/ServiceDetail/Swiper';
-import { LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
+import { loadServiceSchedule, LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
 
 const Global = createGlobalStyle`
     footer {
@@ -35,7 +35,7 @@ const Global = createGlobalStyle`
 `;
 
 const ServiceDetail = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const router = useRouter();
     const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
 
@@ -52,6 +52,14 @@ const ServiceDetail = () => {
     // }, [searchResult, dispatch]);
 
     const { service } = useSelector((state: RootState) => state.service);
+
+    useEffect(() => {
+        if (typeof router.query.id === 'string') {
+            axios.get(`http://localhost:5000/api/v1/services/schedule?serviceId=${router.query.id}`).then((result) => {
+                dispatch(loadServiceSchedule(result.data));
+            });
+        }
+    }, [dispatch, router]);
 
     return (
         <>

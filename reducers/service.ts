@@ -18,6 +18,7 @@ import {
     LOAD_SERVICE_INFO_REQUEST,
     LOAD_SERVICE_INFO_SUCCESS,
     LOAD_SERVICE_REQUEST,
+    LOAD_SERVICE_SCHEDULE,
     LOAD_SERVICE_SUCCESS,
     LOAD_TOTAL_SERVICES_FAILURE,
     LOAD_TOTAL_SERVICES_REQUEST,
@@ -39,6 +40,7 @@ export const initialState: ServiceState = {
     searchServices: [],
     searchServicesCount: 0,
     searchQuery: null,
+    serviceSchedule: null,
     addServiceLoading: false,
     addServiceDone: false,
     addServiceError: null,
@@ -188,6 +190,9 @@ const reducer = (state = initialState, action: ServiceAction) =>
             case LOAD_SERVICE_INFO_FAILURE:
                 draft.loadServiceInfoLoading = false;
                 draft.loadServiceInfoError = action.error;
+                break;
+            case LOAD_SERVICE_SCHEDULE:
+                draft.serviceSchedule = action.schedule;
                 break;
             default:
                 break;

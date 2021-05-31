@@ -13,7 +13,7 @@ import {
     LOAD_FIRST_REVIEWS_REQUEST,
     LOAD_MORE_REVIEWS_REQUEST,
 } from '../actions/review';
-import { Review } from '../interfaces/data/service';
+import { Review } from '../interfaces/data/review';
 
 function loadFirstReviewsAPI(serviceId: string) {
     return axios.get(`api/v1/reviews?serviceId=${serviceId}&page=${1}`);

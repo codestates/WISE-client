@@ -10,6 +10,7 @@ import { loadOrdersRequest } from '../../actions/order';
 
 import AssistantList from '../../components/Assistant/AssistantList';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
+import Loading from '../../components/Loading';
 import ProfileModify from '../../components/ProfileModify';
 
 import Layout from '../../layout/Layout';
@@ -17,8 +18,9 @@ import { RootState } from '../../reducers';
 
 const Mypage = () => {
     const dispatch = useDispatch();
-    const { accessToken, me, customerProgressOrders, customerCompleteOrders } = useSelector(
-        (state: RootState) => state.user,
+    const { accessToken, me } = useSelector((state: RootState) => state.user);
+    const { customerProgressOrders, customerCompleteOrders, loadOrdersLoading } = useSelector(
+        (state: RootState) => state.order,
     );
     const [tap, setTap] = useState(1);
 
@@ -35,32 +37,40 @@ const Mypage = () => {
     }, [dispatch, me]);
 
     return (
-        <Layout title="WISE | MYPAGE">
-            <Wrapper>
-                <NavTap>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
-                    <Nav>
-                        <div onClick={() => onClickTap(1)}>주문 현황</div>
-                        <div onClick={() => onClickTap(2)}>매칭 완료</div>
-                        <div onClick={() => onClickTap(3)}>결제 내역</div>
-                    </Nav>
-                    <UserInfo>
-                        <div className="userName">{me?.name}</div>
-                        <div className="userEmail">{me?.email}</div>
-                        <div className="profile" onClick={() => onClickTap(4)}>
-                            프로필 업데이트&nbsp;&nbsp;
-                            <SettingOutlined />
-                        </div>
-                    </UserInfo>
-                </NavTap>
-                <Tap>
-                    {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
-                    {tap === 2 && <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerCompleteOrders} />}
-                    {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
-                    {tap === 4 && <ProfileModify />}
-                </Tap>
-            </Wrapper>
-        </Layout>
+        <>
+            {loadOrdersLoading ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | MYPAGE">
+                    <Wrapper>
+                        <NavTap>
+                            <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
+                            <Nav>
+                                <div onClick={() => onClickTap(1)}>주문 현황</div>
+                                <div onClick={() => onClickTap(2)}>매칭 완료</div>
+                                <div onClick={() => onClickTap(3)}>결제 내역</div>
+                            </Nav>
+                            <UserInfo>
+                                <div className="userName">{me?.name}</div>
+                                <div className="userEmail">{me?.email}</div>
+                                <div className="profile" onClick={() => onClickTap(4)}>
+                                    프로필 업데이트&nbsp;&nbsp;
+                                    <SettingOutlined />
+                                </div>
+                            </UserInfo>
+                        </NavTap>
+                        <Tap>
+                            {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
+                            {tap === 2 && (
+                                <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerProgressOrders} />
+                            )}
+                            {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
+                            {tap === 4 && <ProfileModify />}
+                        </Tap>
+                    </Wrapper>
+                </Layout>
+            )}
+        </>
     );
 };
 

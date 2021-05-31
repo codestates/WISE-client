@@ -13,6 +13,11 @@ const AssistantCard = ({ order }: AssistantCard) => {
     const onClickPayment = useCallback(() => {
         Router.replace(`/payment/checkout/${order._id}`);
     }, [order]);
+
+    const onClickReview = useCallback(() => {
+        Router.replace(`/payment/checkout/${order._id}`);
+    }, []);
+
     return (
         <Container>
             <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + order.service.images[0]} alt="샘플이미지" />
@@ -21,7 +26,11 @@ const AssistantCard = ({ order }: AssistantCard) => {
             {order.state === 'apply' && <Btn disabled>수락 대기중</Btn>}
             {order.state === 'accept' && <Btn onClick={onClickPayment}>결제하기</Btn>}
             {order.state === 'complete' &&
-                (order.isReviewed ? <Btn disabled>후기 작성 완료</Btn> : <Btn>후기 남기러가기</Btn>)}
+                (order.isReviewed ? (
+                    <Btn disabled>후기 작성 완료</Btn>
+                ) : (
+                    <Btn onClick={onClickReview}>후기 남기러가기</Btn>
+                ))}
         </Container>
     );
 };

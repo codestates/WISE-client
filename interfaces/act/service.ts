@@ -23,6 +23,7 @@ import {
     loadServiceInfoRequest,
     loadServiceInfoSuccess,
     loadServiceInfoFailure,
+    loadServiceSchedule,
 } from '../../actions/service';
 
 export type ServiceAction =
@@ -49,4 +50,5 @@ export type ServiceAction =
     | ReturnType<typeof loadSearchServicesFailure>
     | ReturnType<typeof loadServiceInfoRequest>
     | ReturnType<typeof loadServiceInfoSuccess>
-    | ReturnType<typeof loadServiceInfoFailure>;
+    | ReturnType<typeof loadServiceInfoFailure>
+    | ReturnType<typeof loadServiceSchedule>;

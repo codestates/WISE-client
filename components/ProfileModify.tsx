@@ -5,12 +5,18 @@ import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { RootState } from '../reducers';
 import useInput from '../hooks/useInput';
-import { InputWrapper, Image, ProfileImagesWrapper, DeleteBtn, SubmitBtn } from './style';
+import { InputWrapper, DeleteBtn, SubmitBtn } from './style';
 import { changeProfileRequest } from '../actions/user';
+import ResultModal from './ResultModal';
 
 const ProfileModify = () => {
     const dispatch = useDispatch();
-    const { me, accessToken, changeProfileDone } = useSelector((state: RootState) => state.user);
+    const { me, accessToken, changeProfileDone, changeProfileError } = useSelector((state: RootState) => state.user);
+
+    const [showModal, setShowModal] = useState(false);
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+    }, []);
 
     // 프로필 이미지
     const [image, setImage] = useState<File | null>(null);
@@ -44,21 +50,27 @@ const ProfileModify = () => {
         [me, accessToken, image, name, mobile, dispatch],
     );
 
-    const [successMsg, setSuccessMsg] = useState(changeProfileDone);
-
     useEffect(() => {
-        setSuccessMsg(changeProfileDone);
-    }, [changeProfileDone]);
-
-    useEffect(() => {
-        setSuccessMsg('');
-    }, []);
+        if (changeProfileDone || changeProfileError) {
+            setShowModal(true);
+        }
+    }, [changeProfileDone, changeProfileError]);
 
     return (
         <Wrapper>
             <Title>프로필 수정</Title>
             <ProfileForm onSubmit={onSubmit}>
-                {me.image && <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />}
+                <InputWrapper>
+                    {!image && me.image && <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />}
+                    {image && (
+                        <>
+                            <Avatar src={URL.createObjectURL(image)} alt="avatar" />
+                            <DeleteBtn type="button" onClick={removeImage}>
+                                <CloseOutlined />
+                            </DeleteBtn>
+                        </>
+                    )}
+                </InputWrapper>
                 <InputWrapper>
                     <span>프로필 이미지</span>
                     <input type="file" accept="image/*" multiple hidden ref={imageInput} onChange={onChangeImages} />
@@ -66,16 +78,6 @@ const ProfileModify = () => {
                         Upload
                     </Button>
                 </InputWrapper>
-                <ProfileImagesWrapper>
-                    {image && (
-                        <>
-                            <Image src={URL.createObjectURL(image)} alt="profile" />
-                            <DeleteBtn type="button" onClick={removeImage}>
-                                <CloseOutlined />
-                            </DeleteBtn>
-                        </>
-                    )}
-                </ProfileImagesWrapper>
                 <InputWrapper>
                     <span>이름</span>
                     <input className="shortInput" onChange={onChangeName} placeholder={me.name} value={name} />
@@ -87,8 +89,23 @@ const ProfileModify = () => {
                 <SubmitBtn type="submit" className="submitbtn">
                     프로필 수정
                 </SubmitBtn>
-                {successMsg && '프로필이 변경되었습니다.'}
             </ProfileForm>
+            {showModal && changeProfileDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="프로필 수정"
+                    message="프로필이 변경되었습니다"
+                    redirection="home"
+                />
+            )}
+            {showModal && changeProfileError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="프로필 수정"
+                    message="로그인이 필요합니다"
+                    redirection="signin"
+                />
+            )}
         </Wrapper>
     );
 };
@@ -112,7 +129,6 @@ const ProfileForm = styled.form`
 const Wrapper = styled.div`
     // border: 1px solid black;
     max-width: 820px;
-    position: relative;
 `;
 
 const Title = styled.div`

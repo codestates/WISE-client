@@ -1,4 +1,4 @@
-import { Review } from '../interfaces/data/service';
+import { Review } from '../interfaces/data/review';
 
 export const LOAD_FIRST_REVIEWS_REQUEST = 'LOAD_FIRST_REVIEWS_REQUEST' as const;
 export const LOAD_FIRST_REVIEWS_SUCCESS = 'LOAD_FIRST_REVIEWS_SUCCESS' as const;

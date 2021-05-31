@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import Router from 'next/router';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import {
@@ -20,6 +19,7 @@ import {
 } from '../style';
 import { RootState } from '../../reducers';
 import { changeServiceRequest } from '../../actions/service';
+import ResultModal from '../ResultModal';
 
 type availableDay = {
     label: string;
@@ -29,7 +29,18 @@ type availableDay = {
 const AssistantModify = () => {
     const dispatch = useDispatch();
     const { accessToken } = useSelector((state: RootState) => state.user);
-    const { myService, changeServiceDone } = useSelector((state: RootState) => state.service);
+    const { myService, changeServiceDone, changeServiceError } = useSelector((state: RootState) => state.service);
+
+    const [showModal, setShowModal] = useState(false);
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+    }, []);
+
+    useEffect(() => {
+        if (changeServiceDone || changeServiceError) {
+            setShowModal(true);
+        }
+    }, [changeServiceDone, changeServiceError]);
 
     // 가능 지역
     const [location, setLocation] = useState(myService.location);
@@ -143,12 +154,6 @@ const AssistantModify = () => {
     const onChangeIsDriver = useCallback((e: RadioChangeEvent) => {
         setIsDriver(e.target.value);
     }, []);
-
-    useEffect(() => {
-        if (changeServiceDone) {
-            Router.replace('/home');
-        }
-    }, [changeServiceDone]);
 
     const onSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>) => {
@@ -327,6 +332,22 @@ const AssistantModify = () => {
                     </SubmitBtn>
                 </SubmitBtnWrapper>
             </RegisterFormWrapper>
+            {showModal && changeServiceDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="어시스턴트 정보 수정"
+                    message="어시스턴트 정보가 변경되었습니다"
+                    redirection="home"
+                />
+            )}
+            {showModal && changeServiceError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="어시스턴트 정보 수정"
+                    message="로그인이 필요합니다"
+                    redirection="signin"
+                />
+            )}
         </Wrapper>
     );
 };
@@ -334,7 +355,6 @@ const AssistantModify = () => {
 const Wrapper = styled.div`
     // border: 1px solid black;
     max-width: 820px;
-    position: relative;
 `;
 
 const Title = styled.div`

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Button, DatePicker, Radio, RadioChangeEvent, Select } from 'antd';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
@@ -5,8 +6,8 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { loadSearchServicesRequest } from '../../actions/service';
 import { RootState } from '../../reducers';
+import { loadSearchServicesRequest } from '../../actions/service';
 
 const SearchBar = () => {
     const router = useRouter();
@@ -43,6 +44,8 @@ const SearchBar = () => {
         setTime(e.target.value);
     }, []);
 
+    const disabledDate = (current: any) => current < moment().subtract(1, 'days').endOf('day');
+
     return (
         <Wrapper>
             <h2>어시스턴트 찾기</h2>
@@ -61,8 +64,8 @@ const SearchBar = () => {
                     <Select.Option value="서울시 강서구">서울시 강서구</Select.Option>
                     <Select.Option value="서울시 송파구">서울시 송파구</Select.Option>
                 </Select>
-                <DatePicker onChange={onChangeDate} />
-                <Radio.Group onChange={onChangeTime} value={searchQuery?.time || time} size="middle">
+                <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
+                <Radio.Group onChange={onChangeTime} size="middle">
                     <Radio.Button value="am">오전</Radio.Button>
                     <Radio.Button value="pm">오후</Radio.Button>
                 </Radio.Group>

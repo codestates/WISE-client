@@ -1,14 +1,14 @@
 /* eslint-disable no-underscore-dangle */
 import Link from 'next/link';
 import styled from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from '../style';
-import ReservationSuccessModal from './ReservationSuccessModal';
 import { RootState } from '../../reducers';
 import { Service } from '../../interfaces/data/service';
 import { addOrderRequest } from '../../actions/order';
 import { addNotificationRequest } from '../../actions/notifications';
+import ResultModal from '../ResultModal';
 
 type Props = {
     service: Service;
@@ -189,8 +189,21 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
             <Link href="/home">
                 <CancelButton>취소하기</CancelButton>
             </Link>
-            {showModal && (
-                <ReservationSuccessModal onClose={onCloseModal} success={addOrderDone} error={addOrderError} />
+            {showModal && addOrderDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="서비스 신청하기"
+                    message="서비스 신청에 성공했습니다."
+                    redirection="home"
+                />
+            )}
+            {showModal && addOrderError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="서비스 신청하기"
+                    message="로그인이 필요합니다"
+                    redirection="signin"
+                />
             )}
         </Wrapper>
     );

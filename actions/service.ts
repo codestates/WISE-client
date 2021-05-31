@@ -40,6 +40,8 @@ export const LOAD_SERVICE_INFO_REQUEST = 'LOAD_SERVICE_INFO_REQUEST' as const;
 export const LOAD_SERVICE_INFO_SUCCESS = 'LOAD_SERVICE_INFO_SUCCESS' as const;
 export const LOAD_SERVICE_INFO_FAILURE = 'LOAD_SERVICE_INFO_FAILURE' as const;
 
+export const LOAD_SERVICE_SCHEDULE = 'LOAD_SERVICE_SCHEDULE' as const;
+
 // 서비스 등록
 export const addServiceRequest = (data: FormData, accessToken: string) => ({
     type: ADD_SERVICE_REQUEST,
@@ -170,4 +172,9 @@ export const loadServiceInfoSuccess = (service: Service) => ({
 export const loadServiceInfoFailure = (error: string) => ({
     type: LOAD_SERVICE_INFO_FAILURE,
     error,
+});
+
+export const loadServiceSchedule = (schedule: any) => ({
+    type: LOAD_SERVICE_SCHEDULE,
+    schedule,
 });

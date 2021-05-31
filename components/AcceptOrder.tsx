@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './style';
-import AcceptSuccessModal from './AcceptSuccessModal';
 import { RootState } from '../reducers';
 import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
 import { addNotificationRequest, checkNotificationRequest } from '../actions/notifications';
+import ResultModal from './ResultModal';
 
 type Props = {
     orderId: string | string[];
@@ -29,6 +29,14 @@ const AcceptOrder = ({ orderId }: Props) => {
         setShowModal(false);
         console.log('clicked!');
     }, []);
+
+    useEffect(() => {
+        console.log('reservation accepted', acceptOrderDone);
+        if (acceptOrderDone || rejectOrderDone || acceptOrderError || rejectOrderError) {
+            setShowModal((state) => !state);
+            console.log('modal open!');
+        }
+    }, [acceptOrderDone, rejectOrderDone, acceptOrderError, rejectOrderError]);
 
     const handleClickAccept = useCallback(
         (e) => {
@@ -108,13 +116,45 @@ const AcceptOrder = ({ orderId }: Props) => {
             <ActionButton onClick={handleClickAccept}>수락하기</ActionButton>
             <CancelButton onClick={handleClickReject}>거절하기</CancelButton>
 
-            {showModal && (
+            {/* {showModal && (
                 <AcceptSuccessModal
                     onClose={onCloseModal}
                     success={acceptOrderDone}
                     reject={rejectOrderDone}
                     acceptError={acceptOrderError}
                     rejectError={rejectOrderError}
+                />
+            )} */}
+            {showModal && acceptOrderDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message="성공적으로 매칭되었습니다!"
+                    redirection="home"
+                />
+            )}
+            {showModal && acceptOrderError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message={acceptOrderError}
+                    redirection="home"
+                />
+            )}
+            {showModal && rejectOrderDone && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message="서비스 요청을 거절했습니다"
+                    redirection="home"
+                />
+            )}
+            {showModal && rejectOrderError && (
+                <ResultModal
+                    onClose={onCloseModal}
+                    title="신청 수락하기"
+                    message={rejectOrderError}
+                    redirection="home"
                 />
             )}
         </Wrapper>

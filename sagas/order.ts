@@ -24,9 +24,9 @@ import {
     rejectOrderSuccess,
     REJECT_ORDER_REQUEST,
 } from '../actions/order';
-import * as data from '../interfaces/data/order';
+import { Order } from '../interfaces/data/order';
 
-function addOrderAPI(accessToken: string, data: data.Order) {
+function addOrderAPI(accessToken: string, data: Order) {
     return axios.post(
         `api/v1/orders`,
         {
@@ -42,7 +42,7 @@ function addOrderAPI(accessToken: string, data: data.Order) {
 
 function* addOrder(action: ReturnType<typeof addOrderRequest>) {
     try {
-        const result: AxiosResponse<{ order: data.Order }> = yield call(addOrderAPI, action.accessToken, action.data);
+        const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.accessToken, action.data);
         yield put(addOrderSuccess(result.data.order));
     } catch (err) {
         console.log(err);
@@ -61,7 +61,7 @@ function loadOrdersAPI(accessToken: string, userType: string, userId: string) {
 
 function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
     try {
-        const result: AxiosResponse<{ orders: data.Order[] }> = yield call(
+        const result: AxiosResponse<{ orders: Order[] }> = yield call(
             loadOrdersAPI,
             action.accessToken,
             action.userType,
@@ -85,7 +85,7 @@ function loadOrderInfoAPI(orderId: string | string[], accessToken: string) {
 
 function* loadOrderInfo(action: ReturnType<typeof loadOrderInfoRequest>) {
     try {
-        const result: AxiosResponse<{ order: data.Order }> = yield call(
+        const result: AxiosResponse<{ order: Order }> = yield call(
             loadOrderInfoAPI,
             action.orderId,
             action.accessToken,
@@ -112,7 +112,7 @@ function acceptOrderAPI(orderId: string, accessToken: string, state: string) {
 
 function* acceptOrder(action: ReturnType<typeof acceptOrderRequest>) {
     try {
-        const result: AxiosResponse<{ order: data.Order }> = yield call(
+        const result: AxiosResponse<{ order: Order }> = yield call(
             acceptOrderAPI,
             action.orderId,
             action.accessToken,

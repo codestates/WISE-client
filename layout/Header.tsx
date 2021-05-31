@@ -14,7 +14,7 @@ import { Notification } from '../interfaces/data/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin, accessToken } = useSelector((state: RootState) => state.user);
+    const { me, islogin, accessToken, logOutDone } = useSelector((state: RootState) => state.user);
     const { loadNotificationsDone, notifications } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
     const [unchecked, setUnchecked] = useState(0);
@@ -38,6 +38,12 @@ const Header = () => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
+
+    useEffect(() => {
+        if (logOutDone) {
+            Router.replace('/home');
+        }
+    }, [logOutDone]);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequest());

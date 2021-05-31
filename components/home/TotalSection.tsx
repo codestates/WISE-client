@@ -17,7 +17,18 @@ const TotalSection = ({ title, searchQuery }: TotalSectionProps) => {
 
     return (
         <Wrapper>
-            <Header>{title}</Header>
+            <Header>
+                {title !== '검색 결과' ? (
+                    <>{title}</>
+                ) : (
+                    <>
+                        {title}
+                        <div style={{ marginTop: '10px', fontSize: '16px', color: '#999' }}>
+                            {searchQuery && `${searchQuery?.location} | ${searchQuery?.date} | ${searchQuery?.time}`}
+                        </div>
+                    </>
+                )}
+            </Header>
             <Row style={{ overflow: 'hidden' }}>
                 {title === '검색 결과'
                     ? searchServices.map((ele: ShortService) => (

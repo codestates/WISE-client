@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import styled from 'styled-components';
+import moment from 'moment';
 import { Order } from '../../interfaces/data/order';
 
 // {
@@ -39,7 +40,7 @@ const PaymentDetails = ({ orders }: PaymentDetailsProps) => {
     const dataSource = orders?.map((ele, idx) => ({
         key: idx,
         orderName: `${ele.assistant.name}의 동행 서비스`,
-        date: ele.date,
+        date: moment(ele.date).format('YYYY-MM-DD'),
         mobile: ele.assistant.mobile,
         totalPayment: ele.totalPayment,
     }));
