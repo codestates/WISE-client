@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
-import { ActionButton } from '../style';
+import { ActionButton } from '../style/style';
 import { ShortService } from '../../interfaces/data/service';
 
 type ServiceProps = {

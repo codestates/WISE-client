@@ -112,6 +112,27 @@ const Header = () => {
                             <LoginBtn onClick={Login}>로그인</LoginBtn>
                         )}
                     </UserTap>
+                    <Responsive>
+                        <div onClick={onClickModal}>
+                            {me &&
+                                (showModal ? (
+                                    <>
+                                        {unchecked > 0 ? <NotiNum>{unchecked}</NotiNum> : ''}
+                                        <BellOutlined
+                                            style={{
+                                                color: '#68d480',
+                                            }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        {unchecked > 0 ? <NotiNum>{unchecked}</NotiNum> : ''}
+                                        <BellOutlined />
+                                    </>
+                                ))}
+                        </div>
+                        <div>=</div>
+                    </Responsive>
                 </Container>
             </Wrapper>
         </>
@@ -168,6 +189,23 @@ const UserTap = styled.div`
         font-size: 1.5rem;
         line-height: 2rem;
         cursor: pointer;
+    }
+    @media ${(props) => props.theme.mobile} {
+        display: none;
+    }
+`;
+
+const Responsive = styled.div`
+    display: none;
+    @media ${(props) => props.theme.mobile} {
+        display: flex;
+        flex-direction: row;
+        svg {
+            font-size: 1.5rem;
+            line-height: 2rem;
+            cursor: pointer;
+            margin-right: 2rem;
+        }
     }
 `;
 

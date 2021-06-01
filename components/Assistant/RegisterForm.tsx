@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
@@ -8,18 +8,19 @@ import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import Router from 'next/router';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import {
-    ProfileImagesWrapper,
-    Image,
-    SubmitBtnWrapper,
-    ImagesWrapper,
-    DeleteBtn,
-    InputWrapper,
-    SubmitBtn,
-    RegisterFormWrapper,
-} from '../style';
+
 import { RootState } from '../../reducers';
 import { addServiceRequest } from '../../actions/service';
+import {
+    RegisterFormWrapper,
+    InputWrapper,
+    ProfileImagesWrapper,
+    DeleteBtn,
+    ImagesWrapper,
+    SubmitBtnWrapper,
+    SubmitBtn,
+    Image,
+} from '../style/style';
 
 type availableDay = {
     label: string;

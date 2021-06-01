@@ -2,7 +2,8 @@ import Link from 'next/link';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import SignupAuthForm from '../../components/auth/SignupAuthForm';
-import { AuthGlobal, CoverImg, Modal, ModalFooter, ModalTitle } from '../../components/auth/styles';
+import { CoverImg, Modal, ModalFooter, ModalTitle } from '../../components/style/authStyle';
+import { AuthGlobal } from '../../components/style/global';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
 

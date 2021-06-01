@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { loginRequest } from '../../actions/user';
 import { RootState } from '../../reducers';
+import { ErrorBox, FormBtn, Form, InputWrapper } from '../style/authStyle';
 import ErrorMessage from './ErrorMessage';
 import Oauth from './Oauth';
-import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
 
 const SigninForm = () => {
     const dispatch = useDispatch();

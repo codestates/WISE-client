@@ -1,15 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import styled, { createGlobalStyle } from 'styled-components';
-
-export const AuthGlobal = createGlobalStyle`
-    header {
-        background: rgba(255, 255, 255, 1);
-    }
-    footer {
-        position: absolute;
-        visibility:hidden;
-    }
-`;
+import styled from 'styled-components';
 
 export const CoverImg = styled.img.attrs({
     src: '/images/wise_bg.png',
@@ -21,6 +11,9 @@ export const CoverImg = styled.img.attrs({
     filter: ${(props) => props.filter && 'brightness(80%)'};
     top: 0;
     z-index: -50;
+    @media ${(props) => props.theme.mobile} {
+        display: none;
+    }
 `;
 
 export const Modal = styled.div`
@@ -34,6 +27,14 @@ export const Modal = styled.div`
     display: flex;
     flex-direction: column;
     box-shadow: 0 0.2rem 0.3rem 0.1rem rgba(85, 85, 85, 0.25);
+    @media ${(props) => props.theme.mobile} {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0;
+    }
 `;
 
 export const ModalTitle = styled.div`
@@ -83,6 +84,11 @@ export const InputWrapper = styled.div`
         outline: none;
     }
     margin-bottom: 21px;
+
+    @media ${(props) => props.theme.mobile} {
+        width: 60vw;
+        align-self: center;
+    }
 `;
 
 export const FormBtn = styled.button.attrs({
@@ -99,6 +105,10 @@ export const FormBtn = styled.button.attrs({
     margin-bottom: 20px;
     &:focus {
         outline: none;
+    }
+    @media ${(props) => props.theme.mobile} {
+        width: 60vw;
+        align-self: center;
     }
 `;
 

@@ -10,7 +10,7 @@ import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
 
 import Loading from '../../../components/Loading';
-import { ActionButton, WarningBox } from '../../../components/style';
+import { ActionButton, WarningBox } from '../../../components/style/style';
 import ReservationInfo from '../../../components/reservation/ReservationInfo';
 import { loadOrderInfoRequest } from '../../../actions/order';
 

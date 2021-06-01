@@ -1,11 +1,12 @@
 /* eslint-disable consistent-return */
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { InputWrapper, Form, FormBtn, ErrorBox } from './styles';
 import ErrorMessage from './ErrorMessage';
 import { RootState } from '../../reducers';
 import { emailCheckRequest } from '../../actions/user';
+
+import { ErrorBox, Form, FormBtn, InputWrapper } from '../style/authStyle';
 
 const SignupAuthForm = () => {
     const dispatch = useDispatch();

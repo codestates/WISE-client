@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import React from 'react';
 import { Order } from '../interfaces/data/order';
-import { CancelButton } from './style';
+import { CancelButton } from './style/style';
 
 type Props = {
     reservationInfo: Order;
 };
 
-const CheckoutNoSSR = dynamic(() => import('./Checkout'), { ssr: false });
+const CheckoutNoSSR = dynamic(() => import('./payment/Checkout'), { ssr: false });
 
 const OrderItem = ({ reservationInfo }: Props) => (
     <Wrapper>

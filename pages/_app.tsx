@@ -4,28 +4,14 @@ import 'antd/dist/antd.css';
 import Head from 'next/head';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
 import type { AppProps } from 'next/app';
-
 import Router from 'next/router';
+import { ThemeProvider } from 'styled-components';
+import { Global } from '../components/style/global';
 import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
 import { loadProfileRequest } from '../actions/user';
-
-const Global = createGlobalStyle`
-    body{
-        // letter-spacing: -75px;
-        color: #191919;
-    }
-    a:hover {
-     color: #222;
-    }
-    textarea:focus,
-    input:focus,
-    button:focus{
-        outline:none;
-    }
-`;
+import theme from '../components/style/theme';
 
 const WISE = ({ Component, pageProps }: AppProps) => {
     const dispatch = useDispatch();
@@ -48,8 +34,10 @@ const WISE = ({ Component, pageProps }: AppProps) => {
             <Head>
                 <title>WISE</title>
             </Head>
-            <Global />
-            <Component {...pageProps} />
+            <ThemeProvider theme={theme}>
+                <Global />
+                <Component {...pageProps} />
+            </ThemeProvider>
         </>
     );
 };

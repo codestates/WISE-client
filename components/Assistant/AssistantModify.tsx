@@ -7,19 +7,20 @@ import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
-import {
-    ProfileImagesWrapper,
-    Image,
-    SubmitBtnWrapper,
-    ImagesWrapper,
-    DeleteBtn,
-    InputWrapper,
-    SubmitBtn,
-    RegisterFormWrapper,
-} from '../style';
-import { RootState } from '../../reducers';
+
 import { changeServiceRequest } from '../../actions/service';
 import ResultModal from '../ResultModal';
+import { RootState } from '../../reducers';
+import {
+    RegisterFormWrapper,
+    InputWrapper,
+    ProfileImagesWrapper,
+    DeleteBtn,
+    ImagesWrapper,
+    SubmitBtnWrapper,
+    SubmitBtn,
+    Image,
+} from '../style/style';
 
 type availableDay = {
     label: string;

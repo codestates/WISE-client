@@ -5,7 +5,7 @@ import React from 'react';
 import Loading from '../components/Loading';
 import { RootState } from '../reducers';
 import Layout from '../layout/Layout';
-import { AuthGlobal, CoverImg } from '../components/auth/styles';
+import { AuthGlobal, CoverImg } from '../components/style/authStyle';
 
 const Welcome = () => {
     const { me, islogin } = useSelector((state: RootState) => state.user);

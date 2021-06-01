@@ -45,7 +45,12 @@ const ReservationDetail = () => {
                         <Global />
                         <Wrapper>
                             <Reservation service={service} handleChangehours={handleChangehours} hours={hours} />
-                            <AssistantInfo service={service} hours={hours} searchResult={searchResult} />
+                            <AssistantInfo
+                                service={service}
+                                hours={hours}
+                                date={searchResult.date}
+                                time={searchResult.time}
+                            />
                         </Wrapper>
                     </>
                 </Layout>

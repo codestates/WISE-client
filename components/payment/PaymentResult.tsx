@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { ParsedUrlQuery } from 'querystring';
 import { RootState } from '../../reducers';
-import { ActionButton } from '../style';
+import { ActionButton } from '../style/style';
 import { checkoutRequest } from '../../actions/payment';
 import { loadOrderInfoRequest } from '../../actions/order';
 import { addNotificationRequest, checkNotificationRequest } from '../../actions/notifications';

@@ -3,12 +3,13 @@ import Router from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AuthGlobal, CoverImg, Modal, ModalTitle, ModalFooter } from '../../components/auth/styles';
 import { RootState } from '../../reducers';
 import Layout from '../../layout/Layout';
 import SigninForm from '../../components/auth/SigninForm';
 import { loadProfileRequest } from '../../actions/user';
 import Loading from '../../components/Loading';
+import { CoverImg, ModalTitle, ModalFooter, Modal } from '../../components/style/authStyle';
+import { AuthGlobal } from '../../components/style/global';
 
 const Signin = () => {
     const dispatch = useDispatch();

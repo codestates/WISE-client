@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import React from 'react';
-import { CancelButton } from '../style';
+import { CancelButton } from '../style/style';
 import { Order } from '../../interfaces/data/order';
 
 type Props = {

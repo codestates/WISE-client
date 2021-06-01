@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CancelButton, ActionButton } from '../style';
+import { CancelButton, ActionButton } from '../style/style';
 import { RootState } from '../../reducers';
 import { Service } from '../../interfaces/data/service';
 import { addOrderRequest } from '../../actions/order';

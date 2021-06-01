@@ -1,25 +1,20 @@
 import React, { useEffect } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import AssistantInfo from '../../../components/AssistantInfo';
 import { RootState } from '../../../reducers/index';
 
 import Loading from '../../../components/Loading';
 import OrderItem from '../../../components/payment/OrderItem';
 import ReservationInfo from '../../../components/reservation/ReservationInfo';
-import { WarningBox, ActionButton } from '../../../components/style';
+import { WarningBox, ActionButton } from '../../../components/style/style';
 import Layout from '../../../layout/Layout';
 import { loadOrderInfoRequest } from '../../../actions/order';
 import { loadServiceInfoRequest } from '../../../actions/service';
-
-const Global = createGlobalStyle`
-    footer {
-        padding: 2rem 0;
-    }
-`;
 
 const Payment = () => {
     const dispatch = useDispatch();
@@ -49,8 +44,6 @@ const Payment = () => {
             {orderInfo?.state === 'complete' ? (
                 <Layout title="Checkout">
                     <>
-                        <Global />
-
                         <WarningBox>
                             <Link href="/home">
                                 <a>
@@ -79,7 +72,12 @@ const Payment = () => {
                                         <ReservationInfo reservationInfo={orderInfo} />
                                         <OrderItem reservationInfo={orderInfo} />
                                     </Container>
-                                    <AssistantInfo service={service} hours={orderInfo.hours} />
+                                    <AssistantInfo
+                                        service={service}
+                                        hours={orderInfo.hours}
+                                        date={moment(orderInfo.date).format('YYYY-MM-DD')}
+                                        time={orderInfo.time}
+                                    />
                                 </Wrapper>
                             </>
                         </Layout>
