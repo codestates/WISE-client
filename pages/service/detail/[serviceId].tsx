@@ -53,14 +53,6 @@ const ServiceDetail = () => {
 
     const { service } = useSelector((state: RootState) => state.service);
 
-    useEffect(() => {
-        if (typeof router.query.id === 'string') {
-            axios.get(`http://localhost:5000/api/v1/services/schedule?serviceId=${router.query.id}`).then((result) => {
-                dispatch(loadServiceSchedule(result.data));
-            });
-        }
-    }, [dispatch, router]);
-
     return (
         <>
             {service && searchResult ? (
@@ -113,6 +105,12 @@ const Detail = styled.div`
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
     console.log('server');
+    if (context.params?.serviceId) {
+        const result = await axios.get(
+            `http://localhost:5000/api/v1/services/schedule?serviceId=${context.params?.serviceId}`,
+        );
+        context.store.dispatch(loadServiceSchedule(result.data));
+    }
     context.store.dispatch({
         type: LOAD_SERVICE_INFO_REQUEST,
         serviceId: context.params?.serviceId,

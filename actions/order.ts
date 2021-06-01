@@ -1,4 +1,4 @@
-import { Order } from '../interfaces/data/order';
+import { Order, ShortOrder } from '../interfaces/data/order';
 
 export const ADD_ORDER_REQUEST = 'ADD_ORDER_REQUEST' as const;
 export const ADD_ORDER_SUCCESS = 'ADD_ORDER_SUCCESS' as const;
@@ -41,7 +41,7 @@ export const loadOrdersRequest = (accessToken: string, userType: string, userId:
     userId,
 });
 
-export const loadOrdersSuccess = (orders: Order[], userType: string) => ({
+export const loadOrdersSuccess = (orders: ShortOrder[], userType: string) => ({
     type: LOAD_ORDERS_SUCCESS,
     orders,
     userType,

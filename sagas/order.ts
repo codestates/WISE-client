@@ -24,7 +24,7 @@ import {
     rejectOrderSuccess,
     REJECT_ORDER_REQUEST,
 } from '../actions/order';
-import { Order } from '../interfaces/data/order';
+import { Order, ShortOrder } from '../interfaces/data/order';
 
 function addOrderAPI(accessToken: string, data: Order) {
     return axios.post(
@@ -61,7 +61,7 @@ function loadOrdersAPI(accessToken: string, userType: string, userId: string) {
 
 function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
     try {
-        const result: AxiosResponse<{ orders: Order[] }> = yield call(
+        const result: AxiosResponse<{ orders: ShortOrder[] }> = yield call(
             loadOrdersAPI,
             action.accessToken,
             action.userType,

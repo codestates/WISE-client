@@ -1,44 +1,128 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
+import { DatePicker, Radio, RadioChangeEvent } from 'antd';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { useCallback, useState } from 'react';
 import { ActionButton } from '../style/style';
 import { ShortService } from '../../interfaces/data/service';
+import { RootState } from '../../reducers';
 
 type ServiceProps = {
     service: ShortService;
     searchResult: ParsedUrlQuery | null;
 };
 
-const Summary = ({ service, searchResult }: ServiceProps) => (
-    <Wrapper>
-        <Bio>
-            <h1>{service.assistant.name} 어시스턴트</h1>
-            <h3>{service.greetings}</h3>
-        </Bio>
-        <Info>
-            <Text>
-                <span>지역</span> {service.location}
-            </Text>
-            <Text>
-                <span>날짜</span> {searchResult?.date}
-            </Text>
-            <Text>
-                <span>시간</span> {searchResult?.time}
-            </Text>
-            <Text>
-                <span>평점</span>
-                <i className="material-icons">star</i> {service.starRating ? service.starRating : 0}
-            </Text>
-            <Text>
-                <span>비용</span> <strong>{service.wage}</strong>원 / 시간
-            </Text>
-        </Info>
-        <Link href={`../reservation/${service._id}?date=${searchResult?.date}&time=${searchResult?.time}`}>
-            {/* <Link href={`../reservation/${service._id}`}> */}
-            <Button>신청하기</Button>
-        </Link>
-    </Wrapper>
-);
+const Summary = ({ service, searchResult }: ServiceProps) => {
+    const { serviceSchedule, searchQuery } = useSelector((state: RootState) => state.service);
+
+    const [availableTime, setAvailableTime] = useState<Array<string>>([]);
+
+    const [date, setDate] = useState(searchQuery?.date || '');
+    const [time, setTime] = useState(searchQuery?.time || '');
+
+    const onChangeDate = useCallback(
+        (_, dateString: string) => {
+            if (
+                serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} am`) ||
+                serviceSchedule.orders.includes(`${dateString} am`)
+            ) {
+                setAvailableTime(['pm']);
+            } else if (
+                serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} pm`) ||
+                serviceSchedule.orders.includes(`${dateString} pm`)
+            ) {
+                setAvailableTime(['am']);
+            } else {
+                setAvailableTime(['am', 'pm']);
+            }
+            setDate(dateString);
+        },
+        [serviceSchedule],
+    );
+
+    const onChangeTime = useCallback((e: RadioChangeEvent) => {
+        setTime(e.target.value);
+    }, []);
+
+    const disabledDate = (current: any) => {
+        // 유효한 요일인지 확인
+        const checkDay = (day: string) =>
+            serviceSchedule.availableDays.includes(`${day} am`) && serviceSchedule.availableDays.includes(`${day} pm`);
+
+        const checkOrder = (day: string) => {
+            if (
+                serviceSchedule.orders.includes(`${day} am`) &&
+                serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} pm`)
+            ) {
+                return true;
+            }
+            if (
+                serviceSchedule.orders.includes(`${day} pm`) &&
+                serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} am`)
+            ) {
+                return true;
+            }
+            return false;
+        };
+
+        if (checkDay(moment(current).format('dddd'))) {
+            return true;
+        }
+        if (checkOrder(moment(current).format('YYYY-MM-DD'))) {
+            return true;
+        }
+        return false;
+    };
+    return (
+        <Wrapper>
+            <Bio>
+                <h1>{service.assistant.name} 어시스턴트</h1>
+                <h3>{service.greetings}</h3>
+            </Bio>
+            <Info>
+                <Text>
+                    <span>지역</span> {service.location}
+                </Text>
+                <Text>
+                    <span>날짜</span>
+                    {searchResult?.date ? (
+                        searchResult?.date
+                    ) : (
+                        <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
+                    )}
+                </Text>
+                <Text>
+                    <span>시간</span>
+                    {searchResult?.time ? (
+                        searchResult?.time
+                    ) : (
+                        <Radio.Group onChange={onChangeTime} size="middle">
+                            {availableTime.includes('am') && <Radio.Button value="am">오전</Radio.Button>}
+                            {availableTime.includes('pm') && <Radio.Button value="pm">오후</Radio.Button>}
+                        </Radio.Group>
+                    )}
+                </Text>
+                <Text>
+                    <span>평점</span>
+                    <i className="material-icons">star</i> {service.starRating ? service.starRating : 0}
+                </Text>
+                <Text>
+                    <span>비용</span> <strong>{service.wage}</strong>원 / 시간
+                </Text>
+            </Info>
+            <Link
+                href={`../reservation/${service._id}?date=${searchResult?.date || date}&time=${
+                    searchResult?.time || time
+                }`}
+            >
+                {/* <Link href={`../reservation/${service._id}`}> */}
+                <Button>신청하기</Button>
+            </Link>
+        </Wrapper>
+    );
+};
 
 const Wrapper = styled.div`
     display: flex;

@@ -18,16 +18,16 @@ const WISE = ({ Component, pageProps }: AppProps) => {
 
     const { me } = useSelector((state: RootState) => state.user);
 
-    useEffect(() => {
-        if (!me) {
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                dispatch(loadProfileRequest());
-            } else {
-                Router.push('/home');
-            }
-        }
-    }, [me, dispatch]);
+    // useEffect(() => {
+    //     if (!me) {
+    //         const userId = localStorage.getItem('userId');
+    //         if (userId) {
+    //             dispatch(loadProfileRequest());
+    //         } else {
+    //             Router.push('/home');
+    //         }
+    //     }
+    // }, [me, dispatch]);
 
     return (
         <>
