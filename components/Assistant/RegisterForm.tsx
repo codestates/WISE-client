@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
@@ -21,11 +21,7 @@ import {
     SubmitBtn,
     Image,
 } from '../style/style';
-
-type availableDay = {
-    label: string;
-    value: string;
-};
+import { AVAILABLEDAYS, SEOULCITY } from '../../utils/data';
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
@@ -38,25 +34,7 @@ const RegisterForm = () => {
     }, []);
     // 가능 요일
     const [availableDays, setAvailableDays] = useState<Array<CheckboxValueType>>([]);
-    const availableDaysOptions = useMemo(
-        (): Array<availableDay> => [
-            { label: '월 오전', value: 'Monday am' },
-            { label: '화 오전', value: 'Tuesday am' },
-            { label: '수 오전', value: 'Wednesday am' },
-            { label: '목 오전', value: 'Thursday am' },
-            { label: '금 오전', value: 'Friday am' },
-            { label: '토 오전', value: 'Saturday am' },
-            { label: '일 오전', value: 'Sunday am' },
-            { label: '월 오후', value: 'Monday pm' },
-            { label: '화 오후', value: 'Tuesday pm' },
-            { label: '수 오후', value: 'Wednesday pm' },
-            { label: '목 오후', value: 'Thursday pm' },
-            { label: '금 오후', value: 'Friday pm' },
-            { label: '토 오후', value: 'Saturday pm' },
-            { label: '일 오후', value: 'Sunday pm' },
-        ],
-        [],
-    );
+
     const onChangeDays = useCallback((checkedValues: CheckboxValueType[]) => {
         setAvailableDays(checkedValues);
     }, []);
@@ -194,15 +172,23 @@ const RegisterForm = () => {
             <RegisterFormWrapper onSubmit={onSubmit} encType="multipart/form-data">
                 <InputWrapper>
                     <span>✅가능 지역</span>
-                    <Select onChange={onChangeLocation} showSearch placeholder="위치 입력" optionFilterProp="children">
-                        <Select.Option value="seoul">서울</Select.Option>
-                        <Select.Option value="gyeonggi">경기</Select.Option>
-                        <Select.Option value="incheon">인천</Select.Option>
+                    <Select
+                        style={{ width: '150px' }}
+                        onChange={onChangeLocation}
+                        showSearch
+                        placeholder="위치 입력"
+                        optionFilterProp="children"
+                    >
+                        {SEOULCITY.map((ele) => (
+                            <Select.Option key={ele} value={ele}>
+                                {ele}
+                            </Select.Option>
+                        ))}
                     </Select>
                 </InputWrapper>
                 <InputWrapper>
                     <span>✅가능 요일</span>
-                    <Checkbox.Group options={availableDaysOptions} onChange={onChangeDays} />
+                    <Checkbox.Group options={AVAILABLEDAYS} onChange={onChangeDays} />
                 </InputWrapper>
                 <InputWrapper>
                     <span>✅프로필</span>

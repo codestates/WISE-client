@@ -90,7 +90,7 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
                     {searchResult?.date ? (
                         searchResult?.date
                     ) : (
-                        <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
+                        <DatePicker style={{ width: '150px' }} onChange={onChangeDate} disabledDate={disabledDate} />
                     )}
                 </Text>
                 <Text>
