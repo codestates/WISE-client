@@ -8,6 +8,9 @@ import {
     LOAD_MORE_REVIEWS_REQUEST,
     LOAD_MORE_REVIEWS_SUCCESS,
     LOAD_MORE_REVIEWS_FAILURE,
+    ADD_REVIEW_FAILURE,
+    ADD_REVIEW_REQUEST,
+    ADD_REVIEW_SUCCESS,
 } from '../actions/review';
 import { ReviewAction } from '../interfaces/act/review';
 import { ReviewState } from '../interfaces/data/review';
@@ -21,6 +24,10 @@ export const initialState: ReviewState = {
     loadMoreReviewsLoading: false,
     loadMoreReviewsDone: false,
     loadMoreReviewsError: null,
+    addReviewLoading: false,
+    addReviewDone: false,
+    addReviewError: null,
+    review: null,
 };
 
 /* ------- reducer ------ */
@@ -54,6 +61,20 @@ const reducer = (state = initialState, action: ReviewAction) =>
             case LOAD_MORE_REVIEWS_FAILURE:
                 draft.loadMoreReviewsLoading = false;
                 draft.loadMoreReviewsError = action.error;
+                break;
+            case ADD_REVIEW_REQUEST:
+                draft.addReviewLoading = true;
+                draft.addReviewDone = false;
+                draft.addReviewError = null;
+                break;
+            case ADD_REVIEW_SUCCESS:
+                draft.addReviewLoading = false;
+                draft.addReviewDone = true;
+                draft.review = action.review;
+                break;
+            case ADD_REVIEW_FAILURE:
+                draft.addReviewLoading = false;
+                draft.addReviewError = action.error;
                 break;
             default:
                 break;

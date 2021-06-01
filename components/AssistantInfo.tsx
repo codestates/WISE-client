@@ -7,8 +7,6 @@ type Props = {
     date: string | string[];
     time: string | string[];
 };
-// TODO: searchResult default props 적용,
-//  payment에서는 어떻게 이걸 적용할지 고민, redux로 관리해야 할 거 같음
 
 const AssistantInfo = ({ service, hours, date, time }: Props) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
@@ -16,11 +14,20 @@ const AssistantInfo = ({ service, hours, date, time }: Props) => {
     return (
         <Wrapper>
             <h2>김천사 어시스턴트</h2>
-            <img
-                src={`${IMAGE_URL}${service.images[0]}`}
-                alt="샘플이미지"
-                style={{ height: '12rem', objectFit: 'cover', borderRadius: '0.2rem' }}
-            />
+            {service.images ? (
+                <img
+                    src={`${IMAGE_URL}${service.images[0]}`}
+                    alt="샘플이미지"
+                    style={{ height: '12rem', objectFit: 'cover', borderRadius: '0.2rem' }}
+                />
+            ) : (
+                <img
+                    src="images/avatar_default.png"
+                    alt="샘플이미지"
+                    style={{ height: '12rem', objectFit: 'cover', borderRadius: '0.2rem' }}
+                />
+            )}
+
             <h3>{service.greetings}</h3>
             <Text>
                 <span>지역</span> {service.location}

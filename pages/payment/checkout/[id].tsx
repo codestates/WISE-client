@@ -15,6 +15,7 @@ import { WarningBox, ActionButton } from '../../../components/style/style';
 import Layout from '../../../layout/Layout';
 import { loadOrderInfoRequest } from '../../../actions/order';
 import { loadServiceInfoRequest } from '../../../actions/service';
+import { Global } from '../../../components/style/global';
 
 const Payment = () => {
     const dispatch = useDispatch();

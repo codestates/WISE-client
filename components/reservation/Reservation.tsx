@@ -95,12 +95,11 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
     }, [accessToken, dispatch, service.assistant._id, orderInfo, addOrderDone]);
 
     useEffect(() => {
-        console.log('reservation error', addOrderError);
-        if (addNotificationDone || addOrderError) {
-            setShowModal((state) => !state);
+        if (addNotificationDone) {
+            setShowModal(true);
             console.log('modal open!');
         }
-    }, [addNotificationDone, addOrderError]);
+    }, [addNotificationDone]);
 
     return (
         <Wrapper>

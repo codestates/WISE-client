@@ -5,6 +5,9 @@ import {
     loadMoreReviewsRequest,
     loadMoreReviewsSuccess,
     loadMoreReviewsFailure,
+    addReviewFailure,
+    addReviewRequest,
+    addReviewSuccess,
 } from '../../actions/review';
 
 export type ReviewAction =
@@ -13,4 +16,7 @@ export type ReviewAction =
     | ReturnType<typeof loadFirstReviewFailure>
     | ReturnType<typeof loadMoreReviewsRequest>
     | ReturnType<typeof loadMoreReviewsSuccess>
-    | ReturnType<typeof loadMoreReviewsFailure>;
+    | ReturnType<typeof loadMoreReviewsFailure>
+    | ReturnType<typeof addReviewRequest>
+    | ReturnType<typeof addReviewSuccess>
+    | ReturnType<typeof addReviewFailure>;
