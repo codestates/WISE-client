@@ -23,7 +23,12 @@ const ServiceCard = ({ service, searchQuery }: ServiceCard) => (
         }}
     >
         <Container>
-            <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
+            {service.images === undefined ? (
+                <ServiceImg src="/images/avatar_default.png" style={{ width: '100px', height: '100px' }} />
+            ) : (
+                <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
+            )}
+            {/* <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" /> */}
             <div>
                 <div style={{ fontSize: '1rem' }}>
                     {service.assistant.name} <span>{service.location}</span>

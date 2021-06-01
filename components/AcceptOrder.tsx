@@ -7,6 +7,7 @@ import { RootState } from '../reducers';
 import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
 import { addNotificationRequest, checkNotificationRequest } from '../actions/notifications';
 import ResultModal from './ResultModal';
+import { Notification } from '../interfaces/data/notifications';
 
 type Props = {
     orderId: string | string[];
@@ -88,16 +89,17 @@ const AcceptOrder = ({ orderId }: Props) => {
     // isChecked로 바꾸기
     useEffect(() => {
         if (addNotificationDone) {
-            dispatch(checkNotificationRequest(notifications._id, accessToken));
+            const thisNotification = notifications.filter(
+                (notification: Notification) => notification.subject === orderId,
+            )[0];
+            dispatch(checkNotificationRequest(thisNotification._id, accessToken));
         }
-    }, [accessToken, addNotificationDone, dispatch, notifications]);
+    }, [accessToken, addNotificationDone, dispatch, notifications, orderId]);
 
     // 결과 모달 띄우기
     useEffect(() => {
-        console.log('check notification done', checkNotificationDone);
-
-        if (checkNotificationDone || acceptOrderError || rejectOrderError) {
-            setShowModal((state) => !state);
+        if (checkNotificationDone) {
+            setShowModal(true);
             console.log('modal open!');
         }
     }, [checkNotificationDone, acceptOrderError, rejectOrderError]);

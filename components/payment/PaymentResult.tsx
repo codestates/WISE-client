@@ -11,6 +11,7 @@ import { ActionButton } from '../style/style';
 import { checkoutRequest } from '../../actions/payment';
 import { loadOrderInfoRequest } from '../../actions/order';
 import { addNotificationRequest, checkNotificationRequest } from '../../actions/notifications';
+import { Notification } from '../../interfaces/data/notifications';
 
 type Props = {
     result: ParsedUrlQuery;
@@ -76,10 +77,13 @@ const PaymentResult = ({ result }: Props) => {
     // isChecked로 바꾸기
     useEffect(() => {
         if (addNotificationDone) {
-            dispatch(checkNotificationRequest(notifications._id, accessToken));
+            const thisNotification = notifications.filter(
+                (notification: Notification) => notification.subject === result.orderId,
+            )[0];
+            dispatch(checkNotificationRequest(thisNotification._id, accessToken));
             router.push('/');
         }
-    }, [accessToken, addNotificationDone, dispatch, notifications, router]);
+    }, [accessToken, addNotificationDone, dispatch, notifications, result.orderId, router]);
 
     const resultType = isSuccessed ? '성공' : '실패';
     return (
