@@ -17,13 +17,13 @@ const Signin = () => {
 
     useEffect(() => {
         if (islogin) {
-            dispatch(loadProfileRequest());
+            dispatch(loadProfileRequest(localStorage.getItem('userId') as string));
         }
     }, [islogin, dispatch]);
 
     useEffect(() => {
         if (me) {
-            if (me.service) {
+            if (me.service !== '') {
                 Router.push('/home');
             } else {
                 Router.push('/welcome');

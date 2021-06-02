@@ -10,9 +10,10 @@ export const CHECK_NOTIFICATION_REQUEST = 'CHECK_NOTIFICATION_REQUEST' as const;
 export const CHECK_NOTIFICATION_SUCCESS = 'CHECK_NOTIFICATION_SUCCESS' as const;
 export const CHECK_NOTIFICATION_FAILURE = 'CHECK_NOTIFICATION_FAILURE' as const;
 
-export const loadNotificationsRequest = (userId: string | string[]) => ({
+export const loadNotificationsRequest = (userId: string | string[], token: string) => ({
     type: LOAD_NOTIFICATIONS_REQUEST,
     userId,
+    token,
 });
 
 export const loadNotificationsSuccess = (notifications: Notification[]) => ({

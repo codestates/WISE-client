@@ -4,9 +4,10 @@ import Router from 'next/router';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
 
-import { AuthGlobal, CoverImg, Modal, ModalTitle } from '../../components/auth/styles';
+import { CoverImg, Modal, ModalTitle } from '../../components/style/authStyle';
 import SignupForm from '../../components/auth/SignupForm';
 import { loadProfileRequest } from '../../actions/user';
+import { AuthGlobal } from '../../components/style/global';
 
 const Signup = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Signup = () => {
 
     useEffect(() => {
         if (signUpDone) {
-            dispatch(loadProfileRequest());
+            dispatch(loadProfileRequest(localStorage.getItem('userId') as string));
         }
     }, [signUpDone, dispatch]);
 

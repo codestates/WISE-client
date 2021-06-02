@@ -58,12 +58,11 @@ function loadOrdersAPI(userType: string, userId: string, accessToken: string) {
 
 function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ orders: ShortOrder[] }> = yield call(
             loadOrdersAPI,
             action.userType,
             action.userId,
-            accessToken,
+            action.token,
         );
         yield put(loadOrdersSuccess(result.data.orders, action.userType));
     } catch (err) {

@@ -33,10 +33,11 @@ export const addOrderFailure = (error: string) => ({
     error,
 });
 
-export const loadOrdersRequest = (userType: string, userId: string) => ({
+export const loadOrdersRequest = (userType: string, userId: string, token: string) => ({
     type: LOAD_ORDERS_REQUEST,
     userType,
     userId,
+    token,
 });
 
 export const loadOrdersSuccess = (orders: ShortOrder[], userType: string) => ({

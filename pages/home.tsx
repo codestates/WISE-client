@@ -1,8 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-
+import nookies from 'nookies';
 // import PopularSection from '../components/PopularSection';
 
 import { loadPopularServicesRequest, loadTotalServicesRequest } from '../actions/service';
@@ -14,10 +15,10 @@ import TotalSection from '../components/home/TotalSection';
 import Loading from '../components/Loading';
 import { auth } from '../firebase';
 import { loadProfileRequest } from '../actions/user';
+import { loadNotificationsRequest } from '../actions/notifications';
 
 const Home = () => {
     const dispatch = useDispatch();
-    console.log(auth.currentUser);
     const { totalServices, totalServicesLoading, totalServicesCount, searchServicesLoading } = useSelector(
         (state: RootState) => state.service,
     );
@@ -59,17 +60,15 @@ const Home = () => {
 
 const Wrapper = styled.div`
     // border: 1px solid black;
-    padding: 3rem;
+    // padding: 3rem;
     width: 100vw;
     max-width: 1200px;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            context.store.dispatch(loadProfileRequest());
-        }
-    });
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
     context.store.dispatch(loadPopularServicesRequest());
     context.store.dispatch(loadTotalServicesRequest(1));
     context.store.dispatch(END);

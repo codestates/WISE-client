@@ -27,11 +27,10 @@ function loadNotificationsAPI(userId: string | string[], accessToken: string) {
 
 function* loadNotifications(action: ReturnType<typeof loadNotificationsRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             loadNotificationsAPI,
             action.userId,
-            accessToken,
+            action.token,
         );
         yield put(loadNotificationsSuccess(result.data.notifications));
     } catch (err) {

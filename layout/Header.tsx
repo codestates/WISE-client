@@ -28,22 +28,16 @@ const Header = () => {
         }
     }, [notifications]);
 
-    useEffect(() => {
-        if (me && !loadNotificationsDone) {
-            dispatch(loadNotificationsRequest(me._id));
-        }
-    }, [dispatch, me, loadNotificationsDone]);
+    // useEffect(() => {
+    //     if (me && !loadNotificationsDone) {
+    //         dispatch(loadNotificationsRequest(me._id));
+    //     }
+    // }, [dispatch, me, loadNotificationsDone]);
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
-
-    useEffect(() => {
-        if (logOutDone) {
-            Router.replace('/home');
-        }
-    }, [logOutDone]);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequest());

@@ -1,13 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 import styled, { createGlobalStyle } from 'styled-components';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Router from 'next/router';
-
+import nookies from 'nookies';
+import { END } from 'redux-saga';
 import RegisterForm from '../../components/Assistant/RegisterForm';
-import { RootState } from '../../reducers';
 import Layout from '../../layout/Layout';
 import { loadProfileRequest } from '../../actions/user';
+import { loadNotificationsRequest } from '../../actions/notifications';
+import wrapper from '../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
@@ -16,34 +15,26 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Register = () => {
-    const dispatch = useDispatch();
+const Register = () => (
+    <Layout title="WISE | SIGNIN">
+        <>
+            <Global />
+            <CoverImg src="/images/wise_bg.png" />
+            <Modal>
+                <Header>어시스턴트 프로필 등록</Header>
+                <RegisterForm />
+            </Modal>
+        </>
+    </Layout>
+);
 
-    const { me } = useSelector((state: RootState) => state.user);
-    useEffect(() => {
-        if (!me) {
-            const userId = localStorage.getItem('userId');
-            if (userId) {
-                dispatch(loadProfileRequest());
-            } else {
-                Router.replace('/user/signin');
-            }
-        }
-    }, [me, dispatch]);
-
-    return (
-        <Layout title="WISE | SIGNIN">
-            <>
-                <Global />
-                <CoverImg src="/images/wise_bg.png" />
-                <Modal>
-                    <Header>어시스턴트 프로필 등록</Header>
-                    <RegisterForm />
-                </Modal>
-            </>
-        </Layout>
-    );
-};
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const CoverImg = styled.img`
     width: 100%;

@@ -1,19 +1,24 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
-
+import nookies from 'nookies';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { END } from 'redux-saga';
 import styled from 'styled-components';
+import { loadNotificationsRequest } from '../../actions/notifications';
 import { loadOrdersRequest } from '../../actions/order';
 import { loadServiceRequest } from '../../actions/service';
+import { loadProfileRequest } from '../../actions/user';
 import AssistantModify from '../../components/Assistant/AssistantModify';
 import OrderTable from '../../components/Assistant/OrderTable';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
 import Loading from '../../components/Loading';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
+import wrapper from '../../store/configureStore';
 
 const Center = () => {
     const dispatch = useDispatch();
@@ -82,6 +87,14 @@ const Center = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     // border: 1px solid black;
