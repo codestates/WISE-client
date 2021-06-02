@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -22,6 +23,7 @@ import Swiper from '../../../components/ServiceDetail/Swiper';
 import { loadServiceSchedule, LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
 import { loadNotificationsRequest } from '../../../actions/notifications';
 import { loadProfileRequest } from '../../../actions/user';
+import ResponsiveSummary from '../../../components/ServiceDetail/ResponsiveSummary';
 
 const Global = createGlobalStyle`
     footer {
@@ -58,6 +60,7 @@ const ServiceDetail = () => {
                             <Container>
                                 <Detail>
                                     <Swiper service={service} />
+                                    <ResponsiveSummary service={service} searchResult={searchResult} />
                                     <Navigation _id={service._id} />
                                     <Description service={service} />
                                     <ReviewComponent serviceId={service._id} />
@@ -84,6 +87,10 @@ const Wrapper = styled.div`
     justify-content: center;
     padding: 2rem 0;
     margin-bottom: 6rem;
+
+    @media ${(props) => props.theme.mobile} {
+        padding: 0;
+    }
 `;
 const Container = styled.div`
     width: 100%;
@@ -95,6 +102,10 @@ const Detail = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    @media ${(props) => props.theme.mobile} {
+        flex: 0;
+        width: 100vw;
+    }
 `;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {

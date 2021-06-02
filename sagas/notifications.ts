@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosResponse } from 'axios';

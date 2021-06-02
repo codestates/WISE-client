@@ -39,13 +39,22 @@ const Wrapper = styled.div`
     max-width: 53vw;
     min-height: 30vh;
     z-index: -1;
-    /* .mySwiper {
-        max-width: 50vw;
-        min-height: 30vh;
-    } */
     img {
         object-fit: cover;
         height: 28rem;
+    }
+    @media ${(props) => props.theme.tablet} {
+        text-align: center;
+        max-width: 90%;
+        margin-left: 4%;
+        img {
+            text-align: center;
+        }
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        max-width: 100%;
+        margin-left: 0;
     }
 `;
 

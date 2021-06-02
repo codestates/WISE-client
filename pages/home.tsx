@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable import/no-extraneous-dependencies */
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
@@ -13,7 +14,6 @@ import Layout from '../layout/Layout';
 import SearchBar from '../components/home/SearchBar';
 import TotalSection from '../components/home/TotalSection';
 import Loading from '../components/Loading';
-import { auth } from '../firebase';
 import { loadProfileRequest } from '../actions/user';
 import { loadNotificationsRequest } from '../actions/notifications';
 

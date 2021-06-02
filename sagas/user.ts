@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -163,7 +164,6 @@ function loadProfileAPI(userId: string) {
 
 function* loadProfile(action: ReturnType<typeof loadProfileRequest>) {
     try {
-        console.log('userId: ', action.userId);
         const result: AxiosResponse<{ user: Me }> = yield call(loadProfileAPI, action.userId);
         yield put(loadProfileSuccess(result.data.user));
     } catch (err) {

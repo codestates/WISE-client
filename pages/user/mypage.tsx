@@ -3,9 +3,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
-import Router from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
@@ -26,7 +25,7 @@ const Mypage = () => {
     const { customerProgressOrders, customerCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
     );
-    const [tap, setTap] = useState(1);
+    const [tap, setTap] = useState(4);
 
     const onClickTap = (idx: number) => {
         setTap(idx);

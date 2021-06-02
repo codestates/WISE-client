@@ -15,6 +15,7 @@ export const Global = createGlobalStyle`
         // letter-spacing: -75px;
         color: #191919;
     }
+   
     a:hover {
      color: #222;
     }
