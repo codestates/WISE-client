@@ -1,11 +1,25 @@
+/* eslint-disable react/button-has-type */
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCallback } from 'react';
 import { RootState } from '../../reducers';
 import { Notification } from '../../interfaces/data/notifications';
+import { checkNotificationRequest } from '../../actions/notifications';
 
 const NotificationModal = () => {
+    const dispatch = useDispatch();
     const { notifications } = useSelector((state: RootState) => state.notifications);
+    const { accessToken } = useSelector((state: RootState) => state.user);
+
+    const handleCheckNotification = useCallback(
+        (notificationId) => {
+            dispatch(checkNotificationRequest(notificationId, accessToken));
+            console.log('go dispatch!');
+        },
+
+        [accessToken, dispatch],
+    );
 
     return (
         <StyledModalOverlay>
@@ -24,7 +38,11 @@ const NotificationModal = () => {
                                             <CheckedButton disabled>확인 완료</CheckedButton>
                                         ) : (
                                             <Link href={notification.clientUrl}>
-                                                <Button>확인하기</Button>
+                                                <Button>
+                                                    <button onClick={() => handleCheckNotification(notification._id)}>
+                                                        확인하기
+                                                    </button>
+                                                </Button>
                                             </Link>
                                         )}
                                     </div>
@@ -103,6 +121,11 @@ const Button = styled.a`
     &:hover {
         border: 1px solid #68d480;
         /* background-color: #fff; */
+    }
+    button {
+        border: none;
+        background: none;
+        cursor: pointer;
     }
 `;
 

@@ -71,19 +71,20 @@ const PaymentResult = ({ result }: Props) => {
             };
             dispatch(addNotificationRequest(notification, accessToken));
             console.log('notification sent!');
-        }
-    }, [accessToken, addNotificationDone, dispatch, orderInfo]);
-
-    // isChecked로 바꾸기
-    useEffect(() => {
-        if (addNotificationDone) {
-            const thisNotification = notifications.filter(
-                (notification: Notification) => notification.subject === result.orderId,
-            )[0];
-            dispatch(checkNotificationRequest(thisNotification._id, accessToken));
             router.push('/');
         }
-    }, [accessToken, addNotificationDone, dispatch, notifications, result.orderId, router]);
+    }, [accessToken, addNotificationDone, dispatch, orderInfo, router]);
+
+    // // isChecked로 바꾸기
+    // useEffect(() => {
+    //     if (addNotificationDone) {
+    //         const thisNotification = notifications.filter(
+    //             (notification: Notification) => notification.subject === result.orderId,
+    //         )[0];
+    //         dispatch(checkNotificationRequest(thisNotification._id, accessToken));
+    //         router.push('/');
+    //     }
+    // }, [accessToken, addNotificationDone, dispatch, notifications, result.orderId, router]);
 
     const resultType = isSuccessed ? '성공' : '실패';
     return (

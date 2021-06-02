@@ -87,23 +87,23 @@ const AcceptOrder = ({ orderId }: Props) => {
         }
     }, [accessToken, dispatch, orderInfo, rejectOrderDone, acceptOrderDone, addNotificationDone]);
 
-    // isChecked로 바꾸기
-    useEffect(() => {
-        if (addNotificationDone && notifications) {
-            const thisNotification = notifications.filter(
-                (notification: Notification) => notification.subject === orderId,
-            )[0];
-            dispatch(checkNotificationRequest(thisNotification._id, accessToken));
-        }
-    }, [accessToken, addNotificationDone, dispatch, notifications, orderId]);
+    // // isChecked로 바꾸기
+    // useEffect(() => {
+    //     if (addNotificationDone && notifications) {
+    //         const thisNotification = notifications.filter(
+    //             (notification: Notification) => notification.subject === orderId,
+    //         )[0];
+    //         dispatch(checkNotificationRequest(thisNotification._id, accessToken));
+    //     }
+    // }, [accessToken, addNotificationDone, dispatch, notifications, orderId]);
 
     // 결과 모달 띄우기
     useEffect(() => {
-        if (checkNotificationDone) {
+        if (addNotificationDone) {
             setShowModal(true);
             console.log('modal open!');
         }
-    }, [checkNotificationDone, acceptOrderError, rejectOrderError]);
+    }, [addNotificationDone, acceptOrderError, rejectOrderError]);
 
     return (
         <Wrapper>
@@ -119,15 +119,6 @@ const AcceptOrder = ({ orderId }: Props) => {
             <ActionButton onClick={handleClickAccept}>수락하기</ActionButton>
             <CancelButton onClick={handleClickReject}>거절하기</CancelButton>
 
-            {/* {showModal && (
-                <AcceptSuccessModal
-                    onClose={onCloseModal}
-                    success={acceptOrderDone}
-                    reject={rejectOrderDone}
-                    acceptError={acceptOrderError}
-                    rejectError={rejectOrderError}
-                />
-            )} */}
             {showModal && acceptOrderDone && (
                 <ResultModal
                     onClose={onCloseModal}
