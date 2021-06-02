@@ -42,7 +42,11 @@ const ReviewComponent = ({ serviceId }: Props) => {
                         {reviews.map((review: Review) => (
                             <ReviewItem key={review._id}>
                                 <Profile>
-                                    <img src={`${IMAGE_URL}${review.customer.image}`} alt="profile" />
+                                    {review.customer.image ? (
+                                        <img src={`${IMAGE_URL}${review.customer.image}`} alt="profile" />
+                                    ) : (
+                                        <img src="/images/avatar_default.png" alt="profile" />
+                                    )}
                                     <span>
                                         <div>{review.customer.name}</div>
                                         <h5>{moment(review.createdAt).format('YYYY-MM-DD')}</h5>
@@ -57,7 +61,7 @@ const ReviewComponent = ({ serviceId }: Props) => {
                         ))}
                     </ReviewBox>
                 ) : (
-                    <NoReviews>아직 후기가 없어요</NoReviews>
+                    <NoReviews>후기가 없습니다</NoReviews>
                 )}
                 <PageWrapper>
                     <Pagination

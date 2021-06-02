@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
@@ -7,7 +7,6 @@ import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
-import Head from 'next/head';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
@@ -36,7 +35,6 @@ const Global = createGlobalStyle`
 `;
 
 const ServiceDetail = () => {
-    const dispatch = useDispatch();
     const router = useRouter();
     const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
 

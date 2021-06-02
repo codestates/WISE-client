@@ -14,6 +14,7 @@ const NotificationModal = () => {
 
     const handleCheckNotification = useCallback(
         (notificationId) => {
+            console.log(notificationId, accessToken);
             dispatch(checkNotificationRequest(notificationId, accessToken));
             console.log('go dispatch!');
         },

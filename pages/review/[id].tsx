@@ -1,5 +1,4 @@
 import moment from 'moment';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +8,6 @@ import { loadServiceInfoRequest } from '../../actions/service';
 import AssistantInfo from '../../components/AssistantInfo';
 import Loading from '../../components/Loading';
 import AddReview from '../../components/Review/AddReview';
-import StarRating from '../../components/Review/StarRating';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
 

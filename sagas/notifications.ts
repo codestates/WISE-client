@@ -79,6 +79,7 @@ function* watchaddNotification() {
 }
 
 function checkNotificationAPI(notificationId: string, accessToken: string) {
+    console.log(notificationId, accessToken);
     return axios.patch(`api/v1/notifications/${notificationId}`, {
         headers: {
             accessToken,
