@@ -64,7 +64,7 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
             ) {
                 return true;
             }
-            return false;
+            return current < moment().subtract(1, 'days').endOf('day');
         };
 
         if (checkDay(moment(current).format('dddd'))) {

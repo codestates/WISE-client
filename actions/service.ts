@@ -43,10 +43,9 @@ export const LOAD_SERVICE_INFO_FAILURE = 'LOAD_SERVICE_INFO_FAILURE' as const;
 export const LOAD_SERVICE_SCHEDULE = 'LOAD_SERVICE_SCHEDULE' as const;
 
 // 서비스 등록
-export const addServiceRequest = (data: FormData, accessToken: string) => ({
+export const addServiceRequest = (data: FormData) => ({
     type: ADD_SERVICE_REQUEST,
     data,
-    accessToken,
 });
 
 export const addServiceSuccess = (myService: Service) => ({
@@ -74,10 +73,9 @@ export const loadServiceFailure = (error: string) => ({
 });
 
 // 서비스 수정
-export const changeServiceRequest = (serviceId: string, accessToken: string, data: FormData) => ({
+export const changeServiceRequest = (serviceId: string, data: FormData) => ({
     type: CHANGE_SERVICE_REQUEST,
     serviceId,
-    accessToken,
     data,
 });
 

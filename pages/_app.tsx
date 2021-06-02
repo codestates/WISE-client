@@ -12,6 +12,7 @@ import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
 import { loadProfileRequest } from '../actions/user';
 import theme from '../components/style/theme';
+import { auth } from '../firebase';
 
 const WISE = ({ Component, pageProps }: AppProps) => {
     const dispatch = useDispatch();
@@ -19,15 +20,18 @@ const WISE = ({ Component, pageProps }: AppProps) => {
     const { me } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if (!me) {
-            const userId = localStorage.getItem('userId');
-            if (userId) {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
                 dispatch(loadProfileRequest());
-            } else {
-                Router.push('/home');
             }
-        }
-    }, [me, dispatch]);
+        });
+        // if (!me) {
+        //     const userId = localStorage.getItem('userId');
+        //     if (userId) {
+        //         dispatch(loadProfileRequest());
+        //     }
+        // }
+    }, [dispatch]);
 
     return (
         <>

@@ -4,28 +4,25 @@ import axios, { AxiosResponse } from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 
 import { checkoutFailure, checkoutRequest, checkoutSuccess, CHECK_OUT_REQUEST } from '../actions/payment';
+import { getFirebaseToken } from '../firebase';
 
 function checkoutAPI(orderId: string | string[], impUid: string | string[], accessToken: string) {
-    return axios.post(
-        `api/v1/payments/${orderId}`,
-        {
-            impUid,
-        },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+    return axios({
+        method: 'POST',
+        url: `api/v1/payments/${orderId}`,
+        data: { impUid },
+        headers: { accessToken },
+    });
 }
 
 function* checkout(action: ReturnType<typeof checkoutRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ status: string; message: string }> = yield call(
             checkoutAPI,
             action.orderId,
             action.impUid,
-            action.accessToken,
+            accessToken,
         );
         yield put(checkoutSuccess(result.data.status, result.data.message));
     } catch (err) {

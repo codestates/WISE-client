@@ -4,7 +4,7 @@
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import firebase from 'firebase/app';
-import { auth, googleAuthProvider, facebookAuthProvider } from '../firebase';
+import { auth, googleAuthProvider, facebookAuthProvider, getFirebaseToken } from '../firebase';
 import { LoginData, Me, SignupData } from '../interfaces/data/user';
 import {
     loadProfileSuccess,
@@ -31,40 +31,30 @@ import {
     CHANGE_PROFILE_REQUEST,
 } from '../actions/user';
 
-axios.defaults.withCredentials = true;
-
-async function loginToken({ email, password, signinMethod }: LoginData) {
-    await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    let result = null;
+function firebaseLogin({ email, password, signinMethod }: LoginData) {
     if (signinMethod === 'password') {
-        result = await auth.signInWithEmailAndPassword(email as string, password as string);
+        auth.signInWithEmailAndPassword(email as string, password as string);
     } else if (signinMethod === 'google') {
-        googleAuthProvider.setCustomParameters({ prompt: 'select_account' });
-        result = await auth.signInWithPopup(googleAuthProvider);
+        auth.signInWithPopup(googleAuthProvider);
     } else if (signinMethod === 'facebook') {
-        facebookAuthProvider.setCustomParameters({ display: 'popup' });
-        result = await auth.signInWithPopup(facebookAuthProvider);
+        auth.signInWithPopup(facebookAuthProvider);
     }
-    return result?.user?.getIdToken();
 }
 
-function logInAPI(accessToken: string, { signinMethod }: LoginData) {
-    return axios.post(
-        '/api/v1/signin',
-        { signinMethod },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+function logInAPI({ signinMethod }: LoginData, accessToken: string) {
+    return axios({
+        method: 'POST',
+        url: '/api/v1/signin',
+        data: { signinMethod },
+        headers: { accessToken },
+    });
 }
 
 function* logIn(action: ReturnType<typeof loginRequest>) {
     try {
-        const accessToken: string = yield call(loginToken, action.data);
-        const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, accessToken, action.data);
-        localStorage.setItem('accessToken', accessToken);
+        yield call(firebaseLogin, action.data);
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, action.data, accessToken);
         localStorage.setItem('userId', result.data.user._id);
         yield put(loginSuccess());
     } catch (err) {
@@ -87,11 +77,14 @@ function* logIn(action: ReturnType<typeof loginRequest>) {
     }
 }
 
+function firebaseLogout() {
+    firebase.auth().signOut();
+}
+
 function* logOut() {
     try {
-        firebase.auth().signOut();
+        yield call(firebaseLogout);
         localStorage.removeItem('userId');
-        localStorage.removeItem('accessToken');
         yield put(logoutSuccess());
     } catch (err) {
         yield put(logoutFailure(err.message));
@@ -99,52 +92,52 @@ function* logOut() {
 }
 
 async function emailCheckAPI(email: string) {
-    await axios.post('/api/v1/validation/email', {
-        email,
+    axios({
+        method: 'POST',
+        url: '/api/v1/validation/email',
+        data: { email },
     });
+}
+
+function firebaseEmailCheck(email: string) {
     const REDIRECT_URL = 'http://localhost:3000/user/signup';
     const config = {
         url: REDIRECT_URL,
         handleCodeInApp: true,
     };
-    await auth.sendSignInLinkToEmail(email, config);
-    localStorage.setItem('emailForSignup', email);
+    auth.sendSignInLinkToEmail(email, config);
 }
 
 function* emailCheck(action: ReturnType<typeof emailCheckRequest>) {
     try {
         yield call(emailCheckAPI, action.email);
+        yield call(firebaseEmailCheck, action.email);
+        localStorage.setItem('emailForSignup', action.email);
         yield put(emailCheckSuccess());
     } catch (err) {
         yield put(emailCheckFailure('이미 가입된 이메일 입니다.'));
     }
 }
 
-async function signupToken({ email, password }: SignupData) {
+async function firebaseSignup({ email, password }: SignupData) {
     await auth.signInWithEmailLink(email, location.href);
-    const user = auth.currentUser as firebase.User;
-    await user.updatePassword(password);
-    const accessToken = await user.getIdToken();
-    return accessToken;
+    await auth.currentUser?.updatePassword(password);
 }
 
-function signUpAPI(accessToken: string, { email, name, mobile, signinMethod }: SignupData) {
-    return axios.post(
-        '/api/v1/signup',
-        { email, name, mobile, signinMethod },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+function signUpAPI({ email, name, mobile, signinMethod }: SignupData, accessToken: string) {
+    return axios({
+        method: 'POST',
+        url: '/api/v1/signup',
+        data: { email, name, mobile, signinMethod },
+        headers: { accessToken },
+    });
 }
 
 function* signUp(action: ReturnType<typeof signupRequest>) {
     try {
-        const accessToken: string = yield call(signupToken, action.data);
-        const result: AxiosResponse<{ user: Me }> = yield call(signUpAPI, accessToken, action.data);
-        localStorage.setItem('accessToken', accessToken);
+        yield call(firebaseSignup, action.data);
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ user: Me }> = yield call(signUpAPI, action.data, accessToken);
         localStorage.setItem('userId', result.data.user._id);
         localStorage.removeItem('emailForSignup');
         yield put(signupSuccess());
@@ -154,41 +147,42 @@ function* signUp(action: ReturnType<typeof signupRequest>) {
 }
 
 function loadProfileAPI(userId: string) {
-    return axios.get(`/api/v1/users/${userId}`);
+    return axios({
+        method: 'GET',
+        url: `/api/v1/users/${userId}`,
+    });
 }
 
 function* loadProfile() {
     try {
         const userId = localStorage.getItem('userId') as string;
-        const accessToken = localStorage.getItem('accessToken') as string;
         const result: AxiosResponse<{ user: Me }> = yield call(loadProfileAPI, userId);
-        yield put(loadProfileSuccess(accessToken, result.data.user));
+        yield put(loadProfileSuccess(result.data.user));
     } catch (err) {
         yield put(loadProfileFailure(err.message));
     }
 }
 
-function changeProfileAPI(userId: string, accessToken: string, data: FormData) {
-    console.log('accessToken: ', accessToken);
-    return axios.patch(`/api/v1/users/${userId}`, data, {
-        headers: {
-            accessToken,
-        },
+async function changeProfileAPI(userId: string, data: FormData, accessToken: string) {
+    return axios({
+        method: 'PATCH',
+        url: `/api/v1/users/${userId}`,
+        data,
+        headers: { accessToken },
     });
 }
 
 function* changeProfile(action: ReturnType<typeof changeProfileRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(
             changeProfileAPI,
             action.userId,
-            action.accessToken,
             action.data,
+            accessToken,
         );
-        console.log('result :', result.data);
         yield put(changeProfileSuccess(result.data.user));
     } catch (err) {
-        console.log(err.message);
         yield put(changeProfileFailure(err.message));
     }
 }

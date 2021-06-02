@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -18,11 +19,11 @@ import { RootState } from '../../reducers';
 
 const Mypage = () => {
     const dispatch = useDispatch();
-    const { accessToken, me } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { customerProgressOrders, customerCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
     );
-    const [tap, setTap] = useState(1);
+    const [tap, setTap] = useState(4);
 
     const onClickTap = (idx: number) => {
         setTap(idx);
@@ -30,7 +31,7 @@ const Mypage = () => {
 
     useEffect(() => {
         if (me) {
-            dispatch(loadOrdersRequest(accessToken, 'customer', me._id));
+            dispatch(loadOrdersRequest('customer', me._id));
         } else {
             Router.push('/home');
         }

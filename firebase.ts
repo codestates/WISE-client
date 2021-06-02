@@ -17,6 +17,13 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-export const auth = firebase.auth();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+const auth = firebase.auth();
+// auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+googleAuthProvider.setCustomParameters({ prompt: 'select_account' });
+const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+facebookAuthProvider.setCustomParameters({ display: 'popup' });
+
+const getFirebaseToken = () => auth.currentUser?.getIdToken();
+
+export { auth, googleAuthProvider, facebookAuthProvider, getFirebaseToken };

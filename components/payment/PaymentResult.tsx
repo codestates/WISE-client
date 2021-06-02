@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
@@ -9,9 +10,10 @@ import { ParsedUrlQuery } from 'querystring';
 import { RootState } from '../../reducers';
 import { ActionButton } from '../style/style';
 import { checkoutRequest } from '../../actions/payment';
-import { loadOrderInfoRequest } from '../../actions/order';
-import { addNotificationRequest, checkNotificationRequest } from '../../actions/notifications';
+
+import { addNotificationRequest } from '../../actions/notifications';
 import { Notification } from '../../interfaces/data/notifications';
+import { loadOrderInfoRequest } from '../../actions/order';
 
 type Props = {
     result: ParsedUrlQuery;
@@ -24,7 +26,7 @@ const PaymentResult = ({ result }: Props) => {
     const { imp_uid, merchant_uid } = result;
 
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.payment);
     const { addNotificationDone, notifications } = useSelector((state: RootState) => state.notifications);
@@ -36,14 +38,14 @@ const PaymentResult = ({ result }: Props) => {
 
     // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
     useEffect(() => {
-        dispatch(checkoutRequest(result.orderId, imp_uid, accessToken));
-    }, [result.orderId, imp_uid, accessToken, dispatch]);
+        dispatch(checkoutRequest(result.orderId, imp_uid));
+    }, [result.orderId, imp_uid, dispatch]);
 
     useEffect(() => {
-        if (accessToken) {
-            dispatch(loadOrderInfoRequest(result.orderId, accessToken));
+        if (me) {
+            dispatch(loadOrderInfoRequest(result.orderId));
         }
-    }, [result.orderId, accessToken, dispatch]);
+    }, [result.orderId, me, dispatch]);
 
     useEffect(() => {
         if (checkoutStatus === 'success') {
@@ -69,11 +71,11 @@ const PaymentResult = ({ result }: Props) => {
                 clientUrl: `/user/mypage`,
                 content: `${orderInfo.customer.name}님이 결제를 완료하셨습니다.`,
             };
-            dispatch(addNotificationRequest(notification, accessToken));
+            dispatch(addNotificationRequest(notification));
             console.log('notification sent!');
             router.push('/');
         }
-    }, [accessToken, addNotificationDone, dispatch, orderInfo, router]);
+    }, [addNotificationDone, dispatch, orderInfo, router]);
 
     // // isChecked로 바꾸기
     // useEffect(() => {

@@ -23,16 +23,16 @@ const Payment = () => {
     const { id } = router.query;
     console.log(id);
 
-    const { accessToken } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { service } = useSelector((state: RootState) => state.service);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     console.log(orderInfo);
 
     useEffect(() => {
-        if (accessToken) {
-            dispatch(loadOrderInfoRequest(id, accessToken));
+        if (me) {
+            dispatch(loadOrderInfoRequest(id));
         }
-    }, [id, accessToken, dispatch]);
+    }, [me, id, dispatch]);
 
     useEffect(() => {
         if (orderInfo) {

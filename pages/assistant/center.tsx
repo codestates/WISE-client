@@ -17,7 +17,7 @@ import { RootState } from '../../reducers';
 
 const Center = () => {
     const dispatch = useDispatch();
-    const { accessToken, me } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { myService, loadServiceLoading } = useSelector((state: RootState) => state.service);
     const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
@@ -31,7 +31,7 @@ const Center = () => {
     useEffect(() => {
         if (me) {
             dispatch(loadServiceRequest(me.service));
-            dispatch(loadOrdersRequest(accessToken, 'assistant', me._id));
+            dispatch(loadOrdersRequest('assistant', me._id));
         }
     }, [dispatch, me]);
 

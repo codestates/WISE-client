@@ -11,7 +11,7 @@ import { InputWrapper, DeleteBtn, SubmitBtn } from './style/style';
 
 const ProfileModify = () => {
     const dispatch = useDispatch();
-    const { me, accessToken, changeProfileDone, changeProfileError } = useSelector((state: RootState) => state.user);
+    const { me, changeProfileDone, changeProfileError } = useSelector((state: RootState) => state.user);
 
     const [showModal, setShowModal] = useState(false);
     const onCloseModal = useCallback(() => {
@@ -45,9 +45,9 @@ const ProfileModify = () => {
             data.append('name', name);
             data.append('mobile', mobile);
 
-            dispatch(changeProfileRequest(me._id, accessToken, data));
+            dispatch(changeProfileRequest(me._id, data));
         },
-        [me, accessToken, image, name, mobile, dispatch],
+        [me, image, name, mobile, dispatch],
     );
 
     useEffect(() => {

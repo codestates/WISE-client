@@ -24,7 +24,6 @@ export interface Me {
 export type UserState = {
     me: null | Me;
     islogin: boolean;
-    accessToken: null | string;
     logInLoading: boolean; // 로그인
     logInDone: boolean;
     logInError: null | string;

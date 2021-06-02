@@ -14,21 +14,24 @@ import {
     checkNotificationRequest,
     CHECK_NOTIFICATION_REQUEST,
 } from '../actions/notifications';
+import { getFirebaseToken } from '../firebase';
+import { NotificationData } from '../interfaces/data/notifications';
 
 function loadNotificationsAPI(userId: string | string[], accessToken: string) {
-    return axios.get(`api/v1/notifications?userId=${userId}`, {
-        headers: {
-            accessToken,
-        },
+    return axios({
+        method: 'GET',
+        url: `api/v1/notifications?userId=${userId}`,
+        headers: { accessToken },
     });
 }
 
 function* loadNotifications(action: ReturnType<typeof loadNotificationsRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             loadNotificationsAPI,
             action.userId,
-            action.accessToken,
+            accessToken,
         );
         yield put(loadNotificationsSuccess(result.data.notifications));
     } catch (err) {
@@ -40,33 +43,21 @@ function* watchloadNotifications() {
     yield takeLatest(LOAD_NOTIFICATIONS_REQUEST, loadNotifications);
 }
 
-function addNotificationAPI(
-    data: {
-        recipient: string | string[];
-        subject: string;
-        clientUrl: string;
-        content: string;
-    },
-    accessToken: string,
-) {
-    return axios.post(
-        `api/v1/notifications`,
-        {
-            ...data,
-        },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+function addNotificationAPI(data: NotificationData, accessToken: string) {
+    return axios({
+        method: 'POST',
+        url: 'api/v1/notifications',
+        data,
+        headers: { accessToken },
+    });
 }
 function* addNotification(action: ReturnType<typeof addNotificationRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             addNotificationAPI,
             action.data,
-            action.accessToken,
+            accessToken,
         );
         yield put(addNotificationSuccess(result.data.notifications));
     } catch (err) {
@@ -79,19 +70,19 @@ function* watchaddNotification() {
 }
 
 function checkNotificationAPI(notificationId: string, accessToken: string) {
-    console.log(notificationId, accessToken);
-    return axios.patch(`api/v1/notifications/${notificationId}`, {
-        headers: {
-            accessToken,
-        },
+    return axios({
+        method: 'PATCH',
+        url: `api/v1/notifications/${notificationId}`,
+        headers: { accessToken },
     });
 }
 function* checkNotification(action: ReturnType<typeof checkNotificationRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             checkNotificationAPI,
             action.notificationId,
-            action.accessToken,
+            accessToken,
         );
         yield put(addNotificationSuccess(result.data.notifications));
     } catch (err) {

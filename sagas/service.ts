@@ -35,21 +35,27 @@ import {
     removeServiceSuccess,
     REMOVE_SERVICE_REQUEST,
 } from '../actions/service';
+import { getFirebaseToken } from '../firebase';
 import { Query, Service } from '../interfaces/data/service';
 
-function addServiceAPI(accessToken: string, data: FormData) {
-    return axios.post('http://localhost:5000/api/v1/services', data, {
-        headers: {
-            accessToken,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-        },
+function addServiceAPI(data: FormData, accessToken: string) {
+    return axios({
+        method: 'POST',
+        url: '/api/v1/services',
+        data,
+        headers: { accessToken },
     });
+    // headers: {
+    //     accessToken,
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //     'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+    // },
 }
 
 function* addService(action: ReturnType<typeof addServiceRequest>) {
     try {
-        const result: AxiosResponse<{ service: Service }> = yield call(addServiceAPI, action.accessToken, action.data);
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ service: Service }> = yield call(addServiceAPI, action.data, accessToken);
         yield put(addServiceSuccess(result.data.service));
     } catch (err) {
         yield put(addServiceFailure(err.message));
@@ -57,7 +63,10 @@ function* addService(action: ReturnType<typeof addServiceRequest>) {
 }
 
 function loadServiceAPI(serviceId: string) {
-    return axios.get(`api/v1/services/${serviceId}`);
+    return axios({
+        method: 'GET',
+        url: `api/v1/services/${serviceId}`,
+    });
 }
 
 function* loadService(action: ReturnType<typeof loadServiceRequest>) {
@@ -69,14 +78,18 @@ function* loadService(action: ReturnType<typeof loadServiceRequest>) {
     }
 }
 
-function changeServiceAPI(serviceId: string, accessToken: string, data: FormData) {
-    return axios.patch(`api/v1/services/${serviceId}`, data, {
-        headers: {
-            accessToken,
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-        },
+function changeServiceAPI(serviceId: string, data: FormData, accessToken: string) {
+    return axios({
+        method: 'PATCH',
+        url: `api/v1/services/${serviceId}`,
+        data,
+        headers: { accessToken },
     });
+    // headers: {
+    //     accessToken,
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //     'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+    // },
 }
 
 function* changeService(action: ReturnType<typeof changeServiceRequest>) {
@@ -94,7 +107,10 @@ function* changeService(action: ReturnType<typeof changeServiceRequest>) {
 }
 
 function removeServiceAPI(serviceId: string) {
-    return axios.delete(`api/v1/services/${serviceId}`);
+    return axios({
+        method: 'DELETE',
+        url: `api/v1/services/${serviceId}`,
+    });
 }
 
 function* removeService(action: ReturnType<typeof removeServiceRequest>) {
@@ -107,7 +123,10 @@ function* removeService(action: ReturnType<typeof removeServiceRequest>) {
 }
 
 function loadPopularServicesAPI() {
-    return axios.get('/api/v1/services/popularity');
+    return axios({
+        method: 'GET',
+        url: '/api/v1/services/popularity',
+    });
 }
 
 function* loadPopularServices() {
@@ -120,7 +139,10 @@ function* loadPopularServices() {
 }
 
 function loadTotalServicesAPI(page: number) {
-    return axios.get(`/api/v1/services/all?page=${page}`);
+    return axios({
+        method: 'GET',
+        url: `/api/v1/services/all?page=${page}`,
+    });
 }
 
 function* loadTotalServices(action: ReturnType<typeof loadTotalServicesRequest>) {
@@ -137,7 +159,10 @@ function* loadTotalServices(action: ReturnType<typeof loadTotalServicesRequest>)
 
 function loadSearchServicesAPI(query: Query) {
     const { location, date, time, page } = query;
-    return axios.get(`/api/v1/services/?location=${location}&date=${date}&time=${time}&page=${page}`);
+    return axios({
+        method: 'GET',
+        url: `/api/v1/services/?location=${location}&date=${date}&time=${time}&page=${page}`,
+    });
 }
 
 function* loadSearchServices(action: ReturnType<typeof loadSearchServicesRequest>) {
@@ -153,7 +178,10 @@ function* loadSearchServices(action: ReturnType<typeof loadSearchServicesRequest
 }
 
 function loadServiceInfoAPI(serviceId: string) {
-    return axios.get(`api/v1/services/${serviceId}`);
+    return axios({
+        method: 'GET',
+        url: `api/v1/services/${serviceId}`,
+    });
 }
 
 function* loadServiceInfo(action: ReturnType<typeof loadServiceInfoRequest>) {

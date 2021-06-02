@@ -1,3 +1,10 @@
+export interface NotificationData {
+    recipient: string | string[];
+    subject: string;
+    clientUrl: string;
+    content: string;
+}
+
 export interface Notification {
     _id: string;
     sender: { id: string; name: string };

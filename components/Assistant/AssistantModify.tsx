@@ -30,7 +30,6 @@ type availableDay = {
 
 const AssistantModify = () => {
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state: RootState) => state.user);
     const { myService, changeServiceDone, changeServiceError } = useSelector((state: RootState) => state.service);
 
     const [showModal, setShowModal] = useState(false);
@@ -159,7 +158,7 @@ const AssistantModify = () => {
             trainingCert.map((v) => data.append('trainingCert', v));
             availableDays.map((v) => data.append('availableDays', v as string));
 
-            dispatch(changeServiceRequest(myService._id, accessToken, data));
+            dispatch(changeServiceRequest(myService._id, data));
         },
         [
             location,
@@ -174,7 +173,6 @@ const AssistantModify = () => {
             isTrained,
             trainingCert,
             isDriver,
-            accessToken,
             myService,
             dispatch,
         ],

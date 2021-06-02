@@ -1,3 +1,16 @@
+export interface OrderReq {
+    hospital: string;
+    hours: number;
+    pickup: string;
+    content: string;
+    message: string;
+    serviceId: string;
+    state: string;
+    date: string;
+    time: string;
+    totalPayment: number;
+}
+
 export interface ShortOrder {
     _id: string;
     customer: { _id: string; name: string; mobile: string };

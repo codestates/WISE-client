@@ -12,10 +12,12 @@ import Layout from '../layout/Layout';
 import SearchBar from '../components/home/SearchBar';
 import TotalSection from '../components/home/TotalSection';
 import Loading from '../components/Loading';
+import { auth } from '../firebase';
+import { loadProfileRequest } from '../actions/user';
 
 const Home = () => {
     const dispatch = useDispatch();
-
+    console.log(auth.currentUser);
     const { totalServices, totalServicesLoading, totalServicesCount, searchServicesLoading } = useSelector(
         (state: RootState) => state.service,
     );
@@ -63,6 +65,11 @@ const Wrapper = styled.div`
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            context.store.dispatch(loadProfileRequest());
+        }
+    });
     context.store.dispatch(loadPopularServicesRequest());
     context.store.dispatch(loadTotalServicesRequest(1));
     context.store.dispatch(END);

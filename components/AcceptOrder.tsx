@@ -1,20 +1,20 @@
+/* eslint-disable import/namespace */
 import Link from 'next/link';
 import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CancelButton, ActionButton } from './style/style';
 import { RootState } from '../reducers';
-import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
 import { addNotificationRequest, checkNotificationRequest } from '../actions/notifications';
 import ResultModal from './ResultModal';
 import { Notification } from '../interfaces/data/notifications';
+import { acceptOrderRequest, rejectOrderRequest } from '../actions/order';
 
 type Props = {
     orderId: string | string[];
 };
 
 const AcceptOrder = ({ orderId }: Props) => {
-    const { accessToken } = useSelector((state: RootState) => state.user);
     const { acceptOrderDone, acceptOrderError, rejectOrderDone, rejectOrderError, orderInfo } = useSelector(
         (state: RootState) => state.order,
     );
@@ -43,11 +43,10 @@ const AcceptOrder = ({ orderId }: Props) => {
         (e) => {
             if (!acceptOrderDone) {
                 e.preventDefault();
-                const state = 'accept';
-                dispatch(acceptOrderRequest(orderId, accessToken, state));
+                dispatch(acceptOrderRequest(orderId, 'accept'));
             }
         },
-        [accessToken, orderId, dispatch, acceptOrderDone],
+        [orderId, dispatch, acceptOrderDone],
     );
 
     // 거절했을 때, 유저에게 알림으로 거절했다고 알려줘야함 -> delete reservation
@@ -55,10 +54,10 @@ const AcceptOrder = ({ orderId }: Props) => {
         (e) => {
             if (!rejectOrderDone) {
                 e.preventDefault();
-                dispatch(rejectOrderRequest(orderId, accessToken));
+                dispatch(rejectOrderRequest(orderId));
             }
         },
-        [accessToken, orderId, dispatch, rejectOrderDone],
+        [orderId, dispatch, rejectOrderDone],
     );
 
     // POST notification
@@ -71,7 +70,7 @@ const AcceptOrder = ({ orderId }: Props) => {
                     clientUrl: `/payment/checkout/${orderInfo._id}`,
                     content: `${orderInfo.assistant.name} 어시스턴트가 신청을 수락했습니다`,
                 };
-                dispatch(addNotificationRequest(notificationData, accessToken));
+                dispatch(addNotificationRequest(notificationData));
                 console.log('notification sent!');
                 console.log('add notification done', addNotificationDone);
             } else if (orderInfo && rejectOrderDone) {
@@ -81,12 +80,21 @@ const AcceptOrder = ({ orderId }: Props) => {
                     clientUrl: '',
                     content: `${orderInfo.assistant.name} 어시스턴트가 신청을 거절했어요`,
                 };
-                dispatch(addNotificationRequest(notificationData, accessToken));
+                dispatch(addNotificationRequest(notificationData));
                 console.log('notification sent!');
             }
         }
-    }, [accessToken, dispatch, orderInfo, rejectOrderDone, acceptOrderDone, addNotificationDone]);
+    }, [dispatch, orderInfo, rejectOrderDone, acceptOrderDone, addNotificationDone]);
 
+    // isChecked로 바꾸기
+    useEffect(() => {
+        if (addNotificationDone) {
+            const thisNotification = notifications.filter(
+                (notification: Notification) => notification.subject === orderId,
+            )[0];
+            dispatch(checkNotificationRequest(thisNotification._id));
+        }
+    }, [addNotificationDone, dispatch, notifications, orderId]);
     // // isChecked로 바꾸기
     // useEffect(() => {
     //     if (addNotificationDone && notifications) {

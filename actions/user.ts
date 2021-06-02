@@ -89,9 +89,8 @@ export const loadProfileRequest = () => ({
     type: LOAD_PROFILE_REQUEST,
 });
 
-export const loadProfileSuccess = (token: string, me: Me) => ({
+export const loadProfileSuccess = (me: Me) => ({
     type: LOAD_PROFILE_SUCCESS,
-    token,
     me,
 });
 
@@ -100,10 +99,9 @@ export const loadProfileFailure = (error: string) => ({
     error,
 });
 
-export const changeProfileRequest = (userId: string, accessToken: string, data: FormData) => ({
+export const changeProfileRequest = (userId: string, data: FormData) => ({
     type: CHANGE_PROFILE_REQUEST,
     userId,
-    accessToken,
     data,
 });
 

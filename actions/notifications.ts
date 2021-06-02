@@ -10,10 +10,9 @@ export const CHECK_NOTIFICATION_REQUEST = 'CHECK_NOTIFICATION_REQUEST' as const;
 export const CHECK_NOTIFICATION_SUCCESS = 'CHECK_NOTIFICATION_SUCCESS' as const;
 export const CHECK_NOTIFICATION_FAILURE = 'CHECK_NOTIFICATION_FAILURE' as const;
 
-export const loadNotificationsRequest = (userId: string | string[], accessToken: string) => ({
+export const loadNotificationsRequest = (userId: string | string[]) => ({
     type: LOAD_NOTIFICATIONS_REQUEST,
     userId,
-    accessToken,
 });
 
 export const loadNotificationsSuccess = (notifications: Notification[]) => ({
@@ -26,13 +25,14 @@ export const loadNotificationsFailure = (error: string) => ({
     error,
 });
 
-export const addNotificationRequest = (
-    data: { recipient: string | string[]; subject: string; clientUrl: string; content: string },
-    accessToken: string,
-) => ({
+export const addNotificationRequest = (data: {
+    recipient: string | string[];
+    subject: string;
+    clientUrl: string;
+    content: string;
+}) => ({
     type: ADD_NOTIFICATION_REQUEST,
     data,
-    accessToken,
 });
 
 export const addNotificationSuccess = (notifications: Notification[]) => ({
@@ -45,10 +45,9 @@ export const addNotificationFailure = (error: string) => ({
     error,
 });
 
-export const checkNotificationRequest = (notificationId: string, accessToken: string) => ({
+export const checkNotificationRequest = (notificationId: string) => ({
     type: CHECK_NOTIFICATION_REQUEST,
     notificationId,
-    accessToken,
 });
 
 export const checkNotificationSuccess = (notifications: Notification[]) => ({

@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosResponse } from 'axios';
@@ -24,39 +25,22 @@ import {
     rejectOrderSuccess,
     REJECT_ORDER_REQUEST,
 } from '../actions/order';
+import { getFirebaseToken } from '../firebase';
 import { Order, ShortOrder } from '../interfaces/data/order';
 
-function addOrderAPI(
-    accessToken: string,
-    data: {
-        hospital: string;
-        hours: number;
-        pickup: string;
-        content: string;
-        message: string;
-        serviceId: string;
-        state: string;
-        date: string;
-        time: string;
-        totalPayment: number;
-    },
-) {
-    return axios.post(
-        `api/v1/orders`,
-        {
-            ...data,
-        },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+function addOrderAPI(data: Order, accessToken: string) {
+    return axios({
+        method: 'POST',
+        url: 'api/v1/orders',
+        data,
+        headers: { accessToken },
+    });
 }
 
 function* addOrder(action: ReturnType<typeof addOrderRequest>) {
     try {
-        const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.accessToken, action.data);
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.data, accessToken);
         yield put(addOrderSuccess(result.data.order));
     } catch (err) {
         console.log(err);
@@ -64,73 +48,64 @@ function* addOrder(action: ReturnType<typeof addOrderRequest>) {
     }
 }
 
-function loadOrdersAPI(accessToken: string, userType: string, userId: string) {
-    // console.log('accessToken: ', accessToken);
-    return axios.get(`/api/v1/orders?userId=${userId}&type=${userType}`, {
-        headers: {
-            accessToken,
-        },
+function loadOrdersAPI(userType: string, userId: string, accessToken: string) {
+    return axios({
+        method: 'GET',
+        url: `/api/v1/orders?userId=${userId}&type=${userType}`,
+        headers: { accessToken },
     });
 }
 
 function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ orders: ShortOrder[] }> = yield call(
             loadOrdersAPI,
-            action.accessToken,
             action.userType,
             action.userId,
+            accessToken,
         );
-        console.log(result);
         yield put(loadOrdersSuccess(result.data.orders, action.userType));
     } catch (err) {
-        console.log(err.message);
         yield put(loadOrdersFailure(err.message));
     }
 }
 
 function loadOrderInfoAPI(orderId: string | string[], accessToken: string) {
-    return axios.get(`api/v1/orders/${orderId}`, {
-        headers: {
-            accessToken,
-        },
+    return axios({
+        method: 'GET',
+        url: `api/v1/orders/${orderId}`,
+        headers: { accessToken },
     });
 }
 
 function* loadOrderInfo(action: ReturnType<typeof loadOrderInfoRequest>) {
     try {
-        const result: AxiosResponse<{ order: Order }> = yield call(
-            loadOrderInfoAPI,
-            action.orderId,
-            action.accessToken,
-        );
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ order: Order }> = yield call(loadOrderInfoAPI, action.orderId, accessToken);
         yield put(loadOrderInfoSuccess(result.data.order));
     } catch (err) {
         yield put(loadOrderInfoFailure(err.message));
     }
 }
 
-function acceptOrderAPI(orderId: string, accessToken: string, state: string) {
-    return axios.patch(
-        `api/v1/orders/${orderId}`,
-        {
-            state,
-        },
-        {
-            headers: {
-                accessToken,
-            },
-        },
-    );
+function acceptOrderAPI(orderId: string, state: string, accessToken: string) {
+    return axios({
+        method: 'PATCH',
+        url: `api/v1/orders/${orderId}`,
+        data: { state },
+        headers: { accessToken },
+    });
 }
 
 function* acceptOrder(action: ReturnType<typeof acceptOrderRequest>) {
     try {
+        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ order: Order }> = yield call(
             acceptOrderAPI,
             action.orderId,
-            action.accessToken,
             action.state,
+            accessToken,
         );
         yield put(acceptOrderSuccess(result.data.order));
     } catch (err) {
@@ -139,20 +114,17 @@ function* acceptOrder(action: ReturnType<typeof acceptOrderRequest>) {
 }
 
 function rejectOrderAPI(orderId: string, accessToken: string) {
-    return axios.delete(`api/v1/orders/${orderId}`, {
-        headers: {
-            accessToken,
-        },
+    return axios({
+        method: 'DELETE',
+        url: `api/v1/orders/${orderId}`,
+        headers: { accessToken },
     });
 }
 
 function* rejectOrder(action: ReturnType<typeof rejectOrderRequest>) {
     try {
-        const result: AxiosResponse<{ message: string }> = yield call(
-            rejectOrderAPI,
-            action.orderId,
-            action.accessToken,
-        );
+        const accessToken = yield call(getFirebaseToken);
+        const result: AxiosResponse<{ message: string }> = yield call(rejectOrderAPI, action.orderId, accessToken);
         yield put(rejectOrderSuccess(result.data.message));
     } catch (err) {
         console.error(err);

@@ -14,7 +14,7 @@ import { Notification } from '../interfaces/data/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin, accessToken, logOutDone } = useSelector((state: RootState) => state.user);
+    const { me, islogin, logOutDone } = useSelector((state: RootState) => state.user);
     const { loadNotificationsDone, notifications } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
     const [unchecked, setUnchecked] = useState(0);
@@ -29,10 +29,10 @@ const Header = () => {
     }, [notifications]);
 
     useEffect(() => {
-        if (accessToken && !loadNotificationsDone) {
-            dispatch(loadNotificationsRequest(me._id, accessToken));
+        if (me && !loadNotificationsDone) {
+            dispatch(loadNotificationsRequest(me._id));
         }
-    }, [accessToken, dispatch, me, loadNotificationsDone]);
+    }, [dispatch, me, loadNotificationsDone]);
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);

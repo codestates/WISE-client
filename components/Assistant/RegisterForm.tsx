@@ -25,7 +25,6 @@ import { AVAILABLEDAYS, SEOULCITY } from '../../utils/data';
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state: RootState) => state.user);
     const { addServiceDone } = useSelector((state: RootState) => state.service);
     // 가능 지역
     const [location, setLocation] = useState('');
@@ -148,7 +147,7 @@ const RegisterForm = () => {
             trainingCert.map((v) => data.append('trainingCert', v));
             availableDays.map((v) => data.append('availableDays', v as string));
 
-            dispatch(addServiceRequest(data, accessToken));
+            dispatch(addServiceRequest(data));
         },
         [
             location,
@@ -163,7 +162,6 @@ const RegisterForm = () => {
             isTrained,
             trainingCert,
             isDriver,
-            accessToken,
             dispatch,
         ],
     );

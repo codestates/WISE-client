@@ -9,6 +9,7 @@ import { Service } from '../../interfaces/data/service';
 import { addOrderRequest } from '../../actions/order';
 import { addNotificationRequest } from '../../actions/notifications';
 import ResultModal from '../ResultModal';
+import { Order, OrderReq } from '../../interfaces/data/order';
 
 type Props = {
     service: Service;
@@ -18,7 +19,6 @@ type Props = {
 
 const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state: RootState) => state.user);
     const { addOrderDone, addOrderError, orderInfo } = useSelector((state: RootState) => state.order);
     const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
@@ -56,7 +56,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const onSubmit = useCallback(
         (e) => {
             e.preventDefault();
-            const data = {
+            const data: OrderReq = {
                 hospital,
                 hours,
                 pickup,
@@ -68,9 +68,9 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                 time: 'am',
                 totalPayment: hours * service.wage,
             };
-            dispatch(addOrderRequest(accessToken, data));
+            dispatch(addOrderRequest(data));
         },
-        [hospital, pickup, content, message, service._id, hours, accessToken, dispatch, service.wage],
+        [hospital, pickup, content, message, service._id, hours, dispatch, service.wage],
     );
 
     const [showModal, setShowModal] = useState(false);
@@ -89,10 +89,10 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                 clientUrl: `/service/accept/${orderInfo._id}`,
                 content: '새로운 서비스 신청 1건이 있습니다',
             };
-            dispatch(addNotificationRequest(notification, accessToken));
+            dispatch(addNotificationRequest(notification));
             console.log('notification sent!');
         }
-    }, [accessToken, dispatch, service.assistant._id, orderInfo, addOrderDone]);
+    }, [dispatch, service.assistant._id, orderInfo, addOrderDone]);
 
     useEffect(() => {
         if (addNotificationDone) {
