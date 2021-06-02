@@ -18,7 +18,7 @@ import { RootState } from '../../reducers';
 const Center = () => {
     const dispatch = useDispatch();
     const { accessToken, me } = useSelector((state: RootState) => state.user);
-    const { loadServiceLoading } = useSelector((state: RootState) => state.service);
+    const { myService, loadServiceLoading } = useSelector((state: RootState) => state.service);
     const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
     );
@@ -43,9 +43,14 @@ const Center = () => {
                 <Layout title="WISE | MYPAGE">
                     <Wrapper>
                         <NavTap>
-                            <div style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center' }}>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center' }}>
                                 어시스턴트 센터
                             </div>
+                            <img
+                                style={{ width: '150px', height: '120px' }}
+                                src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
+                                alt="assistantImg"
+                            />
                             <Nav>
                                 <div onClick={() => onClickTap(1)}>주문 현황</div>
                                 <div onClick={() => onClickTap(2)}>매칭 완료</div>

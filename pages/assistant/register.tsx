@@ -61,7 +61,6 @@ const Modal = styled.div`
     border-radius: 2rem;
     padding: 1rem 2rem 0 2rem;
     margin-top: 2rem;
-    z-index: 500;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0.2rem 0.3rem 0.1rem rgba(85, 85, 85, 0.25);

@@ -39,6 +39,7 @@ type PaymentDetailsProps = {
 const PaymentDetails = ({ orders }: PaymentDetailsProps) => {
     const dataSource = orders?.map((ele, idx) => ({
         key: idx,
+        orderId: ele._id,
         orderName: `${ele.assistant.name}의 동행 서비스`,
         date: moment(ele.date).format('YYYY-MM-DD'),
         mobile: ele.assistant.mobile,
@@ -46,24 +47,34 @@ const PaymentDetails = ({ orders }: PaymentDetailsProps) => {
     }));
     const columns = [
         {
+            title: '주문번호',
+            dataIndex: 'orderId',
+            key: 'orderId',
+            width: 150,
+        },
+        {
             title: '주문명',
             dataIndex: 'orderName',
             key: 'orderName',
+            width: 150,
         },
         {
             title: '결제일',
             dataIndex: 'date',
             key: 'date',
+            width: 150,
         },
         {
             title: '어시스턴트 연락처',
             dataIndex: 'mobile',
             key: 'mobile',
+            width: 150,
         },
         {
             title: '총 비용',
             dataIndex: 'totalPayment',
             key: 'totalPayment',
+            width: 150,
         },
     ];
     return (

@@ -8,6 +8,7 @@ import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
 import { loadSearchServicesRequest } from '../../actions/service';
+import { SEOULCITY } from '../../utils/data';
 
 const SearchBar = () => {
     const router = useRouter();
@@ -54,15 +55,16 @@ const SearchBar = () => {
                 <Select
                     onChange={onChangeLocation}
                     showSearch
-                    style={{ width: 150 }}
+                    style={{ width: '150px' }}
                     placeholder="위치 입력"
                     optionFilterProp="children"
                     value={searchQuery?.location}
                 >
-                    <Select.Option value="서울시 성동구">서울시 성동구</Select.Option>
-                    <Select.Option value="서울시 종로구">서울시 종로구</Select.Option>
-                    <Select.Option value="서울시 강서구">서울시 강서구</Select.Option>
-                    <Select.Option value="서울시 송파구">서울시 송파구</Select.Option>
+                    {SEOULCITY.map((ele) => (
+                        <Select.Option key={ele} value={ele}>
+                            {ele}
+                        </Select.Option>
+                    ))}
                 </Select>
                 <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
                 <Radio.Group onChange={onChangeTime} size="middle">

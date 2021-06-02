@@ -21,6 +21,7 @@ import {
     SubmitBtn,
     Image,
 } from '../style/style';
+import { AVAILABLEDAYS, SEOULCITY } from '../../utils/data';
 
 type availableDay = {
     label: string;
@@ -50,25 +51,7 @@ const AssistantModify = () => {
     }, []);
     // 가능 요일
     const [availableDays, setAvailableDays] = useState<Array<CheckboxValueType>>(myService.availableDays);
-    const availableDaysOptions = useMemo(
-        (): Array<availableDay> => [
-            { label: '월 오전', value: 'Monday am' },
-            { label: '화 오전', value: 'Tuesday am' },
-            { label: '수 오전', value: 'Wednesday am' },
-            { label: '목 오전', value: 'Thursday am' },
-            { label: '금 오전', value: 'Friday am' },
-            { label: '토 오전', value: 'Saturday am' },
-            { label: '일 오전', value: 'Sunday am' },
-            { label: '월 오후', value: 'Monday pm' },
-            { label: '화 오후', value: 'Tuesday pm' },
-            { label: '수 오후', value: 'Wednesday pm' },
-            { label: '목 오후', value: 'Thursday pm' },
-            { label: '금 오후', value: 'Friday pm' },
-            { label: '토 오후', value: 'Saturday pm' },
-            { label: '일 오후', value: 'Sunday pm' },
-        ],
-        [],
-    );
+
     const onChangeDays = useCallback((checkedValues: CheckboxValueType[]) => {
         setAvailableDays(checkedValues);
     }, []);
@@ -203,22 +186,24 @@ const AssistantModify = () => {
                 <InputWrapper>
                     <span>가능 지역</span>
                     <Select
+                        style={{ width: '150px' }}
                         onChange={onChangeLocation}
                         showSearch
                         placeholder="위치 입력"
                         optionFilterProp="children"
                         defaultValue={location}
                     >
-                        <Select.Option value="서울시 성동구">서울시 성동구</Select.Option>
-                        <Select.Option value="서울시 종로구">서울시 종로구</Select.Option>
-                        <Select.Option value="서울시 강서구">서울시 강서구</Select.Option>
-                        <Select.Option value="서울시 송파구">서울시 송파구</Select.Option>
+                        {SEOULCITY.map((ele) => (
+                            <Select.Option key={ele} value={ele}>
+                                {ele}
+                            </Select.Option>
+                        ))}
                     </Select>
                 </InputWrapper>
                 <InputWrapper>
                     <span>가능 요일</span>
                     <Checkbox.Group
-                        options={availableDaysOptions}
+                        options={AVAILABLEDAYS}
                         onChange={onChangeDays}
                         defaultValue={myService.availableDays}
                     />

@@ -5,35 +5,6 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import { Order } from '../../interfaces/data/order';
 
-// {
-//     _id: '1',
-//     customer: {
-//         _id: '2',
-//         name: '박천사',
-//         mobile: '1111',
-//     },
-//     assistant: {
-//         _id: '3',
-//         name: '김천사',
-//         mobile: '1111',
-//     },
-//     service: {
-//         _id: '4',
-//         image: 'wise/1621842261940269.png',
-//         location: '55',
-//     },
-//     pickup: '1',
-//     hospital: '1',
-//     content: '1',
-//     message: '1',
-//     date: '2020-05-05',
-//     time: '1',
-//     hours: 2,
-//     totalPayment: 1000,
-//     state: 'apply',
-//     isReviewed: false,
-// },
-
 type PaymentDetailsProps = {
     title: string;
     orders: Order[];
@@ -44,7 +15,8 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
         key: idx,
         date: moment(ele.date).format('YYYY-MM-DD'),
         userName: ele.customer.name,
-        location: ele.hospital,
+        content: ele.content,
+        time: ele.time,
         state: ele._id,
     }));
     const columns = [
@@ -52,21 +24,33 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
             title: '날짜',
             dataIndex: 'date',
             key: 'date',
+            width: 150,
         },
         {
             title: '고객 이름',
             dataIndex: 'userName',
             key: 'userName',
+            width: 100,
+            ellipsis: true,
         },
         {
-            title: '병원 위치',
-            dataIndex: 'location',
-            key: 'location',
+            title: '요청사항',
+            dataIndex: 'content',
+            key: 'content',
+            width: 200,
+            ellipsis: true,
+        },
+        {
+            title: '시간',
+            dataIndex: 'time',
+            key: 'time',
+            width: 100,
         },
         {
             title: '상태',
             dataIndex: 'state',
             key: 'state',
+            width: 100,
             render: (orderId: string) => (
                 <>
                     {orders[0].state === 'apply' && (
@@ -75,7 +59,7 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
                                 onClickApply(orderId);
                             }}
                         >
-                            수락하기
+                            자세히 보기
                         </ActionBtn>
                     )}
                     {orders[0].state === 'accept' && <ActionBtn disabled>결제대기중</ActionBtn>}

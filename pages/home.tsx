@@ -11,11 +11,12 @@ import { RootState } from '../reducers';
 import Layout from '../layout/Layout';
 import SearchBar from '../components/home/SearchBar';
 import TotalSection from '../components/home/TotalSection';
+import Loading from '../components/Loading';
 
 const Home = () => {
     const dispatch = useDispatch();
 
-    const { totalServices, totalServicesLoading, totalServicesCount } = useSelector(
+    const { totalServices, totalServicesLoading, totalServicesCount, searchServicesLoading } = useSelector(
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
@@ -37,15 +38,20 @@ const Home = () => {
             window.removeEventListener('scroll', onScroll);
         };
     }, [totalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
-
     return (
-        <Layout title="WISE | HOME">
-            <Wrapper>
-                <SearchBar />
-                {/* <PopularSection /> */}
-                <TotalSection title="전체 어시스턴트" />
-            </Wrapper>
-        </Layout>
+        <>
+            {searchServicesLoading ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | HOME">
+                    <Wrapper>
+                        <SearchBar />
+                        {/* <PopularSection /> */}
+                        <TotalSection title="전체 어시스턴트" />
+                    </Wrapper>
+                </Layout>
+            )}
+        </>
     );
 };
 
