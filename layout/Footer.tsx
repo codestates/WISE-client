@@ -24,6 +24,7 @@ const Footer = styled.footer`
     color: #fff;
     width: 100%;
     padding: 2rem 0;
+    z-index: 1;
 `;
 
 export default FooterComponent;

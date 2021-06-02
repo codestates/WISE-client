@@ -13,7 +13,7 @@ const AssistantInfo = ({ service, hours, date, time }: Props) => {
 
     return (
         <Wrapper>
-            <h2>김천사 어시스턴트</h2>
+            <h2>{service.assistant.name} 어시스턴트</h2>
             {service.images ? (
                 <img
                     src={`${IMAGE_URL}${service.images[0]}`}
@@ -33,10 +33,10 @@ const AssistantInfo = ({ service, hours, date, time }: Props) => {
                 <span>지역</span> {service.location}
             </Text>
             <Text>
-                <span>날짜</span> {date}
+                <span>날짜</span> {date === 'undefined' ? '날짜를 확인하세요' : date}
             </Text>
             <Text>
-                <span>시간</span> {time}
+                <span>시간</span> {time === 'undefined' ? '시간을 확인하세요' : time}
             </Text>
             <Text>
                 <span>비용</span> {service.wage}원 / 시간

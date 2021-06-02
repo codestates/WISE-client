@@ -25,8 +25,11 @@ function loadFirstReviewsAPI(serviceId: string) {
 
 function* loadFirstReviews(action: ReturnType<typeof loadFirstReviewRequest>) {
     try {
-        const result: AxiosResponse<{ reviews: Review[] }> = yield call(loadFirstReviewsAPI, action.serviceId);
-        yield put(loadFirstReviewSuccess(result.data.reviews));
+        const result: AxiosResponse<{ reviews: Review[]; totalReviews: number }> = yield call(
+            loadFirstReviewsAPI,
+            action.serviceId,
+        );
+        yield put(loadFirstReviewSuccess(result.data.reviews, result.data.totalReviews));
     } catch (err) {
         yield put(loadFirstReviewFailure(err.message));
     }
@@ -38,12 +41,12 @@ function loadMoreReviewsAPI(serviceId: string, page: number) {
 
 function* loadMoreReviews(action: ReturnType<typeof loadMoreReviewsRequest>) {
     try {
-        const result: AxiosResponse<{ reviews: Review[] }> = yield call(
+        const result: AxiosResponse<{ reviews: Review[]; totalReviews: number }> = yield call(
             loadMoreReviewsAPI,
             action.serviceId,
             action.page,
         );
-        yield put(loadMoreReviewsSuccess(result.data.reviews));
+        yield put(loadMoreReviewsSuccess(result.data.reviews, result.data.totalReviews));
     } catch (err) {
         yield put(loadMoreReviewsFailure(err.message));
     }

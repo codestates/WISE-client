@@ -20,7 +20,21 @@ export const REJECT_ORDER_REQUEST = 'REJECT_ORDER_REQUEST' as const;
 export const REJECT_ORDER_SUCCESS = 'REJECT_ORDER_SUCCESS' as const;
 export const REJECT_ORDER_FAILURE = 'REJECT_ORDER_FAILURE' as const;
 
-export const addOrderRequest = (accessToken: string, data: Order) => ({
+export const addOrderRequest = (
+    accessToken: string,
+    data: {
+        hospital: string;
+        hours: number;
+        pickup: string;
+        content: string;
+        message: string;
+        serviceId: string;
+        state: string;
+        date: string;
+        time: string;
+        totalPayment: number;
+    },
+) => ({
     type: ADD_ORDER_REQUEST,
     accessToken,
     data,

@@ -28,15 +28,15 @@ const Review = () => {
         }
     }, [id, accessToken, dispatch]);
 
-    // useEffect(() => {
-    //     if (orderInfo) {
-    //         dispatch(loadServiceInfoRequest(orderInfo.service));
-    //     }
-    // }, [orderInfo, dispatch]);
+    useEffect(() => {
+        if (orderInfo) {
+            dispatch(loadServiceInfoRequest(orderInfo.service));
+        }
+    }, [orderInfo, dispatch]);
 
     return (
         <>
-            {orderInfo ? (
+            {orderInfo && service ? (
                 <Layout title="WISE | HOME">
                     <Wrapper>
                         <Title>
@@ -44,13 +44,12 @@ const Review = () => {
                         </Title>
                         <Body>
                             <AddReview order={orderInfo} />
-                            <Info>김천사 어시스턴트</Info>
-                            {/* <AssistantInfo
-                            service={service}
-                            hours={orderInfo.hours}
-                            date={moment(orderInfo.date).format('YYYY-MM-DD')}
-                            time={orderInfo.time}
-                        /> */}
+                            <AssistantInfo
+                                service={service}
+                                hours={orderInfo.hours}
+                                date={moment(orderInfo.date).format('YYYY-MM-DD')}
+                                time={orderInfo.time}
+                            />
                         </Body>
                     </Wrapper>
                 </Layout>
@@ -77,15 +76,7 @@ const Body = styled.div`
 const Title = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 3rem;
-`;
-
-const Info = styled.div`
-    height: 30rem;
-    width: 16rem;
-    border: 1px solid #d0d0d0;
-    border-radius: 1rem;
-    padding: 2rem;
+    margin-top: 3rem;
 `;
 
 export default Review;

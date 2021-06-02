@@ -38,6 +38,7 @@ const Wrapper = styled.div`
     /* width: 90%; */
     max-width: 53vw;
     min-height: 30vh;
+    z-index: -1;
     /* .mySwiper {
         max-width: 50vw;
         min-height: 30vh;

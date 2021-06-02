@@ -26,7 +26,21 @@ import {
 } from '../actions/order';
 import { Order } from '../interfaces/data/order';
 
-function addOrderAPI(accessToken: string, data: Order) {
+function addOrderAPI(
+    accessToken: string,
+    data: {
+        hospital: string;
+        hours: number;
+        pickup: string;
+        content: string;
+        message: string;
+        serviceId: string;
+        state: string;
+        date: string;
+        time: string;
+        totalPayment: number;
+    },
+) {
     return axios.post(
         `api/v1/orders`,
         {

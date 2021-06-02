@@ -17,7 +17,8 @@ import { ReviewState } from '../interfaces/data/review';
 
 /* ------- initial state ------ */
 export const initialState: ReviewState = {
-    reviews: [],
+    reviews: null,
+    totalReviews: 0,
     loadFirstReviewsLoading: false,
     loadFirstReviewsDone: false,
     loadFirstReviewsError: null,
@@ -43,6 +44,7 @@ const reducer = (state = initialState, action: ReviewAction) =>
                 draft.loadFirstReviewsLoading = false;
                 draft.loadFirstReviewsDone = true;
                 draft.reviews = [...action.reviews];
+                draft.totalReviews = action.totalReviews;
                 break;
             case LOAD_FIRST_REVIEWS_FAILURE:
                 draft.loadFirstReviewsLoading = false;
@@ -57,6 +59,7 @@ const reducer = (state = initialState, action: ReviewAction) =>
                 draft.loadMoreReviewsLoading = false;
                 draft.loadMoreReviewsDone = true;
                 draft.reviews = [...action.reviews];
+                draft.totalReviews = action.totalReviews;
                 break;
             case LOAD_MORE_REVIEWS_FAILURE:
                 draft.loadMoreReviewsLoading = false;

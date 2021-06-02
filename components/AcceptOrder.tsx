@@ -43,7 +43,8 @@ const AcceptOrder = ({ orderId }: Props) => {
         (e) => {
             if (!acceptOrderDone) {
                 e.preventDefault();
-                dispatch(acceptOrderRequest(orderId, accessToken, 'accept'));
+                const state = 'accept';
+                dispatch(acceptOrderRequest(orderId, accessToken, state));
             }
         },
         [accessToken, orderId, dispatch, acceptOrderDone],
@@ -88,7 +89,7 @@ const AcceptOrder = ({ orderId }: Props) => {
 
     // isChecked로 바꾸기
     useEffect(() => {
-        if (addNotificationDone) {
+        if (addNotificationDone && notifications) {
             const thisNotification = notifications.filter(
                 (notification: Notification) => notification.subject === orderId,
             )[0];

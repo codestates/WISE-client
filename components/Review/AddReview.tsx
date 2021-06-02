@@ -24,7 +24,7 @@ const AddReview = ({ order }: Props) => {
     const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
     // star rating
-    const [ratingValue, setRatingValue] = useState<number | null>(2);
+    const [ratingValue, setRatingValue] = useState<number | null>(1);
 
     // review content
     const [content, setContent] = useState('');
@@ -33,21 +33,20 @@ const AddReview = ({ order }: Props) => {
         setContent(e.target.value);
     }, []);
 
-    const handleAddReview = useCallback(() => {
-        dispatch(addReviewRequest(order._id, ratingValue, content, accessToken));
-    }, [accessToken, content, dispatch, order._id, ratingValue]);
+    const handleAddReview = useCallback(
+        (e) => {
+            e.preventDefault();
+            dispatch(addReviewRequest(order._id, ratingValue, content, accessToken));
+        },
+        [accessToken, content, dispatch, order._id, ratingValue],
+    );
 
     // result modal
     const [showModal, setShowModal] = useState(false);
 
-    const onCloseModal = useCallback(() => {
-        setShowModal(false);
-        console.log('clicked!');
-    }, []);
-
     // POST notification
-    useEffect(() => {
-        if (order && addReviewDone) {
+    const onCloseModal = useCallback(() => {
+        if (addReviewDone && review) {
             const notification = {
                 recipient: order.assistant._id,
                 subject: order._id,
@@ -56,15 +55,32 @@ const AddReview = ({ order }: Props) => {
             };
             dispatch(addNotificationRequest(notification, accessToken));
             console.log('notification sent!');
+
+            setShowModal(false);
+        } else if (addReviewError) {
+            setShowModal(false);
         }
-    }, [accessToken, dispatch, order, addReviewDone, review]);
+    }, [accessToken, addReviewDone, addReviewError, dispatch, order._id, order.assistant._id, review]);
+
+    // useEffect(() => {
+    //     if (order && addReviewDone) {
+    //         const notification = {
+    //             recipient: order.assistant._id,
+    //             subject: order._id,
+    //             clientUrl: `/service/detail/${review.service}`,
+    //             content: '새로운 후기가 1건 올라왔어요',
+    //         };
+    //         dispatch(addNotificationRequest(notification, accessToken));
+    //         console.log('notification sent!');
+    //     }
+    // }, [accessToken, dispatch, order, addReviewDone, review]);
 
     useEffect(() => {
-        if (addNotificationDone) {
+        if (addReviewDone || addReviewError) {
             setShowModal(true);
             console.log('modal open!');
         }
-    }, [addNotificationDone]);
+    }, [addNotificationDone, addReviewDone, addReviewError]);
 
     return (
         <Wrapper>
@@ -106,7 +122,7 @@ const AddReview = ({ order }: Props) => {
                 <ResultModal
                     onClose={onCloseModal}
                     title="후기 남기기"
-                    message="로그인이 필요합니다"
+                    message="새로운 로그인이 필요합니다"
                     redirection="signin"
                 />
             )}

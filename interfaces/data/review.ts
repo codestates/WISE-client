@@ -13,6 +13,7 @@ export interface Review {
 
 export type ReviewState = {
     reviews: Review[] | null;
+    totalReviews: number;
     loadFirstReviewsLoading: boolean;
     loadFirstReviewsDone: boolean;
     loadFirstReviewsError: null | string;

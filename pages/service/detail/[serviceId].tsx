@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import { END } from 'redux-saga';
 
 import { GetServerSideProps } from 'next';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
+import Head from 'next/head';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';

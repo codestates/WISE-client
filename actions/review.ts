@@ -16,9 +16,10 @@ export const loadFirstReviewRequest = (serviceId: string) => ({
     type: LOAD_FIRST_REVIEWS_REQUEST,
     serviceId,
 });
-export const loadFirstReviewSuccess = (reviews: Review[]) => ({
+export const loadFirstReviewSuccess = (reviews: Review[], totalReviews: number) => ({
     type: LOAD_FIRST_REVIEWS_SUCCESS,
     reviews,
+    totalReviews,
 });
 export const loadFirstReviewFailure = (error: string) => ({
     type: LOAD_FIRST_REVIEWS_FAILURE,
@@ -30,9 +31,10 @@ export const loadMoreReviewsRequest = (serviceId: string, page: number) => ({
     serviceId,
     page,
 });
-export const loadMoreReviewsSuccess = (reviews: Review[]) => ({
+export const loadMoreReviewsSuccess = (reviews: Review[], totalReviews: number) => ({
     type: LOAD_MORE_REVIEWS_SUCCESS,
     reviews,
+    totalReviews,
 });
 export const loadMoreReviewsFailure = (error: string) => ({
     type: LOAD_MORE_REVIEWS_FAILURE,

@@ -34,7 +34,6 @@ const Summary = ({ service, searchResult }: ServiceProps) => (
             </Text>
         </Info>
         <Link href={`../reservation/${service._id}?date=${searchResult?.date}&time=${searchResult?.time}`}>
-            {/* <Link href={`../reservation/${service._id}`}> */}
             <Button>신청하기</Button>
         </Link>
     </Wrapper>

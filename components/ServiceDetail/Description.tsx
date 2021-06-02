@@ -9,7 +9,7 @@ type ServiceProps = {
 const Description = ({ service }: ServiceProps) => (
     <>
         <Wrapper id="description">
-            <Title>김천사 어시스턴트는 이런 사람이에요</Title>
+            <Title>{service.assistant.name} 어시스턴트는 이런 사람이에요</Title>
             <Badges>
                 {service.isDriver ? (
                     <span>

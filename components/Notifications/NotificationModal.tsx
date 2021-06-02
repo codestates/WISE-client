@@ -41,7 +41,7 @@ const NotificationModal = () => {
 };
 const StyledModalOverlay = styled.div`
     position: absolute;
-    top: 11rem;
+    top: 12rem;
     right: 5%;
     height: 100%;
     display: flex;
@@ -53,8 +53,8 @@ const StyledModal = styled.div`
     background: white;
     width: 30rem;
     height: 20rem;
-    border-radius: 0.5rem;
-    box-shadow: 0.3rem 0.2rem 0.4rem #f0f0f0, -0.3rem 0.2rem 0.4rem #f0f0f0;
+    border-radius: 0.2rem;
+    box-shadow: 0.3rem 0.2rem 0.4rem rgba(27, 27, 27, 0.2), -0.3rem 0.2rem 0.4rem rgba(27, 27, 27, 0.2);
     padding: 1.5rem 2rem;
     z-index: 100;
     overflow-y: scroll;
