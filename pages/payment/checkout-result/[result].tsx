@@ -11,6 +11,8 @@ import PaymentResult from '../../../components/payment/PaymentResult';
 import { loadNotificationsRequest } from '../../../actions/notifications';
 import { loadProfileRequest } from '../../../actions/user';
 import wrapper from '../../../store/configureStore';
+import { checkoutRequest } from '../../../actions/payment';
+import { loadOrderInfoRequest } from '../../../actions/order';
 
 const Global = createGlobalStyle`
     footer {
@@ -61,6 +63,14 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     const cookies = nookies.get(context);
     context.store.dispatch(loadProfileRequest(cookies.userId));
     context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+
+    // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
+    const result = context.params;
+    if (result) {
+        context.store.dispatch(checkoutRequest(result.orderId, result.imp_uid));
+        context.store.dispatch(loadOrderInfoRequest(result.orderId, cookies.token));
+    }
+
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
 });

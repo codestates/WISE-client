@@ -20,7 +20,7 @@ import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
 import Swiper from '../../../components/ServiceDetail/Swiper';
-import { loadServiceSchedule, LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
+import { loadServiceInfoRequest, loadServiceSchedule } from '../../../actions/service';
 import { loadNotificationsRequest } from '../../../actions/notifications';
 import { loadProfileRequest } from '../../../actions/user';
 import ResponsiveSummary from '../../../components/ServiceDetail/ResponsiveSummary';
@@ -117,25 +117,11 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
             `http://localhost:5000/api/v1/services/schedule?serviceId=${context.params?.serviceId}`,
         );
         context.store.dispatch(loadServiceSchedule(result.data));
+        context.store.dispatch(loadServiceInfoRequest(context.params?.serviceId));
     }
-    context.store.dispatch({
-        type: LOAD_SERVICE_INFO_REQUEST,
-        serviceId: context.params?.serviceId,
-    });
 
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
 });
-
-// export const getStaticProps: GetStaticProps = wrapper.getStaticProps(async (context) => {
-//     console.log('getstatic');
-//     context.store.dispatch({
-//         type: LOAD_SERVICE_INFO_REQUEST,
-//         serviceId: context.params?.serviceId,
-//     });
-
-//     context.store.dispatch(END);
-//     await context.store.sagaTask?.toPromise();
-// });
 
 export default ServiceDetail;

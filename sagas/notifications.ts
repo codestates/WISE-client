@@ -28,7 +28,7 @@ function loadNotificationsAPI(userId: string | string[], accessToken: string) {
 
 function* loadNotifications(action: ReturnType<typeof loadNotificationsRequest>) {
     try {
-        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
+        const result: AxiosResponse<{ notifications: Notification[] | [] }> = yield call(
             loadNotificationsAPI,
             action.userId,
             action.token,
@@ -53,7 +53,7 @@ function addNotificationAPI(data: NotificationData, accessToken: string) {
 }
 function* addNotification(action: ReturnType<typeof addNotificationRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             addNotificationAPI,
             action.data,
@@ -78,7 +78,8 @@ function checkNotificationAPI(notificationId: string, accessToken: string) {
 }
 function* checkNotification(action: ReturnType<typeof checkNotificationRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
+        console.log(accessToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             checkNotificationAPI,
             action.notificationId,

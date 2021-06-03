@@ -51,9 +51,10 @@ export const loadOrdersFailure = (error: string) => ({
     error,
 });
 
-export const loadOrderInfoRequest = (orderId: string | string[]) => ({
+export const loadOrderInfoRequest = (orderId: string | string[], token: string) => ({
     type: LOAD_ORDER_INFO_REQUEST,
     orderId,
+    token,
 });
 export const loadOrderInfoSuccess = (order: Order) => ({
     type: LOAD_ORDER_INFO_SUCCESS,

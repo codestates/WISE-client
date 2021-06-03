@@ -17,7 +17,7 @@ function checkoutAPI(orderId: string | string[], impUid: string | string[], acce
 
 function* checkout(action: ReturnType<typeof checkoutRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ status: string; message: string }> = yield call(
             checkoutAPI,
             action.orderId,

@@ -54,7 +54,7 @@ function addServiceAPI(data: FormData, accessToken: string) {
 
 function* addService(action: ReturnType<typeof addServiceRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ service: Service }> = yield call(addServiceAPI, action.data, accessToken);
         yield put(addServiceSuccess(result.data.service));
     } catch (err) {
@@ -94,11 +94,12 @@ function changeServiceAPI(serviceId: string, data: FormData, accessToken: string
 
 function* changeService(action: ReturnType<typeof changeServiceRequest>) {
     try {
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ service: Service }> = yield call(
             changeServiceAPI,
             action.serviceId,
-            action.accessToken,
             action.data,
+            accessToken,
         );
         yield put(changeServiceSuccess(result.data.service));
     } catch (err) {
@@ -177,7 +178,7 @@ function* loadSearchServices(action: ReturnType<typeof loadSearchServicesRequest
     }
 }
 
-function loadServiceInfoAPI(serviceId: string) {
+function loadServiceInfoAPI(serviceId: string | string[]) {
     return axios({
         method: 'GET',
         url: `api/v1/services/${serviceId}`,

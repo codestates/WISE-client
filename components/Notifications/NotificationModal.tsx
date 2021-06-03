@@ -10,16 +10,16 @@ import { checkNotificationRequest } from '../../actions/notifications';
 const NotificationModal = () => {
     const dispatch = useDispatch();
     const { notifications } = useSelector((state: RootState) => state.notifications);
-    const { accessToken } = useSelector((state: RootState) => state.user);
 
+    // 알림 확인버튼 누르면 isChecked로 변경 요청
     const handleCheckNotification = useCallback(
         (notificationId) => {
-            console.log(notificationId, accessToken);
-            dispatch(checkNotificationRequest(notificationId, accessToken));
+            console.log(notificationId);
+            dispatch(checkNotificationRequest(notificationId));
             console.log('go dispatch!');
         },
 
-        [accessToken, dispatch],
+        [dispatch],
     );
 
     return (

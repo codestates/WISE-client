@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Service, ShortService, Query } from '../interfaces/data/service';
 
 // 서비스 등록
@@ -159,7 +160,7 @@ export const loadSearchServicesFailure = (error: string) => ({
 });
 
 // 서비스 상세 조희 ?
-export const loadServiceInfoRequest = (serviceId: string) => ({
+export const loadServiceInfoRequest = (serviceId: string | string[]) => ({
     type: LOAD_SERVICE_INFO_REQUEST,
     serviceId,
 });

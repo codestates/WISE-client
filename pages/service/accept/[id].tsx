@@ -1,10 +1,9 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
 import { END } from 'redux-saga';
 import nookies from 'nookies';
 import AcceptOrder from '../../../components/AcceptOrder';
@@ -26,20 +25,20 @@ const Global = createGlobalStyle`
 `;
 
 const ReservationAccept = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const router = useRouter();
 
     const { id } = router.query;
     console.log(id);
-    const { me } = useSelector((state: RootState) => state.user);
+    // const { me } = useSelector((state: RootState) => state.user);
     const { orderInfo, loadOrderInfoError } = useSelector((state: RootState) => state.order);
     console.log(orderInfo);
 
-    useEffect(() => {
-        if (me) {
-            dispatch(loadOrderInfoRequest(id));
-        }
-    }, [id, me, dispatch]);
+    // useEffect(() => {
+    //     if (me) {
+    //         dispatch(loadOrderInfoRequest(id));
+    //     }
+    // }, [id, me, dispatch]);
 
     return (
         <>
@@ -84,6 +83,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     const cookies = nookies.get(context);
     context.store.dispatch(loadProfileRequest(cookies.userId));
     context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+
+    if (context.params) {
+        context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
+    }
+
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
 });

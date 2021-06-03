@@ -53,14 +53,14 @@ const AddReview = ({ order }: Props) => {
                 clientUrl: `/service/detail/${review.service}`,
                 content: '새로운 후기가 1건 올라왔어요',
             };
-            dispatch(addNotificationRequest(notification, accessToken));
+            dispatch(addNotificationRequest(notification));
             console.log('notification sent!');
 
             setShowModal(false);
         } else if (addReviewError) {
             setShowModal(false);
         }
-    }, [accessToken, addReviewDone, addReviewError, dispatch, order._id, order.assistant._id, review]);
+    }, [addReviewDone, addReviewError, dispatch, order._id, order.assistant._id, review]);
 
     // useEffect(() => {
     //     if (order && addReviewDone) {

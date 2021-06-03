@@ -12,7 +12,7 @@ import Reservation from '../../../components/reservation/Reservation';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
-import { LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
+import { loadServiceInfoRequest } from '../../../actions/service';
 import { loadNotificationsRequest } from '../../../actions/notifications';
 import { loadProfileRequest } from '../../../actions/user';
 
@@ -75,10 +75,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     const cookies = nookies.get(context);
     context.store.dispatch(loadProfileRequest(cookies.userId));
     context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch({
-        type: LOAD_SERVICE_INFO_REQUEST,
-        serviceId: context.params?.serviceId,
-    });
+
+    if (context.params?.serviceId) {
+        context.store.dispatch(loadServiceInfoRequest(context.params.serviceId));
+    }
+
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
 });

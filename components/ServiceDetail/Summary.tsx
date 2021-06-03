@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ParsedUrlQuery } from 'querystring';

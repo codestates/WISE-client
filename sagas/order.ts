@@ -26,9 +26,9 @@ import {
     REJECT_ORDER_REQUEST,
 } from '../actions/order';
 import { getFirebaseToken } from '../firebase';
-import { Order, ShortOrder } from '../interfaces/data/order';
+import { Order, OrderReq, ShortOrder } from '../interfaces/data/order';
 
-function addOrderAPI(data: Order, accessToken: string) {
+function addOrderAPI(data: OrderReq, accessToken: string) {
     return axios({
         method: 'POST',
         url: 'api/v1/orders',
@@ -39,7 +39,8 @@ function addOrderAPI(data: Order, accessToken: string) {
 
 function* addOrder(action: ReturnType<typeof addOrderRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        // TODO: 로그인을 안했는데도 firebase에서 액세스 토큰을 가져와서 요청에 성공한다!?!
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.data, accessToken);
         yield put(addOrderSuccess(result.data.order));
     } catch (err) {
@@ -58,7 +59,6 @@ function loadOrdersAPI(userType: string, userId: string, accessToken: string) {
 
 function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ orders: ShortOrder[] }> = yield call(
             loadOrdersAPI,
             action.userType,
@@ -81,15 +81,14 @@ function loadOrderInfoAPI(orderId: string | string[], accessToken: string) {
 
 function* loadOrderInfo(action: ReturnType<typeof loadOrderInfoRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
-        const result: AxiosResponse<{ order: Order }> = yield call(loadOrderInfoAPI, action.orderId, accessToken);
+        const result: AxiosResponse<{ order: Order }> = yield call(loadOrderInfoAPI, action.orderId, action.token);
         yield put(loadOrderInfoSuccess(result.data.order));
     } catch (err) {
         yield put(loadOrderInfoFailure(err.message));
     }
 }
 
-function acceptOrderAPI(orderId: string, state: string, accessToken: string) {
+function acceptOrderAPI(orderId: string | string[], state: string, accessToken: string) {
     return axios({
         method: 'PATCH',
         url: `api/v1/orders/${orderId}`,
@@ -100,7 +99,7 @@ function acceptOrderAPI(orderId: string, state: string, accessToken: string) {
 
 function* acceptOrder(action: ReturnType<typeof acceptOrderRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ order: Order }> = yield call(
             acceptOrderAPI,
             action.orderId,
@@ -113,7 +112,7 @@ function* acceptOrder(action: ReturnType<typeof acceptOrderRequest>) {
     }
 }
 
-function rejectOrderAPI(orderId: string, accessToken: string) {
+function rejectOrderAPI(orderId: string | string[], accessToken: string) {
     return axios({
         method: 'DELETE',
         url: `api/v1/orders/${orderId}`,
@@ -123,7 +122,7 @@ function rejectOrderAPI(orderId: string, accessToken: string) {
 
 function* rejectOrder(action: ReturnType<typeof rejectOrderRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ message: string }> = yield call(rejectOrderAPI, action.orderId, accessToken);
         yield put(rejectOrderSuccess(result.data.message));
     } catch (err) {

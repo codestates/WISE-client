@@ -39,8 +39,8 @@ const reducer = (state = initialState, action: NotificationsAction) =>
             case LOAD_NOTIFICATIONS_SUCCESS:
                 draft.loadNotificationsLoading = false;
                 draft.loadNotificationsDone = true;
-                draft.notifications = [...action.notifications];
-                // draft.notifications = (draft.notifications as Notification[]).concat(action.notifications);
+                // draft.notifications = [...action.notifications];
+                draft.notifications = (draft.notifications as Notification[]).concat(action.notifications);
                 break;
             case LOAD_NOTIFICATIONS_FAILURE:
                 draft.loadNotificationsLoading = false;

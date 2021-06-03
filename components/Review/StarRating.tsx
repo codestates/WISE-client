@@ -13,7 +13,7 @@ const StarRating = () => {
                 <Rating
                     name="simple-controlled"
                     value={value}
-                    onChange={(event, newValue) => {
+                    onChange={(_event, newValue) => {
                         setValue(newValue);
                     }}
                 />

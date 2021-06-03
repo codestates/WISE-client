@@ -58,7 +58,7 @@ function logInAPI({ signinMethod }: LoginData, accessToken: string) {
 function* logIn(action: ReturnType<typeof loginRequest>) {
     try {
         yield call(firebaseLogin, action.data);
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, action.data, accessToken);
         nookies.destroy(null, 'token');
         nookies.set(null, 'token', accessToken, { path: '/' });
@@ -145,7 +145,7 @@ function signUpAPI({ email, name, mobile, signinMethod }: SignupData, accessToke
 function* signUp(action: ReturnType<typeof signupRequest>) {
     try {
         yield call(firebaseSignup, action.data);
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(signUpAPI, action.data, accessToken);
         localStorage.setItem('userId', result.data.user._id);
         localStorage.removeItem('emailForSignup');
@@ -182,7 +182,7 @@ async function changeProfileAPI(userId: string, data: FormData, accessToken: str
 
 function* changeProfile(action: ReturnType<typeof changeProfileRequest>) {
     try {
-        const accessToken = yield call(getFirebaseToken);
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(
             changeProfileAPI,
             action.userId,

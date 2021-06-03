@@ -1,3 +1,5 @@
+import { NotificationData } from '../interfaces/data/notifications';
+
 export const LOAD_NOTIFICATIONS_REQUEST = 'LOAD_NOTIFICATIONS_REQUEST' as const;
 export const LOAD_NOTIFICATIONS_SUCCESS = 'LOAD_NOTIFICATIONS_SUCCESS' as const;
 export const LOAD_NOTIFICATIONS_FAILURE = 'LOAD_NOTIFICATIONS_FAILURE' as const;
@@ -16,7 +18,7 @@ export const loadNotificationsRequest = (userId: string | string[], token: strin
     token,
 });
 
-export const loadNotificationsSuccess = (notifications: Notification[]) => ({
+export const loadNotificationsSuccess = (notifications: Notification[] | []) => ({
     type: LOAD_NOTIFICATIONS_SUCCESS,
     notifications,
 });
@@ -26,12 +28,7 @@ export const loadNotificationsFailure = (error: string) => ({
     error,
 });
 
-export const addNotificationRequest = (data: {
-    recipient: string | string[];
-    subject: string;
-    clientUrl: string;
-    content: string;
-}) => ({
+export const addNotificationRequest = (data: NotificationData) => ({
     type: ADD_NOTIFICATION_REQUEST,
     data,
 });

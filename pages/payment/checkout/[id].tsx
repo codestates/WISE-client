@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -22,27 +21,27 @@ import { loadProfileRequest } from '../../../actions/user';
 import wrapper from '../../../store/configureStore';
 
 const Payment = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
 
-    const { me } = useSelector((state: RootState) => state.user);
+    // const { me } = useSelector((state: RootState) => state.user);
     const { service } = useSelector((state: RootState) => state.service);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     console.log(orderInfo);
 
-    useEffect(() => {
-        if (me) {
-            dispatch(loadOrderInfoRequest(id));
-        }
-    }, [me, id, dispatch]);
+    // useEffect(() => {
+    //     if (me) {
+    //         dispatch(loadOrderInfoRequest(id));
+    //     }
+    // }, [me, id, dispatch]);
 
-    useEffect(() => {
-        if (orderInfo) {
-            dispatch(loadServiceInfoRequest(orderInfo.service));
-        }
-    }, [orderInfo, dispatch]);
+    // useEffect(() => {
+    //     if (orderInfo) {
+    //         dispatch(loadServiceInfoRequest(orderInfo.service));
+    //     }
+    // }, [orderInfo, dispatch]);
 
     return (
         <>
@@ -101,6 +100,16 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     const cookies = nookies.get(context);
     context.store.dispatch(loadProfileRequest(cookies.userId));
     context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+
+    if (context.params) {
+        context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
+    }
+
+    const order = context.store.getState().order.orderInfo;
+    if (order) {
+        context.store.dispatch(loadServiceInfoRequest(order.service._id));
+    }
+
     context.store.dispatch(END);
     await context.store.sagaTask?.toPromise();
 });

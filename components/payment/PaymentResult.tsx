@@ -9,11 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ParsedUrlQuery } from 'querystring';
 import { RootState } from '../../reducers';
 import { ActionButton } from '../style/style';
-import { checkoutRequest } from '../../actions/payment';
-
 import { addNotificationRequest } from '../../actions/notifications';
-import { Notification } from '../../interfaces/data/notifications';
-import { loadOrderInfoRequest } from '../../actions/order';
 
 type Props = {
     result: ParsedUrlQuery;
@@ -21,31 +17,27 @@ type Props = {
 
 const PaymentResult = ({ result }: Props) => {
     const router = useRouter();
-
-    console.log(result);
     const { imp_uid, merchant_uid } = result;
 
     const dispatch = useDispatch();
-    const { me } = useSelector((state: RootState) => state.user);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     const { checkoutStatus, checkoutError } = useSelector((state: RootState) => state.payment);
-    const { addNotificationDone, notifications } = useSelector((state: RootState) => state.notifications);
+    const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
     const order = orderInfo;
 
     const [checkoutErrorMsg, setCheckoutErrorMsg] = useState('');
     const [isSuccessed, setIsSuccessed] = useState(false);
 
-    // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
-    useEffect(() => {
-        dispatch(checkoutRequest(result.orderId, imp_uid));
-    }, [result.orderId, imp_uid, dispatch]);
+    // useEffect(() => {
+    //     dispatch(checkoutRequest(result.orderId, imp_uid));
+    // }, [result.orderId, imp_uid, dispatch]);
 
-    useEffect(() => {
-        if (me) {
-            dispatch(loadOrderInfoRequest(result.orderId));
-        }
-    }, [result.orderId, me, dispatch]);
+    // useEffect(() => {
+    //     if (me) {
+    //         dispatch(loadOrderInfoRequest(result.orderId, accessToken);
+    //     }
+    // }, [result.orderId, me, dispatch]);
 
     useEffect(() => {
         if (checkoutStatus === 'success') {

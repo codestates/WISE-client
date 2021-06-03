@@ -1,7 +1,6 @@
 import moment from 'moment';
-import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
@@ -17,25 +16,25 @@ import { RootState } from '../../reducers';
 import wrapper from '../../store/configureStore';
 
 const Review = () => {
-    const dispatch = useDispatch();
-    const router = useRouter();
-    const { id } = router.query;
+    // const dispatch = useDispatch();
+    // const router = useRouter();
+    // const { id } = router.query;
 
-    const { accessToken } = useSelector((state: RootState) => state.user);
+    // const { accessToken } = useSelector((state: RootState) => state.user);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     const { service } = useSelector((state: RootState) => state.service);
 
-    useEffect(() => {
-        if (accessToken) {
-            dispatch(loadOrderInfoRequest(id, accessToken));
-        }
-    }, [id, accessToken, dispatch]);
+    // useEffect(() => {
+    //     if (accessToken) {
+    //         dispatch(loadOrderInfoRequest(id, accessToken));
+    //     }
+    // }, [id, accessToken, dispatch]);
 
-    useEffect(() => {
-        if (orderInfo) {
-            dispatch(loadServiceInfoRequest(orderInfo.service));
-        }
-    }, [orderInfo, dispatch]);
+    // useEffect(() => {
+    //     if (orderInfo) {
+    //         dispatch(loadServiceInfoRequest(orderInfo.service));
+    //     }
+    // }, [orderInfo, dispatch]);
 
     return (
         <>
@@ -63,14 +62,6 @@ const Review = () => {
     );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
-});
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
@@ -89,5 +80,22 @@ const Title = styled.div`
     align-items: center;
     margin-top: 3rem;
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+
+    if (context.params?.id) {
+        context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
+    }
+    const order = context.store.getState().order.orderInfo;
+    if (order) {
+        context.store.dispatch(loadServiceInfoRequest(order.service._id));
+    }
+
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 export default Review;

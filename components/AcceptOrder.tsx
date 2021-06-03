@@ -18,9 +18,7 @@ const AcceptOrder = ({ orderId }: Props) => {
     const { acceptOrderDone, acceptOrderError, rejectOrderDone, rejectOrderError, orderInfo } = useSelector(
         (state: RootState) => state.order,
     );
-    const { addNotificationDone, notifications, checkNotificationDone } = useSelector(
-        (state: RootState) => state.notifications,
-    );
+    const { addNotificationDone, notifications } = useSelector((state: RootState) => state.notifications);
 
     const dispatch = useDispatch();
 
@@ -95,15 +93,6 @@ const AcceptOrder = ({ orderId }: Props) => {
             dispatch(checkNotificationRequest(thisNotification._id));
         }
     }, [addNotificationDone, dispatch, notifications, orderId]);
-    // // isChecked로 바꾸기
-    // useEffect(() => {
-    //     if (addNotificationDone && notifications) {
-    //         const thisNotification = notifications.filter(
-    //             (notification: Notification) => notification.subject === orderId,
-    //         )[0];
-    //         dispatch(checkNotificationRequest(thisNotification._id, accessToken));
-    //     }
-    // }, [accessToken, addNotificationDone, dispatch, notifications, orderId]);
 
     // 결과 모달 띄우기
     useEffect(() => {

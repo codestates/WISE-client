@@ -9,7 +9,7 @@ import { Service } from '../../interfaces/data/service';
 import { addOrderRequest } from '../../actions/order';
 import { addNotificationRequest } from '../../actions/notifications';
 import ResultModal from '../ResultModal';
-import { Order, OrderReq } from '../../interfaces/data/order';
+import { OrderReq } from '../../interfaces/data/order';
 
 type Props = {
     service: Service;
@@ -19,6 +19,8 @@ type Props = {
 
 const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
+
+    const { isLogin } = useSelector((state: RootState) => state.user);
     const { addOrderDone, addOrderError, orderInfo } = useSelector((state: RootState) => state.order);
     const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
@@ -56,6 +58,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
     const onSubmit = useCallback(
         (e) => {
             e.preventDefault();
+
             const data: OrderReq = {
                 hospital,
                 hours,
@@ -70,7 +73,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
             };
             dispatch(addOrderRequest(data));
         },
-        [hospital, pickup, content, message, service._id, hours, dispatch, service.wage],
+        [hospital, hours, pickup, content, message, service._id, service.wage, dispatch],
     );
 
     const [showModal, setShowModal] = useState(false);
@@ -196,14 +199,15 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                     redirection="home"
                 />
             )}
-            {showModal && addOrderError && (
-                <ResultModal
-                    onClose={onCloseModal}
-                    title="서비스 신청하기"
-                    message="로그인이 필요합니다"
-                    redirection="signin"
-                />
-            )}
+            {(showModal && addOrderError) ||
+                (showModal && !isLogin && (
+                    <ResultModal
+                        onClose={onCloseModal}
+                        title="서비스 신청하기"
+                        message="로그인이 필요합니다"
+                        redirection="signin"
+                    />
+                ))}
         </Wrapper>
     );
 };
