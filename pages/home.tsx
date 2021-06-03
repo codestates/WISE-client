@@ -5,17 +5,16 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import nookies from 'nookies';
-// import PopularSection from '../components/PopularSection';
+import PopularSection from '../components/home/PopularSection';
 
 import { loadPopularServicesRequest, loadTotalServicesRequest } from '../actions/service';
 import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
 import Layout from '../layout/Layout';
 import SearchBar from '../components/home/SearchBar';
-import TotalSection from '../components/home/TotalSection';
-import Loading from '../components/Loading';
 import { loadProfileRequest } from '../actions/user';
 import { loadNotificationsRequest } from '../actions/notifications';
+import ServiceSection from '../components/home/ServiceSection';
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -42,19 +41,13 @@ const Home = () => {
         };
     }, [totalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
     return (
-        <>
-            {searchServicesLoading ? (
-                <Loading />
-            ) : (
-                <Layout title="WISE | HOME">
-                    <Wrapper>
-                        <SearchBar />
-                        {/* <PopularSection /> */}
-                        <TotalSection title="전체 어시스턴트" />
-                    </Wrapper>
-                </Layout>
-            )}
-        </>
+        <Layout title="WISE | HOME">
+            <Wrapper>
+                <SearchBar />
+                <PopularSection />
+                <ServiceSection />
+            </Wrapper>
+        </Layout>
     );
 };
 
@@ -62,7 +55,8 @@ const Wrapper = styled.div`
     // border: 1px solid black;
     // padding: 3rem;
     width: 100vw;
-    max-width: 1200px;
+    padding: 24px;
+    max-width: 1248px;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {

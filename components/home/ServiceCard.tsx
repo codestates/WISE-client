@@ -28,36 +28,41 @@ const ServiceCard = ({ service, searchQuery }: ServiceCard) => (
             ) : (
                 <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" />
             )}
-            {/* <ServiceImg src={process.env.NEXT_PUBLIC_imageURL + service.images[0]} alt="샘플이미지" /> */}
             <div>
-                <div style={{ fontSize: '1rem' }}>
-                    {service.assistant.name} <span>{service.location}</span>
+                <div>
+                    <span style={{ fontWeight: 600, fontSize: '1rem' }}>{service.assistant.name}</span>{' '}
+                    <span style={{ fontWeight: 200, fontSize: '0.9rem' }}>&nbsp;{service.location}</span>
                 </div>
                 <div>{service.greetings}</div>
-                <div style={{ fontWeight: 'bold' }}>{service.wage}원 / 시간</div>
+                <div style={{ fontWeight: 700 }}>{service.wage}원 / 시간</div>
             </div>
         </Container>
     </Link>
 );
 const ServiceImg = styled.img`
-    // width: 280px;
-    // height: 209px;
+    background-color: cover;
+    background-position: center center;
+    object-fit: cover;
+    overflow: hidden;
+    height: 63%;
+    border-radius: 3%;
+    margin-bottom: 30px;
+    @media screen and ${(props) => props.theme.tablet} {
+        height: 90%;
+    }
 `;
 
 const Container = styled.div`
-    // border: 1px solid black;
-    padding: 1rem;
+    // border: 1px solid yellow;
+    height: 340px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 17rem;
-    height: 18rem;
+    min-width: 100%;
     margin-bottom: 2rem;
-    span {
-        color: #888;
-        font-size: 0.5rem;
-    }
     cursor: pointer;
+    @media screen and ${(props) => props.theme.tablet} {
+        height: 420px;
+    }
 `;
 
 export default ServiceCard;
