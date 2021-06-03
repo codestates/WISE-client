@@ -49,8 +49,8 @@ const SearchBar = () => {
 
     return (
         <Wrapper>
-            <h2>어시스턴트 찾기</h2>
-            <div>함께 동행할 숙련된 어시스턴트를 찾아보세요</div>
+            <Header>어시스턴트 찾기</Header>
+            <div style={{ fontSize: '1rem' }}>&nbsp;함께 동행할 숙련된 어시스턴트를 찾아보세요</div>
             <Search>
                 <Select
                     onChange={onChangeLocation}
@@ -82,7 +82,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
     h2 {
         font-weight: bolder;
     }
@@ -99,6 +99,15 @@ const Wrapper = styled.div`
 const Search = styled.div`
     // border: 1px solid black;
     margin: 1rem 0 0 1rem;
+`;
+
+const Header = styled.span`
+    // border: 1px solid black;
+    font-weight: 800;
+    font-size: 2rem;
+    height: 2.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2.7rem;
 `;
 
 export default SearchBar;

@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { END } from 'redux-saga';
+import nookies from 'nookies';
 import AcceptOrder from '../../../components/AcceptOrder';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
@@ -13,6 +15,9 @@ import Loading from '../../../components/Loading';
 import { ActionButton, WarningBox } from '../../../components/style/style';
 import ReservationInfo from '../../../components/reservation/ReservationInfo';
 import { loadOrderInfoRequest } from '../../../actions/order';
+import { loadNotificationsRequest } from '../../../actions/notifications';
+import { loadProfileRequest } from '../../../actions/user';
+import wrapper from '../../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
@@ -74,6 +79,14 @@ const ReservationAccept = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     width: 100%;

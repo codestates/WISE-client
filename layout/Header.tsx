@@ -9,13 +9,12 @@ import { BellOutlined } from '@ant-design/icons';
 import { RootState } from '../reducers';
 import { logoutRequest } from '../actions/user';
 import NotificationModal from '../components/Notifications/NotificationModal';
-import { loadNotificationsRequest } from '../actions/notifications';
 import { Notification } from '../interfaces/data/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
     const { me, islogin, logOutDone } = useSelector((state: RootState) => state.user);
-    const { loadNotificationsDone, notifications } = useSelector((state: RootState) => state.notifications);
+    const { notifications } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
     const [unchecked, setUnchecked] = useState(0);
 
@@ -28,22 +27,10 @@ const Header = () => {
         }
     }, [notifications]);
 
-    useEffect(() => {
-        if (me && !loadNotificationsDone) {
-            dispatch(loadNotificationsRequest(me._id));
-        }
-    }, [dispatch, me, loadNotificationsDone]);
-
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);
         console.log('clicked!');
     }, []);
-
-    useEffect(() => {
-        if (logOutDone) {
-            Router.replace('/home');
-        }
-    }, [logOutDone]);
 
     const Logout = useCallback(() => {
         dispatch(logoutRequest());

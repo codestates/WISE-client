@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -7,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
+import nookies from 'nookies';
 import Navigation from '../../../components/ServiceDetail/Navigation';
 import Summary from '../../../components/ServiceDetail/Summary';
 import Description from '../../../components/ServiceDetail/Description';
@@ -19,6 +21,8 @@ import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
 import Swiper from '../../../components/ServiceDetail/Swiper';
 import { loadServiceSchedule, LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
+import { loadNotificationsRequest } from '../../../actions/notifications';
+import { loadProfileRequest } from '../../../actions/user';
 import ResponsiveSummary from '../../../components/ServiceDetail/ResponsiveSummary';
 
 const Global = createGlobalStyle`
@@ -105,7 +109,9 @@ const Detail = styled.div`
 `;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
-    console.log('server');
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
     if (context.params?.serviceId) {
         const result = await axios.get(
             `http://localhost:5000/api/v1/services/schedule?serviceId=${context.params?.serviceId}`,

@@ -3,9 +3,14 @@ import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { END } from 'redux-saga';
+import nookies from 'nookies';
 import { WarningBox, ActionButton } from '../../../components/style/style';
 import Layout from '../../../layout/Layout';
 import PaymentResult from '../../../components/payment/PaymentResult';
+import { loadNotificationsRequest } from '../../../actions/notifications';
+import { loadProfileRequest } from '../../../actions/user';
+import wrapper from '../../../store/configureStore';
 
 const Global = createGlobalStyle`
     footer {
@@ -51,5 +56,13 @@ const Payment = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 export default Payment;

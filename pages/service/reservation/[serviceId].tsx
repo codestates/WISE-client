@@ -6,12 +6,15 @@ import { END } from 'redux-saga';
 
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import nookies from 'nookies';
 import AssistantInfo from '../../../components/AssistantInfo';
 import Reservation from '../../../components/reservation/Reservation';
 import wrapper from '../../../store/configureStore';
 import { RootState } from '../../../reducers';
 import Layout from '../../../layout/Layout';
 import { LOAD_SERVICE_INFO_REQUEST } from '../../../actions/service';
+import { loadNotificationsRequest } from '../../../actions/notifications';
+import { loadProfileRequest } from '../../../actions/user';
 
 const Global = createGlobalStyle`
     footer {
@@ -69,6 +72,9 @@ const Wrapper = styled.div`
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
     context.store.dispatch({
         type: LOAD_SERVICE_INFO_REQUEST,
         serviceId: context.params?.serviceId,

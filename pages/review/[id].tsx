@@ -2,14 +2,19 @@ import moment from 'moment';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { END } from 'redux-saga';
 import styled from 'styled-components';
+import nookies from 'nookies';
+import { loadNotificationsRequest } from '../../actions/notifications';
 import { loadOrderInfoRequest } from '../../actions/order';
 import { loadServiceInfoRequest } from '../../actions/service';
+import { loadProfileRequest } from '../../actions/user';
 import AssistantInfo from '../../components/AssistantInfo';
 import Loading from '../../components/Loading';
 import AddReview from '../../components/Review/AddReview';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
+import wrapper from '../../store/configureStore';
 
 const Review = () => {
     const dispatch = useDispatch();
@@ -57,6 +62,14 @@ const Review = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     display: flex;

@@ -1,6 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
+import nookies from 'nookies';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import firebase from 'firebase/app';
@@ -29,15 +31,18 @@ import {
     SIGN_UP_REQUEST,
     LOAD_PROFILE_REQUEST,
     CHANGE_PROFILE_REQUEST,
+    loadProfileRequest,
 } from '../actions/user';
 
 function firebaseLogin({ email, password, signinMethod }: LoginData) {
     if (signinMethod === 'password') {
-        auth.signInWithEmailAndPassword(email as string, password as string);
-    } else if (signinMethod === 'google') {
-        auth.signInWithPopup(googleAuthProvider);
-    } else if (signinMethod === 'facebook') {
-        auth.signInWithPopup(facebookAuthProvider);
+        return auth.signInWithEmailAndPassword(email as string, password as string);
+    }
+    if (signinMethod === 'google') {
+        return auth.signInWithPopup(googleAuthProvider);
+    }
+    if (signinMethod === 'facebook') {
+        return auth.signInWithPopup(facebookAuthProvider);
     }
 }
 
@@ -55,6 +60,10 @@ function* logIn(action: ReturnType<typeof loginRequest>) {
         yield call(firebaseLogin, action.data);
         const accessToken = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, action.data, accessToken);
+        nookies.destroy(null, 'token');
+        nookies.set(null, 'token', accessToken, { path: '/' });
+        nookies.destroy(null, 'userId');
+        nookies.set(null, 'userId', result.data.user._id, { path: '/' });
         localStorage.setItem('userId', result.data.user._id);
         yield put(loginSuccess());
     } catch (err) {
@@ -153,10 +162,9 @@ function loadProfileAPI(userId: string) {
     });
 }
 
-function* loadProfile() {
+function* loadProfile(action: ReturnType<typeof loadProfileRequest>) {
     try {
-        const userId = localStorage.getItem('userId') as string;
-        const result: AxiosResponse<{ user: Me }> = yield call(loadProfileAPI, userId);
+        const result: AxiosResponse<{ user: Me }> = yield call(loadProfileAPI, action.userId);
         yield put(loadProfileSuccess(result.data.user));
     } catch (err) {
         yield put(loadProfileFailure(err.message));

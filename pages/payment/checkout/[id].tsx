@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import { END } from 'redux-saga';
+import nookies from 'nookies';
 import AssistantInfo from '../../../components/AssistantInfo';
 import { RootState } from '../../../reducers/index';
-
 import Loading from '../../../components/Loading';
 import OrderItem from '../../../components/payment/OrderItem';
 import ReservationInfo from '../../../components/reservation/ReservationInfo';
@@ -16,6 +17,9 @@ import Layout from '../../../layout/Layout';
 import { loadOrderInfoRequest } from '../../../actions/order';
 import { loadServiceInfoRequest } from '../../../actions/service';
 import { Global } from '../../../components/style/global';
+import { loadNotificationsRequest } from '../../../actions/notifications';
+import { loadProfileRequest } from '../../../actions/user';
+import wrapper from '../../../store/configureStore';
 
 const Payment = () => {
     const dispatch = useDispatch();
@@ -92,6 +96,14 @@ const Payment = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     width: 100%;

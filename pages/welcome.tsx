@@ -1,12 +1,18 @@
+/* eslint-disable consistent-return */
 import Link from 'next/link';
+import nookies from 'nookies';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import React from 'react';
+import { END } from 'redux-saga';
 import Loading from '../components/Loading';
 import { RootState } from '../reducers';
 import Layout from '../layout/Layout';
 import { CoverImg } from '../components/style/authStyle';
 import { AuthGlobal } from '../components/style/global';
+import wrapper from '../store/configureStore';
+import { loadProfileRequest } from '../actions/user';
+import { loadNotificationsRequest } from '../actions/notifications';
 
 const Welcome = () => {
     const { me, islogin } = useSelector((state: RootState) => state.user);
@@ -46,6 +52,14 @@ const Welcome = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     // border: 1px solid black;

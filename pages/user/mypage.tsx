@@ -3,12 +3,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
-import Router from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { END } from 'redux-saga';
 import styled from 'styled-components';
+import nookies from 'nookies';
+import { loadNotificationsRequest } from '../../actions/notifications';
 import { loadOrdersRequest } from '../../actions/order';
-
+import { loadProfileRequest } from '../../actions/user';
 import AssistantList from '../../components/Assistant/AssistantList';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
 import Loading from '../../components/Loading';
@@ -16,9 +18,9 @@ import ProfileModify from '../../components/ProfileModify';
 
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
+import wrapper from '../../store/configureStore';
 
 const Mypage = () => {
-    const dispatch = useDispatch();
     const { me } = useSelector((state: RootState) => state.user);
     const { customerProgressOrders, customerCompleteOrders, loadOrdersLoading } = useSelector(
         (state: RootState) => state.order,
@@ -28,14 +30,6 @@ const Mypage = () => {
     const onClickTap = (idx: number) => {
         setTap(idx);
     };
-
-    useEffect(() => {
-        if (me) {
-            dispatch(loadOrdersRequest('customer', me._id));
-        } else {
-            Router.push('/home');
-        }
-    }, [dispatch, me]);
 
     return (
         <>
@@ -74,6 +68,15 @@ const Mypage = () => {
         </>
     );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(loadOrdersRequest('customer', cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     // border: 1px solid black;

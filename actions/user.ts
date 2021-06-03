@@ -85,8 +85,9 @@ export const signupFailure = (error: string) => ({
     error,
 });
 
-export const loadProfileRequest = () => ({
+export const loadProfileRequest = (userId: string) => ({
     type: LOAD_PROFILE_REQUEST,
+    userId,
 });
 
 export const loadProfileSuccess = (me: Me) => ({

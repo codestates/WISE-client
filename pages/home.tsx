@@ -1,23 +1,23 @@
+/* eslint-disable import/namespace */
+/* eslint-disable import/no-extraneous-dependencies */
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-
-// import PopularSection from '../components/PopularSection';
+import nookies from 'nookies';
+import PopularSection from '../components/home/PopularSection';
 
 import { loadPopularServicesRequest, loadTotalServicesRequest } from '../actions/service';
 import wrapper from '../store/configureStore';
 import { RootState } from '../reducers';
 import Layout from '../layout/Layout';
 import SearchBar from '../components/home/SearchBar';
-import TotalSection from '../components/home/TotalSection';
-import Loading from '../components/Loading';
-import { auth } from '../firebase';
 import { loadProfileRequest } from '../actions/user';
+import { loadNotificationsRequest } from '../actions/notifications';
+import ServiceSection from '../components/home/ServiceSection';
 
 const Home = () => {
     const dispatch = useDispatch();
-    console.log(auth.currentUser);
     const { totalServices, totalServicesLoading, totalServicesCount, searchServicesLoading } = useSelector(
         (state: RootState) => state.service,
     );
@@ -41,35 +41,28 @@ const Home = () => {
         };
     }, [totalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
     return (
-        <>
-            {searchServicesLoading ? (
-                <Loading />
-            ) : (
-                <Layout title="WISE | HOME">
-                    <Wrapper>
-                        <SearchBar />
-                        {/* <PopularSection /> */}
-                        <TotalSection title="전체 어시스턴트" />
-                    </Wrapper>
-                </Layout>
-            )}
-        </>
+        <Layout title="WISE | HOME">
+            <Wrapper>
+                <SearchBar />
+                <PopularSection />
+                <ServiceSection />
+            </Wrapper>
+        </Layout>
     );
 };
 
 const Wrapper = styled.div`
     // border: 1px solid black;
-    padding: 3rem;
+    // padding: 3rem;
     width: 100vw;
-    max-width: 1200px;
+    padding: 24px;
+    max-width: 1248px;
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            context.store.dispatch(loadProfileRequest());
-        }
-    });
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
     context.store.dispatch(loadPopularServicesRequest());
     context.store.dispatch(loadTotalServicesRequest(1));
     context.store.dispatch(END);

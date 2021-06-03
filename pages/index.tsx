@@ -1,10 +1,15 @@
+import { END } from 'redux-saga';
 import styled, { createGlobalStyle } from 'styled-components';
+import nookies from 'nookies';
+import { loadNotificationsRequest } from '../actions/notifications';
+import { loadProfileRequest } from '../actions/user';
 import Section1 from '../components/LandingPage/Section1';
 import Section2 from '../components/LandingPage/Section2';
 import Section3 from '../components/LandingPage/Section3';
 import Section4 from '../components/LandingPage/Section4';
 import Footer from '../layout/Footer';
 import Header from '../layout/Header';
+import wrapper from '../store/configureStore';
 
 const Global = createGlobalStyle`
   header {
@@ -40,6 +45,14 @@ const LandingPage = () => (
         <Footer />
     </Wrapper>
 );
+
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
 
 const Wrapper = styled.div`
     height: 520vh;

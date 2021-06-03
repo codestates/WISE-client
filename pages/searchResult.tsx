@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { END } from 'redux-saga';
 import styled from 'styled-components';
+import nookies from 'nookies';
+import { loadNotificationsRequest } from '../actions/notifications';
 import { loadSearchServicesRequest } from '../actions/service';
+import { loadProfileRequest } from '../actions/user';
 import SearchBar from '../components/home/SearchBar';
-import TotalSection from '../components/home/TotalSection';
+import SearchSection from '../components/home/SearchSection';
 
 import Layout from '../layout/Layout';
 
 import { RootState } from '../reducers';
+import wrapper from '../store/configureStore';
 
 const SearchResult = () => {
     const dispatch = useDispatch();
@@ -39,17 +44,25 @@ const SearchResult = () => {
         <Layout title="WISE | Search">
             <Wrapper>
                 <SearchBar />
-                <TotalSection title="검색 결과" searchQuery={searchQuery} />
+                <SearchSection title="검색 결과" searchQuery={searchQuery} />
             </Wrapper>
         </Layout>
     );
 };
 
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+    const cookies = nookies.get(context);
+    context.store.dispatch(loadProfileRequest(cookies.userId));
+    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    context.store.dispatch(END);
+    await context.store.sagaTask?.toPromise();
+});
+
 const Wrapper = styled.div`
     // border: 1px solid black;
-    padding: 3rem;
     width: 100vw;
-    max-width: 1200px;
+    padding: 24px;
+    max-width: 1248px;
 `;
 
 export default SearchResult;

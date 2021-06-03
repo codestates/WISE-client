@@ -63,7 +63,7 @@ function* loadOrders(action: ReturnType<typeof loadOrdersRequest>) {
             loadOrdersAPI,
             action.userType,
             action.userId,
-            accessToken,
+            action.token,
         );
         yield put(loadOrdersSuccess(result.data.orders, action.userType));
     } catch (err) {
