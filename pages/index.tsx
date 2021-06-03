@@ -56,6 +56,9 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 
 const Wrapper = styled.div`
     height: 520vh;
+    @media ${(props) => props.theme.mobile} {
+        height: 460vh;
+    }
 `;
 
 export default LandingPage;

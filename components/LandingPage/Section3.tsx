@@ -75,6 +75,11 @@ const Text = styled.h1`
     background-color: #fff;
     font-size: 2.6rem;
     font-weight: 600;
+
+    @media ${(props) => props.theme.mobile} {
+        margin-top: -7%;
+        font-size: 2rem;
+    }
 `;
 
 const ReviewBox = styled.div`
@@ -87,6 +92,16 @@ const ReviewBox = styled.div`
     width: 70%;
     height: 34rem;
     color: #222;
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+        width: 90%;
+        height: 50rem;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        height: 46rem;
+    }
 `;
 
 const Review = styled.div`
@@ -102,6 +117,30 @@ const Review = styled.div`
     width: 16rem;
     margin: 0 1rem;
     box-shadow: 0.2rem 0.5rem 0.6rem #ddd;
+
+    @media ${(props) => props.theme.tablet} {
+        width: 80%;
+        height: 12rem;
+        margin: 1rem 0;
+
+        h3 {
+            margin-bottom: 1rem;
+        }
+
+        p {
+            line-height: 1.1;
+        }
+    }
+    @media ${(props) => props.theme.mobile} {
+        height: 13rem;
+        h3 {
+            margin: 1rem;
+            font-size: 1rem;
+        }
+        p {
+            font-size: 0.8rem;
+        }
+    }
 `;
 
 const Main = styled.div`

@@ -25,6 +25,11 @@ const Footer = styled.footer`
     width: 100%;
     padding: 2rem 0;
     z-index: 1;
+
+    @media ${(props) => props.theme.mobile} {
+        height: 5rem;
+        font-size: 0.7rem;
+    }
 `;
 
 export default FooterComponent;
