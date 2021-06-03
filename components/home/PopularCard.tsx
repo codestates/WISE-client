@@ -15,13 +15,24 @@ type PopularCard = {
 const PopularCard = ({ service, searchQuery }: PopularCard) => (
     // console.log(searchQuery);
 
+    // <Link
+    //     href="/service/detail/[id]"
+    //     as={
+    //         searchQuery
+    //             ? `/service/detail/${service._id}?date=${searchQuery.date}&time=${searchQuery.time}`
+    //             : `/service/detail/${service._id}`
+    //     }
+    // >
     <Link
-        href="/service/detail/[id]"
-        as={
-            searchQuery
-                ? `/service/detail/${service._id}?date=${searchQuery.date}&time=${searchQuery.time}`
-                : `/service/detail/${service._id}`
-        }
+        href={{
+            pathname: `/service/detail/${service._id}`,
+            query: searchQuery
+                ? {
+                      date: searchQuery.date,
+                      time: searchQuery.time,
+                  }
+                : {},
+        }}
     >
         <SwiperSlide key={process.env.NEXT_PUBLIC_imageURL + service.images[0]}>
             <img

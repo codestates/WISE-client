@@ -6,7 +6,6 @@ import { Pagination } from 'antd';
 import { loadFirstReviewRequest, loadMoreReviewsRequest } from '../../actions/review';
 import { Review } from '../../interfaces/data/review';
 import { RootState } from '../../reducers';
-// import Loading from '../Loading';
 
 type Props = {
     serviceId: string;
@@ -52,22 +51,19 @@ const ReviewComponent = ({ serviceId }: Props) => {
                                         <h5>{moment(review.createdAt).format('YYYY-MM-DD')}</h5>
                                     </span>
                                 </Profile>
-                                {/* <span>
-                                    <i className="material-icons">star</i>
-                                    {review.starRating}
-                                </span> */}
                                 <div>{review.content}</div>
                             </ReviewItem>
                         ))}
                     </ReviewBox>
                 ) : (
-                    <NoReviews>후기가 없습니다</NoReviews>
+                    <NoReviews>아직 후기가 없어요</NoReviews>
                 )}
                 <PageWrapper>
                     <Pagination
                         defaultCurrent={1}
+                        pageSize={4}
                         size="small"
-                        total={50}
+                        total={totalReviews}
                         current={current}
                         onChange={handleChangePage}
                     />
@@ -95,6 +91,9 @@ const ReviewBox = styled.div`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    @media ${(props) => props.theme.mobile} {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const ReviewItem = styled.div`
@@ -109,9 +108,10 @@ const Profile = styled.div`
     display: flex;
     margin-bottom: 1rem;
     img {
-        width: 2.4rem;
+        width: 3.2rem;
         margin-right: 1rem;
         align-self: center;
+        border-radius: 2rem;
     }
     h5 {
         font-weight: 400;

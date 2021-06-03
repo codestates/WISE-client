@@ -8,7 +8,7 @@ const Section2 = () => {
         <>
             <Wrapper ref={targetRef} className={isInViewport ? 'visible' : 'hidden'}>
                 <MainBox>
-                    <Image src="/images/landing2.jpg" />
+                    {/* <Image src="/images/landing2.jpg" /> */}
                     <MainText>
                         <h1>
                             매번 챙겨드릴 수 없다면, <br />이 곳에서 <span>도움</span>을 받으세요.
@@ -43,19 +43,18 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     height: 140vh;
-`;
 
-const Image = styled.img`
-    margin: 15rem 0 0 5rem;
-    width: 42vw;
-    object-fit: cover;
+    @media ${(props) => props.theme.mobile} {
+        height: 120vh;
+    }
 `;
 
 const MainText = styled.div`
     display: flex;
     flex-direction: column;
     margin-right: 10%;
-    width: 28rem;
+    text-align: right;
+    width: 30rem;
     color: #222;
     h1 {
         font-size: 2.6rem;
@@ -66,10 +65,28 @@ const MainText = styled.div`
     p {
         font-size: 1.1rem;
         text-align: right;
-        padding-right: 1.6rem;
         span {
             color: #68d480;
             font-weight: 500;
+        }
+    }
+
+    @media only screen and (max-width: 1200px) {
+        h1 {
+            font-size: 2.4rem;
+        }
+        p {
+            font-size: 1rem;
+        }
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        margin-top: -20%;
+        h1 {
+            font-size: 1.8rem;
+        }
+        p {
+            font-size: 0.9rem;
         }
     }
 `;
@@ -79,8 +96,27 @@ const MainBox = styled.div`
     flex-direction: row;
     flex: 6 1 0;
     width: 100%;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
+    background-image: url('/images/landing2.jpg');
+    background-repeat: no-repeat;
+    background-position: 10% bottom;
+    background-size: 48rem;
+
+    @media only screen and (max-width: 1200px) {
+        background-size: 75%;
+        background-position: left bottom;
+    }
+
+    @media ${(props) => props.theme.tablet} {
+        background-position: -10% bottom;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        flex: 5 1 0;
+        background-size: 100%;
+        background-position: bottom center;
+    }
 `;
 
 const Banner = styled.div`
@@ -93,6 +129,7 @@ const AssistBanner = styled.img`
     height: 14rem;
     z-index: -1;
     position: absolute;
+    object-fit: cover;
 `;
 
 const BannerText = styled.div`
@@ -102,6 +139,31 @@ const BannerText = styled.div`
     height: 14rem;
     width: 100%;
     position: absolute;
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+        justfify-content: center;
+        text-align: center;
+
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        padding: 0 1.5rem;
+        h2 {
+            font-size: 1.1rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+    }
 `;
 
 const SmallText = styled.div`
@@ -123,6 +185,18 @@ const RegisterBtn = styled.a`
     border-radius: 3rem;
     box-shadow: 0.1rem 0.1rem 0.3rem #647c6b;
     cursor: pointer;
+
+    @media ${(props) => props.theme.tablet} {
+        margin: 0;
+        margin-top: -3rem;
+        font-size: 1.1rem;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        font-size: 1rem;
+        width: 12rem;
+        height: 3rem;
+    }
 `;
 
 export default Section2;

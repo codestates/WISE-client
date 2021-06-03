@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
 import { Service } from '../../interfaces/data/service';
 
 type ServiceProps = {
@@ -75,6 +74,13 @@ const Badges = styled.div`
         text-align: center;
         color: #777;
         font-weight: 500;
+    }
+    @media ${(props) => props.theme.mobile} {
+        width: 100%;
+        justify-content: space-evenly;
+        img {
+            width: 2rem;
+        }
     }
 `;
 

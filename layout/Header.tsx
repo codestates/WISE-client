@@ -118,6 +118,7 @@ const Header = () => {
                                     </>
                                 ))}
                         </div>
+                        {showModal && <NotificationModal />}
                         <div>=</div>
                     </Responsive>
                 </Container>
