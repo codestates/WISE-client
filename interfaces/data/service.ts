@@ -5,7 +5,6 @@ export interface ShortService {
         _id: string;
         name: string;
     };
-    // | string;
     wage: number;
     greetings: string;
     location: string;

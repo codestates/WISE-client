@@ -28,7 +28,7 @@ function loadNotificationsAPI(userId: string | string[], accessToken: string) {
 
 function* loadNotifications(action: ReturnType<typeof loadNotificationsRequest>) {
     try {
-        const result: AxiosResponse<{ notifications: Notification[] | [] }> = yield call(
+        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             loadNotificationsAPI,
             action.userId,
             action.token,

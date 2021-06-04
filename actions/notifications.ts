@@ -18,7 +18,7 @@ export const loadNotificationsRequest = (userId: string | string[], token: strin
     token,
 });
 
-export const loadNotificationsSuccess = (notifications: Notification[] | []) => ({
+export const loadNotificationsSuccess = (notifications: Notification[]) => ({
     type: LOAD_NOTIFICATIONS_SUCCESS,
     notifications,
 });

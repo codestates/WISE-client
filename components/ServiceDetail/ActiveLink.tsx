@@ -8,7 +8,7 @@ import React, { Children } from 'react';
 type NavProps = {
     children: any;
     activeClassName: string;
-    href?: string;
+    href: string;
 };
 
 const ActiveLink = ({ children, activeClassName, ...props }: NavProps) => {
