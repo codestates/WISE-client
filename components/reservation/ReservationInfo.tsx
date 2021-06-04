@@ -52,6 +52,17 @@ const DetailWrapper = styled.form`
         border-radius: 1rem;
         font-weight: 500;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        margin: 0 auto;
+        padding: 0;
+        padding-bottom: 1rem;
+        width: 60vw;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 export default ReservationInfo;
