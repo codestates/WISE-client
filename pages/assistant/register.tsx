@@ -1,12 +1,15 @@
-/* eslint-disable no-restricted-syntax */
 import styled, { createGlobalStyle } from 'styled-components';
 import nookies from 'nookies';
 import { END } from 'redux-saga';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import RegisterForm from '../../components/Assistant/RegisterForm';
 import Layout from '../../layout/Layout';
 import { loadProfileRequest } from '../../actions/user';
 import { loadNotificationsRequest } from '../../actions/notifications';
 import wrapper from '../../store/configureStore';
+import { RootState } from '../../reducers';
 
 const Global = createGlobalStyle`
     footer {
@@ -15,25 +18,45 @@ const Global = createGlobalStyle`
     }
 `;
 
-const Register = () => (
-    <Layout title="WISE | SIGNIN">
-        <>
-            <Global />
-            <CoverImg src="/images/wise_bg.png" />
-            <Modal>
-                <Header>어시스턴트 프로필 등록</Header>
-                <RegisterForm />
-            </Modal>
-        </>
-    </Layout>
-);
+const Register = () => {
+    const router = useRouter();
+    const { me } = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
+
+    return (
+        <Layout title="WISE | SIGNIN">
+            <>
+                <Global />
+                <CoverImg src="/images/wise_bg.png" />
+                <Modal>
+                    <Header>어시스턴트 프로필 등록</Header>
+                    <RegisterForm />
+                </Modal>
+            </>
+        </Layout>
+    );
+};
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+        context.store.dispatch(END);
+        await context.store.sagaTask?.toPromise();
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/user/signin',
+            },
+        };
+    }
 });
 
 const CoverImg = styled.img`

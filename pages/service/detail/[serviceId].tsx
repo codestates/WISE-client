@@ -110,8 +110,10 @@ const Detail = styled.div`
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    }
     if (context.params?.serviceId) {
         const result = await axios.get(
             `http://localhost:5000/api/v1/services/schedule?serviceId=${context.params?.serviceId}`,

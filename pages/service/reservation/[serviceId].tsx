@@ -24,6 +24,13 @@ const Global = createGlobalStyle`
 
 const ReservationDetail = () => {
     const router = useRouter();
+    const { me } = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
     const { service } = useSelector((state: RootState) => state.service);
     console.log(service);
 
@@ -73,9 +80,10 @@ const Wrapper = styled.div`
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    }
     if (context.params?.serviceId) {
         context.store.dispatch(loadServiceInfoRequest(context.params.serviceId));
     }

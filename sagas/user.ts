@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
-import nookies from 'nookies';
+import nookies, { destroyCookie, setCookie } from 'nookies';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import firebase from 'firebase/app';
@@ -60,10 +60,10 @@ function* logIn(action: ReturnType<typeof loginRequest>) {
         yield call(firebaseLogin, action.data);
         const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, action.data, accessToken);
-        nookies.destroy(null, 'token');
-        nookies.set(null, 'token', accessToken, { path: '/' });
-        nookies.destroy(null, 'userId');
-        nookies.set(null, 'userId', result.data.user._id, { path: '/' });
+        destroyCookie(null, 'token');
+        destroyCookie(null, 'userId');
+        setCookie(null, 'token', accessToken, { path: '/' });
+        setCookie(null, 'userId', result.data.user._id, { path: '/' });
         localStorage.setItem('userId', result.data.user._id);
         yield put(loginSuccess());
     } catch (err) {
@@ -93,6 +93,8 @@ function firebaseLogout() {
 function* logOut() {
     try {
         yield call(firebaseLogout);
+        destroyCookie(null, 'token');
+        destroyCookie(null, 'userId');
         localStorage.removeItem('userId');
         yield put(logoutSuccess());
     } catch (err) {

@@ -1,11 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/dist/client/router';
 import nookies from 'nookies';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import { loadNotificationsRequest } from '../../actions/notifications';
@@ -15,16 +14,15 @@ import { loadProfileRequest } from '../../actions/user';
 import AssistantModify from '../../components/Assistant/AssistantModify';
 import OrderTable from '../../components/Assistant/OrderTable';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
-import Loading from '../../components/Loading';
 import Layout from '../../layout/Layout';
 import { RootState } from '../../reducers';
 import wrapper from '../../store/configureStore';
 
 const Center = () => {
-    const dispatch = useDispatch();
+    const router = useRouter();
     const { me } = useSelector((state: RootState) => state.user);
-    const { myService, loadServiceLoading } = useSelector((state: RootState) => state.service);
-    const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders, loadOrdersLoading } = useSelector(
+    const { myService } = useSelector((state: RootState) => state.service);
+    const { assistantApplyOrders, assistantAcceptOrders, assistantCompleteOrders } = useSelector(
         (state: RootState) => state.order,
     );
     const [tap, setTap] = useState(1);
@@ -34,66 +32,71 @@ const Center = () => {
     };
 
     useEffect(() => {
-        if (me) {
-            dispatch(loadServiceRequest(me.service));
-            dispatch(loadOrdersRequest('assistant', me._id));
+        if (!me) {
+            router.push('/user/signin');
         }
-    }, [dispatch, me]);
+    }, [router, me]);
 
     return (
-        <>
-            {loadServiceLoading || loadOrdersLoading ? (
-                <Loading />
-            ) : (
-                <Layout title="WISE | MYPAGE">
-                    <Wrapper>
-                        <NavTap>
-                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center' }}>
-                                어시스턴트 센터
-                            </div>
-                            <img
-                                style={{ width: '150px', height: '120px' }}
-                                src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
-                                alt="assistantImg"
-                            />
-                            <Nav>
-                                <div onClick={() => onClickTap(1)}>주문 현황</div>
-                                <div onClick={() => onClickTap(2)}>매칭 완료</div>
-                                <div onClick={() => onClickTap(3)}>결제 내역</div>
-                            </Nav>
-                            <UserInfo>
-                                <div className="userName">{me?.name}</div>
-                                <div className="userEmail">{me?.email}</div>
-                                <div className="profile" onClick={() => onClickTap(4)}>
-                                    어시스턴트 수정&nbsp;&nbsp;
-                                    <SettingOutlined />
-                                </div>
-                            </UserInfo>
-                        </NavTap>
-                        <Tap>
-                            {tap === 1 && (
-                                <>
-                                    <OrderTable title="수락 대기 중인 유저 목록" orders={assistantApplyOrders} />
-                                    <OrderTable title="결제 대기 중인 유저 목록" orders={assistantAcceptOrders} />
-                                </>
-                            )}
-                            {tap === 2 && <OrderTable title="매칭 완료된 유저 목록" orders={assistantCompleteOrders} />}
-                            {tap === 3 && <PaymentDetails orders={assistantCompleteOrders} />}
-                            {tap === 4 && <AssistantModify />}
-                        </Tap>
-                    </Wrapper>
-                </Layout>
-            )}
-        </>
+        <Layout title="WISE | MYPAGE">
+            <Wrapper>
+                <NavTap>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center' }}>어시스턴트 센터</div>
+                    <img
+                        style={{ width: '150px', height: '120px' }}
+                        src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
+                        alt="assistantImg"
+                    />
+                    <Nav>
+                        <div onClick={() => onClickTap(1)}>주문 현황</div>
+                        <div onClick={() => onClickTap(2)}>매칭 완료</div>
+                        <div onClick={() => onClickTap(3)}>결제 내역</div>
+                    </Nav>
+                    <UserInfo>
+                        <div className="userName">{me?.name}</div>
+                        <div className="userEmail">{me?.email}</div>
+                        <div className="profile" onClick={() => onClickTap(4)}>
+                            어시스턴트 수정&nbsp;&nbsp;
+                            <SettingOutlined />
+                        </div>
+                    </UserInfo>
+                </NavTap>
+                <Tap>
+                    {tap === 1 && (
+                        <>
+                            <OrderTable title="수락 대기 중인 유저 목록" orders={assistantApplyOrders} />
+                            <OrderTable title="결제 대기 중인 유저 목록" orders={assistantAcceptOrders} />
+                        </>
+                    )}
+                    {tap === 2 && <OrderTable title="매칭 완료된 유저 목록" orders={assistantCompleteOrders} />}
+                    {tap === 3 && <PaymentDetails orders={assistantCompleteOrders} />}
+                    {tap === 4 && <AssistantModify />}
+                </Tap>
+            </Wrapper>
+        </Layout>
     );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+        context.store.dispatch(loadOrdersRequest('assistant', cookies.userId, cookies.token));
+        const myServiceId = context.store.getState().service.myService?._id;
+        if (myServiceId) {
+            context.store.dispatch(loadServiceRequest(myServiceId));
+        }
+        context.store.dispatch(END);
+        await context.store.sagaTask?.toPromise();
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/user/signin',
+            },
+        };
+    }
 });
 
 const Wrapper = styled.div`

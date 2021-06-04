@@ -52,10 +52,12 @@ const SearchResult = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+        context.store.dispatch(END);
+        await context.store.sagaTask?.toPromise();
+    }
 });
 
 const Wrapper = styled.div`

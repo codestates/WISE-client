@@ -6,6 +6,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { END } from 'redux-saga';
 import nookies from 'nookies';
+import { useEffect } from 'react';
 import AssistantInfo from '../../../components/AssistantInfo';
 import { RootState } from '../../../reducers/index';
 import Loading from '../../../components/Loading';
@@ -26,10 +27,16 @@ const Payment = () => {
     const { id } = router.query;
     console.log(id);
 
-    // const { me } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { service } = useSelector((state: RootState) => state.service);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     console.log(orderInfo);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
 
     // useEffect(() => {
     //     if (me) {
@@ -98,9 +105,17 @@ const Payment = () => {
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/user/signin',
+            },
+        };
+    }
     if (context.params) {
         context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
     }

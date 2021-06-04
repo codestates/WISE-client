@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Router from 'next/router';
 import { BellOutlined } from '@ant-design/icons';
+import nookies from 'nookies';
 import { RootState } from '../reducers';
 import { logoutRequest } from '../actions/user';
 import NotificationModal from '../components/Notifications/NotificationModal';
@@ -33,6 +34,8 @@ const Header = () => {
     }, []);
 
     const Logout = useCallback(() => {
+        nookies.destroy(null, 'token');
+        nookies.destroy(null, 'userId');
         dispatch(logoutRequest());
     }, [dispatch]);
 

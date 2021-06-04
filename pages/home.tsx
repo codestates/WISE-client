@@ -18,7 +18,7 @@ import ServiceSection from '../components/home/ServiceSection';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { totalServices, totalServicesLoading, totalServicesCount, searchServicesLoading } = useSelector(
+    const { totalServices, totalServicesLoading, totalServicesCount } = useSelector(
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
@@ -61,8 +61,10 @@ const Wrapper = styled.div`
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    }
     context.store.dispatch(loadPopularServicesRequest());
     context.store.dispatch(loadTotalServicesRequest(1));
     context.store.dispatch(END);

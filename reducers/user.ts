@@ -26,7 +26,6 @@ import { UserState } from '../interfaces/data/user';
 // initial state
 export const initialState: UserState = {
     me: null,
-    islogin: false,
     logInLoading: false, // 로그인
     logInDone: false,
     logInError: null,
@@ -58,7 +57,6 @@ const reducer = (state = initialState, action: UserAction) =>
             case LOG_IN_SUCCESS:
                 draft.logInLoading = false;
                 draft.logInDone = true;
-                draft.islogin = true;
                 break;
             case LOG_IN_FAILURE:
                 draft.logInLoading = false;
@@ -72,7 +70,6 @@ const reducer = (state = initialState, action: UserAction) =>
             case LOG_OUT_SUCCESS:
                 draft.logOutLoading = false;
                 draft.logOutDone = true;
-                draft.islogin = false;
                 draft.me = null;
                 break;
             case LOG_OUT_FAILURE:
@@ -113,7 +110,6 @@ const reducer = (state = initialState, action: UserAction) =>
             case LOAD_PROFILE_SUCCESS: {
                 draft.loadProfileLoading = false;
                 draft.loadProfileDone = true;
-                draft.islogin = true;
                 draft.me = action.me;
                 break;
             }

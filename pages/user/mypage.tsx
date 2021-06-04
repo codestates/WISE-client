@@ -1,13 +1,12 @@
-/* eslint-disable import/namespace */
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { SettingOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
+import { useRouter } from 'next/router';
 import { loadNotificationsRequest } from '../../actions/notifications';
 import { loadOrdersRequest } from '../../actions/order';
 import { loadProfileRequest } from '../../actions/user';
@@ -21,61 +20,67 @@ import { RootState } from '../../reducers';
 import wrapper from '../../store/configureStore';
 
 const Mypage = () => {
+    const router = useRouter();
     const { me } = useSelector((state: RootState) => state.user);
-    const { customerProgressOrders, customerCompleteOrders, loadOrdersLoading } = useSelector(
-        (state: RootState) => state.order,
-    );
-    const [tap, setTap] = useState(4);
+    const { customerProgressOrders, customerCompleteOrders } = useSelector((state: RootState) => state.order);
+    const [tap, setTap] = useState(1);
 
-    const onClickTap = (idx: number) => {
+    const onClickTap = useCallback((idx: number) => {
         setTap(idx);
-    };
+    }, []);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
 
     return (
-        <>
-            {loadOrdersLoading ? (
-                <Loading />
-            ) : (
-                <Layout title="WISE | MYPAGE">
-                    <Wrapper>
-                        <NavTap>
-                            <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
-                            <Nav>
-                                <div onClick={() => onClickTap(1)}>주문 현황</div>
-                                <div onClick={() => onClickTap(2)}>매칭 완료</div>
-                                <div onClick={() => onClickTap(3)}>결제 내역</div>
-                            </Nav>
-                            <UserInfo>
-                                <div className="userName">{me?.name}</div>
-                                <div className="userEmail">{me?.email}</div>
-                                <div className="profile" onClick={() => onClickTap(4)}>
-                                    프로필 업데이트&nbsp;&nbsp;
-                                    <SettingOutlined />
-                                </div>
-                            </UserInfo>
-                        </NavTap>
-                        <Tap>
-                            {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
-                            {tap === 2 && (
-                                <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerProgressOrders} />
-                            )}
-                            {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
-                            {tap === 4 && <ProfileModify />}
-                        </Tap>
-                    </Wrapper>
-                </Layout>
-            )}
-        </>
+        <Layout title="WISE | MYPAGE">
+            <Wrapper>
+                <NavTap>
+                    <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
+                    <Nav>
+                        <div onClick={() => onClickTap(1)}>주문 현황</div>
+                        <div onClick={() => onClickTap(2)}>매칭 완료</div>
+                        <div onClick={() => onClickTap(3)}>결제 내역</div>
+                    </Nav>
+                    <UserInfo>
+                        <div className="userName">{me?.name}</div>
+                        <div className="userEmail">{me?.email}</div>
+                        <div className="profile" onClick={() => onClickTap(4)}>
+                            프로필 업데이트&nbsp;&nbsp;
+                            <SettingOutlined />
+                        </div>
+                    </UserInfo>
+                </NavTap>
+                <Tap>
+                    {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
+                    {tap === 2 && <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerProgressOrders} />}
+                    {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
+                    {tap === 4 && <ProfileModify />}
+                </Tap>
+            </Wrapper>
+        </Layout>
     );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-    context.store.dispatch(loadOrdersRequest('customer', cookies.userId, cookies.token));
-    context.store.dispatch(END);
-    await context.store.sagaTask?.toPromise();
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+        context.store.dispatch(loadOrdersRequest('customer', cookies.userId, cookies.token));
+        context.store.dispatch(END);
+        await context.store.sagaTask?.toPromise();
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/user/signin',
+            },
+        };
+    }
 });
 
 const Wrapper = styled.div`

@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { loadNotificationsRequest } from '../../actions/notifications';
 import { loadOrderInfoRequest } from '../../actions/order';
 import { loadServiceInfoRequest } from '../../actions/service';
@@ -16,6 +18,14 @@ import { RootState } from '../../reducers';
 import wrapper from '../../store/configureStore';
 
 const Review = () => {
+    const router = useRouter();
+    const { me } = useSelector((state: RootState) => state.user);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
     // const dispatch = useDispatch();
     // const router = useRouter();
     // const { id } = router.query;
@@ -83,9 +93,17 @@ const Title = styled.div`
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
-    context.store.dispatch(loadProfileRequest(cookies.userId));
-    context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
-
+    if (cookies.userId && cookies.token) {
+        context.store.dispatch(loadProfileRequest(cookies.userId));
+        context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
+    } else {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/user/signin',
+            },
+        };
+    }
     if (context.params?.id) {
         context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
     }
