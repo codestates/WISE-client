@@ -69,7 +69,7 @@ const Payment = () => {
                                             <Link href="/">
                                                 <i className="material-icons">chevron_left</i>
                                             </Link>
-                                            <h2>결제하기</h2>
+                                            <h1>결제하기</h1>
                                         </Title>
                                         <ReservationInfo reservationInfo={orderInfo} />
                                         <OrderItem reservationInfo={orderInfo} />
@@ -121,6 +121,15 @@ const Wrapper = styled.div`
     justify-content: space-evenly;
     padding: 3rem;
     margin-bottom: 5rem;
+
+    i {
+        cursor: pointer;
+    }
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+        margin-bottom: 3rem;
+    }
 `;
 
 const Container = styled.div`
@@ -132,14 +141,24 @@ const Title = styled.div`
     display: flex;
     align-items: center;
     margin: 0 0 1rem 1.5rem;
-    h2 {
+    h1 {
         margin-top: 0.5rem;
+    }
+
+    @media ${(props) => props.theme.tablet} {
+        position: absolute;
+        left: 3rem;
+        top: 3rem;
     }
 `;
 
 const InfoWrapper = styled.div`
     display: flex;
     align-items: center;
+
+    @media ${(props) => props.theme.tablet} {
+        order: -1;
+    }
 `;
 
 export default Payment;

@@ -41,11 +41,19 @@ const Wrapper = styled.div`
         font-size: 2rem;
         cursor: pointer;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        width: 60vw;
+    }
 `;
 
 const Divide = styled.div`
     border-top: 1px solid #ddd;
     margin-bottom: 3rem;
+
+    @media ${(props) => props.theme.tablet} {
+        margin-bottom: 2rem;
+    }
 `;
 
 export default OrderItem;
