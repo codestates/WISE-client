@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Button, DatePicker, Radio, RadioChangeEvent, Select } from 'antd';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
@@ -45,7 +45,7 @@ const SearchBar = () => {
         setTime(e.target.value);
     }, []);
 
-    const disabledDate = (current: any) => current < moment().subtract(1, 'days').endOf('day');
+    const disabledDate = (current: Moment) => current < moment().subtract(1, 'days').endOf('day');
 
     return (
         <Wrapper>

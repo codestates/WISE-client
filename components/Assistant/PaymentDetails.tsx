@@ -3,35 +3,6 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { Order } from '../../interfaces/data/order';
 
-// {
-//     _id: '1',
-//     customer: {
-//         _id: '2',
-//         name: '박천사',
-//         mobile: '1111',
-//     },
-//     assistant: {
-//         _id: '3',
-//         name: '김천사',
-//         mobile: '1111',
-//     },
-//     service: {
-//         _id: '4',
-//         image: 'wise/1621842261940269.png',
-//         location: '55',
-//     },
-//     pickup: '1',
-//     hospital: '1',
-//     content: '1',
-//     message: '1',
-//     date: '2020-05-05',
-//     time: '1',
-//     hours: 2,
-//     totalPayment: 1000,
-//     state: 'apply',
-//     isReviewed: false,
-// },
-
 type PaymentDetailsProps = {
     orders: Order[];
 };
@@ -56,25 +27,29 @@ const PaymentDetails = ({ orders }: PaymentDetailsProps) => {
             title: '주문명',
             dataIndex: 'orderName',
             key: 'orderName',
-            width: 150,
+            width: 160,
+            ellipsis: true,
         },
         {
             title: '결제일',
             dataIndex: 'date',
             key: 'date',
             width: 150,
+            ellipsis: true,
         },
         {
             title: '어시스턴트 연락처',
             dataIndex: 'mobile',
             key: 'mobile',
             width: 150,
+            ellipsis: true,
         },
         {
             title: '총 비용',
             dataIndex: 'totalPayment',
             key: 'totalPayment',
             width: 150,
+            ellipsis: true,
         },
     ];
     return (

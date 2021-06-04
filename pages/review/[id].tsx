@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
@@ -19,16 +19,16 @@ import wrapper from '../../store/configureStore';
 const Review = () => {
     const router = useRouter();
     const { me } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
+
+    const { orderInfo } = useSelector((state: RootState) => state.order);
+    const { service } = useSelector((state: RootState) => state.service);
 
     useEffect(() => {
         if (!me) {
             router.push('/user/signin');
         }
     }, [router, me]);
-    const dispatch = useDispatch();
-
-    const { orderInfo } = useSelector((state: RootState) => state.order);
-    const { service } = useSelector((state: RootState) => state.service);
 
     useEffect(() => {
         if (orderInfo) {

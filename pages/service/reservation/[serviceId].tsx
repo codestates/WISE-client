@@ -25,19 +25,17 @@ const Global = createGlobalStyle`
 const ReservationDetail = () => {
     const router = useRouter();
     const { me } = useSelector((state: RootState) => state.user);
+    const { service } = useSelector((state: RootState) => state.service);
+
+    const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
 
     useEffect(() => {
         if (!me) {
             router.push('/user/signin');
         }
     }, [router, me]);
-    const { service } = useSelector((state: RootState) => state.service);
-    console.log(service);
-
-    const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
 
     useEffect(() => {
-        console.log(router.isReady, router.query);
         setSearchResult(router.query);
     }, [router.isReady, router.query]);
 

@@ -13,22 +13,23 @@ import Layout from '../layout/Layout';
 
 import { RootState } from '../reducers';
 import wrapper from '../store/configureStore';
+import ServiceSection from '../components/home/ServiceSection';
 
 const SearchResult = () => {
     const dispatch = useDispatch();
 
-    const { searchServices, searchServicesLoading, searchServicesCount, searchQuery } = useSelector(
+    const { searchServices, loadSearchServicesLoading, searchServicesCount, searchQuery } = useSelector(
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
-    console.log(searchQuery);
+
     useEffect(() => {
         function onScroll() {
             if (
                 window.pageYOffset + document.documentElement.clientHeight >
                 document.documentElement.scrollHeight - 300
             ) {
-                if (!searchServicesLoading && searchServicesCount > searchServices.length) {
+                if (!loadSearchServicesLoading && searchServicesCount > searchServices.length) {
                     dispatch(loadSearchServicesRequest({ ...searchQuery, page }));
                     setPage((prev) => prev + 1);
                 }
@@ -38,13 +39,13 @@ const SearchResult = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [searchServicesLoading, searchServicesCount, dispatch, page, searchServices, searchQuery]);
+    }, [loadSearchServicesLoading, searchServicesCount, dispatch, page, searchServices, searchQuery]);
 
     return (
         <Layout title="WISE | Search">
             <Wrapper>
                 <SearchBar />
-                <SearchSection title="검색 결과" searchQuery={searchQuery} />
+                <ServiceSection title="검색 결과" searchQuery={searchQuery} />
             </Wrapper>
         </Layout>
     );

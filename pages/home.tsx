@@ -18,7 +18,7 @@ import ServiceSection from '../components/home/ServiceSection';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { totalServices, totalServicesLoading, totalServicesCount } = useSelector(
+    const { totalServices, loadTotalServicesLoading, totalServicesCount } = useSelector(
         (state: RootState) => state.service,
     );
     const [page, setPage] = useState(2);
@@ -29,7 +29,7 @@ const Home = () => {
                 window.pageYOffset + document.documentElement.clientHeight >
                 document.documentElement.scrollHeight - 300
             ) {
-                if (!totalServicesLoading && totalServicesCount > totalServices.length) {
+                if (!loadTotalServicesLoading && totalServicesCount > totalServices.length) {
                     dispatch(loadTotalServicesRequest(page));
                     setPage((prev) => prev + 1);
                 }
@@ -39,13 +39,13 @@ const Home = () => {
         return () => {
             window.removeEventListener('scroll', onScroll);
         };
-    }, [totalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
+    }, [loadTotalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
     return (
         <Layout title="WISE | HOME">
             <Wrapper>
                 <SearchBar />
                 <PopularSection />
-                <ServiceSection />
+                <ServiceSection title="전체 어시스턴트" />
             </Wrapper>
         </Layout>
     );

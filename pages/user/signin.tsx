@@ -1,39 +1,32 @@
 import Link from 'next/link';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { RootState } from '../../reducers';
 import Layout from '../../layout/Layout';
 import SigninForm from '../../components/auth/SigninForm';
-import { loadProfileRequest } from '../../actions/user';
 import Loading from '../../components/Loading';
 import { CoverImg, ModalTitle, ModalFooter, Modal } from '../../components/style/authStyle';
 import { AuthGlobal } from '../../components/style/global';
 
 const Signin = () => {
-    const dispatch = useDispatch();
-    const { me, islogin, logInLoading, loadProfileLoading } = useSelector((state: RootState) => state.user);
+    const router = useRouter();
+    const { me, logInLoading, logInDone } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if (islogin) {
-            dispatch(loadProfileRequest(localStorage.getItem('userId') as string));
-        }
-    }, [islogin, dispatch]);
-
-    useEffect(() => {
-        if (me) {
+        if (me && logInDone) {
             if (me.service !== '') {
-                Router.push('/home');
+                router.push('/home');
             } else {
-                Router.push('/welcome');
+                router.push('/welcome');
             }
         }
-    }, [me]);
+    }, [me, logInDone, router]);
 
     return (
         <>
-            {logInLoading || loadProfileLoading ? (
+            {logInLoading || logInDone ? (
                 <Loading />
             ) : (
                 <Layout title="WISE | SIGNIN">

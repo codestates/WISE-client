@@ -1,21 +1,39 @@
 /* eslint-disable react/require-default-props */
-/* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import ServiceCard from './ServiceCard';
 import { ShortService } from '../../interfaces/data/service';
 import { RootState } from '../../reducers';
 
-const TotalSection = () => {
-    const { totalServices } = useSelector((state: RootState) => state.service);
+type ServiceSectionProps = {
+    title: string;
+    searchQuery?: { date: string; location: string; page: number; time: string };
+};
+
+const ServiceSection = ({ title, searchQuery }: ServiceSectionProps) => {
+    const { totalServices, searchServices } = useSelector((state: RootState) => state.service);
 
     return (
         <>
-            <Header>전체 어시스턴트</Header>
+            <Header>
+                {title}
+                <div style={{ marginTop: '10px', fontSize: '16px', color: '#999' }}>
+                    {searchQuery && `${searchQuery?.location} | ${searchQuery?.date} | ${searchQuery?.time}`}
+                </div>
+            </Header>
             <Wrapper>
-                {totalServices.map((ele: ShortService) => (
-                    <ServiceCard key={ele._id} service={ele} />
-                ))}
+                {title === '전체 어시스턴트' &&
+                    totalServices.map((ele: ShortService) => <ServiceCard key={ele._id} service={ele} />)}
+                {title === '검색 결과' &&
+                    (searchServices.length > 0 ? (
+                        <>
+                            {searchServices.map((ele: ShortService) => (
+                                <ServiceCard key={ele._id} service={ele} searchQuery={searchQuery} />
+                            ))}
+                        </>
+                    ) : (
+                        <div>검색결과가 없습니다.</div>
+                    ))}
             </Wrapper>
         </>
     );
@@ -23,9 +41,9 @@ const TotalSection = () => {
 const Header = styled.div`
     // border: 1px solid black;
     font-weight: bolder;
-    font-size: 2rem;
+    font-size: 1.4rem;
     height: 2.5rem;
-    margin-bottom: 2.8rem;
+    margin-bottom: 4%;
 `;
 
 const Wrapper = styled.div`
@@ -44,4 +62,4 @@ const Wrapper = styled.div`
     }
 `;
 
-export default TotalSection;
+export default ServiceSection;

@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios, { AxiosResponse } from 'axios';
+import { setCookie } from 'nookies';
 import { all, fork, put, takeLatest, throttle, call } from 'redux-saga/effects';
 import {
     addServiceFailure,
@@ -56,6 +57,7 @@ function* addService(action: ReturnType<typeof addServiceRequest>) {
     try {
         const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ service: Service }> = yield call(addServiceAPI, action.data, accessToken);
+        setCookie(null, 'serviceId', result.data.service._id, { path: '/' });
         yield put(addServiceSuccess(result.data.service));
     } catch (err) {
         yield put(addServiceFailure(err.message));

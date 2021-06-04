@@ -35,8 +35,9 @@ export const loginRequest = (signinMethod: string, email?: string, password?: st
     },
 });
 
-export const loginSuccess = () => ({
+export const loginSuccess = (me: Me) => ({
     type: LOG_IN_SUCCESS,
+    me,
 });
 
 export const loginFailure = (error: string) => ({
@@ -76,8 +77,9 @@ export const signupRequest = (email: string, name: string, password: string, mob
     data: { email, name, password, mobile, signinMethod: 'password' },
 });
 
-export const signupSuccess = () => ({
+export const signupSuccess = (me: Me) => ({
     type: SIGN_UP_SUCCESS,
+    me,
 });
 
 export const signupFailure = (error: string) => ({

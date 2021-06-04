@@ -44,7 +44,6 @@ const ServiceDetail = () => {
     const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
 
     useEffect(() => {
-        console.log(router.isReady, router.query);
         setSearchResult(router.query);
     }, [router.isReady, router.query]);
 

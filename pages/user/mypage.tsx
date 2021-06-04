@@ -12,7 +12,6 @@ import { loadOrdersRequest } from '../../actions/order';
 import { loadProfileRequest } from '../../actions/user';
 import AssistantList from '../../components/Assistant/AssistantList';
 import PaymentDetails from '../../components/Assistant/PaymentDetails';
-import Loading from '../../components/Loading';
 import ProfileModify from '../../components/ProfileModify';
 
 import Layout from '../../layout/Layout';
@@ -56,7 +55,7 @@ const Mypage = () => {
                 </NavTap>
                 <Tap>
                     {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
-                    {tap === 2 && <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerProgressOrders} />}
+                    {tap === 2 && <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerCompleteOrders} />}
                     {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
                     {tap === 4 && <ProfileModify />}
                 </Tap>

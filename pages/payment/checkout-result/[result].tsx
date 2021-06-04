@@ -30,7 +30,6 @@ const Global = createGlobalStyle`
 const Payment = () => {
     const router = useRouter();
     const result = router.query;
-    console.log(result);
     const { me } = useSelector((state: RootState) => state.user);
     useEffect(() => {
         if (!me) {

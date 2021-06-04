@@ -1,6 +1,4 @@
 /* eslint-disable react/require-default-props */
-/* eslint-disable react/prop-types */
-/* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ShortService } from '../../interfaces/data/service';
@@ -47,7 +45,7 @@ const ServiceImg = styled.img`
     height: 63%;
     border-radius: 3%;
     margin-bottom: 30px;
-    @media screen and ${(props) => props.theme.tablet} {
+    @media screen and (${(props) => props.theme.tablet}) {
         height: 90%;
     }
 `;
@@ -60,7 +58,7 @@ const Container = styled.div`
     min-width: 100%;
     margin-bottom: 2rem;
     cursor: pointer;
-    @media screen and ${(props) => props.theme.tablet} {
+    @media screen and (${(props) => props.theme.tablet}) {
         height: 420px;
     }
 `;

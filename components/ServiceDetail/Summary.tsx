@@ -25,7 +25,9 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
 
     const onChangeDate = useCallback(
         (_, dateString: string) => {
-            if (
+            if (!dateString) {
+                setAvailableTime([]);
+            } else if (
                 serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} am`) ||
                 serviceSchedule.orders.includes(`${dateString} am`)
             ) {
@@ -118,7 +120,7 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
                     searchResult?.time || time
                 }`}
             >
-                <Button>신청하기</Button>
+                <Button disabled={time === ''}>신청하기</Button>
             </Link>
         </Wrapper>
     );
@@ -178,6 +180,10 @@ const Text = styled.div`
 
 const Button = styled(ActionButton)`
     height: 3.4rem;
+    background: ${(props) => (props.disabled ? '#ccc' : null)};
+    &:hover {
+        transform: none;
+    }
 `;
 
 export default Summary;

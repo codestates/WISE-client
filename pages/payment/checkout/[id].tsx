@@ -24,13 +24,10 @@ import wrapper from '../../../store/configureStore';
 const Payment = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { id } = router.query;
-    console.log(id);
 
     const { me } = useSelector((state: RootState) => state.user);
     const { service } = useSelector((state: RootState) => state.service);
     const { orderInfo } = useSelector((state: RootState) => state.order);
-    console.log(orderInfo);
 
     useEffect(() => {
         if (!me) {

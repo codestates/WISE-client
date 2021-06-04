@@ -1,8 +1,5 @@
-/* eslint-disable consistent-return */
 /* eslint-disable no-restricted-globals */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable import/no-extraneous-dependencies */
-import nookies, { destroyCookie, setCookie } from 'nookies';
+import { destroyCookie, setCookie } from 'nookies';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import firebase from 'firebase/app';
@@ -62,10 +59,13 @@ function* logIn(action: ReturnType<typeof loginRequest>) {
         const result: AxiosResponse<{ user: Me }> = yield call(logInAPI, action.data, accessToken);
         destroyCookie(null, 'token');
         destroyCookie(null, 'userId');
+        destroyCookie(null, 'serviceId');
         setCookie(null, 'token', accessToken, { path: '/' });
         setCookie(null, 'userId', result.data.user._id, { path: '/' });
-        localStorage.setItem('userId', result.data.user._id);
-        yield put(loginSuccess());
+        if (result.data.user.service !== '') {
+            setCookie(null, 'serviceId', result.data.user.service, { path: '/' });
+        }
+        yield put(loginSuccess(result.data.user));
     } catch (err) {
         let errorMessage = '';
         if (err.message === 'The password is invalid or the user does not have a password.') {
@@ -95,7 +95,7 @@ function* logOut() {
         yield call(firebaseLogout);
         destroyCookie(null, 'token');
         destroyCookie(null, 'userId');
-        localStorage.removeItem('userId');
+        destroyCookie(null, 'serviceId');
         yield put(logoutSuccess());
     } catch (err) {
         yield put(logoutFailure(err.message));
@@ -149,9 +149,12 @@ function* signUp(action: ReturnType<typeof signupRequest>) {
         yield call(firebaseSignup, action.data);
         const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ user: Me }> = yield call(signUpAPI, action.data, accessToken);
-        localStorage.setItem('userId', result.data.user._id);
+        destroyCookie(null, 'token');
+        destroyCookie(null, 'userId');
+        setCookie(null, 'token', accessToken, { path: '/' });
+        setCookie(null, 'userId', result.data.user._id, { path: '/' });
         localStorage.removeItem('emailForSignup');
-        yield put(signupSuccess());
+        yield put(signupSuccess(result.data.user));
     } catch (err) {
         yield put(signupFailure(err.message));
     }

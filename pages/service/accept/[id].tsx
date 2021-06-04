@@ -28,18 +28,14 @@ const Global = createGlobalStyle`
 const ReservationAccept = () => {
     const router = useRouter();
     const { me } = useSelector((state: RootState) => state.user);
+    const { orderInfo, loadOrderInfoError } = useSelector((state: RootState) => state.order);
+    const { id } = router.query;
 
     useEffect(() => {
         if (!me) {
             router.push('/user/signin');
         }
     }, [router, me]);
-
-    const { id } = router.query;
-    console.log(id);
-
-    const { orderInfo, loadOrderInfoError } = useSelector((state: RootState) => state.order);
-    console.log(orderInfo);
 
     return (
         <>

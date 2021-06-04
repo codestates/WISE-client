@@ -6,19 +6,19 @@ import { loginRequest } from '../../actions/user';
 
 const Oauth = () => {
     const dispatch = useDispatch();
-    const onGoogleClick = useCallback(() => {
-        dispatch(loginRequest('google'));
-    }, [dispatch]);
-    const onFacebookClick = useCallback(() => {
-        dispatch(loginRequest('facebook'));
-    }, [dispatch]);
+    const OauthLogin = useCallback(
+        (e) => {
+            dispatch(loginRequest(e.target.name));
+        },
+        [dispatch],
+    );
     return (
         <Wrapper>
-            <SigninButton type="button" onClick={onGoogleClick}>
+            <SigninButton name="google" type="button" onClick={OauthLogin}>
                 <GoogleOutlined />
                 oogle 계정으로 계속하기
             </SigninButton>
-            <SigninButton type="button" onClick={onFacebookClick}>
+            <SigninButton name="facebook" type="button" onClick={OauthLogin}>
                 <FacebookOutlined />
                 acebook 계정으로 계속하기
             </SigninButton>

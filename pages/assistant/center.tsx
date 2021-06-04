@@ -42,11 +42,13 @@ const Center = () => {
             <Wrapper>
                 <NavTap>
                     <div style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center' }}>어시스턴트 센터</div>
-                    <img
-                        style={{ width: '150px', height: '120px' }}
-                        src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
-                        alt="assistantImg"
-                    />
+                    {myService && (
+                        <img
+                            style={{ width: '150px', height: '120px' }}
+                            src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
+                            alt="assistantImg"
+                        />
+                    )}
                     <Nav>
                         <div onClick={() => onClickTap(1)}>주문 현황</div>
                         <div onClick={() => onClickTap(2)}>매칭 완료</div>
@@ -83,10 +85,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
         context.store.dispatch(loadProfileRequest(cookies.userId));
         context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
         context.store.dispatch(loadOrdersRequest('assistant', cookies.userId, cookies.token));
-        const myServiceId = context.store.getState().service.myService?._id;
-        if (myServiceId) {
-            context.store.dispatch(loadServiceRequest(myServiceId));
-        }
+        context.store.dispatch(loadServiceRequest(cookies.serviceId));
         context.store.dispatch(END);
         await context.store.sagaTask?.toPromise();
     } else {
