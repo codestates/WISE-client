@@ -1,6 +1,5 @@
 import moment from 'moment';
-// import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import styled from 'styled-components';
 import nookies from 'nookies';
@@ -26,25 +25,16 @@ const Review = () => {
             router.push('/user/signin');
         }
     }, [router, me]);
-    // const dispatch = useDispatch();
-    // const router = useRouter();
-    // const { id } = router.query;
+    const dispatch = useDispatch();
 
-    // const { accessToken } = useSelector((state: RootState) => state.user);
     const { orderInfo } = useSelector((state: RootState) => state.order);
     const { service } = useSelector((state: RootState) => state.service);
 
-    // useEffect(() => {
-    //     if (accessToken) {
-    //         dispatch(loadOrderInfoRequest(id, accessToken));
-    //     }
-    // }, [id, accessToken, dispatch]);
-
-    // useEffect(() => {
-    //     if (orderInfo) {
-    //         dispatch(loadServiceInfoRequest(orderInfo.service));
-    //     }
-    // }, [orderInfo, dispatch]);
+    useEffect(() => {
+        if (orderInfo) {
+            dispatch(loadServiceInfoRequest(orderInfo.service));
+        }
+    }, [orderInfo, dispatch]);
 
     return (
         <>
@@ -106,10 +96,6 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
     if (context.params?.id) {
         context.store.dispatch(loadOrderInfoRequest(context.params.id, cookies.token));
-    }
-    const order = context.store.getState().order.orderInfo;
-    if (order) {
-        context.store.dispatch(loadServiceInfoRequest(order.service._id));
     }
 
     context.store.dispatch(END);

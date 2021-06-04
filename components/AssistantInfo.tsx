@@ -18,7 +18,7 @@ const AssistantInfo = ({ service, hours, date, time }: Props) => {
                 <img
                     src={`${IMAGE_URL}${service.images[0]}`}
                     alt="샘플이미지"
-                    style={{ height: '12rem', objectFit: 'cover', borderRadius: '0.2rem' }}
+                    style={{ height: '12rem', objectFit: 'contain', borderRadius: '0.2rem' }}
                 />
             ) : (
                 <img
@@ -56,8 +56,8 @@ const Wrapper = styled.div`
     border-radius: 0.5rem;
     box-shadow: 0.2rem 0.5rem 0.6rem #ddd;
     padding: 2rem 3rem;
-    height: 40rem;
     width: 25rem;
+    height: 40rem;
     margin: 7% 2%;
     div,
     h3,
@@ -80,11 +80,39 @@ const Wrapper = styled.div`
         font-weight: 700;
         margin: 0;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        order: -1;
+        width: 60vw;
+        margin: 6rem auto;
+
+        img {
+            height: 16rem !important;
+        }
+
+        h1,
+        h2,
+        h3 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 const Text = styled.div`
     font-size: 1rem;
     font-weight: 500;
+
+    @media ${(props) => props.theme.tablet} {
+        text-align: center;
+    }
 `;
 
 export default AssistantInfo;

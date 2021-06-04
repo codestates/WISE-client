@@ -222,7 +222,7 @@ const FixedBtn = styled.div`
     background: #fff;
     z-index: 100;
     @media ${(props) => props.theme.mobile} {
-        margin-left: -1rem;
+        width: 100vw;
     }
 `;
 

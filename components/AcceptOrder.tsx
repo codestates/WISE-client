@@ -75,7 +75,7 @@ const AcceptOrder = ({ orderId }: Props) => {
                 const notificationData = {
                     recipient: orderInfo.customer._id,
                     subject: orderInfo._id,
-                    clientUrl: '',
+                    clientUrl: `/home`,
                     content: `${orderInfo.assistant.name} 어시스턴트가 신청을 거절했어요`,
                 };
                 dispatch(addNotificationRequest(notificationData));

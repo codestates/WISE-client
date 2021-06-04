@@ -199,6 +199,7 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                     redirection="home"
                 />
             )}
+            {/* //TODO: 성공시 에러모달이 뜨는지 확인 */}
             {(showModal && addOrderError) ||
                 (showModal && !me && (
                     <ResultModal
@@ -237,6 +238,11 @@ const Wrapper = styled.div`
     i {
         font-size: 2rem;
         cursor: pointer;
+    }
+
+    @media ${(props) => props.theme.tablet} {
+        margin: 0;
+        padding: 0;
     }
 `;
 
@@ -334,6 +340,12 @@ const Title = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 3rem;
+
+    @media ${(props) => props.theme.tablet} {
+        position: absolute;
+        left: 3rem;
+        top: 3rem;
+    }
 `;
 
 export default Reservation;
