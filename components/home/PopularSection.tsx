@@ -70,12 +70,6 @@ const Wrapper = styled.div`
         height: 100%;
     }
 
-    .swiper-container .swiper-button-prev::after {
-    }
-
-    .swiper-container .swiper-button-next::after {
-    }
-
     .swiper-container .swiper-wrapper {
         width: 100%;
         margin: 0 auto;
@@ -91,13 +85,6 @@ const Wrapper = styled.div`
             max-height: 15rem;
         }
     }
-    /* @media screen and (max-width: 1023px) {
-        max-height: 50rem;
-        object-position: center top;
-    }
-    @media screen and ${(props) => props.theme.tablet} {
-        height: 720px;
-    } */
 `;
 const Img = styled.img`
     background-position: center center;
@@ -109,11 +96,7 @@ const Img = styled.img`
     margin-bottom: 30px;
     @media screen and (max-width: 1023px) {
         max-height: 40rem;
-        object-position: center top;
     }
-    /* @media screen and ${(props) => props.theme.tablet} {
-        height: 85%;
-    } */
 `;
 
 const Header = styled.div`
