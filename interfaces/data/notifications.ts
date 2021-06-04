@@ -19,8 +19,7 @@ export interface Notification {
 export type NotificationsState = {
     loadNotificationsLoading: boolean;
     loadNotificationsDone: boolean;
-    // notifications: Notification[] | [];
-    notifications: any;
+    notifications: Notification[];
     loadNotificationsError: null | string;
     addNotificationLoading: boolean;
     addNotificationDone: boolean;

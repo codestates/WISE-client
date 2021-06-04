@@ -1,4 +1,4 @@
-import { NotificationData } from '../interfaces/data/notifications';
+import { NotificationData, Notification } from '../interfaces/data/notifications';
 
 export const LOAD_NOTIFICATIONS_REQUEST = 'LOAD_NOTIFICATIONS_REQUEST' as const;
 export const LOAD_NOTIFICATIONS_SUCCESS = 'LOAD_NOTIFICATIONS_SUCCESS' as const;

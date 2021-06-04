@@ -16,7 +16,7 @@ import {
     CHECK_NOTIFICATION_REQUEST,
 } from '../actions/notifications';
 import { getFirebaseToken } from '../firebase';
-import { NotificationData } from '../interfaces/data/notifications';
+import { NotificationData, Notification } from '../interfaces/data/notifications';
 
 function loadNotificationsAPI(userId: string | string[], accessToken: string) {
     return axios({
@@ -79,7 +79,6 @@ function checkNotificationAPI(notificationId: string, accessToken: string) {
 function* checkNotification(action: ReturnType<typeof checkNotificationRequest>) {
     try {
         const accessToken: string = yield call(getFirebaseToken);
-        console.log(accessToken);
         const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             checkNotificationAPI,
             action.notificationId,

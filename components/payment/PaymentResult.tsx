@@ -29,16 +29,6 @@ const PaymentResult = ({ result }: Props) => {
     const [checkoutErrorMsg, setCheckoutErrorMsg] = useState('');
     const [isSuccessed, setIsSuccessed] = useState(false);
 
-    // useEffect(() => {
-    //     dispatch(checkoutRequest(result.orderId, imp_uid));
-    // }, [result.orderId, imp_uid, dispatch]);
-
-    // useEffect(() => {
-    //     if (me) {
-    //         dispatch(loadOrderInfoRequest(result.orderId, accessToken);
-    //     }
-    // }, [result.orderId, me, dispatch]);
-
     useEffect(() => {
         if (checkoutStatus === 'success') {
             setIsSuccessed(true);
@@ -68,17 +58,6 @@ const PaymentResult = ({ result }: Props) => {
             router.push('/');
         }
     }, [addNotificationDone, dispatch, orderInfo, router]);
-
-    // // isChecked로 바꾸기
-    // useEffect(() => {
-    //     if (addNotificationDone) {
-    //         const thisNotification = notifications.filter(
-    //             (notification: Notification) => notification.subject === result.orderId,
-    //         )[0];
-    //         dispatch(checkNotificationRequest(thisNotification._id, accessToken));
-    //         router.push('/');
-    //     }
-    // }, [accessToken, addNotificationDone, dispatch, notifications, result.orderId, router]);
 
     const resultType = isSuccessed ? '성공' : '실패';
     return (

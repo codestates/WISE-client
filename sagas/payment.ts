@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 
 import { checkoutFailure, checkoutRequest, checkoutSuccess, CHECK_OUT_REQUEST } from '../actions/payment';
-import { getFirebaseToken } from '../firebase';
+// import { getFirebaseToken } from '../firebase';
 
 function checkoutAPI(orderId: string | string[], impUid: string | string[], accessToken: string) {
     return axios({
@@ -17,12 +17,11 @@ function checkoutAPI(orderId: string | string[], impUid: string | string[], acce
 
 function* checkout(action: ReturnType<typeof checkoutRequest>) {
     try {
-        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ status: string; message: string }> = yield call(
             checkoutAPI,
             action.orderId,
             action.impUid,
-            accessToken,
+            action.token,
         );
         yield put(checkoutSuccess(result.data.status, result.data.message));
     } catch (err) {
