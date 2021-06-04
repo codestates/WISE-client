@@ -33,6 +33,11 @@ const Header = () => {
         console.log('clicked!');
     }, []);
 
+    const onCloseModal = useCallback(() => {
+        setShowModal(false);
+        console.log('clicked!');
+    }, []);
+
     const Logout = useCallback(() => {
         nookies.destroy(null, 'token');
         nookies.destroy(null, 'userId');
@@ -84,7 +89,7 @@ const Header = () => {
                                     </>
                                 ))}
                         </div>
-                        {showModal && <NotificationModal />}
+                        {showModal && <NotificationModal onClose={onCloseModal} />}
                         <Link href="/user/mypage">
                             <a>
                                 {me &&
@@ -121,7 +126,7 @@ const Header = () => {
                                     </>
                                 ))}
                         </div>
-                        {showModal && <NotificationModal />}
+                        {showModal && <NotificationModal onClose={onClickModal} />}
                         <div>=</div>
                     </Responsive>
                 </Container>

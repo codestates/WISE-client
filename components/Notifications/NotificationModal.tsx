@@ -7,7 +7,11 @@ import { RootState } from '../../reducers';
 import { Notification } from '../../interfaces/data/notifications';
 import { checkNotificationRequest } from '../../actions/notifications';
 
-const NotificationModal = () => {
+type Props = {
+    onClose: () => void;
+};
+
+const NotificationModal = ({ onClose }: Props) => {
     const dispatch = useDispatch();
     const { notifications } = useSelector((state: RootState) => state.notifications);
 
@@ -23,20 +27,20 @@ const NotificationModal = () => {
     );
 
     return (
-        <StyledModalOverlay>
+        <StyledModalOverlay onClick={onClose}>
             <StyledModal>
                 <StyledModalHeader>
                     <div>새 알림</div>
                 </StyledModalHeader>
                 <StyledModalBody>
-                    {notifications ? (
+                    {notifications.length > 0 ? (
                         <>
                             {notifications.map((notification: Notification) => (
                                 <Noti key={notification._id}>
                                     <div>{notification.content}</div>
                                     <div>
                                         {notification.isChecked ? (
-                                            <CheckedButton disabled>확인 완료</CheckedButton>
+                                            <CheckedButton disabled>확인</CheckedButton>
                                         ) : (
                                             <Link href={notification.clientUrl}>
                                                 <Button>
@@ -60,15 +64,19 @@ const NotificationModal = () => {
 };
 const StyledModalOverlay = styled.div`
     position: absolute;
-    top: 12rem;
-    right: 5%;
-    height: 100%;
+    top: 4rem;
+    right: 0;
+    width: 100%;
+    height: 110vh;
     display: flex;
     justify-content: center;
     align-items: center;
 `;
 
 const StyledModal = styled.div`
+    position: absolute;
+    top: 0;
+    right: 20%;
     background: white;
     width: 30rem;
     height: 20rem;
@@ -77,6 +85,14 @@ const StyledModal = styled.div`
     padding: 1.5rem 2rem;
     z-index: 100;
     overflow-y: scroll;
+
+    @media ${(props) => props.theme.tablet} {
+        width: 23rem;
+    }
+    @media ${(props) => props.theme.mobile} {
+        width: 18rem;
+        right: 0;
+    }
 `;
 
 const StyledModalHeader = styled.div`
@@ -105,6 +121,12 @@ const Noti = styled.div`
         margin-right: 10%;
         font-size: 0.9rem;
     }
+    @media ${(props) => props.theme.tablet} {
+        div:first-child {
+            margin-right: 5%;
+            font-size: 0.9rem;
+        }
+    }
 `;
 
 const Button = styled.a`
@@ -121,18 +143,20 @@ const Button = styled.a`
     font-size: 0.9rem;
     &:hover {
         border: 1px solid #68d480;
-        /* background-color: #fff; */
     }
     button {
         border: none;
         background: none;
         cursor: pointer;
     }
+    @media ${(props) => props.theme.tablet} {
+        font-size: 0.7rem;
+    }
 `;
 
 const CheckedButton = styled.button`
     padding: 0 0.7rem;
-    width: 100%;
+    width: 3.4rem;
     height: 2.4rem;
     display: flex;
     align-items: center;
@@ -142,6 +166,9 @@ const CheckedButton = styled.button`
     background-color: #ccc;
     border: none;
     border-radius: 1.2rem;
+    @media ${(props) => props.theme.tablet} {
+        font-size: 0.7rem;
+    }
 `;
 
 export default NotificationModal;
