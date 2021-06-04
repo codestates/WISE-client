@@ -14,10 +14,11 @@ import { Notification } from '../interfaces/data/notifications';
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { me, islogin, logOutDone } = useSelector((state: RootState) => state.user);
+    const { me } = useSelector((state: RootState) => state.user);
     const { notifications } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
     const [unchecked, setUnchecked] = useState(0);
+    const [isVisible, setVisible] = useState(false);
 
     useEffect(() => {
         if (notifications) {
@@ -33,6 +34,10 @@ const Header = () => {
         console.log('clicked!');
     }, []);
 
+    const handleToggle = useCallback(() => {
+        setVisible((state) => !state);
+    }, []);
+
     const Logout = useCallback(() => {
         nookies.destroy(null, 'token');
         nookies.destroy(null, 'userId');
@@ -41,6 +46,10 @@ const Header = () => {
 
     const Login = useCallback(() => {
         Router.replace('/user/signin');
+    }, []);
+
+    const Mypage = useCallback(() => {
+        Router.push(`/user/mypage`);
     }, []);
 
     return (
@@ -52,7 +61,7 @@ const Header = () => {
                     </Link>
                     <UserTap>
                         <div>
-                            {islogin ? (
+                            {me ? (
                                 <>
                                     {me?.service ? (
                                         <Link href="/assistant/center">
@@ -121,14 +130,142 @@ const Header = () => {
                                     </>
                                 ))}
                         </div>
-                        {showModal && <NotificationModal />}
-                        <div>=</div>
+                        <HamburgarButton visible={isVisible} onClick={handleToggle}>
+                            <span />
+                            <span />
+                            <span />
+                            <span />
+                        </HamburgarButton>
+                        <Overlay visible={isVisible}>
+                            <>
+                                {me &&
+                                    (me.image ? (
+                                        <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />
+                                    ) : (
+                                        <Avatar src="/images/avatar_default.png" alt="avatar" />
+                                    ))}
+                                <Name>{me?.name}</Name>
+                                <Email>{me?.email}</Email>
+                                <div style={{ borderTop: '1px solid black', marginBottom: '20%' }} />
+                            </>
+                            <Service>
+                                {me ? (
+                                    <>
+                                        {me?.service ? (
+                                            <Link href="/assistant/center">
+                                                <AssistantBtn>어시스턴트 센터</AssistantBtn>
+                                            </Link>
+                                        ) : (
+                                            <Link href="/assistant/register">
+                                                <AssistantBtn>어시스턴트 등록</AssistantBtn>
+                                            </Link>
+                                        )}
+                                    </>
+                                ) : null}
+                            </Service>
+                            {me ? (
+                                <User style={{ cursor: 'pointer' }} onClick={Mypage}>
+                                    마이페이지
+                                </User>
+                            ) : null}
+                            {me ? (
+                                <>
+                                    <i className="material-icons" style={{ marginLeft: '11%' }}>
+                                        logout
+                                    </i>{' '}
+                                    <span style={{ fontSize: '1.5rem', cursor: 'pointer' }} onClick={Logout}>
+                                        로그아웃
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <i className="material-icons" style={{ marginLeft: '11%' }}>
+                                        login
+                                    </i>{' '}
+                                    <span style={{ fontSize: '1.5rem', cursor: 'pointer' }} onClick={Login}>
+                                        로그인
+                                    </span>
+                                </>
+                            )}
+                        </Overlay>
                     </Responsive>
                 </Container>
             </Wrapper>
         </>
     );
 };
+
+const User = styled.div`
+    font-size: 1.5rem;
+    margin-left: 11%;
+    margin-bottom: 57%;
+`;
+
+const Service = styled.div`
+    font-size: 1.5rem;
+    margin-left: 11%;
+    margin-bottom: 2%;
+`;
+
+const Name = styled.div`
+    margin-left: 11%;
+    font-size: 1.5rem;
+`;
+
+const Email = styled.div`
+    margin-left: 11%;
+    font-size: 1.5rem;
+    margin-bottom: 3%;
+`;
+
+const Overlay = styled.div`
+    width: 100%;
+    height: 1200px;
+    background: #fff;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.35s;
+    right: ${(props) => (props.visible ? '0px' : '-100%')};
+    visibility: ${(props) => (props.visible ? null : 'hidden')};
+`;
+
+const HamburgarButton = styled.div`
+    transition: 0.3s ease-in-out;
+    width: 22px;
+    height: 62px;
+    display: block;
+    top: 2rem;
+    z-index: 1100;
+    cursor: pointer;
+    span {
+        position: absolute;
+        display: block;
+        height: 3px;
+        border-radius: 4px;
+        width: 20px;
+        top: 0;
+        transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+        background-color: #3d4146;
+    }
+    span:nth-child(1) {
+        top: 23px;
+        opacity: ${(props) => (props.visible ? '0' : null)};
+    }
+    span:nth-child(2) {
+        top: 29px;
+        transform: ${(props) => (props.visible ? 'rotate(45deg)' : null)};
+    }
+    span:nth-child(3) {
+        top: 29px;
+        transform: ${(props) => (props.visible ? 'rotate(-45deg)' : null)};
+    }
+    span:nth-child(4) {
+        top: 35px;
+        opacity: ${(props) => (props.visible ? '0' : null)};
+    }
+`;
+
 const Avatar = styled.img`
     height: 2rem;
     width: 2rem;
@@ -136,6 +273,14 @@ const Avatar = styled.img`
     object-fit: cover;
     border: 1px solid #d2d2d2;
     margin-right: 5px;
+
+    @media ${(props) => props.theme.mobile} {
+        height: 6rem;
+        width: 6rem;
+        margin-left: 11%;
+        margin-top: 11%;
+        margin-bottom: 7%;
+    }
 `;
 
 const AssistantBtn = styled.div`
@@ -143,6 +288,7 @@ const AssistantBtn = styled.div`
 `;
 
 const Wrapper = styled.header`
+    position: relative;
     height: 4rem;
     width: 100%;
     padding: 0 2rem;
@@ -154,7 +300,7 @@ const Wrapper = styled.header`
     -webkit-backdrop-filter: blur(6px);
     border-radius: 0.3rem;
     border: 1px solid rgba(255, 255, 255, 0.18);
-    z-index: 1;
+    z-index: 1100;
 `;
 
 const Container = styled.div`
@@ -163,6 +309,7 @@ const Container = styled.div`
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
+    height: 62px;
 `;
 
 const Logo = styled.img`
@@ -195,7 +342,8 @@ const Responsive = styled.div`
             font-size: 1.5rem;
             line-height: 2rem;
             cursor: pointer;
-            margin-right: 2rem;
+            margin-right: 1.2rem;
+            margin-top: 18px;
         }
     }
 `;
