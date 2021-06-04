@@ -68,7 +68,7 @@ const Wrapper = styled.div`
         cursor: pointer;
         padding: 0;
     }
-    @media screen and ${(props) => props.theme.tablet} {
+    @media screen and (${(props) => props.theme.tablet}) {
         height: 720px;
     }
 `;
@@ -80,7 +80,7 @@ const Img = styled.img`
     width: 100%;
     border-radius: 3%;
     margin-bottom: 30px;
-    @media screen and ${(props) => props.theme.tablet} {
+    @media screen and (${(props) => props.theme.tablet}) {
         height: 85%;
     }
 `;

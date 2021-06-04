@@ -226,7 +226,7 @@ const Email = styled.div`
     margin-bottom: 3%;
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ visible?: boolean }>`
     width: 100vw;
     height: 2000px;
     background: #fff;
@@ -243,7 +243,7 @@ const ProfileBox = styled.div`
     color: #fff;
 `;
 
-const HamburgerButton = styled.div`
+const HamburgerButton = styled.div<{ visible?: boolean }>`
     transition: 0.3s ease-in-out;
     width: 22px;
     height: 62px;
