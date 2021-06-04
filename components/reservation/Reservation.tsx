@@ -199,7 +199,6 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                     redirection="home"
                 />
             )}
-            {/* //TODO: 성공시 에러모달이 뜨는지 확인 */}
             {(showModal && addOrderError) ||
                 (showModal && !me && (
                     <ResultModal

@@ -77,51 +77,52 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
         return false;
     };
     return (
-        <Wrapper>
-            <Bio>
-                <h1>{service.assistant.name} 어시스턴트</h1>
-                <h3>{service.greetings}</h3>
-            </Bio>
-            <InfoCon>
-                <Info>
-                    <Text>
-                        <span>지역</span> {service.location}
-                    </Text>
-                    <Text>
-                        <span>평점</span>
-                        <i className="material-icons">star</i> {service.starRating ? service.starRating : 0}
-                    </Text>
-                    <Text>
-                        <span>비용</span> <strong>{service.wage}</strong>원 / 시간
-                    </Text>
-                </Info>
-                <Info>
-                    <Text>
-                        <span>날짜</span>
-                        {searchResult?.date ? (
-                            searchResult?.date
-                        ) : (
-                            <DatePicker
-                                style={{ width: '150px' }}
-                                onChange={onChangeDate}
-                                disabledDate={disabledDate}
-                            />
-                        )}
-                    </Text>
-                    <Text>
-                        <span>시간</span>
-                        {searchResult?.time ? (
-                            searchResult?.time
-                        ) : (
-                            <Radio.Group onChange={onChangeTime} size="middle">
-                                {availableTime.includes('am') && <Radio.Button value="am">오전</Radio.Button>}
-                                {availableTime.includes('pm') && <Radio.Button value="pm">오후</Radio.Button>}
-                            </Radio.Group>
-                        )}
-                    </Text>
-                </Info>
-            </InfoCon>
-
+        <>
+            <Wrapper>
+                <Bio>
+                    <h1>{service.assistant.name} 어시스턴트</h1>
+                    <h3>{service.greetings}</h3>
+                </Bio>
+                <InfoCon>
+                    <Info>
+                        <Text>
+                            <span>지역</span> {service.location}
+                        </Text>
+                        <Text>
+                            <span>평점</span>
+                            <i className="material-icons">star</i> {service.starRating ? service.starRating : 0}
+                        </Text>
+                        <Text>
+                            <span>비용</span> <strong>{service.wage}</strong>원 / 시간
+                        </Text>
+                    </Info>
+                    <Info>
+                        <Text>
+                            <span>날짜</span>
+                            {searchResult?.date ? (
+                                searchResult?.date
+                            ) : (
+                                <DatePicker
+                                    style={{ width: '150px' }}
+                                    onChange={onChangeDate}
+                                    disabledDate={disabledDate}
+                                />
+                            )}
+                        </Text>
+                        <Text>
+                            <span>시간</span>
+                            {searchResult?.time ? (
+                                searchResult?.time
+                            ) : (
+                                <Radio.Group onChange={onChangeTime} size="middle">
+                                    {availableTime.includes('am') && <Radio.Button value="am">오전</Radio.Button>}
+                                    {availableTime.includes('pm') && <Radio.Button value="pm">오후</Radio.Button>}
+                                </Radio.Group>
+                            )}
+                        </Text>
+                    </Info>
+                </InfoCon>
+            </Wrapper>
             <FixedBtn>
                 <Link
                     href={`../reservation/${service._id}?date=${searchResult?.date || date}&time=${
@@ -131,7 +132,7 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
                     <Button>신청하기</Button>
                 </Link>
             </FixedBtn>
-        </Wrapper>
+        </>
     );
 };
 
@@ -211,18 +212,18 @@ const Button = styled(ActionButton)`
 `;
 
 const FixedBtn = styled.div`
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    bottom: 0;
-    height: 5rem;
-    width: 100%;
-    margin-left: -2rem;
-    border-top: 1px solid #ddd;
-    background: #fff;
-    z-index: 100;
-    @media ${(props) => props.theme.mobile} {
-        width: 100vw;
+    display: none;
+
+    @media ${(props) => props.theme.tablet} {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        bottom: 0;
+        height: 5rem;
+        width: 100%;
+        border-top: 1px solid #ddd;
+        background: #fff;
+        z-index: 100;
     }
 `;
 

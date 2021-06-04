@@ -68,6 +68,12 @@ const Content = styled.div`
         padding-bottom: 0.4rem;
         font-size: 0.8rem;
     }
+
+    @media ${(props) => props.theme.mobile} {
+        h4 {
+            margin-bottom: 2.2rem;
+        }
+    }
 `;
 
 export default Refund;

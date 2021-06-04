@@ -144,7 +144,7 @@ const Header = () => {
                             <span />
                         </HamburgerButton>
                         <Overlay visible={isVisible}>
-                            <>
+                            <ProfileBox>
                                 {me &&
                                     (me.image ? (
                                         <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />
@@ -153,8 +153,8 @@ const Header = () => {
                                     ))}
                                 <Name>{me?.name}</Name>
                                 <Email>{me?.email}</Email>
-                                <div style={{ borderTop: '1px solid black', marginBottom: '20%' }} />
-                            </>
+                                <div style={{ borderTop: '1px solid #d0d0d0', marginBottom: '20%' }} />
+                            </ProfileBox>
                             <Service>
                                 {me ? (
                                     <>
@@ -177,19 +177,19 @@ const Header = () => {
                             ) : null}
                             {me ? (
                                 <>
-                                    <i className="material-icons" style={{ marginLeft: '11%' }}>
+                                    <i className="material-icons" style={{ marginLeft: '11%', fontSize: '1.2rem' }}>
                                         logout
                                     </i>{' '}
-                                    <span style={{ fontSize: '1.5rem', cursor: 'pointer' }} onClick={Logout}>
+                                    <span style={{ fontSize: '1.2rem', cursor: 'pointer' }} onClick={Logout}>
                                         로그아웃
                                     </span>
                                 </>
                             ) : (
                                 <>
-                                    <i className="material-icons" style={{ marginLeft: '11%' }}>
+                                    <i className="material-icons" style={{ marginLeft: '11%', fontSize: '1.2rem' }}>
                                         login
                                     </i>{' '}
-                                    <span style={{ fontSize: '1.5rem', cursor: 'pointer' }} onClick={Login}>
+                                    <span style={{ fontSize: '1.2rem', cursor: 'pointer' }} onClick={Login}>
                                         로그인
                                     </span>
                                 </>
@@ -203,38 +203,44 @@ const Header = () => {
 };
 
 const User = styled.div`
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-left: 11%;
     margin-bottom: 57%;
 `;
 
 const Service = styled.div`
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     margin-left: 11%;
     margin-bottom: 2%;
 `;
 
 const Name = styled.div`
     margin-left: 11%;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 `;
 
 const Email = styled.div`
     margin-left: 11%;
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin-bottom: 3%;
 `;
 
 const Overlay = styled.div`
-    width: 100%;
-    height: 1200px;
+    width: 100vw;
+    height: 2000px;
     background: #fff;
     position: fixed;
     top: 0;
     z-index: 1000;
     transition: all 0.35s;
-    right: ${(props) => (props.visible ? '0px' : '-100%')};
-    visibility: ${(props) => (props.visible ? null : 'hidden')};
+    right: ${(props) => (props.visible ? '-1px' : '-100%')};
+    display: ${(props) => (props.visible ? null : 'none')};
+`;
+
+const ProfileBox = styled.div`
+    background: rgba(62, 160, 86, 0.5);
+    color: #fff;
 `;
 
 const HamburgerButton = styled.div`
@@ -253,7 +259,7 @@ const HamburgerButton = styled.div`
         width: 20px;
         top: 0;
         transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
-        background-color: #3d4146;
+        background-color: #313131;
     }
     span:nth-child(1) {
         top: 23px;
