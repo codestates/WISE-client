@@ -238,6 +238,11 @@ const Wrapper = styled.div`
         font-size: 2rem;
         cursor: pointer;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        margin: 0;
+        padding: 0;
+    }
 `;
 
 const FormWrapper = styled.form`
@@ -334,6 +339,12 @@ const Title = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 3rem;
+
+    @media ${(props) => props.theme.tablet} {
+        position: absolute;
+        left: 3rem;
+        top: 3rem;
+    }
 `;
 
 export default Reservation;

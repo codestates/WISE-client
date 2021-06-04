@@ -76,6 +76,10 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     padding: 3rem;
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+    }
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
