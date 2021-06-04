@@ -37,12 +37,18 @@ const Mypage = () => {
     return (
         <Layout title="WISE | MYPAGE">
             <Wrapper>
-                <NavTap>
+                <NavTap tap={tap}>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>마이페이지</div>
                     <Nav>
-                        <div onClick={() => onClickTap(1)}>주문 현황</div>
-                        <div onClick={() => onClickTap(2)}>매칭 완료</div>
-                        <div onClick={() => onClickTap(3)}>결제 내역</div>
+                        <div className="tap1" onClick={() => onClickTap(1)}>
+                            주문 현황
+                        </div>
+                        <div className="tap2" onClick={() => onClickTap(2)}>
+                            매칭 완료
+                        </div>
+                        <div className="tap3" onClick={() => onClickTap(3)}>
+                            결제 내역
+                        </div>
                     </Nav>
                     <UserInfo>
                         <div className="userName">{me?.name}</div>
@@ -59,6 +65,50 @@ const Mypage = () => {
                     {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
                     {tap === 4 && <ProfileModify />}
                 </Tap>
+                <Responsive>
+                    <UserInfo>
+                        {me &&
+                            (me.image ? (
+                                <Avatar src={process.env.NEXT_PUBLIC_imageURL + me.image} alt="avatar" />
+                            ) : (
+                                <Avatar src="/images/avatar_default.png" alt="avatar" />
+                            ))}
+                        <span style={{ marginTop: '5.3%' }}>
+                            <div className="userName">{me?.name}</div>
+                            <div className="userEmail">{me?.email}</div>
+                        </span>
+                    </UserInfo>
+                    <div
+                        style={{
+                            borderTop: '1px solid #c9c9c9',
+                            marginTop: '2%',
+                            marginBottom: '4.5%',
+                        }}
+                    />
+                    <ResponsiveNav tap={tap}>
+                        <div className="tap1" onClick={() => onClickTap(1)}>
+                            주문 현황
+                        </div>
+                        <div className="tap2" onClick={() => onClickTap(2)}>
+                            매칭 완료
+                        </div>
+                        <div className="tap3" onClick={() => onClickTap(3)}>
+                            결제 내역
+                        </div>
+                        <div className="profile" onClick={() => onClickTap(4)}>
+                            프로필 업데이트&nbsp;&nbsp;
+                            <SettingOutlined />
+                        </div>
+                    </ResponsiveNav>
+                    <ResponsiveTap>
+                        {tap === 1 && <AssistantList title="나의 주문 목록" orders={customerProgressOrders} />}
+                        {tap === 2 && (
+                            <AssistantList title="매칭 완료된 어시스턴트 목록" orders={customerCompleteOrders} />
+                        )}
+                        {tap === 3 && <PaymentDetails orders={customerCompleteOrders} />}
+                        {tap === 4 && <ProfileModify />}
+                    </ResponsiveTap>
+                </Responsive>
             </Wrapper>
         </Layout>
     );
@@ -82,30 +132,97 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     }
 });
 
+const ResponsiveTap = styled.div`
+    padding: 3rem;
+    flexgrow: 1;
+    @media screen and (max-width: 430px) {
+        font-size: 0.8rem;
+    }
+    @media ${(props) => props.theme.mobile} {
+        max-height: 30rem;
+    }
+`;
+
+const ResponsiveNav = styled.div`
+    display: flex;
+    justify-content: space-around;
+    div {
+        font-size: 1.2rem;
+        cursor: pointer;
+        @media screen and (max-width: 465px) {
+            font-size: 0.8rem;
+        }
+    }
+    .tap1 {
+        color: ${(props) => (props.tap === 1 ? '#68d480' : '#000000')};
+    }
+    .tap2 {
+        color: ${(props) => (props.tap === 2 ? '#68d480' : '#000000')};
+    }
+    .tap3 {
+        color: ${(props) => (props.tap === 3 ? '#68d480' : '#000000')};
+    }
+    .profile {
+        color: ${(props) => (props.tap === 4 ? '#68d480' : '#000000')};
+    }
+`;
+
+const Avatar = styled.img`
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #d2d2d2;
+    height: 4rem;
+    width: 4rem;
+    margin-left: 6.5%;
+    margin-top: 5.3%;
+    margin-right: 3%;
+`;
+
 const Wrapper = styled.div`
     // border: 1px solid black;
     // padding: 3rem;
     width: 100vw;
-    height: 60vh;
-    max-width: 1200px;
+    padding: 24px;
+    max-width: 1248px;
     display: flex;
 `;
 
 const NavTap = styled.div`
     // border: 1px solid black;
-    width: 250px;
-    padding: 3rem;
+
+    width: 100%;
+    padding: 2.8rem;
+    min-width: 250px;
     font-size: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .tap1 {
+        color: ${(props) => (props.tap === 1 ? '#68d480' : '#707070')};
+    }
+    .tap2 {
+        color: ${(props) => (props.tap === 2 ? '#68d480' : '#707070')};
+    }
+    .tap3 {
+        color: ${(props) => (props.tap === 3 ? '#68d480' : '#707070')};
+    }
+    .profile {
+        color: ${(props) => (props.tap === 4 ? '#68d480' : '#000000')};
+    }
+    @media ${(props) => props.theme.mobile} {
+        display: none;
+    }
 `;
 
 const Tap = styled.div`
     // border: 1px solid black;
     margin-top: 3rem;
-    padding: 3rem;
-    flex-grow: 1;
+    padding: 4rem;
+    max-width: 80%;
+    width: 100%;
+    @media ${(props) => props.theme.mobile} {
+        display: none;
+    }
 `;
 
 const UserInfo = styled.div`
@@ -126,6 +243,15 @@ const UserInfo = styled.div`
         font-size: 14px;
         color: #707070;
     }
+    @media ${(props) => props.theme.mobile} {
+        display: flex;
+        .userName {
+            font-size: 1.45rem;
+        }
+        .userEmail {
+            font-size: 1rem;
+        }
+    }
 `;
 
 const Nav = styled.div`
@@ -133,9 +259,15 @@ const Nav = styled.div`
     display: flex;
     flex-direction: column;
     div {
-        color: #707070;
         margin-bottom: 20px;
         cursor: pointer;
+    }
+`;
+
+const Responsive = styled.div`
+    width: 100%;
+    @media screen and (min-width: 640px) {
+        display: none;
     }
 `;
 
