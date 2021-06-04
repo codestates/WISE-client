@@ -7,10 +7,11 @@ import { RootState } from '../../reducers';
 import { CoverImg, Modal, ModalTitle } from '../../components/style/authStyle';
 import SignupForm from '../../components/auth/SignupForm';
 import { AuthGlobal } from '../../components/style/global';
+import Loading from '../../components/Loading';
 
 const Signup = () => {
     const router = useRouter();
-    const { signUpDone, me } = useSelector((state: RootState) => state.user);
+    const { signUpLoading, signUpDone, me } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         if (me && signUpDone) {
@@ -19,16 +20,22 @@ const Signup = () => {
     }, [me, signUpDone, router]);
 
     return (
-        <Layout title="WISE | SIGNUP">
-            <>
-                <AuthGlobal />
-                <CoverImg filter="true" />
-                <Modal>
-                    <ModalTitle>회원가입</ModalTitle>
-                    <SignupForm />
-                </Modal>
-            </>
-        </Layout>
+        <>
+            {signUpLoading || signUpDone ? (
+                <Loading />
+            ) : (
+                <Layout title="WISE | SIGNUP">
+                    <>
+                        <AuthGlobal />
+                        <CoverImg filter="true" />
+                        <Modal style={{ marginTop: '4rem' }}>
+                            <ModalTitle>회원가입</ModalTitle>
+                            <SignupForm />
+                        </Modal>
+                    </>
+                </Layout>
+            )}
+        </>
     );
 };
 

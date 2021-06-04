@@ -25,7 +25,6 @@ import { AVAILABLEDAYS, SEOULCITY } from '../../utils/data';
 
 const RegisterForm = () => {
     const dispatch = useDispatch();
-    const { addServiceDone } = useSelector((state: RootState) => state.service);
     // 가능 지역
     const [location, setLocation] = useState('');
     const onChangeLocation = useCallback((value: string) => {
@@ -120,12 +119,6 @@ const RegisterForm = () => {
     const onChangeIsDriver = useCallback((e: RadioChangeEvent) => {
         setIsDriver(e.target.value);
     }, []);
-
-    useEffect(() => {
-        if (addServiceDone) {
-            Router.replace('/home');
-        }
-    }, [addServiceDone]);
 
     const onSubmit = useCallback(
         (e: FormEvent<HTMLFormElement>) => {

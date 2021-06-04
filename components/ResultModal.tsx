@@ -12,7 +12,7 @@ type ResultModalProps = {
     onClose: () => void;
     title: string;
     message: string;
-    redirection?: 'home' | 'signin';
+    redirection?: 'home' | 'signin' | 'none';
 };
 
 const ResultModal = ({ onClose, title, message, redirection }: ResultModalProps) => (
@@ -33,6 +33,7 @@ const ResultModal = ({ onClose, title, message, redirection }: ResultModalProps)
                         <Button>로그인하러 가기</Button>
                     </Link>
                 )}
+                {redirection === 'none' && <Button>확인</Button>}
             </ModalBody>
         </Modal>
     </ModalOverlay>

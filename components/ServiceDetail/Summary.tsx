@@ -16,22 +16,24 @@ type ServiceProps = {
 };
 
 const Summary = ({ service, searchResult }: ServiceProps) => {
-    const { serviceSchedule, searchQuery } = useSelector((state: RootState) => state.service);
+    const { serviceSchedule } = useSelector((state: RootState) => state.service);
 
     const [availableTime, setAvailableTime] = useState<Array<string>>([]);
 
-    const [date, setDate] = useState(searchQuery?.date || '');
-    const [time, setTime] = useState(searchQuery?.time || '');
+    const [date, setDate] = useState(searchResult?.date || '');
+    const [time, setTime] = useState(searchResult?.time || '');
 
     const onChangeDate = useCallback(
         (_, dateString: string) => {
-            if (
-                serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} am`) ||
+            if (dateString === '') {
+                setAvailableTime([]);
+            } else if (
+                !serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} am`) ||
                 serviceSchedule.orders.includes(`${dateString} am`)
             ) {
                 setAvailableTime(['pm']);
             } else if (
-                serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} pm`) ||
+                !serviceSchedule.availableDays.includes(`${moment(dateString).format('dddd')} pm`) ||
                 serviceSchedule.orders.includes(`${dateString} pm`)
             ) {
                 setAvailableTime(['am']);
@@ -69,12 +71,12 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
         };
 
         if (checkDay(moment(current).format('dddd'))) {
-            return true;
+            return false;
         }
         if (checkOrder(moment(current).format('YYYY-MM-DD'))) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     };
     return (
         <Wrapper>
@@ -145,6 +147,9 @@ const Wrapper = styled.div`
     }
     @media ${(props) => props.theme.tablet} {
         display: none;
+    }
+    .ant-picker-suffix {
+        margin: 0;
     }
 `;
 

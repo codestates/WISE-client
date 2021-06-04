@@ -95,7 +95,7 @@ const ProfileModify = () => {
                     onClose={onCloseModal}
                     title="프로필 수정"
                     message="프로필이 변경되었습니다"
-                    redirection="home"
+                    redirection="none"
                 />
             )}
             {showModal && changeProfileError && (

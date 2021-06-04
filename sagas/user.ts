@@ -111,9 +111,11 @@ async function emailCheckAPI(email: string) {
 }
 
 function firebaseEmailCheck(email: string) {
-    const REDIRECT_URL = 'http://localhost:3000/user/signup';
     const config = {
-        url: REDIRECT_URL,
+        url:
+            process.env.NODE_ENV === 'production'
+                ? 'https://wise-client-ten.vercel.app/user/signup'
+                : 'http://localhost:3000/user/signup',
         handleCodeInApp: true,
     };
     auth.sendSignInLinkToEmail(email, config);

@@ -7,7 +7,7 @@ export interface NotificationData {
 
 export interface Notification {
     _id: string;
-    sender: { id: string; name: string };
+    sender: { id: string; name: string } | string;
     recipient: string;
     subject: string;
     clientUrl: string;

@@ -65,6 +65,7 @@ export const Form = styled.form`
     // border: 1px solid black;
     display: flex;
     flex-direction: column;
+    align-items: center;
 `;
 
 export const InputWrapper = styled.div`

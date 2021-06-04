@@ -16,7 +16,7 @@ import {
     CHECK_NOTIFICATION_REQUEST,
 } from '../actions/notifications';
 import { getFirebaseToken } from '../firebase';
-import { NotificationData } from '../interfaces/data/notifications';
+import { NotificationData, Notification } from '../interfaces/data/notifications';
 
 function loadNotificationsAPI(userId: string | string[], accessToken: string) {
     return axios({
@@ -28,7 +28,7 @@ function loadNotificationsAPI(userId: string | string[], accessToken: string) {
 
 function* loadNotifications(action: ReturnType<typeof loadNotificationsRequest>) {
     try {
-        const result: AxiosResponse<{ notifications: Notification[] | [] }> = yield call(
+        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
             loadNotificationsAPI,
             action.userId,
             action.token,
@@ -54,12 +54,12 @@ function addNotificationAPI(data: NotificationData, accessToken: string) {
 function* addNotification(action: ReturnType<typeof addNotificationRequest>) {
     try {
         const accessToken: string = yield call(getFirebaseToken);
-        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
+        const result: AxiosResponse<{ notification: Notification }> = yield call(
             addNotificationAPI,
             action.data,
             accessToken,
         );
-        yield put(addNotificationSuccess(result.data.notifications));
+        yield put(addNotificationSuccess(result.data.notification));
     } catch (err) {
         yield put(addNotificationFailure(err.message));
     }
@@ -80,12 +80,12 @@ function* checkNotification(action: ReturnType<typeof checkNotificationRequest>)
     try {
         const accessToken: string = yield call(getFirebaseToken);
         console.log(accessToken);
-        const result: AxiosResponse<{ notifications: Notification[] }> = yield call(
+        const result: AxiosResponse<{ notification: Notification }> = yield call(
             checkNotificationAPI,
             action.notificationId,
             accessToken,
         );
-        yield put(addNotificationSuccess(result.data.notifications));
+        yield put(addNotificationSuccess(result.data.notification));
     } catch (err) {
         yield put(addNotificationFailure(err.message));
     }

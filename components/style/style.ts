@@ -34,7 +34,7 @@ export const DeleteBtn = styled.button`
 export const InputWrapper = styled.div`
     display: flex;
     & > span:first-child {
-        width: 8rem;
+        width: 130px;
         margin-right: 1rem;
     }
     textarea,
@@ -52,6 +52,10 @@ export const InputWrapper = styled.div`
     }
     margin-bottom: 1.5rem;
     position: relative;
+    .ant-checkbox-group {
+        max-width: 600px;
+        flex-grow: 1;
+    }
 `;
 
 export const SubmitBtn = styled.button`

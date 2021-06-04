@@ -15,7 +15,7 @@ const AssistantCard = ({ order }: AssistantCard) => {
     }, [order]);
 
     const onClickReview = useCallback(() => {
-        Router.replace(`/payment/checkout/${order._id}`);
+        Router.replace(`/review/${order._id}`);
     }, [order]);
 
     return (
