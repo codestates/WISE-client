@@ -55,7 +55,7 @@ const SearchBar = () => {
                 <Select
                     onChange={onChangeLocation}
                     showSearch
-                    style={{ width: '150px' }}
+                    style={{ width: '150px', borderRadius: '1rem' }}
                     placeholder="위치 입력"
                     optionFilterProp="children"
                     value={searchQuery?.location}
@@ -78,7 +78,6 @@ const SearchBar = () => {
 };
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -97,12 +96,10 @@ const Wrapper = styled.div`
 `;
 
 const Search = styled.div`
-    // border: 1px solid black;
     margin: 1rem 0 0 1rem;
 `;
 
 const Header = styled.span`
-    // border: 1px solid black;
     font-weight: 800;
     font-size: 2rem;
     height: 2.5rem;

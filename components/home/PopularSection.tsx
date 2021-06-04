@@ -25,15 +25,33 @@ const PopularSection = () => {
                 >
                     {popularServices.map((ele: ShortService) => (
                         <SwiperSlide key={ele._id}>
-                            <Img src={process.env.NEXT_PUBLIC_imageURL + ele.images[0]} alt="샘플이미지" />
-                            <div>
-                                <div>
-                                    <span style={{ fontWeight: 600, fontSize: '1rem' }}>{ele.assistant.name}</span>{' '}
-                                    <span style={{ fontWeight: 200, fontSize: '0.9rem' }}>&nbsp;{ele.location}</span>
-                                </div>
-                                <div>{ele.greetings}</div>
-                                <div style={{ fontWeight: 700 }}>{ele.wage}원 / 시간</div>
-                            </div>
+                            <Link
+                                href={{
+                                    pathname: `/service/detail/${ele._id}`,
+                                    query: searchQuery
+                                        ? {
+                                              date: searchQuery.date,
+                                              time: searchQuery.time,
+                                          }
+                                        : {},
+                                }}
+                            >
+                                <a>
+                                    <Img src={process.env.NEXT_PUBLIC_imageURL + ele.images[0]} alt="샘플이미지" />
+                                    <div>
+                                        <div>
+                                            <span style={{ fontWeight: 600, fontSize: '1rem' }}>
+                                                {ele.assistant.name}
+                                            </span>{' '}
+                                            <span style={{ fontWeight: 200, fontSize: '0.9rem' }}>
+                                                &nbsp;{ele.location}
+                                            </span>
+                                        </div>
+                                        <div>{ele.greetings}</div>
+                                        <div style={{ fontWeight: 700 }}>{ele.wage}원 / 시간</div>
+                                    </div>
+                                </a>
+                            </Link>
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -65,10 +83,21 @@ const Wrapper = styled.div`
     .swiper-container .swiper-wrapper .swiper-slide {
         cursor: pointer;
         padding: 0;
+
+        @media ${(props) => props.theme.tablet} {
+            max-height: 50rem;
+        }
+        @media ${(props) => props.theme.mobile} {
+            max-height: 15rem;
+        }
+    }
+    /* @media screen and (max-width: 1023px) {
+        max-height: 50rem;
+        object-position: center top;
     }
     @media screen and ${(props) => props.theme.tablet} {
         height: 720px;
-    }
+    } */
 `;
 const Img = styled.img`
     background-position: center center;
@@ -78,9 +107,13 @@ const Img = styled.img`
     width: 100%;
     border-radius: 3%;
     margin-bottom: 30px;
-    @media screen and ${(props) => props.theme.tablet} {
-        height: 85%;
+    @media screen and (max-width: 1023px) {
+        max-height: 40rem;
+        object-position: center top;
     }
+    /* @media screen and ${(props) => props.theme.tablet} {
+        height: 85%;
+    } */
 `;
 
 const Header = styled.div`

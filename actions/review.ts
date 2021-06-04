@@ -41,12 +41,11 @@ export const loadMoreReviewsFailure = (error: string) => ({
     error,
 });
 
-export const addReviewRequest = (orderId: string, starRating: number | null, content: string, accessToken: string) => ({
+export const addReviewRequest = (orderId: string, starRating: number | null, content: string) => ({
     type: ADD_REVIEW_REQUEST,
     orderId,
     starRating,
     content,
-    accessToken,
 });
 export const addReviewSuccess = (review: Review) => ({
     type: ADD_REVIEW_SUCCESS,

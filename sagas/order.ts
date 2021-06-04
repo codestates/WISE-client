@@ -39,7 +39,6 @@ function addOrderAPI(data: OrderReq, accessToken: string) {
 
 function* addOrder(action: ReturnType<typeof addOrderRequest>) {
     try {
-        // TODO: 로그인을 안했는데도 firebase에서 액세스 토큰을 가져와서 요청에 성공한다!?!
         const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.data, accessToken);
         yield put(addOrderSuccess(result.data.order));

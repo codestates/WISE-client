@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Checkbox, Radio, RadioChangeEvent, Select } from 'antd';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
@@ -22,11 +22,6 @@ import {
     Image,
 } from '../style/style';
 import { AVAILABLEDAYS, SEOULCITY } from '../../utils/data';
-
-type availableDay = {
-    label: string;
-    value: string;
-};
 
 const AssistantModify = () => {
     const dispatch = useDispatch();

@@ -17,6 +17,7 @@ import {
     addReviewSuccess,
     ADD_REVIEW_REQUEST,
 } from '../actions/review';
+import { getFirebaseToken } from '../firebase';
 import { Review } from '../interfaces/data/review';
 
 function loadFirstReviewsAPI(serviceId: string) {
@@ -70,12 +71,13 @@ function addReviewAPI(orderId: string, starRating: number | null, content: strin
 
 function* addReview(action: ReturnType<typeof addReviewRequest>) {
     try {
+        const accessToken: string = yield call(getFirebaseToken);
         const result: AxiosResponse<{ review: Review }> = yield call(
             addReviewAPI,
             action.orderId,
             action.starRating,
             action.content,
-            action.accessToken,
+            accessToken,
         );
         yield put(addReviewSuccess(result.data.review));
     } catch (err) {

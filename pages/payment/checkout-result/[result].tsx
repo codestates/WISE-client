@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { END } from 'redux-saga';
 import nookies from 'nookies';
 import { useSelector } from 'react-redux';
-import { WarningBox, ActionButton } from '../../../components/style/style';
+import { WarningBox } from '../../../components/style/style';
 import Layout from '../../../layout/Layout';
 import PaymentResult from '../../../components/payment/PaymentResult';
 import { loadNotificationsRequest } from '../../../actions/notifications';
@@ -48,7 +48,7 @@ const Payment = () => {
                                 <a>
                                     <ExclamationCircleOutlined />
                                     <div style={{ fontSize: '1rem' }}>{result.error_msg}</div>
-                                    <ActionButton>홈으로 돌아가기</ActionButton>
+                                    <WithdrawlBtn>홈으로 돌아가기</WithdrawlBtn>
                                 </a>
                             </Link>
                         </WarningBox>
@@ -66,6 +66,14 @@ const Payment = () => {
     );
 };
 
+const WithdrawlBtn = styled.div`
+    font-size: 0.9rem;
+    width: 100%;
+    color: #aaa;
+    text-align: center;
+    margin-top: 1rem;
+`;
+
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);
     if (cookies.userId && cookies.token) {
@@ -79,10 +87,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
             },
         };
     }
+
     // 결제금액이 위변조되지는 않았는지 확인하고나서 결제 성공 여부를 결정하기 위해 서버에 요청을 날림
-    const result = context.params;
+    const result = context.query;
     if (result) {
-        context.store.dispatch(checkoutRequest(result.orderId, result.imp_uid));
+        context.store.dispatch(checkoutRequest(result.orderId, result.imp_uid, cookies.token));
         context.store.dispatch(loadOrderInfoRequest(result.orderId, cookies.token));
     }
 

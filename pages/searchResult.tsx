@@ -7,7 +7,6 @@ import { loadNotificationsRequest } from '../actions/notifications';
 import { loadSearchServicesRequest } from '../actions/service';
 import { loadProfileRequest } from '../actions/user';
 import SearchBar from '../components/home/SearchBar';
-import SearchSection from '../components/home/SearchSection';
 
 import Layout from '../layout/Layout';
 

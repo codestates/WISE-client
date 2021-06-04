@@ -25,6 +25,8 @@ import { loadNotificationsRequest } from '../../../actions/notifications';
 import { loadProfileRequest } from '../../../actions/user';
 import ResponsiveSummary from '../../../components/ServiceDetail/ResponsiveSummary';
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_backUrl;
+
 const Global = createGlobalStyle`
     footer {
         padding: 2rem 0;
@@ -114,9 +116,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
         context.store.dispatch(loadNotificationsRequest(cookies.userId, cookies.token));
     }
     if (context.params?.serviceId) {
-        const result = await axios.get(
-            `http://localhost:5000/api/v1/services/schedule?serviceId=${context.params?.serviceId}`,
-        );
+        const result = await axios.get(`api/v1/services/schedule?serviceId=${context.params?.serviceId}`);
         context.store.dispatch(loadServiceSchedule(result.data));
         context.store.dispatch(loadServiceInfoRequest(context.params?.serviceId));
     }

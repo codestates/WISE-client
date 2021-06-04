@@ -18,7 +18,6 @@ const NotificationModal = ({ onClose }: Props) => {
     // 알림 확인버튼 누르면 isChecked로 변경 요청
     const handleCheckNotification = useCallback(
         (notificationId) => {
-            console.log(notificationId);
             dispatch(checkNotificationRequest(notificationId));
             console.log('go dispatch!');
         },

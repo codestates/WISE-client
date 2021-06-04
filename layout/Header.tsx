@@ -226,7 +226,7 @@ const Email = styled.div`
     margin-bottom: 3%;
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ visible?: boolean }>`
     width: 100vw;
     height: 2000px;
     background: #fff;
@@ -243,7 +243,7 @@ const ProfileBox = styled.div`
     color: #fff;
 `;
 
-const HamburgerButton = styled.div`
+const HamburgerButton = styled.div<{ visible?: boolean }>`
     transition: 0.3s ease-in-out;
     width: 22px;
     height: 62px;
@@ -288,8 +288,8 @@ const Avatar = styled.img`
     margin-right: 5px;
 
     @media ${(props) => props.theme.mobile} {
-        height: 6rem;
-        width: 6rem;
+        height: 4rem;
+        width: 4rem;
         margin-left: 11%;
         margin-top: 11%;
         margin-bottom: 7%;
@@ -331,7 +331,6 @@ const Logo = styled.img`
 `;
 
 const UserTap = styled.div`
-    // border: 1px solid black;
     width: 400px;
     display: flex;
     justify-content: space-between;

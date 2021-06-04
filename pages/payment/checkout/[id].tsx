@@ -12,7 +12,7 @@ import { RootState } from '../../../reducers/index';
 import Loading from '../../../components/Loading';
 import OrderItem from '../../../components/payment/OrderItem';
 import ReservationInfo from '../../../components/reservation/ReservationInfo';
-import { WarningBox, ActionButton } from '../../../components/style/style';
+import { WarningBox } from '../../../components/style/style';
 import Layout from '../../../layout/Layout';
 import { loadOrderInfoRequest } from '../../../actions/order';
 import { loadServiceInfoRequest } from '../../../actions/service';
@@ -51,7 +51,7 @@ const Payment = () => {
                                 <a>
                                     <ExclamationCircleOutlined />
                                     <div style={{ fontSize: '1rem' }}>이미 결제가 완료된 서비스입니다.</div>
-                                    <ActionButton>홈으로 돌아가기</ActionButton>
+                                    <WithdrawlBtn>홈으로 돌아가기</WithdrawlBtn>
                                 </a>
                             </Link>
                         </WarningBox>
@@ -93,6 +93,14 @@ const Payment = () => {
         </>
     );
 };
+
+const WithdrawlBtn = styled.div`
+    font-size: 0.9rem;
+    width: 100%;
+    color: #aaa;
+    text-align: center;
+    margin-top: 1rem;
+`;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
     const cookies = nookies.get(context);

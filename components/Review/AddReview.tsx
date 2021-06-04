@@ -19,7 +19,6 @@ type Props = {
 
 const AddReview = ({ order }: Props) => {
     const dispatch = useDispatch();
-    const { accessToken } = useSelector((state: RootState) => state.user);
     const { addReviewDone, addReviewError, review } = useSelector((state: RootState) => state.review);
     const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
@@ -36,9 +35,9 @@ const AddReview = ({ order }: Props) => {
     const handleAddReview = useCallback(
         (e) => {
             e.preventDefault();
-            dispatch(addReviewRequest(order._id, ratingValue, content, accessToken));
+            dispatch(addReviewRequest(order._id, ratingValue, content));
         },
-        [accessToken, content, dispatch, order._id, ratingValue],
+        [content, dispatch, order._id, ratingValue],
     );
 
     // result modal
@@ -46,7 +45,7 @@ const AddReview = ({ order }: Props) => {
 
     // POST notification
     const onCloseModal = useCallback(() => {
-        if (addReviewDone && review) {
+        if (review) {
             const notification = {
                 recipient: order.assistant._id,
                 subject: order._id,
@@ -57,30 +56,17 @@ const AddReview = ({ order }: Props) => {
             console.log('notification sent!');
 
             setShowModal(false);
-        } else if (addReviewError) {
+        } else {
             setShowModal(false);
         }
-    }, [addReviewDone, addReviewError, dispatch, order._id, order.assistant._id, review]);
-
-    // useEffect(() => {
-    //     if (order && addReviewDone) {
-    //         const notification = {
-    //             recipient: order.assistant._id,
-    //             subject: order._id,
-    //             clientUrl: `/service/detail/${review.service}`,
-    //             content: '새로운 후기가 1건 올라왔어요',
-    //         };
-    //         dispatch(addNotificationRequest(notification, accessToken));
-    //         console.log('notification sent!');
-    //     }
-    // }, [accessToken, dispatch, order, addReviewDone, review]);
+    }, [dispatch, order._id, order.assistant._id, review]);
 
     useEffect(() => {
         if (addReviewDone || addReviewError) {
             setShowModal(true);
             console.log('modal open!');
         }
-    }, [addNotificationDone, addReviewDone, addReviewError]);
+    }, [addReviewDone, addReviewError]);
 
     return (
         <Wrapper>
@@ -122,7 +108,11 @@ const AddReview = ({ order }: Props) => {
                 <ResultModal
                     onClose={onCloseModal}
                     title="후기 남기기"
-                    message="새로운 로그인이 필요합니다"
+                    message={
+                        addReviewError === 'Request failed with status code 403'
+                            ? '이미 작성하신 리뷰가 있습니다'
+                            : '새로운 로그인이 필요합니다'
+                    }
                     redirection="signin"
                 />
             )}

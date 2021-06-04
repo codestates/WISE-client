@@ -183,6 +183,10 @@ const Text = styled.div`
 
 const Button = styled(ActionButton)`
     height: 3.4rem;
+    background: ${(props) => (props.disabled ? '#ccc' : null)};
+    &:hover {
+        transform: none;
+    }
 `;
 
 export default Summary;
