@@ -29,11 +29,12 @@ const Welcome = () => {
             <>
                 <AuthGlobal />
                 <CoverImg />
+                <ResponsiveCoverImg src="/images/wise_mobile_bg.png" />
                 <Wrapper>
                     <div>
                         <h2>환영합니다!</h2>
                         <p>
-                            안녕하세요, {me?.name}회원님.
+                            안녕하세요, <strong>{me?.name}</strong> 회원님
                             <br />
                             WISE를 이용해 주셔서 감사합니다.
                             <br />
@@ -45,7 +46,10 @@ const Welcome = () => {
                             <LinkBtn home>홈으로가기</LinkBtn>
                         </Link>
                         <Link href="/assistant/register">
-                            <LinkBtn>어시스턴트 등록하기</LinkBtn>
+                            <LinkBtn>
+                                어시스턴트 <br />
+                                등록하기
+                            </LinkBtn>
                         </Link>
                     </Linker>
                 </Wrapper>
@@ -72,13 +76,32 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 });
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 30vh;
-    margin-top: 13rem;
+    margin-top: 10rem;
+    @media ${(props) => props.theme.mobile} {
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+    }
+`;
+
+const ResponsiveCoverImg = styled.img`
+    display: none;
+
+    @media ${(props) => props.theme.mobile} {
+        display: block;
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        position: absolute;
+        z-index: -1;
+    }
 `;
 
 const Linker = styled.div`
@@ -92,8 +115,10 @@ const LinkBtn = styled.div<{ home?: boolean }>`
     height: 5rem;
     text-align: center;
     border-radius: 5rem;
-    background-color: ${(props) => (props.home ? '#68d480' : 'white')};
-    padding-top: ${(props) => (props.home ? '2rem' : '1rem')};
+    background-color: ${(props) => (props.home ? '#68d480' : '#fff')};
+    color: ${(props) => (props.home ? '#fff' : '#191919')};
+    padding-top: ${(props) => (props.home ? '1.8rem' : '1rem')};
+    font-weight: 500;
     box-shadow: 0 0.2rem 0.3rem 0.1rem rgba(85, 85, 85, 0.25);
     cursor: pointer;
 `;

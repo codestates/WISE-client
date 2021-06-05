@@ -134,12 +134,13 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 
 const ResponsiveTap = styled.div`
     padding: 3rem 0;
-    flexgrow: 1;
+    flex-grow: 1;
     @media screen and (max-width: 430px) {
         font-size: 0.8rem;
     }
     @media ${(props) => props.theme.mobile} {
         max-height: 30rem;
+        padding: 3rem 1rem;
     }
 `;
 

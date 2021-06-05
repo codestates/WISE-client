@@ -61,7 +61,6 @@ const PopularSection = () => {
 };
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     margin-bottom: 5rem;
     width: 100%;
     height: 340px;
@@ -85,6 +84,15 @@ const Wrapper = styled.div`
             max-height: 15rem;
         }
     }
+    .swiper-button-prev,
+    .swiper-button-next {
+        top: 35%;
+        color: ${(props) => props.theme.mainColor};
+    }
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 2rem;
+    }
 `;
 const Img = styled.img`
     background-position: center center;
@@ -96,15 +104,18 @@ const Img = styled.img`
     margin-bottom: 30px;
     @media screen and (max-width: 1023px) {
         max-height: 40rem;
+        height: 250px;
+    }
+    @media ${(props) => props.theme.mobile} {
+        height: 200px;
     }
 `;
 
 const Header = styled.div`
-    // border: 1px solid black;
     font-weight: bolder;
-    font-size: 2rem;
+    font-size: 1.4rem;
     height: 2.5rem;
-    margin-bottom: 2.7rem;
+    margin-bottom: 2rem;
 `;
 
 export default PopularSection;

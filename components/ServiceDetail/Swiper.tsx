@@ -61,6 +61,14 @@ const Wrapper = styled.div`
             width: 100%;
         }
     }
+    .swiper-button-prev,
+    .swiper-button-next {
+        color: ${(props) => props.theme.mainColor};
+    }
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 2rem;
+    }
 `;
 
 export default SwiperContainer;

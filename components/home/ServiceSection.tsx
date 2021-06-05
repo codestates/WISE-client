@@ -39,15 +39,13 @@ const ServiceSection = ({ title, searchQuery }: ServiceSectionProps) => {
     );
 };
 const Header = styled.div`
-    // border: 1px solid black;
     font-weight: bolder;
     font-size: 1.4rem;
     height: 2.5rem;
-    margin-bottom: 4%;
+    margin-bottom: 2rem;
 `;
 
 const Wrapper = styled.div`
-    // border: 1px solid red;
     width: 100%;
     margin: 0 auto;
     display: grid;

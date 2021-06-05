@@ -97,11 +97,14 @@ const Wrapper = styled.div`
 
 const Search = styled.div`
     margin: 1rem 0 0 1rem;
+    @media ${(props) => props.theme.mobile} {
+        margin: 1rem 0;
+    }
 `;
 
 const Header = styled.span`
     font-weight: 800;
-    font-size: 2rem;
+    font-size: 1.4rem;
     height: 2.5rem;
     margin-bottom: 1rem;
     margin-top: 2.7rem;

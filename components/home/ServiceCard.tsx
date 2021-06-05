@@ -45,19 +45,23 @@ const ServiceImg = styled.img`
     height: 63%;
     border-radius: 3%;
     margin-bottom: 30px;
+
     @media screen and (${(props) => props.theme.tablet}) {
-        height: 90%;
+        height: 250px;
+    }
+    @media ${(props) => props.theme.mobile} {
+        height: 200px;
     }
 `;
 
 const Container = styled.div`
-    // border: 1px solid yellow;
     height: 340px;
     display: flex;
     flex-direction: column;
     min-width: 100%;
     margin-bottom: 2rem;
     cursor: pointer;
+
     @media screen and (${(props) => props.theme.tablet}) {
         height: 420px;
     }
