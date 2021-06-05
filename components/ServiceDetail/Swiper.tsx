@@ -37,20 +37,18 @@ const SwiperContainer = ({ service }: Props) => {
 
 const Wrapper = styled.div`
     margin-left: 5%;
-    /* width: 90%; */
     max-width: 53vw;
     min-height: 30vh;
-    z-index: -1;
     img {
         object-fit: cover;
         height: 28rem;
     }
     @media ${(props) => props.theme.tablet} {
-        text-align: center;
-        max-width: 90%;
-        margin-left: 4%;
+        max-width: 90vw;
         img {
+            object-fit: cover;
             text-align: center;
+            height: 25rem;
         }
     }
 
