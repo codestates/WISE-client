@@ -143,6 +143,13 @@ const Wrapper = styled.div`
         font-size: 2rem;
         cursor: pointer;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        margin: 0;
+        padding: 0;
+        margin-top: -1rem;
+        text-align: center;
+    }
 `;
 
 const ContentWrapper = styled.form`
@@ -150,6 +157,14 @@ const ContentWrapper = styled.form`
     flex-direction: column;
     justify-content: space-between;
     width: 28rem;
+
+    @media ${(props) => props.theme.tablet} {
+        width: 60vw;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 const TextareaWrapper = styled.div`

@@ -73,12 +73,24 @@ const Wrapper = styled.div`
 
 const Body = styled.div`
     display: flex;
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+    }
 `;
 
 const Title = styled.div`
     display: flex;
     align-items: center;
     margin-top: 3rem;
+
+    h1 {
+        margin-bottom: 0;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        font-size: 0.8rem;
+    }
 `;
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
