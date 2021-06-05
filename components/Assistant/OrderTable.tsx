@@ -24,33 +24,26 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
             title: '날짜',
             dataIndex: 'date',
             key: 'date',
-            width: 150,
         },
         {
             title: '고객 이름',
             dataIndex: 'userName',
             key: 'userName',
-            width: 100,
-            ellipsis: true,
         },
         {
             title: '요청사항',
             dataIndex: 'content',
             key: 'content',
-            width: 200,
-            ellipsis: true,
         },
         {
             title: '시간',
             dataIndex: 'time',
             key: 'time',
-            width: 100,
         },
         {
             title: '상태',
             dataIndex: 'state',
             key: 'state',
-            width: 100,
             render: (orderId: string) => (
                 <>
                     {orders[0].state === 'apply' && (

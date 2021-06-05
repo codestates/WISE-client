@@ -201,6 +201,7 @@ const Wrapper = styled.div`
     // padding: 3rem;
     width: 100vw;
     max-width: 1200px;
+    padding: 24px;
     display: flex;
     @media ${(props) => props.theme.mobile} {
         padding: 3.3rem;

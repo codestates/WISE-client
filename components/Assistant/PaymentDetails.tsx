@@ -21,35 +21,27 @@ const PaymentDetails = ({ orders }: PaymentDetailsProps) => {
             title: '주문번호',
             dataIndex: 'orderId',
             key: 'orderId',
-            width: 150,
+            ellipsis: true,
         },
         {
             title: '주문명',
             dataIndex: 'orderName',
             key: 'orderName',
-            width: 160,
-            ellipsis: true,
         },
         {
             title: '결제일',
             dataIndex: 'date',
             key: 'date',
-            width: 150,
-            ellipsis: true,
         },
         {
             title: '어시스턴트 연락처',
             dataIndex: 'mobile',
             key: 'mobile',
-            width: 150,
-            ellipsis: true,
         },
         {
             title: '총 비용',
             dataIndex: 'totalPayment',
             key: 'totalPayment',
-            width: 150,
-            ellipsis: true,
         },
     ];
     return (
