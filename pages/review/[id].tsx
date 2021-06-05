@@ -32,7 +32,7 @@ const Review = () => {
 
     useEffect(() => {
         if (orderInfo) {
-            dispatch(loadServiceInfoRequest(orderInfo.service._id));
+            dispatch(loadServiceInfoRequest(orderInfo.service));
         }
     }, [orderInfo, dispatch]);
 

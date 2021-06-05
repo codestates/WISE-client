@@ -75,6 +75,9 @@ export const RegisterFormWrapper = styled.form`
     display: flex;
     flex-direction: column;
     padding: 0 3rem;
+    @media ${(props) => props.theme.mobile} {
+        padding: 0;
+    }
 `;
 
 export const CancelButton = styled.a`

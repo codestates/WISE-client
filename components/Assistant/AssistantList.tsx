@@ -21,7 +21,7 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
     }, []);
 
     const onClickReview = useCallback((orderId) => {
-        Router.replace(`/payment/checkout/${orderId?._id}`);
+        Router.replace(`/review/${orderId}`);
     }, []);
     return (
         <>
@@ -106,7 +106,6 @@ const Btn = styled.button`
 `;
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     width: 100%;
     height: 340px;
 
@@ -121,6 +120,15 @@ const Wrapper = styled.div`
     .swiper-container .swiper-wrapper .swiper-slide {
         cursor: pointer;
         padding: 0;
+    }
+    .swiper-button-prev,
+    .swiper-button-next {
+        top: 35%;
+        color: ${(props) => props.theme.mainColor};
+    }
+    .swiper-button-prev:after,
+    .swiper-button-next:after {
+        font-size: 2rem;
     }
     @media ${(props) => props.theme.mobile} {
         height: 370px;

@@ -37,7 +37,8 @@ const Payment = () => {
 
     useEffect(() => {
         if (orderInfo) {
-            dispatch(loadServiceInfoRequest(orderInfo.service._id));
+            console.log(orderInfo.service);
+            dispatch(loadServiceInfoRequest(orderInfo.service));
         }
     }, [orderInfo, dispatch]);
 

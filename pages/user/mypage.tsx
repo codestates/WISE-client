@@ -133,7 +133,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 });
 
 const ResponsiveTap = styled.div`
-    padding: 3rem;
+    padding: 3rem 0;
     flex-grow: 1;
 
     @media screen and (max-width: 430px) {
@@ -148,7 +148,7 @@ const ResponsiveNav = styled.div<{ tap?: number }>`
     display: flex;
     justify-content: space-around;
     div {
-        font-size: 1.2rem;
+        font-size: 1rem;
         cursor: pointer;
         @media screen and (max-width: 465px) {
             font-size: 0.8rem;
@@ -177,6 +177,12 @@ const Avatar = styled.img`
     margin-left: 6.5%;
     margin-top: 5.3%;
     margin-right: 3%;
+
+    @media ${(props) => props.theme.mobile} {
+        margin-left: 4%;
+        margin-top: 5.3%;
+        margin-right: 6%;
+    }
 `;
 
 const Wrapper = styled.div`
@@ -188,7 +194,6 @@ const Wrapper = styled.div`
 `;
 
 const NavTap = styled.div<{ tap?: number }>`
-    width: 100%;
     padding: 2.8rem;
     min-width: 250px;
     font-size: 1rem;
