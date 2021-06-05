@@ -139,6 +139,10 @@ const Wrapper = styled.div`
         flex-direction: column;
         margin-bottom: 3rem;
     }
+
+    @media ${(props) => props.theme.mobile} {
+        padding: 2rem 0;
+    }
 `;
 
 const Container = styled.div`
@@ -156,8 +160,12 @@ const Title = styled.div`
 
     @media ${(props) => props.theme.tablet} {
         position: absolute;
-        left: 3rem;
+        left: 16%;
         top: 3rem;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        left: 5%;
     }
 `;
 
