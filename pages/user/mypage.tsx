@@ -134,7 +134,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 
 const ResponsiveTap = styled.div`
     padding: 3rem;
-    flexgrow: 1;
+    flex-grow: 1;
     @media screen and (max-width: 430px) {
         font-size: 0.8rem;
     }
@@ -143,7 +143,7 @@ const ResponsiveTap = styled.div`
     }
 `;
 
-const ResponsiveNav = styled.div`
+const ResponsiveNav = styled.div<{ tap?: number }>`
     display: flex;
     justify-content: space-around;
     div {
@@ -179,7 +179,6 @@ const Avatar = styled.img`
 `;
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     // padding: 3rem;
     width: 100vw;
     padding: 24px;
@@ -187,9 +186,7 @@ const Wrapper = styled.div`
     display: flex;
 `;
 
-const NavTap = styled.div`
-    // border: 1px solid black;
-
+const NavTap = styled.div<{ tap?: number }>`
     width: 100%;
     padding: 2.8rem;
     min-width: 250px;
@@ -215,7 +212,6 @@ const NavTap = styled.div`
 `;
 
 const Tap = styled.div`
-    // border: 1px solid black;
     margin-top: 3rem;
     padding: 4rem;
     max-width: 80%;
@@ -226,7 +222,6 @@ const Tap = styled.div`
 `;
 
 const UserInfo = styled.div`
-    // border: 1px solid black;
     .userName {
         font-size: 1.5rem;
         font-weight: bold;
@@ -255,7 +250,6 @@ const UserInfo = styled.div`
 `;
 
 const Nav = styled.div`
-    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     div {

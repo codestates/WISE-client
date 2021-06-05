@@ -150,10 +150,10 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
 });
 
 const ResponsiveTap = styled.div`
-    flexgrow: 1;
+    flex-grow: 1;
 `;
 
-const ResponsiveNav = styled.div`
+const ResponsiveNav = styled.div<{ tap?: number }>`
     display: flex;
     justify-content: space-around;
     div {
@@ -198,7 +198,6 @@ const Responsive = styled.div`
 `;
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     // padding: 3rem;
     width: 100vw;
     max-width: 1200px;
@@ -209,8 +208,7 @@ const Wrapper = styled.div`
     }
 `;
 
-const NavTap = styled.div`
-    // border: 1px solid black;
+const NavTap = styled.div<{ tap?: number }>`
     width: 250px;
     height: 60vh;
     padding: 3rem;

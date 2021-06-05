@@ -17,7 +17,6 @@ export const CoverImg = styled.img.attrs({
 `;
 
 export const Modal = styled.div`
-    // border: 1px solid black;
     background: #ffffff;
     width: 30rem;
     border-radius: 30px;

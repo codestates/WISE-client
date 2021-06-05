@@ -20,7 +20,6 @@ type Props = {
 const AddReview = ({ order }: Props) => {
     const dispatch = useDispatch();
     const { addReviewDone, addReviewError, review } = useSelector((state: RootState) => state.review);
-    const { addNotificationDone } = useSelector((state: RootState) => state.notifications);
 
     // star rating
     const [ratingValue, setRatingValue] = useState<number | null>(1);
