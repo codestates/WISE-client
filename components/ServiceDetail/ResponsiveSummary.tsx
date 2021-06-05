@@ -74,12 +74,12 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
             return true;
         }
         if (checkDay(moment(current).format('dddd'))) {
-            return true;
+            return false;
         }
         if (checkOrder(moment(current).format('YYYY-MM-DD'))) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     };
     return (
         <>
