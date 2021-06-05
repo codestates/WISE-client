@@ -109,6 +109,7 @@ const Profile = styled.div`
     margin-bottom: 1rem;
     img {
         width: 3.2rem;
+        height: 3.2rem;
         margin-right: 1rem;
         align-self: center;
         border-radius: 2rem;

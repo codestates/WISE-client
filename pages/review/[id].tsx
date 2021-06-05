@@ -94,7 +94,7 @@ const Title = styled.div`
     }
 
     @media ${(props) => props.theme.mobile} {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 `;
 
