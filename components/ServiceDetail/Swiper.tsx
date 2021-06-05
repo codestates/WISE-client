@@ -15,6 +15,8 @@ SwiperCore.use([Navigation]);
 type Props = {
     service: Service;
 };
+
+// TODO: 이미지 carousel 다시 확인
 const SwiperContainer = ({ service }: Props) => {
     const IMAGE_URL = process.env.NEXT_PUBLIC_imageURL;
 

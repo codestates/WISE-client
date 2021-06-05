@@ -50,7 +50,7 @@ const PaymentResult = ({ result }: Props) => {
             const notification = {
                 recipient: orderInfo.assistant._id,
                 subject: orderInfo._id,
-                clientUrl: `/user/mypage`,
+                clientUrl: `/assistant/center`,
                 content: `${orderInfo.customer.name}님이 결제를 완료하셨습니다.`,
             };
             dispatch(addNotificationRequest(notification));

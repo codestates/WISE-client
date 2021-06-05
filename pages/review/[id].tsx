@@ -69,6 +69,11 @@ const Wrapper = styled.div`
     align-items: center;
     height: 100%;
     padding: 3rem;
+
+    @media ${(props) => props.theme.mobile} {
+        padding: 0;
+        padding-bottom: 3rem;
+    }
 `;
 
 const Body = styled.div`
