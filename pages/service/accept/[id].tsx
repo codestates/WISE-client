@@ -106,11 +106,27 @@ const Wrapper = styled.div`
         text-align: center;
         font-weight: 700;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        flex-direction: column;
+        margin-top: 4rem;
+    }
 `;
 
 const Divide = styled.div`
     border-right: 1px solid #ddd;
     height: 100%;
+
+    @media ${(props) => props.theme.tablet} {
+        width: 60vw;
+        margin: 2rem auto 1rem;
+        border-right: 0;
+        border-bottom: 1px solid #ddd;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 export default ReservationAccept;

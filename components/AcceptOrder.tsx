@@ -181,6 +181,19 @@ const Wrapper = styled.div`
         font-size: 2rem;
         cursor: pointer;
     }
+
+    @media ${(props) => props.theme.tablet} {
+        padding: 0 3rem 3rem;
+        width: 70vw;
+        margin: 0 auto;
+        margin-top: 2rem;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+        padding-left: 0;
+        padding-right: 0;
+    }
 `;
 
 const Title = styled.div`
@@ -195,6 +208,16 @@ const Title = styled.div`
         font-size: 1rem;
         margin-top: 0.2rem;
         font-weight: 500;
+    }
+
+    @media ${(props) => props.theme.tablet} {
+        position: absolute;
+        top: 3rem;
+        left: 19%;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        left: 8%;
     }
 `;
 
