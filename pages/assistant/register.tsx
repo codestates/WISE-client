@@ -10,7 +10,6 @@ import { loadProfileRequest } from '../../actions/user';
 import { loadNotificationsRequest } from '../../actions/notifications';
 import wrapper from '../../store/configureStore';
 import { RootState } from '../../reducers';
-import Loading from '../../components/Loading';
 import ResultModal from '../../components/ResultModal';
 
 const Global = createGlobalStyle`

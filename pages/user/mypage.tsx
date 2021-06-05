@@ -144,7 +144,6 @@ const ResponsiveTap = styled.div`
     }
 `;
 
-
 const ResponsiveNav = styled.div<{ tap?: number }>`
     display: flex;
     justify-content: space-around;
@@ -187,7 +186,6 @@ const Wrapper = styled.div`
     max-width: 1248px;
     display: flex;
 `;
-
 
 const NavTap = styled.div<{ tap?: number }>`
     width: 100%;
