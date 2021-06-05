@@ -42,11 +42,10 @@ const ServiceImg = styled.img`
     background-position: center center;
     object-fit: cover;
     overflow: hidden;
-    height: 63%;
+    height: 59%;
     border-radius: 3%;
     margin-bottom: 30px;
-
-    @media screen and (${(props) => props.theme.tablet}) {
+    @media screen and (max-width: 1023px) {
         height: 250px;
     }
     @media ${(props) => props.theme.mobile} {
@@ -55,7 +54,7 @@ const ServiceImg = styled.img`
 `;
 
 const Container = styled.div`
-    height: 340px;
+    height: 360px;
     display: flex;
     flex-direction: column;
     min-width: 100%;
