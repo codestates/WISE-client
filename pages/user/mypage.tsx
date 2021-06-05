@@ -196,7 +196,8 @@ const Wrapper = styled.div`
 const NavTap = styled.div<{ tap?: number }>`
     padding: 2.8rem;
     min-width: 250px;
-    font-size: 1rem;
+    max-height: 560px;
+    font-size: 1.1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

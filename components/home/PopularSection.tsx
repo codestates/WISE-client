@@ -61,9 +61,9 @@ const PopularSection = () => {
 };
 
 const Wrapper = styled.div`
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
     width: 100%;
-    height: 340px;
+    height: 365px;
 
     .swiper-container {
         height: 100%;
