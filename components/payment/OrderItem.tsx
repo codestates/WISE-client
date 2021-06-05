@@ -45,6 +45,10 @@ const Wrapper = styled.div`
     @media ${(props) => props.theme.tablet} {
         width: 60vw;
     }
+
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 const Divide = styled.div`
