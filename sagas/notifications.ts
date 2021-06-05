@@ -14,6 +14,8 @@ import {
     LOAD_NOTIFICATIONS_REQUEST,
     checkNotificationRequest,
     CHECK_NOTIFICATION_REQUEST,
+    checkNotificationSuccess,
+    checkNotificationFailure,
 } from '../actions/notifications';
 import { getFirebaseToken } from '../firebase';
 import { NotificationData, Notification } from '../interfaces/data/notifications';
@@ -85,9 +87,9 @@ function* checkNotification(action: ReturnType<typeof checkNotificationRequest>)
             action.notificationId,
             accessToken,
         );
-        yield put(addNotificationSuccess(result.data.notification));
+        yield put(checkNotificationSuccess(result.data.notification));
     } catch (err) {
-        yield put(addNotificationFailure(err.message));
+        yield put(checkNotificationFailure(err.message));
     }
 }
 

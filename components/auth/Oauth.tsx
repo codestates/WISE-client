@@ -15,12 +15,22 @@ const Oauth = () => {
     return (
         <Wrapper>
             <SigninButton name="google" type="button" onClick={OauthLogin}>
-                <GoogleOutlined />
-                oogle 계정으로 계속하기
+                <span className="google">
+                    <GoogleOutlined />
+                    <span>o</span>
+                    <span>o</span>
+                    <span>g</span>
+                    <span>l</span>
+                    <span>e</span>
+                </span>
+                계정으로 계속하기
             </SigninButton>
             <SigninButton name="facebook" type="button" onClick={OauthLogin}>
-                <FacebookOutlined />
-                acebook 계정으로 계속하기
+                <span className="facebook">
+                    <FacebookOutlined />
+                    acebook
+                </span>
+                계정으로 계속하기
             </SigninButton>
         </Wrapper>
     );
@@ -48,6 +58,25 @@ const SigninButton = styled.button`
     @media ${(props) => props.theme.mobile} {
         width: 60vw;
         align-self: center;
+    }
+    .facebook {
+        color: #3b5998;
+    }
+    .google {
+        & > span:nth-child(1),
+        & > span:nth-child(4) {
+            color: #4285f4;
+        }
+        & > span:nth-child(2),
+        & > span:nth-child(6) {
+            color: #ea4335;
+        }
+        & > span:nth-child(3) {
+            color: #fbbc05;
+        }
+        & > span:nth-child(5) {
+            color: #34a853;
+        }
     }
 `;
 

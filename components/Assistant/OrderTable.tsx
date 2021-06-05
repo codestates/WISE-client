@@ -56,6 +56,7 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
                         </ActionBtn>
                     )}
                     {orders[0].state === 'accept' && <ActionBtn disabled>결제대기중</ActionBtn>}
+                    {orders[0].state === 'complete' && <ActionBtn disabled>매칭완료</ActionBtn>}
                 </>
             ),
         },

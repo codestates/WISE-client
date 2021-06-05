@@ -11,7 +11,7 @@ type ServiceSectionProps = {
 };
 
 const ServiceSection = ({ title, searchQuery }: ServiceSectionProps) => {
-    const { totalServices, searchServices } = useSelector((state: RootState) => state.service);
+    const { totalServices, searchServices, loadSearchServicesDone } = useSelector((state: RootState) => state.service);
 
     return (
         <>
@@ -32,7 +32,7 @@ const ServiceSection = ({ title, searchQuery }: ServiceSectionProps) => {
                             ))}
                         </>
                     ) : (
-                        <div>검색결과가 없습니다.</div>
+                        <>{loadSearchServicesDone && <div>검색결과가 없습니다.</div>}</>
                     ))}
             </Wrapper>
         </>

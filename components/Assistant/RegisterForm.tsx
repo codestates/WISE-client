@@ -207,7 +207,12 @@ const RegisterForm = () => {
                 </InputWrapper>
                 <InputWrapper>
                     <span>✅서비스 소개</span>
-                    <textarea onChange={onChangeDescription} placeholder="서비스설명" required />
+                    <textarea
+                        style={{ height: '5rem' }}
+                        onChange={onChangeDescription}
+                        placeholder="서비스설명"
+                        required
+                    />
                 </InputWrapper>
                 <InputWrapper>
                     <span>✅계좌 번호</span>

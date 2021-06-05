@@ -138,9 +138,17 @@ export const loadTotalServicesFailure = (error: string) => ({
 });
 
 // 검색 서비스 조희
-export const loadSearchServicesRequest = (query: Query) => ({
+export const loadSearchServicesRequest = (
+    location: string | string[],
+    date: string | string[],
+    time: string | string[],
+    page: number,
+) => ({
     type: LOAD_SEARCH_SERVICES_REQUEST,
-    query,
+    location,
+    date,
+    time,
+    page,
 });
 
 export const loadSearchServicesSuccess = (

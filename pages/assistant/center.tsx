@@ -41,10 +41,16 @@ const Center = () => {
         <Layout title="WISE | MYPAGE">
             <Wrapper>
                 <NavTap tap={tap}>
-                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'center' }}>어시스턴트 센터</div>
+                    <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>어시스턴트 센터</div>
                     {myService && (
                         <img
-                            style={{ width: '150px', height: '120px', borderRadius: '5px' }}
+                            style={{
+                                width: '150px',
+                                height: '120px',
+                                borderRadius: '5px',
+                                marginBottom: '2rem',
+                                objectFit: 'cover',
+                            }}
                             src={process.env.NEXT_PUBLIC_imageURL + myService.images[0]}
                             alt="assistantImg"
                         />

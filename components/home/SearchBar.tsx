@@ -4,38 +4,29 @@ import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../reducers';
-import { loadSearchServicesRequest } from '../../actions/service';
 import { SEOULCITY } from '../../utils/data';
 
 const SearchBar = () => {
     const router = useRouter();
-    const dispatch = useDispatch();
 
     const { searchQuery } = useSelector((state: RootState) => state.service);
 
-    const [location, setLocation] = useState(searchQuery?.location || '');
-    const [date, setDate] = useState(searchQuery?.date || '');
-    const [time, setTime] = useState(searchQuery?.time || 'am');
+    const [location, setLocation] = useState(router.query?.location || '');
+    const [date, setDate] = useState(router.query?.date || '');
+    const [time, setTime] = useState(router.query?.time || '');
 
     const onChangeLocation = useCallback((value: string) => {
         setLocation(value);
     }, []);
 
     const onSearch = useCallback(() => {
-        console.log(`location : ${location}, date : ${date}, time : ${time}`);
-        dispatch(
-            loadSearchServicesRequest({
-                location,
-                date,
-                time,
-                page: 1,
-            }),
-        );
-        router.push('/searchResult');
-    }, [location, date, time, dispatch, router]);
+        if (!location || !date || !time) {
+            return;
+        }
+        router.push(`/searchResult?location=${location}&date=${date}&time=${time}`);
+    }, [location, date, time, router]);
 
     const onChangeDate = useCallback((_, dateString: string) => {
         setDate(dateString);
@@ -52,26 +43,30 @@ const SearchBar = () => {
             <Header>어시스턴트 찾기</Header>
             <div style={{ fontSize: '1rem' }}>&nbsp;함께 동행할 숙련된 어시스턴트를 찾아보세요</div>
             <Search>
-                <Select
-                    onChange={onChangeLocation}
-                    showSearch
-                    style={{ width: '150px', borderRadius: '1rem' }}
-                    placeholder="위치 입력"
-                    optionFilterProp="children"
-                    value={searchQuery?.location}
-                >
-                    {SEOULCITY.map((ele) => (
-                        <Select.Option key={ele} value={ele}>
-                            {ele}
-                        </Select.Option>
-                    ))}
-                </Select>
-                <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
-                <Radio.Group onChange={onChangeTime} size="middle">
-                    <Radio.Button value="am">오전</Radio.Button>
-                    <Radio.Button value="pm">오후</Radio.Button>
-                </Radio.Group>
-                <Button shape="circle" icon={<SearchOutlined />} onClick={onSearch} />
+                <div>
+                    <Select
+                        onChange={onChangeLocation}
+                        showSearch
+                        style={{ width: '150px', borderRadius: '1rem' }}
+                        placeholder="위치 입력"
+                        optionFilterProp="children"
+                        value={searchQuery?.location}
+                    >
+                        {SEOULCITY.map((ele) => (
+                            <Select.Option key={ele} value={ele}>
+                                {ele}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                    <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
+                </div>
+                <div>
+                    <Radio.Group onChange={onChangeTime} size="middle">
+                        <Radio.Button value="am">오전</Radio.Button>
+                        <Radio.Button value="pm">오후</Radio.Button>
+                    </Radio.Group>
+                    <Button shape="circle" icon={<SearchOutlined />} onClick={onSearch} />
+                </div>
             </Search>
         </Wrapper>
     );
@@ -97,8 +92,12 @@ const Wrapper = styled.div`
 
 const Search = styled.div`
     margin: 1rem 0 0 1rem;
+    display: flex;
     @media ${(props) => props.theme.mobile} {
         margin: 1rem 0;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 5rem;
     }
 `;
 

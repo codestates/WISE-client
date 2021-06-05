@@ -15,19 +15,19 @@ import { Notification } from '../interfaces/data/notifications';
 const Header = () => {
     const dispatch = useDispatch();
     const { me } = useSelector((state: RootState) => state.user);
-    const { notifications } = useSelector((state: RootState) => state.notifications);
+    const { notifications, checkNotificationDone } = useSelector((state: RootState) => state.notifications);
     const [showModal, setShowModal] = useState(false);
     const [unchecked, setUnchecked] = useState(0);
     const [isVisible, setVisible] = useState(false);
 
     useEffect(() => {
-        if (notifications) {
+        if (notifications || checkNotificationDone) {
             const uncheckedNotifications = notifications.filter(
                 (notification: Notification) => !notification.isChecked,
             ).length;
             setUnchecked(uncheckedNotifications);
         }
-    }, [notifications]);
+    }, [notifications, checkNotificationDone]);
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);

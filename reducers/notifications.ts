@@ -63,11 +63,15 @@ const reducer = (state = initialState, action: NotificationsAction) =>
                 draft.checkNotificationDone = false;
                 draft.checkNotificationError = null;
                 break;
-            case CHECK_NOTIFICATION_SUCCESS:
+            case CHECK_NOTIFICATION_SUCCESS: {
                 draft.checkNotificationLoading = false;
                 draft.checkNotificationDone = true;
-                // TODO: notifications update
+                const notification = draft.notifications.find((v) => v._id === action.notification._id);
+                if (notification) {
+                    notification.isChecked = true;
+                }
                 break;
+            }
             case CHECK_NOTIFICATION_FAILURE:
                 draft.checkNotificationLoading = false;
                 draft.checkNotificationError = action.error;

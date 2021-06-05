@@ -37,7 +37,7 @@ import {
     REMOVE_SERVICE_REQUEST,
 } from '../actions/service';
 import { getFirebaseToken } from '../firebase';
-import { Query, Service } from '../interfaces/data/service';
+import { Service } from '../interfaces/data/service';
 
 function addServiceAPI(data: FormData, accessToken: string) {
     return axios({
@@ -87,11 +87,6 @@ function changeServiceAPI(serviceId: string, data: FormData, accessToken: string
         data,
         headers: { accessToken },
     });
-    // headers: {
-    //     accessToken,
-    //     'Content-Type': 'application/x-www-form-urlencoded',
-    //     'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-    // },
 }
 
 function* changeService(action: ReturnType<typeof changeServiceRequest>) {
@@ -160,8 +155,7 @@ function* loadTotalServices(action: ReturnType<typeof loadTotalServicesRequest>)
     }
 }
 
-function loadSearchServicesAPI(query: Query) {
-    const { location, date, time, page } = query;
+function loadSearchServicesAPI(location: string, date: string, time: string, page: number) {
     return axios({
         method: 'GET',
         url: `/api/v1/services/?location=${location}&date=${date}&time=${time}&page=${page}`,
@@ -172,9 +166,18 @@ function* loadSearchServices(action: ReturnType<typeof loadSearchServicesRequest
     try {
         const result: AxiosResponse<{ services: Service[]; totalServices: number }> = yield call(
             loadSearchServicesAPI,
-            action.query,
+            action.location as string,
+            action.date as string,
+            action.time as string,
+            action.page as number,
         );
-        yield put(loadSearchServicesSuccess(result.data.services, result.data.totalServices, action.query));
+        const query = {
+            location: action.location as string,
+            date: action.date as string,
+            time: action.time as string,
+            page: action.page as number,
+        };
+        yield put(loadSearchServicesSuccess(result.data.services, result.data.totalServices, query));
     } catch (err) {
         yield put(loadSearchServicesFailure(err.message));
     }

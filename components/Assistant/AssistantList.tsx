@@ -27,7 +27,7 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
         <>
             <Title>{title}</Title>
             <Wrapper>
-                {orders ? (
+                {orders.length > 0 ? (
                     <Swiper
                         navigation
                         slidesPerView={1}
@@ -69,11 +69,26 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                ) : null}
+                ) : (
+                    <>
+                        {title === '나의 주문 목록' && <EmptyMsg>생성된 주문이 없습니다.</EmptyMsg>}
+                        {title === '매칭 완료된 어시스턴트 목록' && <EmptyMsg>매칭된 어시스턴트가 없습니다.</EmptyMsg>}
+                    </>
+                )}
             </Wrapper>
         </>
     );
 };
+
+const EmptyMsg = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+`;
+
 const Img = styled.img`
     background-position: center center;
     object-fit: cover;

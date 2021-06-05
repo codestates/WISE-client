@@ -52,31 +52,34 @@ const Summary = ({ service, searchResult }: ServiceProps) => {
     const disabledDate = (current: any) => {
         // 유효한 요일인지 확인
         const checkDay = (day: string) =>
-            serviceSchedule.availableDays.includes(`${day} am`) && serviceSchedule.availableDays.includes(`${day} pm`);
+            !serviceSchedule.availableDays.includes(`${day} am`) &&
+            !serviceSchedule.availableDays.includes(`${day} pm`);
 
         const checkOrder = (day: string) => {
             if (
                 serviceSchedule.orders.includes(`${day} am`) &&
-                serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} pm`)
+                !serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} pm`)
             ) {
                 return true;
             }
             if (
                 serviceSchedule.orders.includes(`${day} pm`) &&
-                serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} am`)
+                !serviceSchedule.availableDays.includes(`${moment(day).format('dddd')} am`)
             ) {
                 return true;
             }
-            return current < moment().subtract(1, 'days').endOf('day');
         };
 
+        if (current < moment().subtract(1, 'days').endOf('day')) {
+            return true;
+        }
         if (checkDay(moment(current).format('dddd'))) {
-            return false;
+            return true;
         }
         if (checkOrder(moment(current).format('YYYY-MM-DD'))) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     };
     return (
         <Wrapper>
