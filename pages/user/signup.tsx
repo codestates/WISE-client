@@ -28,7 +28,7 @@ const Signup = () => {
                     <>
                         <AuthGlobal />
                         <CoverImg filter="true" />
-                        <Modal style={{ marginTop: '4rem' }}>
+                        <Modal style={{ margin: '4rem 0' }}>
                             <ModalTitle>회원가입</ModalTitle>
                             <SignupForm />
                         </Modal>

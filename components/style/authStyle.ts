@@ -5,7 +5,7 @@ export const CoverImg = styled.img.attrs({
     src: '/images/wise_bg.png',
 })<{ filter?: string }>`
     width: 100%;
-    height: 100vh;
+    height: 100%;
     object-fit: cover;
     position: absolute;
     filter: ${(props) => props.filter && 'brightness(80%)'};

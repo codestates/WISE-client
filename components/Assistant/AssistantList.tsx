@@ -37,37 +37,50 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
                             1120: { slidesPerView: 3, spaceBetween: 20 },
                         }}
                     >
-                        {orders?.map((ele: Order) => (
-                            <SwiperSlide key={ele._id}>
-                                <Img src={process.env.NEXT_PUBLIC_imageURL + ele.service.images[0]} alt="샘플이미지" />
-                                <div>
-                                    <div className="userName">{ele.assistant.name}</div>
-                                    <div className="location">{ele.service.location}</div>
-                                    {ele.state === 'apply' && <Btn disabled>수락 대기중</Btn>}
-                                    {ele.state === 'accept' && (
-                                        <Btn
-                                            onClick={() => {
-                                                onClickPayment(ele._id);
-                                            }}
-                                        >
-                                            결제하기
-                                        </Btn>
-                                    )}
-                                    {ele.state === 'complete' &&
-                                        (ele.isReviewed ? (
-                                            <Btn disabled>후기 작성 완료</Btn>
-                                        ) : (
+                        {orders
+                            ?.sort((a, b) => {
+                                if (a.state === 'accept') {
+                                    return -1;
+                                }
+                                if (b.state === 'accept') {
+                                    return 1;
+                                }
+                                return 0;
+                            })
+                            .map((ele: Order) => (
+                                <SwiperSlide key={ele._id}>
+                                    <Img
+                                        src={process.env.NEXT_PUBLIC_imageURL + ele.service.images[0]}
+                                        alt="샘플이미지"
+                                    />
+                                    <div>
+                                        <div className="userName">{ele.assistant.name}</div>
+                                        <div className="location">{ele.service.location}</div>
+                                        {ele.state === 'apply' && <Btn disabled>수락 대기중</Btn>}
+                                        {ele.state === 'accept' && (
                                             <Btn
                                                 onClick={() => {
-                                                    onClickReview(ele._id);
+                                                    onClickPayment(ele._id);
                                                 }}
                                             >
-                                                후기 남기러가기
+                                                결제하기
                                             </Btn>
-                                        ))}
-                                </div>
-                            </SwiperSlide>
-                        ))}
+                                        )}
+                                        {ele.state === 'complete' &&
+                                            (ele.isReviewed ? (
+                                                <Btn disabled>후기 작성 완료</Btn>
+                                            ) : (
+                                                <Btn
+                                                    onClick={() => {
+                                                        onClickReview(ele._id);
+                                                    }}
+                                                >
+                                                    후기 남기러가기
+                                                </Btn>
+                                            ))}
+                                    </div>
+                                </SwiperSlide>
+                            ))}
                     </Swiper>
                 ) : (
                     <>

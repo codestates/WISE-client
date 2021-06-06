@@ -62,7 +62,7 @@ const ServiceDetail = () => {
                                 <Detail>
                                     <Swiper service={service} />
                                     <ResponsiveSummary service={service} searchResult={searchResult} />
-                                    <Navigation _id={service._id} />
+                                    <Navigation id={service._id} date={searchResult.date} time={searchResult.time} />
                                     <Description service={service} />
                                     <ReviewComponent serviceId={service._id} />
                                     <FAQ />
