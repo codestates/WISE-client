@@ -27,7 +27,7 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
         <>
             <Title>{title}</Title>
             <Wrapper>
-                {orders.length > 0 ? (
+                {orders?.length > 0 ? (
                     <Swiper
                         navigation
                         slidesPerView={1}
@@ -37,7 +37,7 @@ const AssistantList = ({ title, orders }: AssistantListProps) => {
                             1120: { slidesPerView: 3, spaceBetween: 20 },
                         }}
                     >
-                        {orders.map((ele: Order) => (
+                        {orders?.map((ele: Order) => (
                             <SwiperSlide key={ele._id}>
                                 <Img src={process.env.NEXT_PUBLIC_imageURL + ele.service.images[0]} alt="샘플이미지" />
                                 <div>

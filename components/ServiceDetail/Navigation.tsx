@@ -7,6 +7,7 @@ type IdProps = {
 
 const Navigation = ({ _id }: IdProps) => {
     const DETAIL_URL = `/service/detail/${_id}`;
+    // TODO: url search query 추가
     return (
         <>
             <Wrapper>
