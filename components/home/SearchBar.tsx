@@ -43,7 +43,7 @@ const SearchBar = () => {
             <Header>어시스턴트 찾기</Header>
             <div style={{ fontSize: '1rem' }}>&nbsp;함께 동행할 숙련된 어시스턴트를 찾아보세요</div>
             <Search>
-                <div>
+                <SearchInput>
                     <Select
                         onChange={onChangeLocation}
                         showSearch
@@ -59,14 +59,16 @@ const SearchBar = () => {
                         ))}
                     </Select>
                     <DatePicker onChange={onChangeDate} disabledDate={disabledDate} />
-                </div>
-                <div>
+                </SearchInput>
+                {/* <div> */}
+                <SearchInput>
                     <Radio.Group onChange={onChangeTime} size="middle">
                         <Radio.Button value="am">오전</Radio.Button>
                         <Radio.Button value="pm">오후</Radio.Button>
                     </Radio.Group>
-                    <Button shape="circle" icon={<SearchOutlined />} onClick={onSearch} />
-                </div>
+                </SearchInput>
+                <Button shape="circle" icon={<SearchOutlined />} onClick={onSearch} />
+                {/* </div> */}
             </Search>
         </Wrapper>
     );
@@ -85,20 +87,34 @@ const Wrapper = styled.div`
     }
     button {
         background-color: #72cd87;
-        margin-left: 1rem;
         color: white;
     }
 `;
 
 const Search = styled.div`
-    margin: 1rem 0 0 1rem;
+    margin-top: 1rem;
     display: flex;
+
+    .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker,
+    .ant-radio-button-wrapper {
+        border: none;
+        background: none;
+        outline: none;
+    }
+
     @media ${(props) => props.theme.mobile} {
         margin: 1rem 0;
         flex-direction: column;
         justify-content: space-between;
         height: 5rem;
     }
+`;
+
+const SearchInput = styled.div`
+    border: 1px solid #d0d0d0;
+    border-radius: 2rem;
+    margin-right: 1rem;
 `;
 
 const Header = styled.span`

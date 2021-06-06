@@ -250,6 +250,9 @@ const FormWrapper = styled.form`
     flex-direction: column;
     justify-content: space-between;
     width: 28rem;
+    @media ${(props) => props.theme.mobile} {
+        width: 80vw;
+    }
 `;
 
 const InputWrapper = styled.div`
