@@ -26,14 +26,11 @@ const AcceptOrder = ({ orderId }: Props) => {
 
     const onCloseModal = useCallback(() => {
         setShowModal(false);
-        console.log('clicked!');
     }, []);
 
     useEffect(() => {
-        console.log('reservation accepted', acceptOrderDone);
         if (acceptOrderDone || rejectOrderDone || acceptOrderError || rejectOrderError) {
             setShowModal((state) => !state);
-            console.log('modal open!');
         }
     }, [acceptOrderDone, rejectOrderDone, acceptOrderError, rejectOrderError]);
 
@@ -69,8 +66,6 @@ const AcceptOrder = ({ orderId }: Props) => {
                     content: `${orderInfo.assistant.name} 어시스턴트가 신청을 수락했습니다`,
                 };
                 dispatch(addNotificationRequest(notificationData));
-                console.log('notification sent!');
-                console.log('add notification done', addNotificationDone);
             } else if (orderInfo && rejectOrderDone) {
                 const notificationData = {
                     recipient: orderInfo.customer._id,
@@ -79,7 +74,6 @@ const AcceptOrder = ({ orderId }: Props) => {
                     content: `${orderInfo.assistant.name} 어시스턴트가 신청을 거절했어요`,
                 };
                 dispatch(addNotificationRequest(notificationData));
-                console.log('notification sent!');
             }
         }
     }, [dispatch, orderInfo, rejectOrderDone, acceptOrderDone, addNotificationDone]);
@@ -98,7 +92,6 @@ const AcceptOrder = ({ orderId }: Props) => {
     useEffect(() => {
         if (addNotificationDone) {
             setShowModal(true);
-            console.log('modal open!');
         }
     }, [addNotificationDone, acceptOrderError, rejectOrderError]);
 

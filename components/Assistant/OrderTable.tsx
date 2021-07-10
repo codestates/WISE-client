@@ -75,13 +75,14 @@ const OrderTable = ({ title, orders }: PaymentDetailsProps) => {
 };
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
     max-width: 820px;
     position: relative;
+    .ant-table-cell {
+        padding: 0.5rem;
+    }
 `;
 
 const Title = styled.div`
-    // border: 1px solid black;
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 2rem;

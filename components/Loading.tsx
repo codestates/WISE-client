@@ -24,18 +24,8 @@ const Loading = () => (
             <>
                 <Global />
                 <Wrapper>
-                    <div className="preloader-wrapper big active">
-                        <div className="spinner-layer spinner-green-only">
-                            <div className="circle-clipper left">
-                                <div className="circle" />
-                            </div>
-                            <div className="gap-patch">
-                                <div className="circle" />
-                            </div>
-                            <div className="circle-clipper right">
-                                <div className="circle" />
-                            </div>
-                        </div>
+                    <div className="progress">
+                        <div className="indeterminate" />
                     </div>
                 </Wrapper>
             </>
@@ -45,8 +35,16 @@ const Loading = () => (
 
 const Wrapper = styled.div`
     display: flex;
+    justify-content: center;
     align-items: center;
     height: 90vh;
+    width: 25vw;
+    div.progress {
+        background-color: rgba(104, 212, 127, 0.5);
+    }
+    .progress .indeterminate {
+        background-color: rgb(104, 212, 127);
+    }
 `;
 
 export default Loading;

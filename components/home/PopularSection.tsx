@@ -91,7 +91,10 @@ const Wrapper = styled.div`
     }
     .swiper-button-prev:after,
     .swiper-button-next:after {
-        font-size: 2rem;
+        font-size: 1.6rem;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 100%;
+        padding: 0.5rem 0.8rem;
     }
 `;
 const Img = styled.img`

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { CloseOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
+import { useRouter } from 'next/router';
 import { RootState } from '../reducers';
 import useInput from '../hooks/useInput';
 import { changeProfileRequest } from '../actions/user';
@@ -10,6 +11,8 @@ import ResultModal from './ResultModal';
 import { InputWrapper, DeleteBtn, SubmitBtn } from './style/style';
 
 const ProfileModify = () => {
+    const router = useRouter();
+
     const dispatch = useDispatch();
     const { me, changeProfileDone, changeProfileError } = useSelector((state: RootState) => state.user);
 
@@ -17,6 +20,12 @@ const ProfileModify = () => {
     const onCloseModal = useCallback(() => {
         setShowModal(false);
     }, []);
+
+    useEffect(() => {
+        if (!me) {
+            router.push('/user/signin');
+        }
+    }, [router, me]);
 
     // 프로필 이미지
     const [image, setImage] = useState<File | null>(null);

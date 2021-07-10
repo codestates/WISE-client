@@ -52,7 +52,6 @@ const AddReview = ({ order }: Props) => {
                 content: '새로운 후기가 1건 올라왔어요',
             };
             dispatch(addNotificationRequest(notification));
-            console.log('notification sent!');
 
             setShowModal(false);
         } else {
@@ -63,7 +62,6 @@ const AddReview = ({ order }: Props) => {
     useEffect(() => {
         if (addReviewDone || addReviewError) {
             setShowModal(true);
-            console.log('modal open!');
         }
     }, [addReviewDone, addReviewError]);
 

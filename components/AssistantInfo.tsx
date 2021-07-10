@@ -77,6 +77,8 @@ const Wrapper = styled.div`
     }
     h2 {
         color: #555;
+        text-decoration: 3px #51be69 underline;
+        text-underline-position: under;
         font-weight: 700;
         margin: 0;
     }
@@ -102,7 +104,18 @@ const Wrapper = styled.div`
     }
 
     @media ${(props) => props.theme.mobile} {
-        width: 80vw;
+        h1,
+        h2,
+        h3 {
+            text-align: left;
+            margin: 0;
+        }
+        border: none;
+        border-radius: 0;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        box-shadow: none;
+        padding: 0;
     }
 `;
 
@@ -112,6 +125,10 @@ const Text = styled.div`
 
     @media ${(props) => props.theme.tablet} {
         text-align: center;
+    }
+
+    @media ${(props) => props.theme.mobile} {
+        text-align: left;
     }
 `;
 

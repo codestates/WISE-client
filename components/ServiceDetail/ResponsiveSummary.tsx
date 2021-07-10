@@ -231,6 +231,7 @@ const FixedBtn = styled.div`
         justify-content: center;
         position: fixed;
         bottom: 0;
+        left: 0;
         height: 5rem;
         width: 100%;
         border-top: 1px solid #ddd;

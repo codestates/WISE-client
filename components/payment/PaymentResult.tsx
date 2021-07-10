@@ -54,7 +54,6 @@ const PaymentResult = ({ result }: Props) => {
                 content: `${orderInfo.customer.name}님이 결제를 완료하셨습니다.`,
             };
             dispatch(addNotificationRequest(notification));
-            console.log('notification sent!');
             router.push('/');
         }
     }, [addNotificationDone, dispatch, orderInfo, router]);

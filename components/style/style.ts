@@ -70,7 +70,6 @@ export const SubmitBtn = styled.button`
 `;
 
 export const RegisterFormWrapper = styled.form`
-    // border: 1px solid black;
     margin-top: 1rem;
     display: flex;
     flex-direction: column;

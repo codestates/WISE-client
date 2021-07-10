@@ -81,7 +81,6 @@ function checkNotificationAPI(notificationId: string, accessToken: string) {
 function* checkNotification(action: ReturnType<typeof checkNotificationRequest>) {
     try {
         const accessToken: string = yield call(getFirebaseToken);
-        console.log(accessToken);
         const result: AxiosResponse<{ notification: Notification }> = yield call(
             checkNotificationAPI,
             action.notificationId,

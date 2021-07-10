@@ -19,7 +19,6 @@ const NotificationModal = ({ onClose }: Props) => {
     const handleCheckNotification = useCallback(
         (notificationId) => {
             dispatch(checkNotificationRequest(notificationId));
-            console.log('go dispatch!');
         },
 
         [dispatch],
