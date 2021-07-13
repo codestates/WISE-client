@@ -24,7 +24,7 @@ const SwiperContainer = ({ service }: Props) => {
             <Wrapper>
                 <Swiper navigation className="mySwiper">
                     {service.images.map((image: string) => (
-                        <SwiperSlide style={{ textAlign: 'center' }} key={image}>
+                        <SwiperSlide style={{ textAlign: 'center', width: '100vw' }} key={image}>
                             <img src={`${IMAGE_URL}${image}`} alt="cover images" />
                         </SwiperSlide>
                     ))}
@@ -66,7 +66,10 @@ const Wrapper = styled.div`
     }
     .swiper-button-prev:after,
     .swiper-button-next:after {
-        font-size: 2rem;
+        font-size: 1.6rem;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 100%;
+        padding: 0.5rem 0.8rem;
     }
 `;
 

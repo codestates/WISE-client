@@ -139,7 +139,6 @@ const ResponsiveTap = styled.div`
         font-size: 0.8rem;
     }
     @media ${(props) => props.theme.mobile} {
-        max-height: 30rem;
         padding: 3rem 1rem;
     }
 `;
@@ -186,7 +185,6 @@ const Avatar = styled.img`
 `;
 
 const Wrapper = styled.div`
-    // padding: 3rem;
     width: 100vw;
     padding: 24px;
     max-width: 1248px;

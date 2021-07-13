@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
-// import { useRouter } from 'next/router';
+import styled, { createGlobalStyle, css } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
@@ -28,6 +27,7 @@ const ReservationDetail = () => {
     const { service } = useSelector((state: RootState) => state.service);
 
     const [searchResult, setSearchResult] = useState<ParsedUrlQuery | null>(null);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         if (!me) {
@@ -46,30 +46,45 @@ const ReservationDetail = () => {
     }, []);
 
     return (
-        <>
+        <Wrapper modal={showModal ? 'open' : ''}>
             {service && searchResult ? (
                 <Layout title="Reservation">
                     <>
                         <Global />
-                        <Wrapper>
-                            <Reservation service={service} handleChangehours={handleChangehours} hours={hours} />
+                        <Container>
+                            <Reservation
+                                showModal={showModal}
+                                setShowModal={setShowModal}
+                                service={service}
+                                handleChangehours={handleChangehours}
+                                hours={hours}
+                            />
                             <AssistantInfo
                                 service={service}
                                 hours={hours}
                                 date={searchResult.date}
                                 time={searchResult.time}
                             />
-                        </Wrapper>
+                        </Container>
                     </>
                 </Layout>
             ) : (
                 ''
             )}
-        </>
+        </Wrapper>
     );
 };
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ modal?: string }>`
+    ${(props) =>
+        props.modal === 'open'
+            ? css`
+                  overflow: hidden;
+              `
+            : ''}
+`;
+
+const Container = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;

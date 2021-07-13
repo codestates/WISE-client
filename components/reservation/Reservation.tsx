@@ -12,12 +12,14 @@ import ResultModal from '../ResultModal';
 import { OrderReq } from '../../interfaces/data/order';
 
 type Props = {
+    showModal: boolean;
+    setShowModal: (arg: boolean) => void;
     service: Service;
     hours: number;
     handleChangehours: (value: number) => void;
 };
 
-const Reservation = ({ service, hours, handleChangehours }: Props) => {
+const Reservation = ({ showModal, setShowModal, service, hours, handleChangehours }: Props) => {
     const dispatch = useDispatch();
 
     const { me } = useSelector((state: RootState) => state.user);
@@ -76,12 +78,9 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
         [hospital, hours, pickup, content, message, service._id, service.wage, dispatch],
     );
 
-    const [showModal, setShowModal] = useState(false);
-
     const onCloseModal = useCallback(() => {
         setShowModal(false);
-        console.log('clicked!');
-    }, []);
+    }, [setShowModal]);
 
     // POST notification
     useEffect(() => {
@@ -93,16 +92,14 @@ const Reservation = ({ service, hours, handleChangehours }: Props) => {
                 content: '새로운 서비스 신청 1건이 있습니다',
             };
             dispatch(addNotificationRequest(notification));
-            console.log('notification sent!');
         }
     }, [dispatch, service.assistant._id, orderInfo, addOrderDone]);
 
     useEffect(() => {
         if (addNotificationDone) {
             setShowModal(true);
-            console.log('modal open!');
         }
-    }, [addNotificationDone]);
+    }, [addNotificationDone, setShowModal]);
 
     return (
         <Wrapper>

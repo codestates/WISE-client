@@ -43,7 +43,6 @@ function* addOrder(action: ReturnType<typeof addOrderRequest>) {
         const result: AxiosResponse<{ order: Order }> = yield call(addOrderAPI, action.data, accessToken);
         yield put(addOrderSuccess(result.data.order));
     } catch (err) {
-        console.log(err);
         yield put(addOrderFailure(err.message));
     }
 }

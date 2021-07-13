@@ -1,12 +1,8 @@
 /* eslint-disable react/require-default-props */
 import styled from 'styled-components';
 import Link from 'next/link';
-
-// const [showModal, setShowModal] = useState(false);
-
-// const onCloseModal = useCallback(() => {
-//   setShowModal(false);
-// }, []);
+import { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 type ResultModalProps = {
     onClose: () => void;
@@ -15,29 +11,46 @@ type ResultModalProps = {
     redirection?: 'home' | 'signin' | 'none';
 };
 
-const ResultModal = ({ onClose, title, message, redirection }: ResultModalProps) => (
-    <ModalOverlay onClick={onClose}>
-        <Modal>
-            <ModalHeader>
-                <div>{title}</div>
-            </ModalHeader>
-            <ModalBody>
-                <div>{message}</div>
-                {redirection === 'home' && (
-                    <Link href="/home">
-                        <Button>홈으로 돌아가기</Button>
-                    </Link>
-                )}
-                {redirection === 'signin' && (
-                    <Link href="/user/signin">
-                        <Button>로그인하러 가기</Button>
-                    </Link>
-                )}
-                {redirection === 'none' && <Button>확인</Button>}
-            </ModalBody>
-        </Modal>
-    </ModalOverlay>
-);
+const ResultModal = ({ onClose, title, message, redirection }: ResultModalProps) => {
+    // create modal with portal!
+    const [divElement, setDivElement] = useState(document.getElementById('modal'));
+
+    useEffect(() => {
+        if (!divElement) {
+            const modalDiv = document.createElement('div');
+            modalDiv.id = 'modal';
+            document.body.appendChild(modalDiv);
+            setDivElement(modalDiv);
+        }
+    }, [divElement]);
+
+    return divElement
+        ? ReactDOM.createPortal(
+              <ModalOverlay onClick={onClose}>
+                  <Modal>
+                      <ModalHeader>
+                          <div>{title}</div>
+                      </ModalHeader>
+                      <ModalBody>
+                          <div>{message}</div>
+                          {redirection === 'home' && (
+                              <Link href="/home">
+                                  <Button>홈으로 돌아가기</Button>
+                              </Link>
+                          )}
+                          {redirection === 'signin' && (
+                              <Link href="/user/signin">
+                                  <Button>로그인하러 가기</Button>
+                              </Link>
+                          )}
+                          {redirection === 'none' && <Button>확인</Button>}
+                      </ModalBody>
+                  </Modal>
+              </ModalOverlay>,
+              divElement,
+          )
+        : null;
+};
 
 const ModalOverlay = styled.div`
     position: absolute;
@@ -49,11 +62,11 @@ const ModalOverlay = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 9999;
 `;
 
 const Modal = styled.div`
     background: white;
-    // margin-top: -30%;
     width: 30rem;
     height: 16rem;
     border-radius: 0.5rem;

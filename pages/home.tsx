@@ -40,6 +40,7 @@ const Home = () => {
             window.removeEventListener('scroll', onScroll);
         };
     }, [loadTotalServicesLoading, totalServicesCount, dispatch, page, totalServices]);
+
     return (
         <Layout title="WISE | HOME">
             <Wrapper>
@@ -52,8 +53,6 @@ const Home = () => {
 };
 
 const Wrapper = styled.div`
-    // border: 1px solid black;
-    // padding: 3rem;
     width: 100vw;
     padding: 24px;
     max-width: 1248px;

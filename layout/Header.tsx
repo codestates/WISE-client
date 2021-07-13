@@ -31,12 +31,10 @@ const Header = () => {
 
     const onClickModal = useCallback(() => {
         setShowModal((state) => !state);
-        console.log('clicked!');
     }, []);
 
     const onCloseModal = useCallback(() => {
         setShowModal(false);
-        console.log('clicked!');
     }, []);
 
     const handleToggle = useCallback(() => {
